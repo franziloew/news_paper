@@ -1,0 +1,5 @@
+[1] Config.pm:324> INFO - This is Biber 2.1
+[1] Config.pm:327> INFO - Logfile is '/Users/Franzi/GitHub/textmining/paper/doc/.texpadtmp/doc_public_private.blg'
+[54] biber-darwin:276> INFO - === Mon Jan  8, 2018, 08:34:04
+[55] Biber.pm:333> INFO - Reading '/Users/Franzi/GitHub/textmining/paper/doc/.texpadtmp/doc_public_private.bcf'
+[181] Utils.pm:146> WARN - No data sources defined!

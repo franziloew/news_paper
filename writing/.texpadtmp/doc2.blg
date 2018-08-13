@@ -1,0 +1,17 @@
+[0] Config.pm:324> INFO - This is Biber 2.1
+[1] Config.pm:327> INFO - Logfile is '/Users/Franzi/GitHub/textmining/paper/doc/.texpadtmp/doc2.blg'
+[86] biber-darwin:276> INFO - === Wed Dec  6, 2017, 14:01:43
+[86] Biber.pm:333> INFO - Reading '/Users/Franzi/GitHub/textmining/paper/doc/.texpadtmp/doc2.bcf'
+[233] Biber.pm:645> INFO - Found 37 citekeys in bib section 0
+[279] Biber.pm:2977> INFO - Processing section 0
+[312] Biber.pm:3115> INFO - Looking for bibtex format file '/Users/Franzi/GitHub/textmining/paper/doc/Textmining.bib' for section 0
+[332] bibtex.pm:1021> INFO - Decoding LaTeX character macros into UTF-8
+[358] bibtex.pm:895> INFO - Found BibTeX data source '/Users/Franzi/GitHub/textmining/paper/doc/Textmining.bib'
+[455] Utils.pm:146> WARN - I didn't find a database entry for 'evans_industrial_2005' (section 0)
+[1095] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1095] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1095] Biber.pm:2854> INFO - Sorting list 'nyt' of type 'entry' with scheme 'nyt' and locale 'en-US'
+[1096] Biber.pm:2858> INFO - No sort tailoring available for locale 'en-US'
+[1242] bbl.pm:505> INFO - Writing '/Users/Franzi/GitHub/textmining/paper/doc/.texpadtmp/doc2.bbl' with encoding 'UTF-8'
+[1251] bbl.pm:596> INFO - Output to /Users/Franzi/GitHub/textmining/paper/doc/.texpadtmp/doc2.bbl
+[1252] Biber.pm:106> INFO - WARNINGS: 1

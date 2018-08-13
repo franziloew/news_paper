@@ -1,0 +1,1164 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.5 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \sortlist{nyt}{nyt}
+    \entry{airoldi_reconceptualizing_2010}{article}{}
+      \name{author}{6}{}{%
+        {{uniquename=1,hash=753c42f9b69830f9410ef84fd6e88ab1}{Airoldi}{A\bibinitperiod}{Edoardo\bibnamedelima M.}{E\bibinitperiod\bibinitdelim M\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=a5b8bae71ced09e425f872e3226fb726}{Erosheva}{E\bibinitperiod}{Elena\bibnamedelima A.}{E\bibinitperiod\bibinitdelim A\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=f29b7463290b8063ae778ce466f17987}{Fienberg}{F\bibinitperiod}{Stephen\bibnamedelima E.}{S\bibinitperiod\bibinitdelim E\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=74b5a7b1549f5cb6af698cf341ba864b}{Joutard}{J\bibinitperiod}{Cyrille}{C\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=b303e65405f8d33de1478f825ccb0372}{Love}{L\bibinitperiod}{Tanzy}{T\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=5ca94ec92c3d8bda2b6b68e4eeb4398b}{Shringarpure}{S\bibinitperiod}{Suyash}{S\bibinitperiod}{}{}{}{}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{d3fc13352805fd8c093289bf8043e299}
+      \strng{fullhash}{2ac76c7991eedacd0dd69c559b673001}
+      \field{sortinit}{A}
+      \field{sortinithash}{b685c7856330eaee22789815b49de9bb}
+      \field{labelyear}{2010}
+      \field{labelmonth}{12}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{PNAS article classification is rooted in long-standing disciplinary divisions that do not necessarily reflect the structure of modern scientific research. We reevaluate that structure using latent pattern models from statistical machine learning, also known as mixed-membership models, that identify semantic structure in co-occurrence of words in the abstracts and references. Our findings suggest that the latent dimensionality of patterns underlying PNAS research articles in the Biological Sciences is only slightly larger than the number of categories currently in use, but it differs substantially in the content of the categories. Further, the number of articles that are listed under multiple categories is only a small fraction of what it should be. These findings together with the sensitivity analyses suggest ways to reconceptualize the organization of papers published in PNAS.}
+      \field{issn}{0027-8424, 1091-6490}
+      \field{journaltitle}{Proceedings of the National Academy of Sciences}
+      \field{month}{12}
+      \field{number}{49}
+      \field{title}{Reconceptualizing the classification of {PNAS} articles}
+      \field{urlday}{07}
+      \field{urlmonth}{10}
+      \field{urlyear}{2017}
+      \field{volume}{107}
+      \field{year}{2010}
+      \field{pages}{20899\bibrangedash 20904}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1073/pnas.1013452107
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/3HPSSBQ2/Airoldi et al. - 2010 - Reconceptualizing the classification of PNAS artic.pdf:application/pdf;Snapshot:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/3SR8QVPZ/20899.html:text/html
+      \endverb
+      \verb{url}
+      \verb http://www.pnas.org/content/107/49/20899
+      \endverb
+      \keyw{Dirichlet process,hierarchical modeling,Monte Carlo Markov chain,text analysis,variational inference}
+    \endentry
+    \entry{armstrong_competition_2006}{article}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,hash=2e381f0784053652dae51c069503bf47}{Armstrong}{A\bibinitperiod}{Mark}{M\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{2e381f0784053652dae51c069503bf47}
+      \strng{fullhash}{2e381f0784053652dae51c069503bf47}
+      \field{sortinit}{A}
+      \field{sortinithash}{b685c7856330eaee22789815b49de9bb}
+      \field{labelyear}{2006}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1756-2171}
+      \field{journaltitle}{The RAND Journal of Economics}
+      \field{number}{3}
+      \field{title}{Competition in two-sided markets}
+      \field{volume}{37}
+      \field{year}{2006}
+      \field{pages}{668\bibrangedash 691}
+      \range{pages}{24}
+      \verb{doi}
+      \verb 10.1111/j.1756-2171.2006.tb00037.x
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1111/j.1756-2171.2006.tb00037.x
+      \endverb
+    \endentry
+    \entry{asuncion_smoothing_2012}{article}{}
+      \name{author}{4}{}{%
+        {{uniquename=0,hash=5ee61d3f5a1c8fbf9b4a01e430890d92}{Asuncion}{A\bibinitperiod}{Arthur}{A\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=53d2880ad8047b61cdae2c6b2803e763}{Welling}{W\bibinitperiod}{Max}{M\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=4940852a16a84802eb98552d6deace24}{Smyth}{S\bibinitperiod}{Padhraic}{P\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=577af3eb832d26c33caa634a276d4d7e}{Teh}{T\bibinitperiod}{Yee\bibnamedelima Whye}{Y\bibinitperiod\bibinitdelim W\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{aa9934dc50a9ab09f0ab817b094be050}
+      \strng{fullhash}{5d51da9d389f881ccdf34b48d309d0f5}
+      \field{sortinit}{A}
+      \field{sortinithash}{b685c7856330eaee22789815b49de9bb}
+      \field{labelyear}{2012}
+      \field{labelmonth}{05}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Latent Dirichlet analysis, or topic modeling, is a flexible latent variable framework for modeling high-dimensional sparse count data. Various learning algorithms have been developed in recent years, including collapsed Gibbs sampling, variational inference, and maximum a posteriori estimation, and this variety motivates the need for careful empirical comparisons. In this paper, we highlight the close connections between these approaches. We find that the main differences are attributable to the amount of smoothing applied to the counts. When the hyperparameters are optimized, the differences in performance among the algorithms diminish significantly. The ability of these algorithms to achieve solutions of comparable accuracy gives us the freedom to select computationally efficient approaches. Using the insights gained from this comparative study, we show how accurate topic models can be learned in several seconds on text corpora with thousands of documents.}
+      \field{journaltitle}{arXiv:1205.2662 [cs, stat]}
+      \field{month}{05}
+      \field{note}{arXiv: 1205.2662}
+      \field{title}{On {Smoothing} and {Inference} for {Topic} {Models}}
+      \field{year}{2012}
+      \verb{file}
+      \verb arXiv\:1205.2662 PDF:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/MRRAS29S/Asuncion et al. - 2012 - On Smoothing and Inference for Topic Models.pdf:application/pdf;arXiv.org Snapshot:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/UHH4ICFA/1205.html:text/html
+      \endverb
+      \verb{url}
+      \verb http://arxiv.org/abs/1205.2662
+      \endverb
+      \keyw{Computer Science - Learning,Statistics - Machine Learning}
+    \endentry
+    \entry{baturo_what_2017}{article}{}
+      \name{author}{3}{}{%
+        {{uniquename=0,hash=70c1ec991aa14a790bc80151caff3e6c}{Baturo}{B\bibinitperiod}{Alexander}{A\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=a719af3389f793475d4ed187e86eb68e}{Dasandi}{D\bibinitperiod}{Niheer}{N\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=0de7ddd99e6a67d61d3edadfd9e2f82c}{Mikhaylov}{M\bibinitperiod}{Slava\bibnamedelima J.}{S\bibinitperiod\bibinitdelim J\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{30527974675fbc7fa5e4af86cd9e505b}
+      \strng{fullhash}{30527974675fbc7fa5e4af86cd9e505b}
+      \field{sortinit}{B}
+      \field{sortinithash}{4ecbea03efd0532989d3836d1a048c32}
+      \field{labelyear}{2017}
+      \field{labelmonth}{08}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{There is surprisingly little known about agenda setting for international development in the United Nations (UN) despite it having a significant influence on the process and outcomes of development efforts. This paper addresses this shortcoming using a novel approach that applies natural language processing techniques to countries' annual statements in the UN General Debate. Every year UN member states deliver statements during the General Debate on their governments' perspective on major issues in world politics. These speeches provide invaluable information on state preferences on a wide range of issues, including international development, but have largely been overlooked in the study of global politics. This paper identifies the main international development topics that states raise in these speeches between 1970 and 2016, and examine the country-specific drivers of international development rhetoric.}
+      \field{journaltitle}{arXiv:1708.05873 [cs]}
+      \field{month}{08}
+      \field{note}{arXiv: 1708.05873}
+      \field{shorttitle}{What {Drives} the {International} {Development} {Agenda}?}
+      \field{title}{What {Drives} the {International} {Development} {Agenda}? {An} {NLP} {Analysis} of the {United} {Nations} {General} {Debate} 1970-2016}
+      \field{year}{2017}
+      \verb{file}
+      \verb arXiv\:1708.05873 PDF:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/FSRGQVHA/Baturo et al. - 2017 - What Drives the International Development Agenda .pdf:application/pdf;arXiv.org Snapshot:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/H2JRUWQF/1708.html:text/html
+      \endverb
+      \verb{url}
+      \verb http://arxiv.org/abs/1708.05873
+      \endverb
+      \keyw{Computer Science - Computation and Language,Computer Science - Social and Information Networks}
+    \endentry
+    \entry{bholat_text_2015}{article}{}
+      \name{author}{4}{}{%
+        {{uniquename=0,hash=9709e3eef2453e466ab67c2938697aca}{Bholat}{B\bibinitperiod}{David\bibnamedelima M.}{D\bibinitperiod\bibinitdelim M\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=06a66038d2938d53f3996217db5f8aaf}{Hansen}{H\bibinitperiod}{Stephen}{S\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=23c6ed99e4b45ea7e105cb39f8f7b512}{Santos}{S\bibinitperiod}{Pedro\bibnamedelima M.}{P\bibinitperiod\bibinitdelim M\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=05118f413cedd35e4016d2fe9c9e11d2}{Schonhardt-Bailey}{S\bibinithyphendelim B\bibinitperiod}{Cheryl}{C\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{70ae4e8b58b0ccadaafcfa15a45f3cc5}
+      \strng{fullhash}{f5e0bf918c109734c2067d7b056e2d36}
+      \field{sortinit}{B}
+      \field{sortinithash}{4ecbea03efd0532989d3836d1a048c32}
+      \field{labelyear}{2015}
+      \field{labelmonth}{06}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Although often applied in other social sciences, text mining has been less frequently used in economics and in policy circles, particularly inside central banks. This Handbook is a brief introduction to the field, discussing how text mining is useful}
+      \field{issn}{1556-5068}
+      \field{journaltitle}{SSRN Electronic Journal}
+      \field{month}{06}
+      \field{title}{Text {Mining} for {Central} {Banks}}
+      \field{urlday}{06}
+      \field{urlmonth}{11}
+      \field{urlyear}{2017}
+      \field{year}{2015}
+      \verb{file}
+      \verb Snapshot:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/J462FFQU/Text_mining_for_central_banks.html:text/html
+      \endverb
+      \verb{url}
+      \verb http://www.academia.edu/13430482/Text_mining_for_central_banks
+      \endverb
+    \endentry
+    \entry{blair_pricing_1993}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,hash=7854872177139f0509a9d3e27dfd41f8}{Blair}{B\bibinitperiod}{Roger\bibnamedelima D.}{R\bibinitperiod\bibinitdelim D\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=4798a71fce939709323fa511b417902f}{Romano}{R\bibinitperiod}{Richard\bibnamedelima E.}{R\bibinitperiod\bibinitdelim E\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{9ba8804b69f0a7325e3a28d42d0f59e4}
+      \strng{fullhash}{9ba8804b69f0a7325e3a28d42d0f59e4}
+      \field{sortinit}{B}
+      \field{sortinithash}{4ecbea03efd0532989d3836d1a048c32}
+      \field{labelyear}{1993}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0038-4038}
+      \field{journaltitle}{Southern Economic Journal}
+      \field{number}{4}
+      \field{title}{Pricing {Decisions} of the {Newspaper} {Monopolist}}
+      \field{volume}{59}
+      \field{year}{1993}
+      \field{pages}{721\bibrangedash 732}
+      \range{pages}{12}
+      \verb{doi}
+      \verb 10.2307/1059734
+      \endverb
+      \verb{url}
+      \verb http://www.jstor.org/stable/1059734
+      \endverb
+    \endentry
+    \entry{blei_probabilistic_2012}{article}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,hash=7441e4d372e854fc6d24d0d5a16a1687}{Blei}{B\bibinitperiod}{David\bibnamedelima M.}{D\bibinitperiod\bibinitdelim M\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{7441e4d372e854fc6d24d0d5a16a1687}
+      \strng{fullhash}{7441e4d372e854fc6d24d0d5a16a1687}
+      \field{sortinit}{B}
+      \field{sortinithash}{4ecbea03efd0532989d3836d1a048c32}
+      \field{labelyear}{2012}
+      \field{labelmonth}{04}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Surveying a suite of algorithms that offer a solution to managing large document archives.}
+      \field{issn}{0001-0782}
+      \field{journaltitle}{Commun. ACM}
+      \field{month}{04}
+      \field{number}{4}
+      \field{title}{Probabilistic {Topic} {Models}}
+      \field{volume}{55}
+      \field{year}{2012}
+      \field{pages}{77\bibrangedash 84}
+      \range{pages}{8}
+      \verb{doi}
+      \verb 10.1145/2133806.2133826
+      \endverb
+      \verb{file}
+      \verb ACM Full Text PDF:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/GWUDPWQT/Blei - 2012 - Probabilistic Topic Models.pdf:application/pdf
+      \endverb
+      \verb{url}
+      \verb http://doi.acm.org/10.1145/2133806.2133826
+      \endverb
+    \endentry
+    \entry{blei_latent_2003}{article}{}
+      \name{author}{3}{}{%
+        {{uniquename=0,hash=7441e4d372e854fc6d24d0d5a16a1687}{Blei}{B\bibinitperiod}{David\bibnamedelima M.}{D\bibinitperiod\bibinitdelim M\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=799b172b8d02b7acdf21d0cc48934fca}{Ng}{N\bibinitperiod}{Andrew\bibnamedelima Y}{A\bibinitperiod\bibinitdelim Y\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=996ffb9cb286a8b4b0fc16793c54cc31}{Jordan}{J\bibinitperiod}{Michael\bibnamedelima I}{M\bibinitperiod\bibinitdelim I\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{13f77d37f259c2a8748aa9d2b92fb157}
+      \strng{fullhash}{13f77d37f259c2a8748aa9d2b92fb157}
+      \field{sortinit}{B}
+      \field{sortinithash}{4ecbea03efd0532989d3836d1a048c32}
+      \field{labelyear}{2003}
+      \field{labelmonth}{01}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of machine Learning research}
+      \field{month}{01}
+      \field{title}{Latent dirichlet allocation}
+      \field{volume}{3}
+      \field{year}{2003}
+      \field{pages}{993\bibrangedash 1022}
+      \range{pages}{30}
+    \endentry
+    \entry{caillaud_chicken_2003}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,hash=5fa3ef1e684c3fdaf8c579e50678a0d2}{Caillaud}{C\bibinitperiod}{Bernard}{B\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=87795c52871c3960a3458857421f7727}{Jullien}{J\bibinitperiod}{Bruno}{B\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{03008b6c501f96e495a8a0717e3e84b7}
+      \strng{fullhash}{03008b6c501f96e495a8a0717e3e84b7}
+      \field{sortinit}{C}
+      \field{sortinithash}{59f25d509f3381b07695554a9f35ecb2}
+      \field{labelyear}{2003}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{We analyze a model of imperfect price competition between intermediation service providers. We insist on features that are relevant for informational intermediation via the Internet: the presence of indirect network externalities, the possibility of using the nonexclusive services of several intermediaries, and the widespread practice of price discrimination based on users' identity and on usage. Efficient market structures emerge in equilibrium, as well as some specific form of inefficient structures. Intermediaries have incentives to propose non-exclusive services, as this moderates competition and allows them to exert market power. We analyze in detail the pricing and business strategies followed by intermediation services providers. Copyright 2003 by the RAND Corporation.}
+      \field{issn}{0741-6261}
+      \field{journaltitle}{RAND Journal of Economics}
+      \field{number}{2}
+      \field{shorttitle}{Chicken \& {Egg}}
+      \field{title}{Chicken \& {Egg}: {Competition} among {Intermediation} {Service} {Providers}}
+      \field{urlday}{18}
+      \field{urlmonth}{10}
+      \field{urlyear}{2016}
+      \field{volume}{34}
+      \field{year}{2003}
+      \field{pages}{309\bibrangedash 28}
+      \range{pages}{20}
+      \verb{file}
+      \verb RePEc Snapshot:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/GD5R58G2/v_3a34_3ay_3a2003_3ai_3a2_3ap_3a309-28.html:text/html
+      \endverb
+      \verb{url}
+      \verb http://econpapers.repec.org/article/rjerandje/v_3a34_3ay_3a2003_3ai_3a2_3ap_3a309-28.htm
+      \endverb
+    \endentry
+    \entry{chang_reading_2009}{incollection}{}
+      \name{author}{5}{}{%
+        {{uniquename=0,hash=3d88622a58367acf967bd61180f15c20}{Chang}{C\bibinitperiod}{Jonathan}{J\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=005672c0d11eff4076ad7b44078044cd}{Gerrish}{G\bibinitperiod}{Sean}{S\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=5305db1dfd127efb3eb09c039837c18f}{Wang}{W\bibinitperiod}{Chong}{C\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=81e1b3697d75957e82be4a52e2bc2927}{Boyd-graber}{B\bibinithyphendelim g\bibinitperiod}{Jordan\bibnamedelima L.}{J\bibinitperiod\bibinitdelim L\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=7441e4d372e854fc6d24d0d5a16a1687}{Blei}{B\bibinitperiod}{David\bibnamedelima M.}{D\bibinitperiod\bibinitdelim M\bibinitperiod}{}{}{}{}}%
+      }
+      \name{editor}{5}{}{%
+        {{hash=70e8dbe8854143005205be1e8f21028a}{Bengio}{B\bibinitperiod}{Y.}{Y\bibinitperiod}{}{}{}{}}%
+        {{hash=334bf76cdd9dcb853864033d40f4e2c5}{Schuurmans}{S\bibinitperiod}{D.}{D\bibinitperiod}{}{}{}{}}%
+        {{hash=4eaa9c06d856b0d50052a73dd7338e5e}{Lafferty}{L\bibinitperiod}{J.\bibnamedelimi D.}{J\bibinitperiod\bibinitdelim D\bibinitperiod}{}{}{}{}}%
+        {{hash=31c7ad1851eccd0f6945cfeb1837db74}{Williams}{W\bibinitperiod}{C.\bibnamedelimi K.\bibnamedelimi I.}{C\bibinitperiod\bibinitdelim K\bibinitperiod\bibinitdelim I\bibinitperiod}{}{}{}{}}%
+        {{hash=d695dacead594c2681842b89314c685a}{Culotta}{C\bibinitperiod}{A.}{A\bibinitperiod}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Curran Associates, Inc.}%
+      }
+      \strng{namehash}{de2c9586901ecb8ec85938f17e15b865}
+      \strng{fullhash}{e875c5365e1f1fbec7d5a968a6281e99}
+      \field{sortinit}{C}
+      \field{sortinithash}{59f25d509f3381b07695554a9f35ecb2}
+      \field{labelyear}{2009}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{booktitle}{Advances in {Neural} {Information} {Processing} {Systems} 22}
+      \field{shorttitle}{Reading {Tea} {Leaves}}
+      \field{title}{Reading {Tea} {Leaves}: {How} {Humans} {Interpret} {Topic} {Models}}
+      \field{year}{2009}
+      \field{pages}{288\bibrangedash 296}
+      \range{pages}{9}
+      \verb{file}
+      \verb NIPS Full Text PDF:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/UUPBMREK/Chang et al. - 2009 - Reading Tea Leaves How Humans Interpret Topic Mod.pdf:application/pdf;NIPS Snapshort:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/68XT476P/3700-reading-tea-leaves-how-humans-interpret-topic-models.html:text/html
+      \endverb
+      \verb{url}
+      \verb http://papers.nips.cc/paper/3700-reading-tea-leaves-how-humans-interpret-topic-models.pdf
+      \endverb
+    \endentry
+    \entry{corden_maximisation_1952}{article}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,hash=f4dfd047460584ed73fec235d4922b16}{Corden}{C\bibinitperiod}{W.\bibnamedelimi M.}{W\bibinitperiod\bibinitdelim M\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{f4dfd047460584ed73fec235d4922b16}
+      \strng{fullhash}{f4dfd047460584ed73fec235d4922b16}
+      \field{sortinit}{C}
+      \field{sortinithash}{59f25d509f3381b07695554a9f35ecb2}
+      \field{labelyear}{1952}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0034-6527}
+      \field{journaltitle}{The Review of Economic Studies}
+      \field{number}{3}
+      \field{title}{The {Maximisation} of {Profit} by a {Newspaper}}
+      \field{volume}{20}
+      \field{year}{1952}
+      \field{pages}{181\bibrangedash 190}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.2307/2295888
+      \endverb
+      \verb{url}
+      \verb http://www.jstor.org/stable/2295888
+      \endverb
+    \endentry
+    \entry{ellman_what_2009}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,hash=6006fd7bc066752b7c919011c3fca1fd}{Ellman}{E\bibinitperiod}{Matthew}{M\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=769733eeaf5e204f949bd0d4dfdf7654}{Germano}{G\bibinitperiod}{Fabrizio}{F\bibinitperiod}{}{}{}{}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{02befb007fe157c4a70a42daca3df201}
+      \strng{fullhash}{02befb007fe157c4a70a42daca3df201}
+      \field{sortinit}{E}
+      \field{sortinithash}{fefc5210ef4721525b2a478df41efcd4}
+      \field{labelyear}{2009}
+      \field{labelmonth}{04}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{We model the market for news as a two-sided market where newspapers sell news to readers who value accuracy and sell space to advertisers who value advert-receptive readers. In this setting, monopolistic newspapers under-report or bias news that sufficiently reduces advertiser profits. Paradoxically, increasing the size of advertising eventually leads competing newspapers to reduce advertiser bias. Nonetheless, advertisers can counter this effect if able to commit to news-sensitive cut-off strategies, potentially inducing as much bias as in the monopoly case. We use these results to explain contrasting historical and recent evidence on commercial bias and influence in the media.}
+      \field{issn}{1468-0297}
+      \field{journaltitle}{The Economic Journal}
+      \field{month}{04}
+      \field{number}{537}
+      \field{shorttitle}{What do the {Papers} {Sell}?}
+      \field{title}{What do the {Papers} {Sell}? {A} {Model} of {Advertising} and {Media} {Bias}*}
+      \field{volume}{119}
+      \field{year}{2009}
+      \field{pages}{680\bibrangedash 704}
+      \range{pages}{25}
+      \verb{doi}
+      \verb 10.1111/j.1468-0297.2009.02218.x
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/ESUGMQCA/Ellman und Germano - 2009 - What do the Papers Sell A Model of Advertising an.pdf:application/pdf;Snapshot:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/E87BHVVH/abstract.html:text/html
+      \endverb
+      \verb{url}
+      \verb http://onlinelibrary.wiley.com/doi/10.1111/j.1468-0297.2009.02218.x/abstract
+      \endverb
+    \endentry
+    \entry{evans_empirical_2003}{article}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,hash=8c243ec63eae723c8373f506fcffd3b7}{Evans}{E\bibinitperiod}{David\bibnamedelima S.}{D\bibinitperiod\bibinitdelim S\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{8c243ec63eae723c8373f506fcffd3b7}
+      \strng{fullhash}{8c243ec63eae723c8373f506fcffd3b7}
+      \field{sortinit}{E}
+      \field{sortinithash}{fefc5210ef4721525b2a478df41efcd4}
+      \field{labelyear}{2003}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Multi-sided platform markets have two or more different groups of customers that businesses have to get and keep on board to succeed. These industries range from dating clubs (men and women), to video game consoles (game developers and users), to payment cards (cardholders and merchants), to operating system software (application developers and users). They include some of the most important industries in the economy. A survey of businesses in these industries shows that multi-sided platform businesses devise entry strategies to get multiple sides of the market on board and devise pricing, product, and other competitive strategies to keep multiple customer groups on a common platform that internalizes externalities across members of these groups.}
+      \field{issn}{1446-9022}
+      \field{journaltitle}{Review of Network Economics}
+      \field{number}{3}
+      \field{title}{Some {Empirical} {Aspects} of {Multi}-sided {Platform} {Industries}}
+      \field{volume}{2}
+      \field{year}{2003}
+      \verb{doi}
+      \verb 10.2202/1446-9022.1026
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/JXJD8ZCR/Evans - 2003 - Some Empirical Aspects of Multi-sided Platform Ind.pdf:application/pdf
+      \endverb
+      \verb{url}
+      \verb https://www.degruyter.com/view/j/rne.2003.2.issue-3/rne.2003.2.3.1026/rne.2003.2.3.1026.xml
+      \endverb
+    \endentry
+    \entry{evans_economics_2008}{article}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,hash=8c243ec63eae723c8373f506fcffd3b7}{Evans}{E\bibinitperiod}{David\bibnamedelima S.}{D\bibinitperiod\bibinitdelim S\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{8c243ec63eae723c8373f506fcffd3b7}
+      \strng{fullhash}{8c243ec63eae723c8373f506fcffd3b7}
+      \field{sortinit}{E}
+      \field{sortinithash}{fefc5210ef4721525b2a478df41efcd4}
+      \field{labelyear}{2008}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Internet-based technologies are revolutionizing the stodgy \$625 billion global advertising industry. There are a number of public policy issues to consider. Will a single ad platform emerge or will several remain viable? What are the consequences of alternative market structures for a web economy that is increasingly based on selling eyeballs to advertisers? This article describes the online advertising industry. The industry is populated by a number of multi-sided platforms that facilitate connecting advertisers to viewers. Search-based advertising platforms, the most developed of these, have interesting economic features that result from the combination of keyword bidding by advertisers and single-homing.}
+      \field{journaltitle}{Review of Network Economics}
+      \field{number}{3}
+      \field{title}{The {Economics} of the {Online} {Advertising} {Industry}}
+      \field{urlday}{11}
+      \field{urlmonth}{08}
+      \field{urlyear}{2016}
+      \field{volume}{7}
+      \field{year}{2008}
+      \field{pages}{1\bibrangedash 33}
+      \range{pages}{33}
+      \verb{file}
+      \verb RePEc Snapshot:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/Z6B7DBRS/v7y2008i3n2.html:text/html
+      \endverb
+      \verb{url}
+      \verb https://ideas.repec.org/a/bpj/rneart/v7y2008i3n2.html
+      \endverb
+    \endentry
+    \entry{farrell_corporate_2016}{article}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,hash=738941a33edb51cb744b2d8c5c839307}{Farrell}{F\bibinitperiod}{Justin}{J\bibinitperiod}{}{}{}{}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{738941a33edb51cb744b2d8c5c839307}
+      \strng{fullhash}{738941a33edb51cb744b2d8c5c839307}
+      \field{sortinit}{F}
+      \field{sortinithash}{c6a7d9913bbd7b20ea954441c0460b78}
+      \field{labelyear}{2016}
+      \field{labelmonth}{01}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Drawing on large-scale computational data and methods, this research demonstrates how polarization efforts are influenced by a patterned network of political and financial actors. These dynamics, which have been notoriously difficult to quantify, are illustrated here with a computational analysis of climate change politics in the United States. The comprehensive data include all individual and organizational actors in the climate change countermovement (164 organizations), as well as all written and verbal texts produced by this network between 1993–2013 (40,785 texts, more than 39 million words). Two main findings emerge. First, that organizations with corporate funding were more likely to have written and disseminated texts meant to polarize the climate change issue. Second, and more importantly, that corporate funding influences the actual thematic content of these polarization efforts, and the discursive prevalence of that thematic content over time. These findings provide new, and comprehensive, confirmation of dynamics long thought to be at the root of climate change politics and discourse. Beyond the specifics of climate change, this paper has important implications for understanding ideological polarization more generally, and the increasing role of private funding in determining why certain polarizing themes are created and amplified. Lastly, the paper suggests that future studies build on the novel approach taken here that integrates large-scale textual analysis with social networks.}
+      \field{issn}{0027-8424, 1091-6490}
+      \field{journaltitle}{Proceedings of the National Academy of Sciences}
+      \field{month}{01}
+      \field{number}{1}
+      \field{title}{Corporate funding and ideological polarization about climate change}
+      \field{urlday}{09}
+      \field{urlmonth}{11}
+      \field{urlyear}{2017}
+      \field{volume}{113}
+      \field{year}{2016}
+      \field{pages}{92\bibrangedash 97}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1073/pnas.1509433112
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/8M3IS9E4/Farrell - 2016 - Corporate funding and ideological polarization abo.pdf:application/pdf;Snapshot:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/9R5TQ8PC/92.html:text/html
+      \endverb
+      \verb{url}
+      \verb http://www.pnas.org/content/113/1/92
+      \endverb
+      \keyw{climate change,computational social science,funding,polarization,politics}
+    \endentry
+    \entry{gentzkow_text_2017}{report}{}
+      \name{author}{3}{}{%
+        {{uniquename=0,hash=7f632dc67b8bd2566eae625ec44fafd0}{Gentzkow}{G\bibinitperiod}{Matthew}{M\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=b0cef7b583dff0feaaebb56771961aa3}{Kelly}{K\bibinitperiod}{Bryan\bibnamedelima T.}{B\bibinitperiod\bibinitdelim T\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=16e5ccc34f2ccb8bb3c2e92bb0f64013}{Taddy}{T\bibinitperiod}{Matt}{M\bibinitperiod}{}{}{}{}}%
+      }
+      \list{institution}{1}{%
+        {National Bureau of Economic Research}%
+      }
+      \strng{namehash}{5934917cfad5b80fd98330f02a679eb9}
+      \strng{fullhash}{5934917cfad5b80fd98330f02a679eb9}
+      \field{sortinit}{G}
+      \field{sortinithash}{1c854ef9177a91bf894e66485bdbd3ed}
+      \field{labelyear}{2017}
+      \field{labelmonth}{03}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{An ever increasing share of human interaction, communication, and culture is recorded as digital text. We provide an introduction to the use of text as an input to economic research. We discuss the features that make text different from other forms of data, offer a practical overview of relevant statistical methods, and survey a variety of applications.}
+      \field{month}{03}
+      \field{note}{DOI: 10.3386/w23276}
+      \field{number}{23276}
+      \field{title}{Text as {Data}}
+      \field{type}{Working {Paper}}
+      \field{year}{2017}
+      \verb{url}
+      \verb http://www.nber.org/papers/w23276
+      \endverb
+    \endentry
+    \entry{griffiths_probabilistic_2002}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,hash=b50775cbf4f37e7c96ce05c6cf766723}{Griffiths}{G\bibinitperiod}{Thomas\bibnamedelima L.}{T\bibinitperiod\bibinitdelim L\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=c099fca1ed23ade050824a949053db93}{Steyvers}{S\bibinitperiod}{Mark}{M\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{e5884e27d87948de39eca5c84ecfb459}
+      \strng{fullhash}{e5884e27d87948de39eca5c84ecfb459}
+      \field{sortinit}{G}
+      \field{sortinithash}{1c854ef9177a91bf894e66485bdbd3ed}
+      \field{labelyear}{2002}
+      \field{labelmonth}{01}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Proceedings of the Annual Meeting of the Cognitive Science Society}
+      \field{month}{01}
+      \field{number}{24}
+      \field{title}{A probabilistic approach to semantic representation}
+      \field{urlday}{16}
+      \field{urlmonth}{11}
+      \field{urlyear}{2017}
+      \field{volume}{24}
+      \field{year}{2002}
+      \verb{file}
+      \verb Full Text PDF:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/6EQ8VAJR/Griffiths und Steyvers - 2002 - A probabilistic approach to semantic representatio.pdf:application/pdf;Snapshot:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/76HFDXBQ/44x9v7m7.pdf:application/pdf
+      \endverb
+      \verb{url}
+      \verb https://escholarship.org/uc/item/44x9v7m7
+      \endverb
+    \endentry
+    \entry{griffiths_finding_2004}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,hash=b50775cbf4f37e7c96ce05c6cf766723}{Griffiths}{G\bibinitperiod}{Thomas\bibnamedelima L.}{T\bibinitperiod\bibinitdelim L\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=c099fca1ed23ade050824a949053db93}{Steyvers}{S\bibinitperiod}{Mark}{M\bibinitperiod}{}{}{}{}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{e5884e27d87948de39eca5c84ecfb459}
+      \strng{fullhash}{e5884e27d87948de39eca5c84ecfb459}
+      \field{sortinit}{G}
+      \field{sortinithash}{1c854ef9177a91bf894e66485bdbd3ed}
+      \field{labelyear}{2004}
+      \field{labelmonth}{04}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{A first step in identifying the content of a document is determining which topics that document addresses. We describe a generative model for documents, introduced by Blei, Ng, and Jordan [Blei, D. M., Ng, A. Y. \& Jordan, M. I. (2003) J. Machine Learn. Res. 3, 993-1022], in which each document is generated by choosing a distribution over topics and then choosing each word in the document from a topic selected according to this distribution. We then present a Markov chain Monte Carlo algorithm for inference in this model. We use this algorithm to analyze abstracts from PNAS by using Bayesian model selection to establish the number of topics. We show that the extracted topics capture meaningful structure in the data, consistent with the class designations provided by the authors of the articles, and outline further applications of this analysis, including identifying “hot topics” by examining temporal dynamics and tagging abstracts to illustrate semantic content.}
+      \field{issn}{0027-8424, 1091-6490}
+      \field{journaltitle}{Proceedings of the National Academy of Sciences}
+      \field{month}{04}
+      \field{number}{suppl 1}
+      \field{title}{Finding scientific topics}
+      \field{urlday}{12}
+      \field{urlmonth}{10}
+      \field{urlyear}{2017}
+      \field{volume}{101}
+      \field{year}{2004}
+      \field{pages}{5228\bibrangedash 5235}
+      \range{pages}{8}
+      \verb{doi}
+      \verb 10.1073/pnas.0307752101
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/9P87NGIJ/Griffiths und Steyvers - 2004 - Finding scientific topics.pdf:application/pdf;Snapshot:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/TX4TP3NE/5228.html:text/html
+      \endverb
+      \verb{url}
+      \verb http://www.pnas.org/content/101/suppl_1/5228
+      \endverb
+    \endentry
+    \entry{grimmer_text_2013}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,hash=81e3df64dcc8ffabf2106dfc23b934e0}{Grimmer}{G\bibinitperiod}{Justin}{J\bibinitperiod}{}{}{}{}}%
+        {{uniquename=1,hash=e427af7d6363f6b3a00d558044c534c5}{Stewart}{S\bibinitperiod}{Brandon}{B\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{3c9f725aa0624f63d9f0f0bc2b21fd7b}
+      \strng{fullhash}{3c9f725aa0624f63d9f0f0bc2b21fd7b}
+      \field{sortinit}{G}
+      \field{sortinithash}{1c854ef9177a91bf894e66485bdbd3ed}
+      \field{labelyear}{2013}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{journaltitle}{Political Analysis}
+      \field{shorttitle}{Text as {Data}}
+      \field{title}{Text as {Data}: {The} {Promise} and {Pitfalls} of {Automatic} {Content} {Analysis} {Methods} for {Political} {Texts}}
+      \field{volume}{21}
+      \field{year}{2013}
+      \field{pages}{267\bibrangedash 297}
+      \range{pages}{31}
+      \verb{file}
+      \verb Text as Data\: The Promise and Pitfalls of Automatic Content Analysis Methods for Political Texts | Brandon Stewart:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/FF9QRDJ4/text-data-promise-and-pitfalls-automatic-content-analysis-methods-political.html:text/html
+      \endverb
+    \endentry
+    \entry{gustafsson_circulation_1978}{article}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,hash=2386d5dbe8d606a16ab35b598d9e56c2}{Gustafsson}{G\bibinitperiod}{Karl\bibnamedelima Erik}{K\bibinitperiod\bibinitdelim E\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{2386d5dbe8d606a16ab35b598d9e56c2}
+      \strng{fullhash}{2386d5dbe8d606a16ab35b598d9e56c2}
+      \field{sortinit}{G}
+      \field{sortinithash}{1c854ef9177a91bf894e66485bdbd3ed}
+      \field{labelyear}{1978}
+      \field{labelmonth}{01}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{The growth of oligopoly within the newspaper industry is a widespread phenomenon which has been examined by both researchers into the mass media and public enquiries into the press in a number of countries. Politicians recognise the development and want to modify the process of concentration, prevent newspaper closures, and even promote new ventures. Many western countries have taken measures to try to control forces bearing toward concentration in the newspaper industry. Such efforts, however, require a thorough knowledge of the market and its mechanism.}
+      \field{issn}{0358-5522}
+      \field{journaltitle}{Scandinavian Economic History Review}
+      \field{month}{01}
+      \field{number}{1}
+      \field{title}{The circulation spiral and the principle of household coverage}
+      \field{volume}{26}
+      \field{year}{1978}
+      \field{pages}{1\bibrangedash 14}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1080/03585522.1978.10407893
+      \endverb
+      \verb{file}
+      \verb Snapshot:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/D8TJWJWK/03585522.1978.html:text/html
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1080/03585522.1978.10407893
+      \endverb
+    \endentry
+    \entry{hofmann_probabilistic_1999}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,hash=ee42cfed2ff3020233d2de97c356eaee}{Hofmann}{H\bibinitperiod}{Thomas}{T\bibinitperiod}{}{}{}{}}%
+      }
+      \list{location}{1}{%
+        {New York, NY, USA}%
+      }
+      \list{publisher}{1}{%
+        {ACM}%
+      }
+      \strng{namehash}{ee42cfed2ff3020233d2de97c356eaee}
+      \strng{fullhash}{ee42cfed2ff3020233d2de97c356eaee}
+      \field{sortinit}{H}
+      \field{sortinithash}{82012198d5dfa657b8c4a168793268a6}
+      \field{labelyear}{1999}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 22Nd {Annual} {International} {ACM} {SIGIR} {Conference} on {Research} and {Development} in {Information} {Retrieval}}
+      \field{isbn}{978-1-58113-096-6}
+      \field{series}{{SIGIR} '99}
+      \field{title}{Probabilistic {Latent} {Semantic} {Indexing}}
+      \field{year}{1999}
+      \field{pages}{50\bibrangedash 57}
+      \range{pages}{8}
+      \verb{doi}
+      \verb 10.1145/312624.312649
+      \endverb
+      \verb{url}
+      \verb http://doi.acm.org/10.1145/312624.312649
+      \endverb
+    \endentry
+    \entry{mimno_optimizing_2011}{inproceedings}{}
+      \name{author}{5}{}{%
+        {{uniquename=0,hash=d0b37f86f34b5267e38b3e2defce4051}{Mimno}{M\bibinitperiod}{David}{D\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=e92e1b18d1e4fb6855b9e6a1d835313f}{Wallach}{W\bibinitperiod}{Hanna\bibnamedelima M.}{H\bibinitperiod\bibinitdelim M\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=559add350fbfb7ef35d376a7986006a1}{Talley}{T\bibinitperiod}{Edmund}{E\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=34e868a915050d8c7b89237e26c466d6}{Leenders}{L\bibinitperiod}{Miriam}{M\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=17d73a3a5be48993791cbe4db8855331}{McCallum}{M\bibinitperiod}{Andrew}{A\bibinitperiod}{}{}{}{}}%
+      }
+      \list{location}{1}{%
+        {Stroudsburg, PA, USA}%
+      }
+      \list{publisher}{1}{%
+        {Association for Computational Linguistics}%
+      }
+      \strng{namehash}{4c82c29909a2a1a6bdefb1e3ad14a71f}
+      \strng{fullhash}{1c83be36ae6b39ded45208aae5b31413}
+      \field{sortinit}{M}
+      \field{sortinithash}{2684bec41e9697b92699b46491061da2}
+      \field{labelyear}{2011}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Latent variable models have the potential to add value to large document collections by discovering interpretable, low-dimensional subspaces. In order for people to use such models, however, they must trust them. Unfortunately, typical dimensionality reduction methods for text, such as latent Dirichlet allocation, often produce low-dimensional subspaces (topics) that are obviously flawed to human domain experts. The contributions of this paper are threefold: (1) An analysis of the ways in which topics can be flawed; (2) an automated evaluation metric for identifying such topics that does not rely on human annotators or reference collections outside the training data; (3) a novel statistical topic model based on this metric that significantly improves topic quality in a large-scale document collection from the National Institutes of Health (NIH).}
+      \field{booktitle}{Proceedings of the {Conference} on {Empirical} {Methods} in {Natural} {Language} {Processing}}
+      \field{isbn}{978-1-937284-11-4}
+      \field{series}{{EMNLP} '11}
+      \field{title}{Optimizing {Semantic} {Coherence} in {Topic} {Models}}
+      \field{year}{2011}
+      \field{pages}{262\bibrangedash 272}
+      \range{pages}{11}
+      \verb{file}
+      \verb ACM Full Text PDF:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/758M9D8V/Mimno et al. - 2011 - Optimizing Semantic Coherence in Topic Models.pdf:application/pdf
+      \endverb
+      \verb{url}
+      \verb http://dl.acm.org/citation.cfm?id=2145432.2145462
+      \endverb
+    \endentry
+    \entry{mishler_using_2015}{inproceedings}{}
+      \name{author}{5}{}{%
+        {{uniquename=0,hash=68b32c6ad707269b18e2f6694afeee33}{Mishler}{M\bibinitperiod}{Alan}{A\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=30c1e45e147f9d91ee32aec1673e5c8d}{Crabb}{C\bibinitperiod}{Erin\bibnamedelima Smith}{E\bibinitperiod\bibinitdelim S\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=377d7c8b49f5346ebfd1f315613566f3}{Paletz}{P\bibinitperiod}{Susannah}{S\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=8238f87f2ff9f94639d4d18dbcc41ddc}{Hefright}{H\bibinitperiod}{Brook}{B\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=25ca35ca8688f7d85be3e2e2d7a56777}{Golonka}{G\bibinitperiod}{Ewa}{E\bibinitperiod}{}{}{}{}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \list{publisher}{1}{%
+        {Springer, Cham}%
+      }
+      \strng{namehash}{bad0a661a552b4f9cae745d92095f560}
+      \strng{fullhash}{d813ee2f5f69a04664a6d417955b14c3}
+      \field{sortinit}{M}
+      \field{sortinithash}{2684bec41e9697b92699b46491061da2}
+      \field{labelyear}{2015}
+      \field{labelmonth}{08}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Structural topic modeling (STM) is a recently introduced technique to model how the content of a collection of documents changes as a function of variables such as author identity or time of writing. We present two proof-of-concept applications of STM using Russian social media data. In our first study, we model how topics change over time, showing that STM can be used to detect significant events such as the downing of Malaysia Air Flight 17. In our second study, we model how topical content varies across a set of authors, showing that STM can be used to cluster Twitter users who are sympathetic to Ukraine versus Russia as well as to cluster accounts that are suspected to belong to the same individual (so-called “sockpuppets”). Structural topic modeling shows promise as a tool for analyzing social media data, a domain that has been largely ignored in the topic modeling literature.}
+      \field{booktitle}{{HCI} {International} 2015 - {Posters}’ {Extended} {Abstracts}}
+      \field{isbn}{978-3-319-21379-8 978-3-319-21380-4}
+      \field{month}{08}
+      \field{series}{Communications in {Computer} and {Information} {Science}}
+      \field{title}{Using {Structural} {Topic} {Modeling} to {Detect} {Events} and {Cluster} {Twitter} {Users} in the {Ukrainian} {Crisis}}
+      \field{urlday}{12}
+      \field{urlmonth}{10}
+      \field{urlyear}{2017}
+      \field{year}{2015}
+      \field{pages}{639\bibrangedash 644}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1007/978-3-319-21380-4_108
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/ACUCPA8U/Mishler et al. - 2015 - Using Structural Topic Modeling to Detect Events a.pdf:application/pdf;Snapshot:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/NG9CQ4T9/978-3-319-21380-4_108.html:text/html
+      \endverb
+      \verb{url}
+      \verb https://link.springer.com/chapter/10.1007/978-3-319-21380-4_108
+      \endverb
+    \endentry
+    \entry{mueller_reading_2016}{report}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,hash=6f3eb07e1b8df7dba8b7efdef1a1fd4c}{Mueller}{M\bibinitperiod}{Hannes\bibnamedelima Felix}{H\bibinitperiod\bibinitdelim F\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=60a870c47c066932c0a20866d9e2d569}{Rauh}{R\bibinitperiod}{Christopher}{C\bibinitperiod}{}{}{}{}}%
+      }
+      \list{institution}{1}{%
+        {Social Science Research Network}%
+      }
+      \list{location}{1}{%
+        {Rochester, NY}%
+      }
+      \strng{namehash}{b29a42b18f6be8775e350d0e509cff2b}
+      \strng{fullhash}{b29a42b18f6be8775e350d0e509cff2b}
+      \field{sortinit}{M}
+      \field{sortinithash}{2684bec41e9697b92699b46491061da2}
+      \field{labelyear}{2016}
+      \field{labelmonth}{09}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{This article provides a new methodology to predict armed conflict by using newspaper text. Through machine learning, vast quantities of newspaper text are reduced to interpretable topics. We propose the use of the within-country variation of these topics to predict the timing of conflict. This allows us to avoid the tendency of predicting conflict only in countries where it occurred before. We show that the within-country variation of topics is an extremely robust predictor of conflict and becomes particularly useful when new conflict risks arise. Two aspects seem to be responsible for these features. Topics provide depth because they consist of changing, long lists of terms which makes them able to capture the changing context of conflict. At the same time topics provide width because they summarize all text, including coverage of stabilizing factors.}
+      \field{month}{09}
+      \field{number}{ID 2843535}
+      \field{shorttitle}{Reading between the {Lines}}
+      \field{title}{Reading between the {Lines}: {Prediction} of {Political} {Violence} {Using} {Newspaper} {Text}}
+      \field{type}{{SSRN} {Scholarly} {Paper}}
+      \field{urlday}{09}
+      \field{urlmonth}{11}
+      \field{urlyear}{2017}
+      \field{year}{2016}
+      \verb{file}
+      \verb Snapshot:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/R7FGX7V9/papers.html:text/html
+      \endverb
+      \verb{url}
+      \verb https://papers.ssrn.com/abstract=2843535
+      \endverb
+      \keyw{Civil War,conflict,Forecasting,Latent Dirichlet Allocation.,Machine Learning,panel data,Topic Models}
+    \endentry
+    \entry{pritchard_inference_2000}{article}{}
+      \name{author}{3}{}{%
+        {{uniquename=0,hash=4709d6d04fb91c43b0b65f754c908ff9}{Pritchard}{P\bibinitperiod}{J.\bibnamedelimi K.}{J\bibinitperiod\bibinitdelim K\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=34ed3c61d0b4a0b2e1612c41708d8737}{Stephens}{S\bibinitperiod}{M.}{M\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=3fd18fec02a30f0b513197a741090561}{Donnelly}{D\bibinitperiod}{P.}{P\bibinitperiod}{}{}{}{}}%
+      }
+      \list{language}{1}{%
+        {eng}%
+      }
+      \strng{namehash}{391b6675f85eae256c6b96f32453a1a6}
+      \strng{fullhash}{391b6675f85eae256c6b96f32453a1a6}
+      \field{sortinit}{P}
+      \field{sortinithash}{c0a4896d0e424f9ca4d7f14f2b3428e7}
+      \field{labelyear}{2000}
+      \field{labelmonth}{06}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{We describe a model-based clustering method for using multilocus genotype data to infer population structure and assign individuals to populations. We assume a model in which there are K populations (where K may be unknown), each of which is characterized by a set of allele frequencies at each locus. Individuals in the sample are assigned (probabilistically) to populations, or jointly to two or more populations if their genotypes indicate that they are admixed. Our model does not assume a particular mutation process, and it can be applied to most of the commonly used genetic markers, provided that they are not closely linked. Applications of our method include demonstrating the presence of population structure, assigning individuals to populations, studying hybrid zones, and identifying migrants and admixed individuals. We show that the method can produce highly accurate assignments using modest numbers of loci-e.g. , seven microsatellite loci in an example using genotype data from an endangered bird species. The software used for this article is available from http://www.stats.ox.ac.uk/ approximately pritch/home. html.}
+      \field{issn}{0016-6731}
+      \field{journaltitle}{Genetics}
+      \field{month}{06}
+      \field{number}{2}
+      \field{title}{Inference of population structure using multilocus genotype data}
+      \field{volume}{155}
+      \field{year}{2000}
+      \field{pages}{945\bibrangedash 959}
+      \range{pages}{15}
+      \keyw{Algorithms,Cluster Analysis,Genetics,Population,Genotype,Humans,Models,Genetic}
+    \endentry
+    \entry{roberts_model_2016}{article}{}
+      \name{author}{3}{}{%
+        {{uniquename=1,hash=b343d62ffd0b37ed2fb0a93ec2006251}{Roberts}{R\bibinitperiod}{Margaret\bibnamedelima E.}{M\bibinitperiod\bibinitdelim E\bibinitperiod}{}{}{}{}}%
+        {{uniquename=1,hash=e78e606c2fa81b1917fd46933f49b33e}{Stewart}{S\bibinitperiod}{Brandon\bibnamedelima M.}{B\bibinitperiod\bibinitdelim M\bibinitperiod}{}{}{}{}}%
+        {{uniquename=1,hash=753c42f9b69830f9410ef84fd6e88ab1}{Airoldi}{A\bibinitperiod}{Edoardo\bibnamedelima M.}{E\bibinitperiod\bibinitdelim M\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{c50fc8ebb3112441e25e93a2f5fc1e97}
+      \strng{fullhash}{c50fc8ebb3112441e25e93a2f5fc1e97}
+      \field{sortinit}{R}
+      \field{sortinithash}{c7387613477035a752d935acfc3e3ea2}
+      \field{labelyear}{2016}
+      \field{labelmonth}{07}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Statistical models of text have become increasingly popular in statistics and computer science as a method of exploring large document collections. Social scientists often want to move beyond exploration, to measurement and experimentation, and make inference about social and political processes that drive discourse and content. In this article, we develop a model of text data that supports this type of substantive research. Our approach is to posit a hierarchical mixed membership model for analyzing topical content of documents, in which mixing weights are parameterized by observed covariates. In this model, topical prevalence and topical content are specified as a simple generalized linear model on an arbitrary number of document-level covariates, such as news source and time of release, enabling researchers to introduce elements of the experimental design that informed document collection into the model, within a generally applicable framework. We demonstrate the proposed methodology by analyzing a collection of news reports about China, where we allow the prevalence of topics to evolve over time and vary across newswire services. Our methods quantify the effect of news wire source on both the frequency and nature of topic coverage. Supplementary materials for this article are available online.}
+      \field{issn}{0162-1459}
+      \field{journaltitle}{Journal of the American Statistical Association}
+      \field{month}{07}
+      \field{number}{515}
+      \field{title}{A {Model} of {Text} for {Experimentation} in the {Social} {Sciences}}
+      \field{volume}{111}
+      \field{year}{2016}
+      \field{pages}{988\bibrangedash 1003}
+      \range{pages}{16}
+      \verb{doi}
+      \verb 10.1080/01621459.2016.1141684
+      \endverb
+      \verb{file}
+      \verb Snapshot:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/ZMEDWA9E/01621459.2016.html:text/html
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1080/01621459.2016.1141684
+      \endverb
+      \keyw{Causal inference,Experimentation,High-dimensional inference,Social sciences,text analysis,Variational approximation}
+    \endentry
+    \entry{roberts_structural_2014}{article}{}
+      \name{author}{8}{uniquelist=3}{%
+        {{uniquename=1,hash=b343d62ffd0b37ed2fb0a93ec2006251}{Roberts}{R\bibinitperiod}{Margaret\bibnamedelima E.}{M\bibinitperiod\bibinitdelim E\bibinitperiod}{}{}{}{}}%
+        {{uniquename=1,hash=e78e606c2fa81b1917fd46933f49b33e}{Stewart}{S\bibinitperiod}{Brandon\bibnamedelima M.}{B\bibinitperiod\bibinitdelim M\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=0e9a50476b4db979d3b603e83a05e919}{Tingley}{T\bibinitperiod}{Dustin}{D\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=3995dda0933bb03d997dfe71bb50dea0}{Lucas}{L\bibinitperiod}{Christopher}{C\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=dd584e3edce057e599237e990a12a93d}{Leder-Luis}{L\bibinithyphendelim L\bibinitperiod}{Jetson}{J\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=ceaf813987461a27cab918205f25e341}{Gadarian}{G\bibinitperiod}{Shana\bibnamedelima Kushner}{S\bibinitperiod\bibinitdelim K\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=c1f81b75e0f1eb9b8e3955cc7788edff}{Albertson}{A\bibinitperiod}{Bethany}{B\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=73cc7882cf30a0da19b78d1c5f89a599}{Rand}{R\bibinitperiod}{David\bibnamedelima G.}{D\bibinitperiod\bibinitdelim G\bibinitperiod}{}{}{}{}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{8590c8d011c40117ffd63d8c25d038ab}
+      \strng{fullhash}{6bf455e5a513e51c173fb06abc0db792}
+      \field{sortinit}{R}
+      \field{sortinithash}{c7387613477035a752d935acfc3e3ea2}
+      \field{labelyear}{2014}
+      \field{labelmonth}{10}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Collection and especially analysis of open-ended survey responses are relatively rare in the discipline and when conducted are almost exclusively done through human coding. We present an alternative, semiautomated approach, the structural topic model (STM) (Roberts, Stewart, and Airoldi 2013; Roberts et al. 2013), that draws on recent developments in machine learning based analysis of textual data. A crucial contribution of the method is that it incorporates information about the document, such as the author's gender, political affiliation, and treatment assignment (if an experimental study). This article focuses on how the STM is helpful for survey researchers and experimentalists. The STM makes analyzing open-ended responses easier, more revealing, and capable of being used to estimate treatment effects. We illustrate these innovations with analysis of text from surveys and experiments.}
+      \field{issn}{1540-5907}
+      \field{journaltitle}{American Journal of Political Science}
+      \field{month}{10}
+      \field{number}{4}
+      \field{title}{Structural {Topic} {Models} for {Open}-{Ended} {Survey} {Responses}}
+      \field{volume}{58}
+      \field{year}{2014}
+      \field{pages}{1064\bibrangedash 1082}
+      \range{pages}{19}
+      \verb{doi}
+      \verb 10.1111/ajps.12103
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/FD9RK878/Roberts et al. - 2014 - Structural Topic Models for Open-Ended Survey Resp.pdf:application/pdf;Snapshot:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/6GGMT3JM/abstract.html:text/html
+      \endverb
+      \verb{url}
+      \verb http://onlinelibrary.wiley.com/doi/10.1111/ajps.12103/abstract
+      \endverb
+    \endentry
+    \entry{roberts_navigating_2016}{incollection}{}
+      \name{author}{3}{}{%
+        {{uniquename=1,hash=345cf5be67770c8243af00b474877364}{Roberts}{R\bibinitperiod}{Margaret}{M\bibinitperiod}{}{}{}{}}%
+        {{uniquename=1,hash=e427af7d6363f6b3a00d558044c534c5}{Stewart}{S\bibinitperiod}{Brandon}{B\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=0e9a50476b4db979d3b603e83a05e919}{Tingley}{T\bibinitperiod}{Dustin}{D\bibinitperiod}{}{}{}{}}%
+      }
+      \list{location}{1}{%
+        {New York}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge University Press}%
+      }
+      \strng{namehash}{204fd8177e9158de2d961a5f95fb9fff}
+      \strng{fullhash}{204fd8177e9158de2d961a5f95fb9fff}
+      \field{sortinit}{R}
+      \field{sortinithash}{c7387613477035a752d935acfc3e3ea2}
+      \field{extrayear}{1}
+      \field{labelyear}{2016}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Computational {Social} {Science}: {Discovery} and {Prediction}}
+      \field{title}{Navigating the {Local} {Modes} of {Big} {Data}: {The} {Case} of {Topic} {Models}.}
+      \field{year}{2016}
+      \verb{file}
+      \verb Navigating the Local Modes of Big Data\: The Case of Topic Models | Dustin Tingley:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/TW4DVST8/navigating-local-modes-big-data-case-topic-models.html:text/html
+      \endverb
+    \endentry
+    \entry{roberts_stm:_2016}{article}{}
+      \name{author}{3}{}{%
+        {{uniquename=1,hash=345cf5be67770c8243af00b474877364}{Roberts}{R\bibinitperiod}{Margaret}{M\bibinitperiod}{}{}{}{}}%
+        {{uniquename=1,hash=e427af7d6363f6b3a00d558044c534c5}{Stewart}{S\bibinitperiod}{Brandon}{B\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=0e9a50476b4db979d3b603e83a05e919}{Tingley}{T\bibinitperiod}{Dustin}{D\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{204fd8177e9158de2d961a5f95fb9fff}
+      \strng{fullhash}{204fd8177e9158de2d961a5f95fb9fff}
+      \field{sortinit}{R}
+      \field{sortinithash}{c7387613477035a752d935acfc3e3ea2}
+      \field{extrayear}{2}
+      \field{labelyear}{2016}
+      \field{labelmonth}{12}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{journaltitle}{Journal of Statistical Software}
+      \field{month}{12}
+      \field{shorttitle}{stm}
+      \field{title}{stm: {R} {Package} for {Structural} {Topic} {Models}}
+      \field{volume}{forthcoming}
+      \field{year}{2016}
+      \verb{file}
+      \verb stm\: R Package for Structural Topic Models | Dustin Tingley:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/FAWQJE6X/stm-r-package-structural-topic-models.html:text/html
+      \endverb
+    \endentry
+    \entry{roberts_structural_2013}{inproceedings}{}
+      \name{author}{4}{uniquelist=4}{%
+        {{uniquename=1,hash=345cf5be67770c8243af00b474877364}{Roberts}{R\bibinitperiod}{Margaret}{M\bibinitperiod}{}{}{}{}}%
+        {{uniquename=1,hash=e427af7d6363f6b3a00d558044c534c5}{Stewart}{S\bibinitperiod}{Brandon}{B\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=0e9a50476b4db979d3b603e83a05e919}{Tingley}{T\bibinitperiod}{Dustin}{D\bibinitperiod}{}{}{}{}}%
+        {{uniquename=1,hash=21c9f1106d43f27aab5e5de9097f133a}{Airoldi}{A\bibinitperiod}{Edoardo}{E\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{bd540364114f7466f2c7f10d59073c9c}
+      \strng{fullhash}{bd540364114f7466f2c7f10d59073c9c}
+      \field{sortinit}{R}
+      \field{sortinithash}{c7387613477035a752d935acfc3e3ea2}
+      \field{labelyear}{2013}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Advances in {Neural} {Information} {Processing} {Systems} {Workshop} on {Topic} {Models}: {Computation}, {Application}, and {Evaluation}.}
+      \field{title}{The {Structural} {Topic} {Model} and {Applied} {Social} {Science}}
+      \field{year}{2013}
+      \verb{file}
+      \verb The Structural Topic Model and Applied Social Science | Brandon Stewart:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/69G2KU2F/structural-topic-model-and-applied-social-science.html:text/html
+      \endverb
+    \endentry
+    \entry{rochet_platform_2003}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,hash=c774e33c3153ef9db1c5d50a7f69799d}{Rochet}{R\bibinitperiod}{Jean-Charles}{J\bibinithyphendelim C\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=00e537376470e49a45c05eab98111caa}{Tirole}{T\bibinitperiod}{Jean}{J\bibinitperiod}{}{}{}{}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{c07e4308d805a2d585fcfabf9ba4ca1d}
+      \strng{fullhash}{c07e4308d805a2d585fcfabf9ba4ca1d}
+      \field{sortinit}{R}
+      \field{sortinithash}{c7387613477035a752d935acfc3e3ea2}
+      \field{labelyear}{2003}
+      \field{labelmonth}{06}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Many if not most markets with network externalities are two-sided. To succeed, platforms in industries such as software, portals and media, payment systems and the Internet, must “get both sides of the market on board.” Accordingly, platforms devote much attention to their business model, that is, to how they court each side while making money overall. This paper builds a model of platform competition with two-sided markets. It unveils the determinants of price allocation and end-user surplus for different governance structures (profit-maximizing platforms and not-for-profit joint undertakings), and compares the outcomes with those under an integrated monopolist and a Ramsey planner. (JEL: L5, L82, L86, L96)}
+      \field{issn}{1542-4774}
+      \field{journaltitle}{Journal of the European Economic Association}
+      \field{month}{06}
+      \field{number}{4}
+      \field{title}{Platform {Competition} in {Two}-{Sided} {Markets}}
+      \field{urlday}{04}
+      \field{urlmonth}{08}
+      \field{urlyear}{2016}
+      \field{volume}{1}
+      \field{year}{2003}
+      \field{pages}{990\bibrangedash 1029}
+      \range{pages}{40}
+      \verb{doi}
+      \verb 10.1162/154247603322493212
+      \endverb
+      \verb{file}
+      \verb Snapshot:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/WJI5PS42/abstract.html:text/html
+      \endverb
+      \verb{url}
+      \verb http://onlinelibrary.wiley.com/doi/10.1162/154247603322493212/abstract
+      \endverb
+    \endentry
+    \entry{taddy_estimation_2012}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,hash=16e5ccc34f2ccb8bb3c2e92bb0f64013}{Taddy}{T\bibinitperiod}{Matt}{M\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{16e5ccc34f2ccb8bb3c2e92bb0f64013}
+      \strng{fullhash}{16e5ccc34f2ccb8bb3c2e92bb0f64013}
+      \field{sortinit}{T}
+      \field{sortinithash}{423d138a005a533b47e6475e39378bf2}
+      \field{labelyear}{2012}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 15th {International} {Conference} on {Artificial} {Intelligence} and {Statistics}}
+      \field{title}{On estimation and selection for topic models}
+      \field{year}{2012}
+    \endentry
+    \entry{teh_hierarchical_2006}{article}{}
+      \name{author}{4}{}{%
+        {{uniquename=0,hash=577af3eb832d26c33caa634a276d4d7e}{Teh}{T\bibinitperiod}{Yee\bibnamedelima Whye}{Y\bibinitperiod\bibinitdelim W\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=996ffb9cb286a8b4b0fc16793c54cc31}{Jordan}{J\bibinitperiod}{Michael\bibnamedelima I}{M\bibinitperiod\bibinitdelim I\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=fd3b895703fc673d6630ac165f9c67b8}{Beal}{B\bibinitperiod}{Matthew\bibnamedelima J}{M\bibinitperiod\bibinitdelim J\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=0acd0349006f4ee348ffe16e1fe1fe21}{Blei}{B\bibinitperiod}{David\bibnamedelima M}{D\bibinitperiod\bibinitdelim M\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{0f5dca7d11b2c1bd8f2580bd284d659d}
+      \strng{fullhash}{2342a46d71a8d08088ca450b0c586d03}
+      \field{sortinit}{T}
+      \field{sortinithash}{423d138a005a533b47e6475e39378bf2}
+      \field{labelyear}{2006}
+      \field{labelmonth}{12}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{We consider problems involving groups of data where each observation within a group is a draw from a mixture model and where it is desirable to share mixture components between groups. We assume that the number of mixture components is unknown a priori and is to be inferred from the data. In this setting it is natural to consider sets of Dirichlet processes, one for each group, where the well-known clustering property of the Dirichlet process provides a nonparametric prior for the number of mixture components within each group. Given our desire to tie the mixture models in the various groups, we consider a hierarchical model, specifically one in which the base measure for the child Dirichlet processes is itself distributed according to a Dirichlet process. Such a base measure being discrete, the child Dirichlet processes necessarily share atoms. Thus, as desired, the mixture models in the different groups necessarily share mixture components. We discuss representations of hierarchical Dirichlet processes in terms of a stick-breaking process, and a generalization of the Chinese restaurant process that we refer to as the “Chinese restaurant franchise.” We present Markov chain Monte Carlo algorithms for posterior inference in hierarchical Dirichlet process mixtures and describe applications to problems in information retrieval and text modeling.}
+      \field{issn}{0162-1459}
+      \field{journaltitle}{Journal of the American Statistical Association}
+      \field{month}{12}
+      \field{number}{476}
+      \field{title}{Hierarchical {Dirichlet} {Processes}}
+      \field{volume}{101}
+      \field{year}{2006}
+      \field{pages}{1566\bibrangedash 1581}
+      \range{pages}{16}
+      \verb{doi}
+      \verb 10.1198/016214506000000302
+      \endverb
+      \verb{file}
+      \verb Snapshot:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/67GVBDZ8/016214506000000302.html:text/html
+      \endverb
+      \verb{url}
+      \verb http://amstat.tandfonline.com/doi/abs/10.1198/016214506000000302
+      \endverb
+    \endentry
+    \entry{wallach_evaluation_2009}{inproceedings}{}
+      \name{author}{4}{}{%
+        {{uniquename=0,hash=e92e1b18d1e4fb6855b9e6a1d835313f}{Wallach}{W\bibinitperiod}{Hanna\bibnamedelima M.}{H\bibinitperiod\bibinitdelim M\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=237c383069f29d1d1ffe672359e89d38}{Murray}{M\bibinitperiod}{Iain}{I\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=bd2be300d445e9f6db7808f9533e66cb}{Salakhutdinov}{S\bibinitperiod}{Ruslan}{R\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=d0b37f86f34b5267e38b3e2defce4051}{Mimno}{M\bibinitperiod}{David}{D\bibinitperiod}{}{}{}{}}%
+      }
+      \list{location}{1}{%
+        {New York, NY, USA}%
+      }
+      \list{publisher}{1}{%
+        {ACM}%
+      }
+      \strng{namehash}{d0f4632dc84975c29d33757f181e77fc}
+      \strng{fullhash}{77bf5b366ed2302b1630df3bb4024737}
+      \field{sortinit}{W}
+      \field{sortinithash}{99e3ba1b3f78bb6f073e7fa7ac11636b}
+      \field{labelyear}{2009}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{A natural evaluation metric for statistical topic models is the probability of held-out documents given a trained model. While exact computation of this probability is intractable, several estimators for this probability have been used in the topic modeling literature, including the harmonic mean method and empirical likelihood method. In this paper, we demonstrate experimentally that commonly-used methods are unlikely to accurately estimate the probability of held-out documents, and propose two alternative methods that are both accurate and efficient.}
+      \field{booktitle}{Proceedings of the 26th {Annual} {International} {Conference} on {Machine} {Learning}}
+      \field{isbn}{978-1-60558-516-1}
+      \field{series}{{ICML} '09}
+      \field{title}{Evaluation {Methods} for {Topic} {Models}}
+      \field{year}{2009}
+      \field{pages}{1105\bibrangedash 1112}
+      \range{pages}{8}
+      \verb{doi}
+      \verb 10.1145/1553374.1553515
+      \endverb
+      \verb{url}
+      \verb http://doi.acm.org/10.1145/1553374.1553515
+      \endverb
+    \endentry
+    \entry{wiedmann_text_2016}{book}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,hash=fd14ef1140b31ebe35bac6aac6221997}{Wiedmann}{W\bibinitperiod}{Gregor}{G\bibinitperiod}{}{}{}{}}%
+      }
+      \list{location}{1}{%
+        {Wiesbaden}%
+      }
+      \list{publisher}{1}{%
+        {VS Verlag für Sozialwissenschaften}%
+      }
+      \strng{namehash}{fd14ef1140b31ebe35bac6aac6221997}
+      \strng{fullhash}{fd14ef1140b31ebe35bac6aac6221997}
+      \field{sortinit}{W}
+      \field{sortinithash}{99e3ba1b3f78bb6f073e7fa7ac11636b}
+      \field{labelyear}{2016}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{1}
+      \field{title}{Text {Mining} for {Qualitative} {Data} {Analysis} in the {Social} {Sciences}}
+      \field{urlday}{26}
+      \field{urlmonth}{11}
+      \field{urlyear}{2017}
+      \field{year}{2016}
+      \verb{file}
+      \verb Snapshot:/Users/Franzi/Library/Application Support/Zotero/Profiles/la73mnmp.default/zotero/storage/7P4K4CSX/9783658153083.html:text/html
+      \endverb
+      \verb{url}
+      \verb //www.springer.com/de/book/9783658153083
+      \endverb
+    \endentry
+  \endsortlist
+  \missing{gabszewicz_press_2001}
+  \missing{evans_industrial_2005}
+  \missing{steiner_program_1952}
+\endrefsection
+\endinput
+

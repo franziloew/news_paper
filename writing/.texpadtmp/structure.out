@@ -1,0 +1,18 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Background on the federal election in Germany \(2017\)}{}% 2
+\BOOKMARK [1][-]{section.3}{Dataset and data preparation}{}% 3
+\BOOKMARK [1][-]{section.4}{The structural topic model}{}% 4
+\BOOKMARK [2][-]{subsection.4.1}{Generative Process of STM}{section.4}% 5
+\BOOKMARK [2][-]{subsection.4.2}{Model and parameter selection}{section.4}% 6
+\BOOKMARK [1][-]{section.5}{Empirical Evaluation}{}% 7
+\BOOKMARK [2][-]{subsection.5.1}{Topic}{section.5}% 8
+\BOOKMARK [2][-]{subsection.5.2}{Tone}{section.5}% 9
+\BOOKMARK [2][-]{subsection.5.3}{News sentiment and poll data}{section.5}% 10
+\BOOKMARK [1][-]{section.6}{Conclusion}{}% 11
+\BOOKMARK [1][-]{appendix.A}{Appendices}{}% 12
+\BOOKMARK [2][-]{subsection.A.1}{Wordclouds}{appendix.A}% 13
+\BOOKMARK [2][-]{subsection.A.2}{Most frequent words}{appendix.A}% 14
+\BOOKMARK [2][-]{subsection.A.3}{Regression Results}{appendix.A}% 15
+\BOOKMARK [2][-]{subsection.A.4}{Sentiment Values \(monthly aggregated\)}{appendix.A}% 16
+\BOOKMARK [2][-]{subsection.A.5}{Sentiment Values \(aggregated by news website\)}{appendix.A}% 17
+\BOOKMARK [2][-]{subsection.A.6}{Cross Correlation Coefficient \(lag 0\)}{appendix.A}% 18

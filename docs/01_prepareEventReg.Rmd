@@ -1,0 +1,85 @@
+---
+title: "Topic Modeling of News"
+author: "Franziska Löw"
+date: "`r format(Sys.Date())`"
+output: github_document
+---
+
+```{r, include=FALSE}
+# load the packages
+libs <- c("tidytext","tidyr","readr","lubridate","tm","stm","RColorBrewer",
+          "plyr","dplyr","class","knitr","data.table",
+          "htmlTable","ggplot2","gridExtra","jsonlite","stringr","scales","rjson")
+lapply(libs, library, character.only = TRUE)
+
+```
+
+# Load and prepare Dataframe
+
+```{r}
+rm(list = ls())
+
+# create a character vector, with each file name represented by an entry
+june <- list.files("../data/webhoseio/2017-06", pattern="*.json", full.names=TRUE) 
+july <- list.files("../data/webhoseio/2017-07", pattern="*.json", full.names=TRUE) 
+aug <- list.files("../data/webhoseio/2017-08", pattern="*.json", full.names=TRUE) 
+sep <- list.files("../data/webhoseio/2017-09", pattern="*.json", full.names=TRUE) 
+
+
+# a list in which each element is one of your original JSON files
+myJSON <- lapply(c(june,july,aug,sep), function(x) fromJSON(file=x)) 
+```
+
+## Convert List to Dataframe
+
+```{r}
+site <- NULL
+title <- NULL
+text <- NULL
+published <- NULL
+section <- NULL
+
+fb_shares <- NULL
+url <- NULL
+
+#external_links <- NULL
+
+for (i in 1:length(myJSON)){
+  site <- append(site, myJSON[[i]][["thread"]][["site"]])
+  title <- append(title, myJSON[[i]][["title"]])
+  text <- append(text, myJSON[[i]][["text"]])
+  published <- append(published, myJSON[[i]][["published"]])
+  section <- append(section, myJSON[[i]][["thread"]][["site_section"]])
+
+  fb_shares <- append(fb_shares, myJSON[[i]][["thread"]][["social"]][["facebook"]][["shares"]])
+  url <- append(url, myJSON[[i]][["url"]])
+  
+}
+
+df <- cbind(site, title, text, published, section, fb_shares, url)
+df <- data.frame(df, stringsAsFactors = FALSE)
+```
+
+```{r}
+rm(site, title, text, published, fb_shares, fb_likes, section, fb_comments)
+```
+
+## Clean Data
+```{r}
+df %>%
+  mutate(fb_shares = as.integer(fb_shares)) -> df
+```
+
+### Date
+```{r, eval=FALSE, include=FALSE}
+# .... date
+df$date <- substr(df$published, 1,10)
+df$date <- as.POSIXct(df$date, format ="%Y-%m-%d")
+
+#df <- subset(df, df$date > "2017-09-01")
+```
+
+```{r}
+# Save file
+save(df, file="../output/news_cleaned.Rda")
+```

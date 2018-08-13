@@ -1,0 +1,4 @@
+[0] Config.pm:324> INFO - This is Biber 2.1
+[1] Config.pm:327> INFO - Logfile is '/Users/Franzi/GitHub/textmining/paper/writing/.texpadtmp/online_news.blg'
+[76] biber-darwin:276> INFO - === Tue May  8, 2018, 23:04:37
+[77] Biber.pm:333> INFO - Reading '/Users/Franzi/GitHub/textmining/paper/writing/.texpadtmp/online_news.bcf'

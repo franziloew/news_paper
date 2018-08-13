@@ -1,0 +1,4 @@
+\beamer@endinputifotherversion {3.36pt}
+\beamer@sectionintoc {1}{Introduction}{3}{0}{1}
+\beamer@sectionintoc {2}{Textual Databases}{4}{0}{2}
+\beamer@sectionintoc {3}{Example}{7}{0}{3}

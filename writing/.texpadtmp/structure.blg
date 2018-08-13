@@ -1,0 +1,15 @@
+[0] Config.pm:324> INFO - This is Biber 2.1
+[1] Config.pm:327> INFO - Logfile is '/Users/Franzi/GitHub/textmining/paper/writing/.texpadtmp/structure.blg'
+[64] biber-darwin:276> INFO - === Tue May  8, 2018, 11:46:38
+[64] Biber.pm:333> INFO - Reading '/Users/Franzi/GitHub/textmining/paper/writing/.texpadtmp/structure.bcf'
+[189] Biber.pm:645> INFO - Found 32 citekeys in bib section 0
+[233] Biber.pm:2977> INFO - Processing section 0
+[260] Biber.pm:3115> INFO - Looking for bibtex format file '/Users/Franzi/GitHub/textmining/paper/writing/Textmining.bib' for section 0
+[286] bibtex.pm:1021> INFO - Decoding LaTeX character macros into UTF-8
+[312] bibtex.pm:895> INFO - Found BibTeX data source '/Users/Franzi/GitHub/textmining/paper/writing/Textmining.bib'
+[901] UCollate.pm:66> INFO - Overriding locale 'de_DE' defaults 'variable = shifted' with 'variable = non-ignorable'
+[901] UCollate.pm:66> INFO - Overriding locale 'de_DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[901] Biber.pm:2854> INFO - Sorting list 'nyt' of type 'entry' with scheme 'nyt' and locale 'de_DE'
+[902] Biber.pm:2858> INFO - No sort tailoring available for locale 'de_DE'
+[997] bbl.pm:505> INFO - Writing '/Users/Franzi/GitHub/textmining/paper/writing/.texpadtmp/structure.bbl' with encoding 'UTF-8'
+[1004] bbl.pm:596> INFO - Output to /Users/Franzi/GitHub/textmining/paper/writing/.texpadtmp/structure.bbl

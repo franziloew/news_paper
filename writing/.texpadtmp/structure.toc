@@ -1,0 +1,39 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\defcounter {refsection}{0}\relax 
+\select@language {english}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2}Background on the federal election in Germany (2017)}{3}{section.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3}Dataset and data preparation}{4}{section.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4}The structural topic model}{8}{section.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.1}Generative Process of STM}{9}{subsection.4.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.2}Model and parameter selection}{10}{subsection.4.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {5}Empirical Evaluation}{10}{section.5}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {5.1}Topic}{10}{subsection.5.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {5.2}Tone}{13}{subsection.5.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {5.3}News sentiment and poll data}{18}{subsection.5.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {6}Conclusion}{21}{section.6}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {A}Appendices}{25}{appendix.A}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {A.1}Wordclouds}{25}{subsection.A.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {A.2}Most frequent words}{26}{subsection.A.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {A.3}Regression Results}{29}{subsection.A.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {A.4}Sentiment Values (monthly aggregated)}{30}{subsection.A.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {A.5}Sentiment Values (aggregated by news website)}{31}{subsection.A.5}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {A.6}Cross Correlation Coefficient (lag 0)}{31}{subsection.A.6}
