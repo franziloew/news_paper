@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.7.17)  13 AUG 2018 13:03
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.7.17)  14 AUG 2018 21:12
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -947,7 +947,7 @@ Package biblatex Warning: Attempt to redefine deprecated '\mkbibnamelast'.
 
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
-(/Users/franzi/Projects/textmining/paper/writing/.texpadtmp/online_news_review.aux)
+(/Users/franzi/Projects/news_paper/writing/.texpadtmp/online_news_review.aux)
 \openout1 = `online_news_review.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 57.
@@ -971,7 +971,22 @@ Package biblatex Info: Automatic encoding selection.
 
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'online_news_review.bbl' found.
- (/Users/franzi/Projects/textmining/paper/writing/.texpadtmp/online_news_review.bbl)
+ (/Users/franzi/Projects/news_paper/writing/.texpadtmp/online_news_review.bbl
+
+Package biblatex Warning: The following entry could not be found
+(biblatex)                in the database:
+(biblatex)                duru_relevance_2018
+(biblatex)                Please verify the spelling and rerun
+(biblatex)                LaTeX afterwards.
+
+
+Package biblatex Warning: The following entry could not be found
+(biblatex)                in the database:
+(biblatex)                naskar_sentiment_2016
+(biblatex)                Please verify the spelling and rerun
+(biblatex)                LaTeX afterwards.
+
+)
 Package biblatex Info: Reference section=0 on input line 57.
 Package biblatex Info: Reference segment=0 on input line 57.
 \AtBeginShipoutBox=\box49
@@ -986,7 +1001,7 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 57.
 LaTeX Info: Redefining \pageref on input line 57.
 LaTeX Info: Redefining \nameref on input line 57.
- (/Users/franzi/Projects/textmining/paper/writing/.texpadtmp/online_news_review.out) (/Users/franzi/Projects/textmining/paper/writing/.texpadtmp/online_news_review.out)
+ (/Users/franzi/Projects/news_paper/writing/.texpadtmp/online_news_review.out) (/Users/franzi/Projects/news_paper/writing/.texpadtmp/online_news_review.out)
 \@outlinefile=\write6
 \openout6 = `online_news_review.out'.
 
@@ -1078,7 +1093,7 @@ LaTeX Font Info:    Try loading font information for T1+cmtt on input line 59.
 File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 ) [1
 
-{/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] (/Users/franzi/Projects/textmining/paper/writing/.texpadtmp/online_news_review.toc)
+{/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] (/Users/franzi/Projects/news_paper/writing/.texpadtmp/online_news_review.toc)
 \tf@toc=\write7
 \openout7 = `online_news_review.toc'.
 
@@ -1086,33 +1101,37 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has b
 <to be read again> 
                    \relax 
 l.70 
-      [1] [2]
-Overfull \hbox (4.82744pt too wide) in paragraph at lines 120--120
+      [1]
+Overfull \hbox (63.53004pt too wide) in paragraph at lines 101--102
+[]\T1/cmr/m/n/12 Estimate the sen-ti-ment val-ues of each topic, for each news web-site. ([]) 
+ []
+
+[2] [3]
+Overfull \hbox (4.82744pt too wide) in paragraph at lines 127--127
 []\T1/cmr/bx/n/17.28 Background on the fed-eral elec-tion in Ger-many (2017) 
  []
 
-[3]
 
-./online_news_review.tex:126: Package inputenc Error: Unicode character ﬂü (U+7DF)
+./online_news_review.tex:133: Package inputenc Error: Unicode character ﬂü (U+7DF)
 (inputenc)                not set up for use with LaTeX.
 
 See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.126 ...ion ("GroKo" - from the German word Groﬂü
+l.133 ...ion ("GroKo" - from the German word Groﬂü
                                                   e Koalition) of CDU/CSU an...
 You may provide a definition with
 \DeclareUnicodeCharacter 
 
 
-./online_news_review.tex:126: Package inputenc Error: Invalid UTF-8 byte 252.
+./online_news_review.tex:133: Package inputenc Error: Invalid UTF-8 byte 252.
 
 See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.126 ... (economic liberal party) and B90/Die Gr¸
+l.133 ... (economic liberal party) and B90/Die Gr¸
                                                   nen (B¸ndnis 90/Die Gr¸nen...
 The document does not appear to be in UTF-8 encoding.
 Try adding \UseRawInputEncoding as the first line of the file
@@ -1121,13 +1140,13 @@ in the document preamble.
 Alternatively, save the file in UTF-8 using your editor or another tool
 
 
-./online_news_review.tex:126: Package inputenc Error: Invalid UTF-8 byte 252.
+./online_news_review.tex:133: Package inputenc Error: Invalid UTF-8 byte 252.
 
 See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.126 ...mic liberal party) and B90/Die Gr¸nen (B¸
+l.133 ...mic liberal party) and B90/Die Gr¸nen (B¸
                                                   ndnis 90/Die Gr¸nen, green...
 The document does not appear to be in UTF-8 encoding.
 Try adding \UseRawInputEncoding as the first line of the file
@@ -1136,13 +1155,13 @@ in the document preamble.
 Alternatively, save the file in UTF-8 using your editor or another tool
 
 
-./online_news_review.tex:126: Package inputenc Error: Invalid UTF-8 byte 252.
+./online_news_review.tex:133: Package inputenc Error: Invalid UTF-8 byte 252.
 
 See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.126 ...y) and B90/Die Gr¸nen (B¸ndnis 90/Die Gr¸
+l.133 ...y) and B90/Die Gr¸nen (B¸ndnis 90/Die Gr¸
                                                   nen, green party)). The gr...
 The document does not appear to be in UTF-8 encoding.
 Try adding \UseRawInputEncoding as the first line of the file
@@ -1151,13 +1170,13 @@ in the document preamble.
 Alternatively, save the file in UTF-8 using your editor or another tool
 
 
-./online_news_review.tex:126: Package inputenc Error: Invalid UTF-8 byte 252.
+./online_news_review.tex:133: Package inputenc Error: Invalid UTF-8 byte 252.
 
 See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.126 ... regretted this result, while B90/Die Gr¸
+l.133 ... regretted this result, while B90/Die Gr¸
                                                   nen sharply criticized the...
 The document does not appear to be in UTF-8 encoding.
 Try adding \UseRawInputEncoding as the first line of the file
@@ -1166,13 +1185,13 @@ in the document preamble.
 Alternatively, save the file in UTF-8 using your editor or another tool
 
 
-./online_news_review.tex:126: Package inputenc Error: Invalid UTF-8 byte 128.
+./online_news_review.tex:133: Package inputenc Error: Invalid UTF-8 byte 128.
 
 See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.126 ... Gr¸nen sharply criticized the liberals'Ä
+l.133 ... Gr¸nen sharply criticized the liberals'Ä
                                                   ô withdrawal. The then Gre...
 The document does not appear to be in UTF-8 encoding.
 Try adding \UseRawInputEncoding as the first line of the file
@@ -1181,13 +1200,13 @@ in the document preamble.
 Alternatively, save the file in UTF-8 using your editor or another tool
 
 
-./online_news_review.tex:126: Package inputenc Error: Invalid UTF-8 byte 153.
+./online_news_review.tex:133: Package inputenc Error: Invalid UTF-8 byte 153.
 
 See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.126 ...Gr¸nen sharply criticized the liberals'Äô
+l.133 ...Gr¸nen sharply criticized the liberals'Äô
                                                    withdrawal. The then Gree...
 The document does not appear to be in UTF-8 encoding.
 Try adding \UseRawInputEncoding as the first line of the file
@@ -1196,13 +1215,13 @@ in the document preamble.
 Alternatively, save the file in UTF-8 using your editor or another tool
 
 
-./online_news_review.tex:126: Package inputenc Error: Invalid UTF-8 byte sequence.
+./online_news_review.tex:133: Package inputenc Error: Invalid UTF-8 byte sequence.
 
 See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.126 ... withdrawal. The then Green leader Cem ÷z
+l.133 ... withdrawal. The then Green leader Cem ÷z
                                                   demir accused the FDP of l...
 The document does not appear to be in UTF-8 encoding.
 Try adding \UseRawInputEncoding as the first line of the file
@@ -1210,173 +1229,174 @@ or specify an encoding such as \usepackage [latin1]{inputenc}
 in the document preamble.
 Alternatively, save the file in UTF-8 using your editor or another tool
 
-
-LaTeX Warning: File `figs/polls.png' not found on input line 135.
-
-
-./online_news_review.tex:135: Package pdftex.def Error: File `figs/polls.png' not found: using draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.135 ...hics[width=0.8\textwidth]{figs/polls.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
 [4]
 
-LaTeX Warning: File `figs/timeline.png' not found on input line 153.
+LaTeX Warning: File `figs/polls.png' not found on input line 142.
 
 
-./online_news_review.tex:153: Package pdftex.def Error: File `figs/timeline.png' not found: using draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.153 ...hics[width=\textwidth]{figs/timeline.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `figs/bar.png' not found on input line 158.
-
-
-./online_news_review.tex:158: Package pdftex.def Error: File `figs/bar.png' not found: using draft setting.
+./online_news_review.tex:142: Package pdftex.def Error: File `figs/polls.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.158 ...egraphics[width=\textwidth]{figs/bar.png}
+l.142 ...hics[width=0.8\textwidth]{figs/polls.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-[5] (./tables/wordcount.tex
+[5]
+
+LaTeX Warning: File `figs/timeline.png' not found on input line 160.
+
+
+./online_news_review.tex:160: Package pdftex.def Error: File `figs/timeline.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.160 ...hics[width=\textwidth]{figs/timeline.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `figs/bar.png' not found on input line 165.
+
+
+./online_news_review.tex:165: Package pdftex.def Error: File `figs/bar.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.165 ...egraphics[width=\textwidth]{figs/bar.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+(./tables/wordcount.tex
 Overfull \hbox (4.8949pt too wide) in paragraph at lines 5--18
  [][] 
  []
 
 ) [6]
 
-LaTeX Warning: File `figs/wordcloud.png' not found on input line 174.
+LaTeX Warning: File `figs/wordcloud.png' not found on input line 181.
 
 
-./online_news_review.tex:174: Package pdftex.def Error: File `figs/wordcloud.png' not found: using draft setting.
+./online_news_review.tex:181: Package pdftex.def Error: File `figs/wordcloud.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.174 ...[width=0.7\textwidth]{figs/wordcloud.png}
+l.181 ...[width=0.7\textwidth]{figs/wordcloud.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-LaTeX Warning: File `figs/wordcloud_Bild.png' not found on input line 185.
+LaTeX Warning: File `figs/wordcloud_Bild.png' not found on input line 192.
 
 
-./online_news_review.tex:185: Package pdftex.def Error: File `figs/wordcloud_Bild.png' not found: using draft setting.
+./online_news_review.tex:192: Package pdftex.def Error: File `figs/wordcloud_Bild.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.185 ...idth=\textwidth]{figs/wordcloud_Bild.png}
+l.192 ...idth=\textwidth]{figs/wordcloud_Bild.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-LaTeX Warning: File `figs/wordcloud_Tagesschau.png' not found on input line 189.
+LaTeX Warning: File `figs/wordcloud_Tagesschau.png' not found on input line 196.
 
 
-./online_news_review.tex:189: Package pdftex.def Error: File `figs/wordcloud_Tagesschau.png' not found: using draft setting.
+./online_news_review.tex:196: Package pdftex.def Error: File `figs/wordcloud_Tagesschau.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.189 ...textwidth]{figs/wordcloud_Tagesschau.png}
+l.196 ...textwidth]{figs/wordcloud_Tagesschau.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 [7] [8]
-Package hyperref Info: bookmark level for unknown todo defaults to 0 on input line 218.
+Package hyperref Info: bookmark level for unknown todo defaults to 0 on input line 225.
 
-Overfull \hbox (8.00084pt too wide) in paragraph at lines 218--218
+Overfull \hbox (8.00084pt too wide) in paragraph at lines 225--225
 [][][][]\T1/cmr/m/n/12 Assign 
  []
 
 
-Overfull \hbox (1.67465pt too wide) in paragraph at lines 218--218
+Overfull \hbox (1.67465pt too wide) in paragraph at lines 225--225
 \T1/cmr/m/n/12 prob- 
  []
 
 
-Overfull \hbox (5.26402pt too wide) in paragraph at lines 218--218
+Overfull \hbox (5.26402pt too wide) in paragraph at lines 225--225
 \T1/cmr/m/n/12 topic?  
  []
 
 
-Overfull \hbox (8.00084pt too wide) in paragraph at lines 218--218
+Overfull \hbox (8.00084pt too wide) in paragraph at lines 225--225
 [][][][]\T1/cmr/m/n/12 Assign 
  []
 
 
-Overfull \hbox (1.67465pt too wide) in paragraph at lines 218--218
+Overfull \hbox (1.67465pt too wide) in paragraph at lines 225--225
 \T1/cmr/m/n/12 prob- 
  []
 
 
-Overfull \hbox (5.26402pt too wide) in paragraph at lines 218--218
+Overfull \hbox (5.26402pt too wide) in paragraph at lines 225--225
 \T1/cmr/m/n/12 topic?  
  []
 
 
-Overfull \hbox (8.00084pt too wide) in paragraph at lines 218--218
+Overfull \hbox (8.00084pt too wide) in paragraph at lines 225--225
 [][][][]\T1/cmr/m/n/12 Assign 
  []
 
 
-Overfull \hbox (1.67465pt too wide) in paragraph at lines 218--218
+Overfull \hbox (1.67465pt too wide) in paragraph at lines 225--225
 \T1/cmr/m/n/12 prob- 
  []
 
 
-Overfull \hbox (5.26402pt too wide) in paragraph at lines 218--218
+Overfull \hbox (5.26402pt too wide) in paragraph at lines 225--225
 \T1/cmr/m/n/12 topic?  
  []
 
 
-Overfull \hbox (8.00084pt too wide) in paragraph at lines 218--218
+Overfull \hbox (8.00084pt too wide) in paragraph at lines 225--225
 [][][][]\T1/cmr/m/n/12 Assign 
  []
 
 
-Overfull \hbox (1.67465pt too wide) in paragraph at lines 218--218
+Overfull \hbox (1.67465pt too wide) in paragraph at lines 225--225
 \T1/cmr/m/n/12 prob- 
  []
 
 
-Overfull \hbox (5.26402pt too wide) in paragraph at lines 218--218
+Overfull \hbox (5.26402pt too wide) in paragraph at lines 225--225
 \T1/cmr/m/n/12 topic?  
  []
 
 
-./online_news_review.tex:225: Package inputenc Error: Invalid UTF-8 byte 128.
+./online_news_review.tex:232: Package inputenc Error: Invalid UTF-8 byte 128.
 
 See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.225 ...ational development topics of countries'Ä
+l.232 ...ational development topics of countries'Ä
                                                   ô annual statements in the...
 The document does not appear to be in UTF-8 encoding.
 Try adding \UseRawInputEncoding as the first line of the file
@@ -1385,13 +1405,13 @@ in the document preamble.
 Alternatively, save the file in UTF-8 using your editor or another tool
 
 
-./online_news_review.tex:225: Package inputenc Error: Invalid UTF-8 byte 153.
+./online_news_review.tex:232: Package inputenc Error: Invalid UTF-8 byte 153.
 
 See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.225 ...tional development topics of countries'Äô
+l.232 ...tional development topics of countries'Äô
                                                    annual statements in the ...
 The document does not appear to be in UTF-8 encoding.
 Try adding \UseRawInputEncoding as the first line of the file
@@ -1401,13 +1421,13 @@ Alternatively, save the file in UTF-8 using your editor or another tool
 
 [9]
 
-./online_news_review.tex:241: Package inputenc Error: Invalid UTF-8 byte 128.
+./online_news_review.tex:245: Package inputenc Error: Invalid UTF-8 byte 128.
 
 See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.241 Such lexical or "bag-of-words"Ä
+l.245 Such lexical or "bag-of-words"Ä
                                      ù approaches are widely presented in th...
 The document does not appear to be in UTF-8 encoding.
 Try adding \UseRawInputEncoding as the first line of the file
@@ -1416,13 +1436,13 @@ in the document preamble.
 Alternatively, save the file in UTF-8 using your editor or another tool
 
 
-./online_news_review.tex:241: Package inputenc Error: Invalid UTF-8 byte 157.
+./online_news_review.tex:245: Package inputenc Error: Invalid UTF-8 byte 157.
 
 See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.241 Such lexical or "bag-of-words"Äù
+l.245 Such lexical or "bag-of-words"Äù
                                        approaches are widely presented in th...
 The document does not appear to be in UTF-8 encoding.
 Try adding \UseRawInputEncoding as the first line of the file
@@ -1432,96 +1452,96 @@ Alternatively, save the file in UTF-8 using your editor or another tool
 
 [10] (./tables/sent_dict.tex) [11]
 
-LaTeX Warning: File `figs/topic_proportion.png' not found on input line 269.
+LaTeX Warning: File `figs/topic_proportion.png' not found on input line 273.
 
 
-./online_news_review.tex:269: Package pdftex.def Error: File `figs/topic_proportion.png' not found: using draft setting.
+./online_news_review.tex:273: Package pdftex.def Error: File `figs/topic_proportion.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.269 ...epaspectratio]{figs/topic_proportion.png}
+l.273 ...epaspectratio]{figs/topic_proportion.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 [12] [13]
 
-LaTeX Warning: File `figs/estimates.png' not found on input line 308.
+LaTeX Warning: File `figs/estimates.png' not found on input line 312.
 
 
-./online_news_review.tex:308: Package pdftex.def Error: File `figs/estimates.png' not found: using draft setting.
+./online_news_review.tex:312: Package pdftex.def Error: File `figs/estimates.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.308 ...idth,keepaspectratio]{figs/estimates.png}
+l.312 ...idth,keepaspectratio]{figs/estimates.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 [14] [15]
 
-LaTeX Warning: File `figs/sentscore_monthly.png' not found on input line 327.
+LaTeX Warning: File `figs/sentscore_monthly.png' not found on input line 331.
 
 
-./online_news_review.tex:327: Package pdftex.def Error: File `figs/sentscore_monthly.png' not found: using draft setting.
+./online_news_review.tex:331: Package pdftex.def Error: File `figs/sentscore_monthly.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.327 ...paspectratio]{figs/sentscore_monthly.png}
+l.331 ...paspectratio]{figs/sentscore_monthly.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 [16]
 
-LaTeX Warning: File `figs/sentscore_site.png' not found on input line 339.
+LaTeX Warning: File `figs/sentscore_site.png' not found on input line 343.
 
 
-./online_news_review.tex:339: Package pdftex.def Error: File `figs/sentscore_site.png' not found: using draft setting.
+./online_news_review.tex:343: Package pdftex.def Error: File `figs/sentscore_site.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.339 ...keepaspectratio]{figs/sentscore_site.png}
+l.343 ...keepaspectratio]{figs/sentscore_site.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 [17]
 
-LaTeX Warning: File `figs/sentscore_radar.png' not found on input line 349.
+LaTeX Warning: File `figs/sentscore_radar.png' not found on input line 353.
 
 
-./online_news_review.tex:349: Package pdftex.def Error: File `figs/sentscore_radar.png' not found: using draft setting.
+./online_news_review.tex:353: Package pdftex.def Error: File `figs/sentscore_radar.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.349 ...eepaspectratio]{figs/sentscore_radar.png}
+l.353 ...eepaspectratio]{figs/sentscore_radar.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 [18] [19] [20] [21]
 
-LaTeX Warning: File `figs/ccf2.png' not found on input line 383.
+LaTeX Warning: File `figs/ccf2.png' not found on input line 387.
 
 
-./online_news_review.tex:383: Package pdftex.def Error: File `figs/ccf2.png' not found: using draft setting.
+./online_news_review.tex:387: Package pdftex.def Error: File `figs/ccf2.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.383 ...textwidth,keepaspectratio]{figs/ccf2.png}
+l.387 ...textwidth,keepaspectratio]{figs/ccf2.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1534,362 +1554,362 @@ Overfull \vbox (187.23769pt too high) has occurred while \output is active []
  [23] [24
 
 ]
-Overfull \hbox (22.22551pt too wide) in paragraph at lines 410--410
+Overfull \hbox (22.22551pt too wide) in paragraph at lines 414--414
 [][]\T1/cmr/m/sc/12 Erosheva\T1/cmr/m/n/12 , Elena, Stephen \T1/cmr/m/sc/12 Fien-berg\T1/cmr/m/n/12 , and John \T1/cmr/m/sc/12 Laf-ferty \T1/cmr/m/n/12 (June 2004). ^^P  Mixed-membership
  []
 
 [25] [26]
-Overfull \hbox (13.04565pt too wide) in paragraph at lines 410--410
+Overfull \hbox (13.04565pt too wide) in paragraph at lines 414--414
 \T1/cmtt/m/n/12 researchgate . net / publication / 215776042 _ Predicting _ Elections _ with _ Twitter _
  []
 
 
-Overfull \hbox (8.44398pt too wide) in paragraph at lines 410--410
+Overfull \hbox (8.44398pt too wide) in paragraph at lines 414--414
 \T1/cmtt/m/n/12 What _ 140 _ Characters _ Reveal _ about _ Political _ Sentiment$[] \T1/cmr/m/n/12 (vis-ited on 03/17/2018). 
  []
 
 [27]
 
-LaTeX Warning: File `figs/wordcloud_DIEWELT.png' not found on input line 456.
+LaTeX Warning: File `figs/wordcloud_DIEWELT.png' not found on input line 460.
 
 
-./online_news_review.tex:456: Package pdftex.def Error: File `figs/wordcloud_DIEWELT.png' not found: using draft setting.
+./online_news_review.tex:460: Package pdftex.def Error: File `figs/wordcloud_DIEWELT.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.456 ...h=\textwidth]{figs/wordcloud_DIEWELT.png}
+l.460 ...h=\textwidth]{figs/wordcloud_DIEWELT.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-LaTeX Warning: File `figs/wordcloud_FOCUSONLINE.png' not found on input line 460.
+LaTeX Warning: File `figs/wordcloud_FOCUSONLINE.png' not found on input line 464.
 
 
-./online_news_review.tex:460: Package pdftex.def Error: File `figs/wordcloud_FOCUSONLINE.png' not found: using draft setting.
+./online_news_review.tex:464: Package pdftex.def Error: File `figs/wordcloud_FOCUSONLINE.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.460 ...extwidth]{figs/wordcloud_FOCUSONLINE.png}
+l.464 ...extwidth]{figs/wordcloud_FOCUSONLINE.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-LaTeX Warning: File `figs/wordcloud_SPIEGELONLINE.png' not found on input line 464.
+LaTeX Warning: File `figs/wordcloud_SPIEGELONLINE.png' not found on input line 468.
 
 
-./online_news_review.tex:464: Package pdftex.def Error: File `figs/wordcloud_SPIEGELONLINE.png' not found: using draft setting.
+./online_news_review.tex:468: Package pdftex.def Error: File `figs/wordcloud_SPIEGELONLINE.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.464 ...twidth]{figs/wordcloud_SPIEGELONLINE.png}
+l.468 ...twidth]{figs/wordcloud_SPIEGELONLINE.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-LaTeX Warning: File `figs/wordcloud_stern.png' not found on input line 468.
+LaTeX Warning: File `figs/wordcloud_stern.png' not found on input line 472.
 
 
-./online_news_review.tex:468: Package pdftex.def Error: File `figs/wordcloud_stern.png' not found: using draft setting.
+./online_news_review.tex:472: Package pdftex.def Error: File `figs/wordcloud_stern.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.468 ...dth=\textwidth]{figs/wordcloud_stern.png}
+l.472 ...dth=\textwidth]{figs/wordcloud_stern.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-LaTeX Warning: File `figs/wordcloud_ZEITONLINE.png' not found on input line 472.
+LaTeX Warning: File `figs/wordcloud_ZEITONLINE.png' not found on input line 476.
 
 
-./online_news_review.tex:472: Package pdftex.def Error: File `figs/wordcloud_ZEITONLINE.png' not found: using draft setting.
+./online_news_review.tex:476: Package pdftex.def Error: File `figs/wordcloud_ZEITONLINE.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.472 ...textwidth]{figs/wordcloud_ZEITONLINE.png}
+l.476 ...textwidth]{figs/wordcloud_ZEITONLINE.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 [28]
 
-LaTeX Warning: File `figs/plotquote1.png' not found on input line 483.
+LaTeX Warning: File `figs/plotquote1.png' not found on input line 487.
 
 
-./online_news_review.tex:483: Package pdftex.def Error: File `figs/plotquote1.png' not found: using draft setting.
+./online_news_review.tex:487: Package pdftex.def Error: File `figs/plotquote1.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.483 ...cs[width=\textwidth]{figs/plotquote1.png}
+l.487 ...cs[width=\textwidth]{figs/plotquote1.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-LaTeX Warning: File `figs/plotquote2.png' not found on input line 486.
+LaTeX Warning: File `figs/plotquote2.png' not found on input line 490.
 
 
-./online_news_review.tex:486: Package pdftex.def Error: File `figs/plotquote2.png' not found: using draft setting.
+./online_news_review.tex:490: Package pdftex.def Error: File `figs/plotquote2.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.486 ...cs[width=\textwidth]{figs/plotquote2.png}
+l.490 ...cs[width=\textwidth]{figs/plotquote2.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 [29]
 
-LaTeX Warning: File `figs/plotquote4.png' not found on input line 495.
+LaTeX Warning: File `figs/plotquote4.png' not found on input line 499.
 
 
-./online_news_review.tex:495: Package pdftex.def Error: File `figs/plotquote4.png' not found: using draft setting.
+./online_news_review.tex:499: Package pdftex.def Error: File `figs/plotquote4.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.495 ...cs[width=\textwidth]{figs/plotquote4.png}
+l.499 ...cs[width=\textwidth]{figs/plotquote4.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-LaTeX Warning: File `figs/plotquote10.png' not found on input line 498.
+LaTeX Warning: File `figs/plotquote10.png' not found on input line 502.
 
 
-./online_news_review.tex:498: Package pdftex.def Error: File `figs/plotquote10.png' not found: using draft setting.
+./online_news_review.tex:502: Package pdftex.def Error: File `figs/plotquote10.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.498 ...s[width=\textwidth]{figs/plotquote10.png}
+l.502 ...s[width=\textwidth]{figs/plotquote10.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-LaTeX Warning: File `figs/plotquote13.png' not found on input line 507.
+LaTeX Warning: File `figs/plotquote13.png' not found on input line 511.
 
 
-./online_news_review.tex:507: Package pdftex.def Error: File `figs/plotquote13.png' not found: using draft setting.
+./online_news_review.tex:511: Package pdftex.def Error: File `figs/plotquote13.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.507 ...s[width=\textwidth]{figs/plotquote13.png}
+l.511 ...s[width=\textwidth]{figs/plotquote13.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-LaTeX Warning: File `figs/plotquote17.png' not found on input line 510.
+LaTeX Warning: File `figs/plotquote17.png' not found on input line 514.
 
 
-./online_news_review.tex:510: Package pdftex.def Error: File `figs/plotquote17.png' not found: using draft setting.
+./online_news_review.tex:514: Package pdftex.def Error: File `figs/plotquote17.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.510 ...s[width=\textwidth]{figs/plotquote17.png}
+l.514 ...s[width=\textwidth]{figs/plotquote17.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 [30]
 
-LaTeX Warning: File `figs/plotquote20.png' not found on input line 519.
+LaTeX Warning: File `figs/plotquote20.png' not found on input line 523.
 
 
-./online_news_review.tex:519: Package pdftex.def Error: File `figs/plotquote20.png' not found: using draft setting.
+./online_news_review.tex:523: Package pdftex.def Error: File `figs/plotquote20.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.519 ...s[width=\textwidth]{figs/plotquote20.png}
+l.523 ...s[width=\textwidth]{figs/plotquote20.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-LaTeX Warning: File `figs/plotquote23.png' not found on input line 522.
+LaTeX Warning: File `figs/plotquote23.png' not found on input line 526.
 
 
-./online_news_review.tex:522: Package pdftex.def Error: File `figs/plotquote23.png' not found: using draft setting.
+./online_news_review.tex:526: Package pdftex.def Error: File `figs/plotquote23.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.522 ...s[width=\textwidth]{figs/plotquote23.png}
+l.526 ...s[width=\textwidth]{figs/plotquote23.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-LaTeX Warning: File `figs/plotquote26.png' not found on input line 531.
+LaTeX Warning: File `figs/plotquote26.png' not found on input line 535.
 
 
-./online_news_review.tex:531: Package pdftex.def Error: File `figs/plotquote26.png' not found: using draft setting.
+./online_news_review.tex:535: Package pdftex.def Error: File `figs/plotquote26.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.531 ...s[width=\textwidth]{figs/plotquote26.png}
+l.535 ...s[width=\textwidth]{figs/plotquote26.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-LaTeX Warning: File `figs/plotquote27.png' not found on input line 534.
+LaTeX Warning: File `figs/plotquote27.png' not found on input line 538.
 
 
-./online_news_review.tex:534: Package pdftex.def Error: File `figs/plotquote27.png' not found: using draft setting.
+./online_news_review.tex:538: Package pdftex.def Error: File `figs/plotquote27.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.534 ...s[width=\textwidth]{figs/plotquote27.png}
+l.538 ...s[width=\textwidth]{figs/plotquote27.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 [31]
 
-LaTeX Warning: File `figs/plotquote30.png' not found on input line 543.
+LaTeX Warning: File `figs/plotquote30.png' not found on input line 547.
 
 
-./online_news_review.tex:543: Package pdftex.def Error: File `figs/plotquote30.png' not found: using draft setting.
+./online_news_review.tex:547: Package pdftex.def Error: File `figs/plotquote30.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.543 ...s[width=\textwidth]{figs/plotquote30.png}
+l.547 ...s[width=\textwidth]{figs/plotquote30.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-LaTeX Warning: File `figs/plotquote32.png' not found on input line 546.
+LaTeX Warning: File `figs/plotquote32.png' not found on input line 550.
 
 
-./online_news_review.tex:546: Package pdftex.def Error: File `figs/plotquote32.png' not found: using draft setting.
+./online_news_review.tex:550: Package pdftex.def Error: File `figs/plotquote32.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.546 ...s[width=\textwidth]{figs/plotquote32.png}
+l.550 ...s[width=\textwidth]{figs/plotquote32.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-LaTeX Warning: File `figs/plotquote37.png' not found on input line 555.
+LaTeX Warning: File `figs/plotquote37.png' not found on input line 559.
 
 
-./online_news_review.tex:555: Package pdftex.def Error: File `figs/plotquote37.png' not found: using draft setting.
+./online_news_review.tex:559: Package pdftex.def Error: File `figs/plotquote37.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.555 ...s[width=\textwidth]{figs/plotquote37.png}
+l.559 ...s[width=\textwidth]{figs/plotquote37.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-LaTeX Warning: File `figs/plotquote46.png' not found on input line 558.
+LaTeX Warning: File `figs/plotquote46.png' not found on input line 562.
 
 
-./online_news_review.tex:558: Package pdftex.def Error: File `figs/plotquote46.png' not found: using draft setting.
+./online_news_review.tex:562: Package pdftex.def Error: File `figs/plotquote46.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.558 ...s[width=\textwidth]{figs/plotquote46.png}
+l.562 ...s[width=\textwidth]{figs/plotquote46.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 [32] (./tables/coeff1.tex)
-Underfull \hbox (badness 10000) in paragraph at lines 3--566
+Underfull \hbox (badness 10000) in paragraph at lines 3--570
 
  []
 
 (./tables/coeff2.tex)
-Underfull \hbox (badness 10000) in paragraph at lines 3--569
+Underfull \hbox (badness 10000) in paragraph at lines 3--573
 []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3--569
+Underfull \hbox (badness 10000) in paragraph at lines 3--573
 
  []
 
 (./tables/sentscore_monthly1.tex)
-Underfull \hbox (badness 10000) in paragraph at lines 3--575
+Underfull \hbox (badness 10000) in paragraph at lines 3--579
 []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3--575
+Underfull \hbox (badness 10000) in paragraph at lines 3--579
 
  []
 
 (./tables/sentscore_monthly2.tex)
-Underfull \hbox (badness 10000) in paragraph at lines 3--578
+Underfull \hbox (badness 10000) in paragraph at lines 3--582
 []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3--578
+Underfull \hbox (badness 10000) in paragraph at lines 3--582
 
  []
 
 [33] (./tables/sentscore_site1.tex)
-Underfull \hbox (badness 10000) in paragraph at lines 3--584
+Underfull \hbox (badness 10000) in paragraph at lines 3--588
 []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3--584
+Underfull \hbox (badness 10000) in paragraph at lines 3--588
 
  []
 
 (./tables/sentscore_site2.tex)
-Underfull \hbox (badness 10000) in paragraph at lines 3--587
+Underfull \hbox (badness 10000) in paragraph at lines 3--591
 []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3--587
+Underfull \hbox (badness 10000) in paragraph at lines 3--591
 
  []
 
@@ -1899,11 +1919,11 @@ Overfull \hbox (43.30888pt too wide) in paragraph at lines 5--26
  []
 
 ) [35]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 592.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 592.
- (/Users/franzi/Projects/textmining/paper/writing/.texpadtmp/online_news_review.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 592.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 592.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 596.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 596.
+ (/Users/franzi/Projects/news_paper/writing/.texpadtmp/online_news_review.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 596.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 596.
 Package rerunfilecheck Info: File `online_news_review.out' has not changed.
 (rerunfilecheck)             Checksum: <no file>.
 Package logreq Info: Writing requests to 'online_news_review.run.xml'.
@@ -1911,10 +1931,10 @@ Package logreq Info: Writing requests to 'online_news_review.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 38712 strings out of 492649
- 869005 string characters out of 6129622
- 1485758 words of memory out of 5000000
- 41681 multiletter control sequences out of 15000+600000
+ 38716 strings out of 492649
+ 868946 string characters out of 6129622
+ 1486758 words of memory out of 5000000
+ 41682 multiletter control sequences out of 15000+600000
  31333 words of font info for 86 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  62i,18n,96p,1867b,1761s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1922,10 +1942,10 @@ pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exist,
 
 {/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfcc1000.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfcc1200.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm2074.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfti1440.pfb></usr/local/texlive/2018/texmf-dist/fonts/
 type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on /Users/franzi/Projects/textmining/paper/writing/.texpadtmp/online_news_review.pdf (36 pages, 529682 bytes).
+Output written on /Users/franzi/Projects/news_paper/writing/.texpadtmp/online_news_review.pdf (36 pages, 530187 bytes).
 PDF statistics:
- 660 PDF objects out of 1000 (max. 8388607)
- 589 compressed objects within 6 object streams
- 171 named destinations out of 1000 (max. 500000)
+ 663 PDF objects out of 1000 (max. 8388607)
+ 592 compressed objects within 6 object streams
+ 174 named destinations out of 1000 (max. 500000)
  165 words of extra memory for PDF output out of 10000 (max. 10000000)
 

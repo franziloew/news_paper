@@ -1,15 +1,14 @@
 ---
 title: "Topic Modeling of News"
-author: "Franziska Löw"
+author: "Franziska L??w"
 date: "`r format(Sys.Date())`"
 output: github_document
 ---
 
 ```{r, include=FALSE}
 # load the packages
-libs <- c("tidytext","tidyr","readr","lubridate","tm","stm","RColorBrewer","sampling",
-          "plyr","dplyr","class","knitr","data.table","SnowballC","parallel",
-          "ggplot2","gridExtra","jsonlite","stringr","scales","rjson")
+libs <- c("tidytext","tidyr","readr","lubridate","tm","stm","RColorBrewer","RPostgreSQL",
+          "plyr","class","knitr","data.table","SnowballC","parallel","gridExtra","jsonlite","stringr","scales")
 lapply(libs, library, character.only = TRUE)
 
 # Theming
@@ -39,24 +38,71 @@ col <- rcartocolor::carto_pal(12, "Bold")
 ```
 
 # Load and prepare Dataframes
+
+```{r}
+# Connect to postgres
+pg = dbDriver("PostgreSQL")
+
+con = dbConnect(pg, user="franzi", 
+                password="", 
+                host="localhost", 
+                port=5432,
+                dbname="news")
+```
+
+```{sql connection=con}
+select * from er_scrapes fetch first 5 rows only;
+```
+
+
 ```{r message=FALSE}
 load("../output/news_cleaned.Rda")
+head(df)
 ```
 
-```{r message=FALSE, warning=FALSE}
-setwd("../data/eventregistry")
-filenames <- list.files(pattern = "*.csv")
-
-# create an empty list that will serve as a container to receive the incoming files
-list.data<-list()
-  
-# create a loop to read in your data
-for (i in 1:length(filenames)) {
-   list.data[[i]]<-read_csv(filenames[i])
-}
-
-df_full <- do.call(rbind.data.frame, list.data)
+```{r}
+# Modify the df so we can load it in Postgres 
+df_new <- df %>%
+  transmute(body = text,
+            date = as.Date(date),
+            isduplicate = NA,
+            lang = "deu",
+            shares = as.character(fb_shares),
+            source = site,
+            time = published,
+            title = title,
+            uri = NA,
+            url = url
+  )
+colnames(df_new)
 ```
+```{r}
+dbListFields(con, "er_scrapes")
+```
+
+```{r}
+query <- tbl(con, 'er_scrapes')
+str(query)
+```
+
+```{r}
+query %>%
+  group_by(source) %>%
+  summarize(count = n()) 
+  #show_query()
+```
+
+```{r}
+df_new %>%
+  group_by(source) %>%
+  summarize(count=n())
+```
+
+```{r}
+dbDisconnect(con)
+```
+
+
 
 ## combine dataframes
 
@@ -229,7 +275,7 @@ clean.text <- function(x)
   x = gsub("Eine Kolumne von \\w{1,} \\w{1,}", "", x, ignore.case = T, perl = TRUE)
 
   # Bild.de
-  x = gsub("Shopübersicht Top Gutscheine", "", x)
+  x = gsub("Shop??bersicht Top Gutscheine", "", x)
   x = gsub('Politik Inland[^\n]*', "", x, perl = TRUE)
   
   # welt.de
@@ -239,7 +285,7 @@ clean.text <- function(x)
   x = gsub('versuchen Sie es[^.]*', "", x, perl = TRUE, ignore.case = TRUE)
   x = gsub('Video konnte nicht[^\n]*', "", x, perl = TRUE, ignore.case = TRUE)
   x = gsub('Welt twitter', "", x, perl = TRUE, ignore.case = TRUE)
-  x = gsub('\\w{1,} für Abonnenten', "", x, perl = TRUE, ignore.case = TRUE)
+  x = gsub('\\w{1,} f??r Abonnenten', "", x, perl = TRUE, ignore.case = TRUE)
 
   # FOCUS.de
   x = gsub("FOCUS Online", "", x)
@@ -247,10 +293,10 @@ clean.text <- function(x)
   x = gsub("Vielen Dank! Ihr Kommentar wurde abgeschickt.", "", x)
   x = gsub('Im Interesse unserer User[^"]*', "", x, perl = TRUE)
   x = gsub('Sie haben noch 800[^"]*', "", x, perl = TRUE)
-  x = gsub('Erzählen Sie auf FOCUS Online über Ihren Heimatort Teilen Sie Ihren Artikel und Ihr Foto', "", x, perl = TRUE)
+  x = gsub('Erz??hlen Sie auf FOCUS Online ??ber Ihren Heimatort Teilen Sie Ihren Artikel und Ihr Foto', "", x, perl = TRUE)
   x = gsub("Bericht schreiben", "", x)
   x = gsub("Vielen Dank! Ihr Kommentar wurde abgeschickt.", "", x)
-  x = gsub("Hier können Sie selbst Artikel verfassen:","", x)
+  x = gsub("Hier k??nnen Sie selbst Artikel verfassen:","", x)
   x = gsub("Live-Ticker", "", x)
   x = gsub('Aus unserem Netzwerk[^"]*', "", x, perl = TRUE)
   x = gsub("</div>[^*]*", "", x, perl = TRUE)
@@ -280,26 +326,26 @@ clean.text <- function(x)
   
   # Tagesschau.de
   x = gsub("Hinweis: Falls die [^\\.]*", "", x, perl=TRUE)
-  x = gsub("auswählen", "", x, perl = TRUE)
+  x = gsub("ausw??hlen", "", x, perl = TRUE)
   x = gsub("Dieser Artikel wurde ausgedruckt unter der Adresse: [^\\s]*", "", x, perl = TRUE)
   x = gsub("faktenfinder.tagesschau.de", "", x, perl=TRUE)
   
   # Deutschlandfunk
-  # x = gsub("Äußerungen unserer Gesprächspartner[^.]*", "", x, perl = TRUE)
-  # x = gsub("im Gespräch mit \\w{1,}", "", x, ignore.case = TRUE, perl=TRUE)
+  # x = gsub("??u??erungen unserer Gespr??chspartner[^.]*", "", x, perl = TRUE)
+  # x = gsub("im Gespr??ch mit \\w{1,}", "", x, ignore.case = TRUE, perl=TRUE)
   # x = gsub("Heinlein", "", x, ignore.case = TRUE, perl=TRUE)
   # x = gsub("Barenberg", "", x, ignore.case = TRUE, perl=TRUE)
-  # x = gsub("Büüsker", "", x, ignore.case = TRUE, perl=TRUE)
+  # x = gsub("B????sker", "", x, ignore.case = TRUE, perl=TRUE)
   # x = gsub("Dobovisek", "", x, ignore.case = TRUE, perl=TRUE)
   # x = gsub("Schmidt-Mattern", "", x, ignore.case = TRUE, perl=TRUE)
   # x = gsub("Zagatta", "", x, ignore.case = TRUE, perl=TRUE)
-  # x = gsub("Armbrüster", "", x, ignore.case = TRUE, perl=TRUE)
-  # x = gsub("Münchenberg", "", x, ignore.case = TRUE, perl=TRUE)
+  # x = gsub("Armbr??ster", "", x, ignore.case = TRUE, perl=TRUE)
+  # x = gsub("M??nchenberg", "", x, ignore.case = TRUE, perl=TRUE)
   # x = gsub("Heckmann", "", x, ignore.case = TRUE, perl=TRUE)
   # x = gsub("Kaess", "", x, ignore.case = TRUE, perl=TRUE)
   # x = gsub("Engels", "", x, ignore.case = TRUE, perl=TRUE)
   # x = gsub("Zurheide", "", x, ignore.case = TRUE, perl=TRUE)
-  # x = gsub("Marc Müller", "", x, ignore.case = TRUE, perl=TRUE)
+  # x = gsub("Marc M??ller", "", x, ignore.case = TRUE, perl=TRUE)
 
   return(x)
 }
@@ -320,7 +366,7 @@ german_stopwords_full <- read.table("dict/german_stopwords_full.txt", stringsAsF
 german_stopwords_full <- german_stopwords_full$V1
 
 # 2
-mystopwords <- c("focus","online","spiegel", "stern", ".de", "bild","bildplus","n-tv.de", "zeit", "ersten","ard", "tagesschau","müssen","sagen","faktenfinder", "zeitmagazin","seitenanfang","ja","mal","heute","ich","sie","passwort","kommentar","wurde","ihr","der","im","artikel","mehr","ihren","foto","e","seien","comment","ticker","live","laif","uhr","videolänge","dass","mindestens","das","mail","die","schon","neuer abschnitt", "login", "loggen", "inaktiv","nwmi","wäre","viele","nwnoa","morgenkolumne","beim","dpa","video","quelle","afp","witters","fotogalerie","wurden","worden","wegen","sagt","immer","gibt","geht","spon","registrierter","als","spiegel","vielen","in","es","bitte","dank","unserer","nutzer","sei","beitrag","user","seit","zeichen","tba","datenschutzerklärung","premium","nutzungsbedingungen","nutzungsrechte","pflichtfelder","registrierung","anzeige","großbuchstaben","sonderzeichen","html","seitennavigation","fullscreen","statista","club","sagte","borenda","spreepicture","shopübersicht","herr","imago","dobovisek","barenberg","heinlein","armbrüster","kaess","münchenberg","büüsker","tsereteli","konietzny","klenkes","hauptstadtstudio","newsletter","premiumbereich","nachrichtenpodcast","karrierespiegel","picture alliance","appnutzer","civey","abo")
+mystopwords <- c("focus","online","spiegel", "stern", ".de", "bild","bildplus","n-tv.de", "zeit", "ersten","ard", "tagesschau","m??ssen","sagen","faktenfinder", "zeitmagazin","seitenanfang","ja","mal","heute","ich","sie","passwort","kommentar","wurde","ihr","der","im","artikel","mehr","ihren","foto","e","seien","comment","ticker","live","laif","uhr","videol??nge","dass","mindestens","das","mail","die","schon","neuer abschnitt", "login", "loggen", "inaktiv","nwmi","w??re","viele","nwnoa","morgenkolumne","beim","dpa","video","quelle","afp","witters","fotogalerie","wurden","worden","wegen","sagt","immer","gibt","geht","spon","registrierter","als","spiegel","vielen","in","es","bitte","dank","unserer","nutzer","sei","beitrag","user","seit","zeichen","tba","datenschutzerkl??rung","premium","nutzungsbedingungen","nutzungsrechte","pflichtfelder","registrierung","anzeige","gro??buchstaben","sonderzeichen","html","seitennavigation","fullscreen","statista","club","sagte","borenda","spreepicture","shop??bersicht","herr","imago","dobovisek","barenberg","heinlein","armbr??ster","kaess","m??nchenberg","b????sker","tsereteli","konietzny","klenkes","hauptstadtstudio","newsletter","premiumbereich","nachrichtenpodcast","karrierespiegel","picture alliance","appnutzer","civey","abo")
 
 stopwords <- c(german_stopwords_full, mystopwords)
 stopwords <- unique(stopwords)

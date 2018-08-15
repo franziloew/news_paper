@@ -15,15 +15,16 @@ lapply(libs, library, character.only = TRUE)
 ```
 
 # Load and prepare Dataframe
-
 ```{r}
 rm(list = ls())
 
+wd <- "/Users/franzi/Projects/news_paper/data/"
+
 # create a character vector, with each file name represented by an entry
-june <- list.files("../data/webhoseio/2017-06", pattern="*.json", full.names=TRUE) 
-july <- list.files("../data/webhoseio/2017-07", pattern="*.json", full.names=TRUE) 
-aug <- list.files("../data/webhoseio/2017-08", pattern="*.json", full.names=TRUE) 
-sep <- list.files("../data/webhoseio/2017-09", pattern="*.json", full.names=TRUE) 
+june <- list.files(paste0(wd,"2017-06"), pattern="*.json", full.names=TRUE) 
+july <- list.files(paste0(wd,"2017-07"), pattern="*.json", full.names=TRUE) 
+aug <- list.files(paste0(wd,"2017-08"), pattern="*.json", full.names=TRUE) 
+sep <- list.files(paste0(wd,"2017-09"), pattern="*.json", full.names=TRUE) 
 
 
 # a list in which each element is one of your original JSON files
