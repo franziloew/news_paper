@@ -7,7 +7,7 @@ output: github_document
 
 ```{r, include=FALSE}
 # load the packages
-libs <- c("tidytext","tidyr","readr","lubridate","tm","stm","RColorBrewer","RPostgreSQL",
+libs <- c("tidytext","tidyr","readr","lubridate","tm","stm","RColorBrewer","RPostgreSQL","tidyverse",
           "plyr","class","knitr","data.table","SnowballC","parallel","gridExtra","jsonlite","stringr","scales")
 lapply(libs, library, character.only = TRUE)
 
@@ -82,14 +82,19 @@ dbListFields(con, "er_scrapes")
 
 ```{r}
 query <- tbl(con, 'er_scrapes')
-str(query)
 ```
 
 ```{r}
 query %>%
-  group_by(source) %>%
-  summarize(count = n()) 
-  #show_query()
+  select(source) %>%
+  mutate(site = substr(source,10,16) ) %>%
+  show_query()
+```
+
+```{sql connection=con}
+SELECT "source", substr("source", 10, 7) AS "site"
+FROM (SELECT "source"
+FROM "er_scrapes") "sbzsvknwwn"
 ```
 
 ```{r}

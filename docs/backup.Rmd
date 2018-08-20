@@ -312,7 +312,7 @@ df <- as.data.frame(cor) %>%
   melt(., id="topic", value.name="corr") %>%
   mutate(site = stmOut$settings$covariates$yvarlevels[1])
 
-for (i in 2:2) {
+for (i in 2:7) {
   cor <- cor(stmOut$theta[stmOut$settings$covariates$betaindex==i,])
   colnames(cor) <- 1:k
 
@@ -341,7 +341,7 @@ p1 <- df %>%
   ggplot(aes(reorder(topic_name1,topic1), topic_name, 
              fill=corr)) +
   geom_tile() +
-  facet_wrap(~site, ncol = 6) +
+  facet_wrap(~site, ncol = 4) +
   #scale_fill_distiller(palette = "Spectral", trans = "reverse") + 
   labs(x="", y="", fill="correlation") +
   theme_bw(base_family = "Roboto", base_size = 10) +
@@ -358,6 +358,8 @@ p1
 
 ### Network graph
 ```{r}
+library(tidygraph)
+
 i <- 1
 cormat <- cor(stmOut$theta[stmOut$settings$covariates$betaindex==i,])
 cormat <- ifelse(cormat >=0.05, cor, 0)
@@ -375,6 +377,8 @@ ggsave(
       width = 9,
       height = 6
     )
+
+??topic
 ```
 
 ### Overlapping Correlation
