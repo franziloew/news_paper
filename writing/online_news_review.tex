@@ -100,8 +100,10 @@ Research question:
 %------------------------------------%
 % ------------ New Ideas ------------%
 %------------------------------------%
+
+Me
+
 \begin{enumerate}
-	\item Estimate the sentiment values of each topic, for each news website. \citep{naskar_sentiment_2016}
 	\item Agenda Setting.  Agenda-setting theory describes the capacity of news media to influence and guide public discourse. That is, if a news item is covered frequently and prominently, the audience will regard the issue as more important. Agenda-setting theory was formally developed by Dr. Max McCombs and Dr. Donald Shaw in a study on the 1968 presidential election. \citep{duru_relevance_2018}
 	\item . It is well established that mass media and the internet in particular play an increasingly more important role in opinion formation. \citep{savigny_public_2002}
 \end{enumerate}
@@ -116,9 +118,24 @@ In einer Meta-Analyse unter Berücksichtigung von 59 Studien (mit Daten über pa
 
 \begin{enumerate}
 	\item Gatekeeping bias: Selektion von Artikeln durch die Redakteure. Problem bei Messung: Knowledge about the universe of all articles.
-	\item coverage bias: Misst die physische Deckungssumme, die jede Seite der Ausgabe erhaelt. Traditionell wird dies in Spaltenzoll, Anzahl der Schlagzeilen oder in der Sendezeit, die den Seiten der Ausgabe gewidmet ist, gemessen. \citet{junque_de_fortuny_media_2012} messen die Reichweite als die Anzahl der Online-Artikel. In politischen Fragen kann jede Partei oder jeder Politiker als eine "Seite" oder eine Einheit betrachtet werden. Sie argumentieren, dass die faire Deckung durch eine a priori-Verteilung bestimmt wird. Diese a priori-Verteilung repraesentiert alle Einheiten der Bevoelkerung nach ihrer relativen Bedeutung, gemessen an den Wahlstimmen der letzten Wahlen. Große Abweichungen von der fairen Verteilung zeigen tendenziell eine gewisse Verzerrung in Richtung der einen oder anderen Einheit. The coverage c(e,s) of an entity e by a newspaper s is defined as the number of news articles published by the newspaper on that entity, normalised on the total amount of articles by that newspaper in the corpus.
+	\item coverage bias: Misst die physische Deckungssumme, die jede Seite der Ausgabe erhaelt. Traditionell wird dies in Spaltenzoll, Anzahl der Schlagzeilen oder in der Sendezeit, die den Seiten der Ausgabe gewidmet ist, gemessen. \citet{junque_de_fortuny_media_2012} messen die Reichweite als die Anzahl der Online-Artikel. In politischen Fragen kann jede Partei oder jeder Politiker als eine "Seite" oder eine Einheit betrachtet werden. Sie argumentieren, dass die faire Deckung durch eine a priori-Verteilung bestimmt wird. Diese a priori-Verteilung repräsentiert alle Einheiten der Bevölkerung nach ihrer relativen Bedeutung, gemessen an den Wahlstimmen der letzten Wahlen. Große Abweichungen von der fairen Verteilung zeigen tendenziell eine gewisse Verzerrung in Richtung der einen oder anderen Einheit. The coverage c(e,s) of an entity e by a newspaper s is defined as the number of news articles published by the newspaper on that entity, normalised on the total amount of articles by that newspaper in the corpus.
 	\item statement bias: Unterscheidung zwischen guenstigen und unguenstigen oder positiven und negativen Nachrichten. \citet{junque_de_fortuny_media_2012} messen diese verzerrung mit einer sentiment analyse. Ein Wort der Vorsicht ist angebracht, wenn es um die Interpretation dieser'Gefuehle' in Nachrichtenartikeln geht. Wenn ein Artikel ueber eine Entitaet als negativ eingestuft wird, bedeutet dies nicht, dass eine Nachrichtenquelle oder ein Journalist diese Entitaet benachteiligt. Es koennte sein, dass die Entitaet absichtlich negative Kritik in den Artikel einbringt. Diese Maßnahme ist daher als assoziative Maßnahme zu verstehen (d.h. eine Partei wird mit einem negativen Image assoziiert, wenn der groeßte Teil ihrer Berichterstattung negative Inhalte enthaelt). Es koennen keine Rückschluesse darauf gezogen werden, ob dieses Bild von dem betreffenden Unternehmen oder von der Nachrichtenquelle stammt, d.h. wir koennen nur beweisen, dass es existiert.
 \end{enumerate}
+
+%---- Coverage bias / Impact of media coverage on electoral outcomes ---%
+
+Empirical studies that measure the influence of media coverage on the electoral behaviour of voters are usually based on regional differences in the reach of certain media.  
+
+\citet{enikolopov_media_2011} Analyze the impact of media coverage on electoral outcomes of the 1999 parliamentary elections in Russian regions with differing access to an independent national TV channel. The authors find that access to independent TV led to a decreased vote for the governing party by 8.9 percentage points and to an increased vote for major opposition parties by 6.3 percentage points.
+
+\citet{dellavigna_fox_2006} Investigate if media bias affect voting looking at the entry of the Fox News Channel in the cable market of US states between 1996 and 2000. Their data set contains voting data for 9,256 towns and they find a significant effect of the introduction of Fox News on the vote share in Presidential elections between 1996 and 2000. Republicans gain 0.4 to 0.7 percentage points in the towns which broadcast Fox News.
+
+\citet{snyder_press_2010} find that voters living in areas with less media coverage are less likely to recall or evaluate the name of their U.S. House representative. Furthermore, congressmen who are less covered by the media are less likely to stand witness before congressional hearings, serve on committees or vote against the party line. Finally, federal spending is lower in regions with exogenously lower press coverage of representatives.
+
+\citet{dewenter_can_2018} use human-coded data from leading media in Germany together with the German Politbarometer survey to investigate how media coverage affects short- and long-term political preferences between February 1998 and December 2012. They find a positive correlation between the media coverage and the short-term voting intention for a political party. In the long-term, however, voting preferences are stable.
+
+
+
 
 %---- Measure sentiment in digital news ---%
 
@@ -264,7 +281,7 @@ The model has been applied to multiple academic fields: \citet{roberts_structura
 % ----------------------
 Inference of mixed-membership models, such as the one applied in this paper, has been a thread of research in applied statistics in the past few years (\citet{blei_latent_2003} \citet{erosheva_mixed-membership_2004} \citet{braun_variational_2010}). Topic models are usually imprecise as the function to be optimized has multiple modes, such that the model results can be sensitive to the starting values (e.g. the number of topics). Since an ex ante valuation of a model is hardly possible, I compute a variety of different models and compare their posterior probability. This enables me to check how results vary for different model solution \citep{roberts_navigating_2016}. I then cross-checked some subset of assigned topic distributions to evaluate whether the estimates align with the concept of interest \citep{gentzkow_text_2017}. These manual audits are applied together with numeric optimization based on the topic coherence measure suggested by \citet{mimno_optimizing_2011}. 
 
-This process revealed that a model with 50 topics best reflects the structure in the corpus. Furthermore, the news website of a document (article) is used as covariates in the topic prevalence. In other words, the corresponding news website of an article influences the probability distribution of topics for that document. 
+This process revealed that a model with 40 topics best reflects the structure in the corpus. Furthermore, the news website of a document (article) is used as covariates in the topic prevalence. In other words, the corresponding news website of an article influences the probability distribution of topics for that document. 
 
 \subsection{Sentiment Analysis}
 
@@ -291,35 +308,33 @@ This section summarizes the results of the STM. Subsequently "the two T's" (Topi
 
 \subsection{Topic}\label{subsection_topic}
 
-In order to get an initial overview of the results, Figure \ref{fig_topic_proportion} displays the topics ordered by their expected frequency across the corpus. To assign a label to each topic, I looked at the most frequent words in that topic and the most representative articles \citep{roberts_model_2016}. 
+In order to get an initial overview of the results, Figure \ref{fig_expected_freq} displays the topics ordered by their expected frequency across the corpus. To assign a label to each topic, I looked at the most frequent words in that topic and the most representative articles \citep{roberts_model_2016}. 
 
-It becomes apparent that topic 4 about the coalition talks between CDU/CSU and SPD - the "Grand coalition" or "GroKo" - is the topic with the highest expected frequency in the whole corpus, followed by the topic about the so-called Jamaica parties (CDU/CSU, FDP and B90/Die GrÃ¼nen), which was the first alternative to be negotiated directly after the elections.  
+It becomes apparent that topic 4 about the coalition talks between CDU/CSU and SPD - the "Grand coalition" or "GroKo" - is the topic with the highest expected frequency in the whole corpus, followed by the topic about the so-called Jamaica parties (CDU/CSU, FDP and B90/Die Grünen), which was the first alternative to be negotiated directly after the elections.  
 
 \begin{figure}[H]
 	\begin{center}
 	\caption{Expected topic proportion}
-		\includegraphics[width=\textwidth,keepaspectratio]{figs/topic_proportion.png}
-		\label{fig_topic_proportion}
+		\includegraphics[width=\textwidth,keepaspectratio]{../figs/expected_freq.png}
+		\label{fig_expected_freq}
 \end{center}
 \end{figure}
 
-The remaining analysis is limited to topics closely related to one or more parties. For this reason, the following topics were selected. The most frequent words of these topics at each news website can be seen in Appendix \ref{apx_tf}: 
+The remaining analysis is limited to topics closely related to one or more parties. For this reason, the following topics were selected. The most frequent words of these topics at each news website can be seen in Appendix \ref{apx_tf}: \todo{put this in the annex}
 
 \begin{enumerate}
 	\item Topic 1: About the SPD, mainly about the election campaign and Martin Schulz as candidate for the chancellor.	
-	\item Topic 2: About B90/Die GrÃ¼nen, mainly covering issues regarding the party's personell debates.
+	\item Topic 2: About B90/Die Grünen, mainly covering issues regarding the party's personnel debates.
 	\item Topic 4: Covering the debates about the great coalition talks, mainly after the failure of the Jamaica coalition talks.
-	\item Topic 13: About Angela Merkel, mainly right before the election. 
+	\item Topic 13: About Angela Merkel, mainly about the election campaign. 
 	\item Topic 17: Covering votes within the SPD, mainly regarding the vote about a possible coalition with CDU/CSU ("GroKo").	
-	\item Topic 20: About the AfD, mainly about their relation to right-wing extremist groups.
-	\item Topic 22: About SPD, mainly covering issues regarding the party's personell debates
-	\item Topic 23: About issues regarding the CSU, mainly about the competition between Horst Seehofer and Markus SÃ¶der and the negotiations with the CDU/CSU.
+	\item Topic 22: About SPD, mainly covering issues regarding the party's personnel debates
+	\item Topic 23: About issues regarding the CSU, mainly about the competition between Horst Seehofer and Markus Söder and the negotiations with the CDU/CSU.
 	\item Topic 26: Discussing the failure of the Jamaica coalition talks and the two possible alternatives: Reelections or a great coalition.
-	\item Topic 27: Covering the Jamaica coalition talks, mainly focusing on the smaller players BÃ¼ndnis B90/Die GrÃ¼nen and FDP.	
-	\item Topic 30: About the AfD, mainly about the resignation of Frauke Petry and JÃ¶rg Meuthen.
+	\item Topic 27: Covering the Jamaica coalition talks, mainly focusing on the smaller players Bündnis B90/Die Grünen and FDP.	
+	\item Topic 30: About the AfD, mainly about the resignation of Frauke Petry and Jörg Meuthen.
 	\item Topic 32: About the AfD, mainly about Alice Weidel and Alexander Gauland, voted as parliamentary party leaders after the resignation of Frauke Petry.
 	\item Topic 37: Covering debates of AfD and DIE LINKE in the parliament (Deutscher Bundestag).
-	\item Topic 46: Covering issues regarding the CDU/CSU.
 \end{enumerate}   
 
 To estimate the differences of topic prevalence of the mentioned topics for the different websites, a linear model is estimated for each topic $k$, where the documents are observations, the dependent variable is the posterior probability of the respective topic ($\theta_{d}$) and the covariates are dummy variables that are 1 if the document was published by the respective website and 0 otherwise (see equation \ref{eq_1}). To incorporate uncertainty in the dependent variable, a set of topic proportions are drawn from the variational posterior (the unnormalized topic proportions) repeatedly. Then, the coefficients are computed as the average over all results \citep{roberts_model_2016}.

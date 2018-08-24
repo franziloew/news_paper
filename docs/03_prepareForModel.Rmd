@@ -1,0 +1,223 @@
+---
+title: "Topic Modeling of News"
+author: "Franziska L??w"
+date: "`r format(Sys.Date())`"
+output: github_document
+---
+
+```{r, include=FALSE}
+# load the packages
+libs <- c("tidytext","tidyr","readr","lubridate","tm","stm","RColorBrewer","tidyverse","patchwork",
+          "class","knitr","data.table","SnowballC","parallel","gridExtra","jsonlite","stringr","scales")
+lapply(libs, library, character.only = TRUE)
+
+# Theming
+quartzFonts(
+  Roboto =
+    c("Roboto-Light",
+      "Roboto-Bold",
+      "Roboto-Regular",
+      "Roboto-Thin")
+)
+
+theme_set(
+  theme_bw(base_family = "Roboto", base_size = 10) +
+    theme(
+      plot.title = element_text(size = 14,
+                                margin = margin(0, 0, 4, 0, "pt")),
+      plot.subtitle = element_text(size = 8),
+      plot.caption = element_text(size = 6),
+      plot.background   = element_rect("#fafafa", "#fafafa"),
+      panel.background  = element_rect("#fafafa"),
+      panel.border = element_blank()
+    )
+)
+
+rm(list=ls())
+source("func/functions.R")
+col <- rcartocolor::carto_pal(12, "Bold")
+```
+
+# 1. Load and prepare Dataframes
+
+```{r}
+load(file="../output/btw_combined2.Rda")
+```
+
+# 2. Sentiment Analysis
+
+The idea of Sentiment analysis is to determine the attitude of a writer through online text data toward certain topic or the overall tonality of a document.
+
+Lexical or ???bag-ofwords??? approaches are commonly used. In that approach, the researcher provides pre-defined dictionaries (lists) of words associated with a given emotion, such as negativity. The target text is then deconstructed into individual words (or tokens) and the frequencies of words contained in a given dictionary are then calculated. 
+
+## 2.1. Load sentiment dictionary.
+
+[SentimentWortschatz](http://wortschatz.uni-leipzig.de/de/download), or SentiWS for short, is a publicly available German-language resource for sentiment analysis, opinion mining etc. It lists positive and negative polarity bearing words weighted within the interval of [-1; 1] plus their part of speech tag, and if applicable, their inflections. The current version of SentiWS (v1.8b) contains 1,650 positive and 1,818 negative words, which sum up to 15,649 positive and 15,632 negative word forms incl. their inflections, respectively. It not only contains adjectives and adverbs explicitly expressing a sentiment, but also nouns and verbs implicitly containing one.
+
+
+```{r}
+sent <- c(
+  # positive Wörter
+  readLines("dict/SentiWS_v1.8c_Negative.txt",
+            encoding = "UTF-8"),
+  # negative W??rter
+  readLines("dict/SentiWS_v1.8c_Positive.txt",
+            encoding = "UTF-8")
+) %>% lapply(function(x) {
+  # Extrahieren der einzelnen Spalten
+  res <- strsplit(x, "\t", fixed = TRUE)[[1]]
+  return(data.frame(words = res[1], value = res[2],
+                    stringsAsFactors = FALSE))
+}) %>%
+  bind_rows %>%
+  mutate(word = gsub("\\|.*", "", words) %>% 
+           tolower,
+         value = as.numeric(value)) %>%
+  # manche Wörter kommen doppelt vor, hier nehmen wir den mittleren Wert
+  group_by(word) %>%
+  dplyr::summarise(value = mean(value)) %>% ungroup
+```
+
+```{r}
+samp <- sent %>% dplyr::sample_n(10)
+
+knitr::kable(samp)
+```
+
+## 2.2. Apply the dictionary on the artciles. 
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+# Tokenize text
+token <- btw %>%
+  distinct(title, .keep_all = T) %>%
+  unnest_tokens(word, text)
+
+# Combine with sentiment values
+sentDF <- left_join(token, sent, by="word") %>% 
+  mutate(value = as.numeric(value)) %>% 
+  #filter(!is.na(value)) %>%
+  mutate(negative = ifelse(value < 0, value, NA),
+         positive = ifelse(value > 0, value, NA),
+         negative_d = ifelse(value < 0, 1, 0),
+         positive_d = ifelse(value > 0, 1, 0)) 
+
+sentDF %>%
+  filter(!is.na(value)) %>%
+  sample_n(10) %>%
+  select(word, value, negative, positive, negative_d, positive_d)
+```
+
+## 2.3. Calculate sentiment value for each document
+
+The sentiment score is calculated based on the weighted polarity values for a word, defined on an interval between -1 and 1. The score is then calculated from the sum of the words in a document (which can be assigned to a word from the dictionary) divided by the total number of words in that document. 
+
+#### Unweighted Score
+  
+$$
+\text{SentScore}_d = \frac{|\text{Number of positive words}_d| - |\text{Number of negative words}_d|}{\text{Total Words}_d}
+$$
+#### Weighted Score
+
+$$
+\text{SentScore}_d = \frac{|\text{positive polarity score}_d| - |\text{negative polarity score}_d|}{\text{Total Words}_d}
+$$
+
+```{r message=FALSE, warning=FALSE}
+df <- sentDF %>%
+  select(articleID, word, value, 
+         negative, positive,
+         negative_d, positive_d) %>%
+  group_by(articleID) %>%
+  
+  # calculate sum of positive and negative values
+  dplyr::summarise(sum_positive = sum(positive, na.rm = T),
+            sum_negative = sum(negative, na.rm = T),
+            sum_positive_d = sum(positive_d, na.rm = T),
+            sum_negative_d = sum(negative_d, na.rm = T))
+
+head(df)
+```
+ 
+```{r message=FALSE, warning=FALSE}
+df <- df %>% 
+  # combine with dataframe
+  left_join(., btw, 
+            by = "articleID") %>%
+  # calculate sentiment
+  mutate(
+    sent_diff_d = sum_positive_d - sum_negative_d,
+    sent_diff = sum_positive - sum_negative)
+
+df %>%
+  sample_n(10) %>%
+  select(sum_negative, sum_positive, sent_diff,
+         sum_negative_d, sum_positive_d, sent_diff_d)
+```
+
+```{r}
+df <- df %>%
+  mutate(
+    sentiment_d = sent_diff_d / text_length,
+    sentiment = sent_diff / text_length
+    ) %>%
+  # 
+  # generate month & week
+  mutate(week = week(date),
+         month = month(date),
+         year = year(date),
+         yearmonth = calculate_month(month,year),
+         yearweek = calculate_week(week, year))
+```
+
+#### Compare weighted and unweighted score
+```{r fig.height=6, fig.width=10}
+p1 <- df %>%
+  group_by(site, date) %>%
+  dplyr::summarise(sentiment= mean(sentiment)) %>%
+  mutate(sentiment = normalize_data(sentiment)) %>%
+  
+  ggplot(aes(date,sentiment,
+             group = site)) +
+  geom_line(show.legend = F, color = col[3]) +
+  facet_grid(~site) +
+  labs(x="", y="", title = "Weighted Score")
+
+p2 <- df %>%
+  group_by(site, date) %>%
+  dplyr::summarise(sentiment= mean(sentiment_d)) %>%
+  mutate(sentiment = normalize_data(sentiment)) %>%
+  
+  ggplot(aes(date,sentiment,
+             group = site)) +
+  geom_line(show.legend = F, color = col[3]) +
+  facet_grid(~site) +
+  labs(x="", y="", title = "Unweighted Score")
+
+p1 + p2 + plot_layout(ncol = 1)
+```
+
+# Structural Topic Model
+
+## Preparation
+
+### Build Corpus
+```{r eval=FALSE, include=FALSE}
+# Process data
+
+### without stemming
+processed <- textProcessor(df$text_cleaned1, 
+                           metadata = df[,c("site","text_cleaned1","yearmonth","yearweek","sentiment","sentiment_d")],
+                           wordLengths = c(2,Inf),
+                           lowercase = F,
+                           removestopwords = F,
+                           removenumbers = F,
+                           removepunctuation = F,
+                           stem = F)
+out <- prepDocuments(processed$documents, processed$vocab, processed$meta)
+out$meta$site <- as.factor(out$meta$site)
+
+save(btw, out, file="../output/btw_out2.Rda")
+```
+
+
+
