@@ -1,6 +1,6 @@
 ---
 title: "Topic Modeling of News"
-author: "Franziska L??w"
+author: "Franziska Löw"
 date: "`r format(Sys.Date())`"
 output: github_document
 ---
@@ -41,7 +41,7 @@ col <- rcartocolor::carto_pal(12, "Bold")
 # 1. Load and prepare Dataframes
 
 ```{r}
-load(file="../output/btw_combined2.Rda")
+load(file="../output/btw_cleaned.Rda")
 ```
 
 # 2. Sentiment Analysis
@@ -68,44 +68,47 @@ sent <- c(
   res <- strsplit(x, "\t", fixed = TRUE)[[1]]
   return(data.frame(words = res[1], value = res[2],
                     stringsAsFactors = FALSE))
-}) %>%
+}) %>% 
   bind_rows %>%
   mutate(word = gsub("\\|.*", "", words) %>% 
-           tolower,
-         value = as.numeric(value)) %>%
+           tolower, value = as.numeric(value),
+         type = gsub(".*\\|", "", words)) %>%
+  # nur adjektive oder adverben
+  filter(type == "ADJX" | type == "ADV") %>%
   # manche Wörter kommen doppelt vor, hier nehmen wir den mittleren Wert
   group_by(word) %>%
-  dplyr::summarise(value = mean(value)) %>% ungroup
+  dplyr::summarise(value = mean(value)) %>% ungroup %>%
+  # Delete "Heil" (wegen Hubertus Heil)
+  filter(!grepl('heil',word,ignore.case = T)) %>%
+  # welcome to hell (g20)
+  filter(!grepl('hell',word,ignore.case = T))
 ```
 
 ```{r}
-samp <- sent %>% dplyr::sample_n(10)
-
-knitr::kable(samp)
+sent %>% dplyr::sample_n(10)
 ```
 
 ## 2.2. Apply the dictionary on the artciles. 
 
 ```{r, message=FALSE, warning=FALSE, include=FALSE}
-# Tokenize text
-token <- btw %>%
-  distinct(title, .keep_all = T) %>%
-  unnest_tokens(word, text)
+# Tokenize text to bigrams
+bigrams <- btw %>%
+  select(articleID, text) %>%
+  unnest_tokens(bigram, text, token="ngrams", n=2) %>%
+  # separate words to match it with the sentiment df
+  separate(bigram, c("word1", "word"), sep = " ")
 
-# Combine with sentiment values
-sentDF <- left_join(token, sent, by="word") %>% 
-  mutate(value = as.numeric(value)) %>% 
-  #filter(!is.na(value)) %>%
+# Combine second word with sentiment values
+sentDF2 <- left_join(bigrams, sent, by="word") %>%
+  mutate(value = as.numeric(value)) %>%
   mutate(negative = ifelse(value < 0, value, NA),
          positive = ifelse(value > 0, value, NA),
          negative_d = ifelse(value < 0, 1, 0),
-         positive_d = ifelse(value > 0, 1, 0)) 
-
-sentDF %>%
-  filter(!is.na(value)) %>%
-  sample_n(10) %>%
-  select(word, value, negative, positive, negative_d, positive_d)
+         positive_d = ifelse(value > 0, 1, 0)) %>%
+  # delete value where word1 is "nicht" 
+  filter(!grepl("nicht",word1,ignore.case = F))
 ```
+
 
 ## 2.3. Calculate sentiment value for each document
 
@@ -123,7 +126,7 @@ $$
 $$
 
 ```{r message=FALSE, warning=FALSE}
-df <- sentDF %>%
+df <- sentDF2 %>%
   select(articleID, word, value, 
          negative, positive,
          negative_d, positive_d) %>%
@@ -145,13 +148,13 @@ df <- df %>%
             by = "articleID") %>%
   # calculate sentiment
   mutate(
-    sent_diff_d = sum_positive_d - sum_negative_d,
-    sent_diff = sum_positive - sum_negative)
+    sent_diff_d = sum_positive_d - abs(sum_negative_d),
+    sent_diff = sum_positive - abs(sum_negative))
 
 df %>%
   sample_n(10) %>%
-  select(sum_negative, sum_positive, sent_diff,
-         sum_negative_d, sum_positive_d, sent_diff_d)
+  select(sum_positive,sum_negative, sent_diff,
+         sum_positive_d, sum_negative_d, sent_diff_d)
 ```
 
 ```{r}
@@ -196,15 +199,28 @@ p2 <- df %>%
 p1 + p2 + plot_layout(ncol = 1)
 ```
 
-# Structural Topic Model
+```{r}
+df %>%
+  mutate(sentiment = normalize_data(sentiment)) %>%
+  filter(sentiment < .1 ) %>%
+  select(articleID, title_text, sentiment) %>%
+  htmlTable::htmlTable()
+```
+
+```{r}
+sentDF %>%
+  filter(articleID == 9932) %>%
+  select(word, negative, positive, negative_d, positive_d)
+```
+
+
+# 3. Structural Topic Model
 
 ## Preparation
 
 ### Build Corpus
 ```{r eval=FALSE, include=FALSE}
 # Process data
-
-### without stemming
 processed <- textProcessor(df$text_cleaned1, 
                            metadata = df[,c("site","text_cleaned1","yearmonth","yearweek","sentiment","sentiment_d")],
                            wordLengths = c(2,Inf),
@@ -216,8 +232,21 @@ processed <- textProcessor(df$text_cleaned1,
 out <- prepDocuments(processed$documents, processed$vocab, processed$meta)
 out$meta$site <- as.factor(out$meta$site)
 
-save(btw, out, file="../output/btw_out2.Rda")
+save(df, out, file="../output/btw_out2.Rda")
 ```
 
+
+```{r}
+stmOut$settings$call
+```
+
+```{r}
+library(stm)
+stmOut <- stm(documents = out$documents, vocab = out$vocab, K = 40, prevalence = ~site, 
+    data = out$meta, init.type = "Spectral", 
+    seed = 69874, max.em.its = 75)
+
+save(df,out,stmOut, file = "../output/models/stm40.Rda")
+```
 
 

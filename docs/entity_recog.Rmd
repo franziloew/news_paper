@@ -1,0 +1,49 @@
+---
+title: "Entity Recognition"
+output: html_notebook
+---
+
+```{r}
+library(lexRankr)
+library(entity)
+library(tidyverse)
+library(NLP)
+library(openNLP)
+library(ggmap)
+```
+
+```{r}
+# select example sentence
+btw %>%
+  sample_n(1) %>%
+  select(text) %>%
+  unnest_sentences(sents, text) -> sentence
+
+head(sentence$sents)
+```
+
+```{r}
+sent_annot <- Maxent_Sent_Token_Annotator()
+word_annot = Maxent_Word_Token_Annotator()
+loc_annot = Maxent_Entity_Annotator(kind = "location") #annotate location
+people_annot = Maxent_Entity_Annotator(kind = "person") #annotate person
+```
+
+```{r}
+# select example sentence
+btw %>%
+  filter(site == "tagesschau.de") %>%
+  sample_n(1) %>%
+  select(text) -> text 
+
+text <- as.String(text$text)
+
+annot.l1 = NLP::annotate(text, list(sent_annot,word_annot,loc_annot,people_annot))
+
+k <- sapply(annot.l1$features, `[[`, "kind")
+berk_locations = text[annot.l1[k == "location"]]
+berk_people = text[annot.l1[k == "person"]]
+
+unique(berk_people)
+```
+

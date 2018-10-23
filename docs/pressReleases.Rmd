@@ -1,0 +1,189 @@
+---
+title: "Press Releases"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+
+rm(list = ls())
+```
+
+```{r}
+gruene <- read.csv("../scrapedata/gruene.csv", stringsAsFactors=FALSE)
+
+gruene <- gruene %>%
+  mutate(body = gsub('Die Fraktionspressestelle auf Twitter: @GruenSprecher','',body),
+         title_body = paste(title, body),
+         date = as.POSIXct(date, format = "%d.%m.%Y"),
+         party = "gruene"
+         )
+```
+
+```{r}
+spd <- read.csv("../scrapedata/spd.csv", stringsAsFactors=FALSE)
+
+spd <- spd %>%
+  mutate(body = gsub('(.+?):','', body, perl = TRUE, ignore.case = TRUE),
+         title_body = paste(title, body),
+         date = as.POSIXct(gsub('\\|.*','',date, perl = T), format = "%d.%m.%Y"),
+         party = "spd"
+         )
+```
+
+```{r}
+cdu <- read.csv("../scrapedata/cdu.csv", stringsAsFactors=FALSE)
+
+cdu <- cdu %>%
+  mutate(body = gsub('Berlin','',body, ignore.case = TRUE, perl = TRUE),
+         body = gsub('ots','',body, ignore.case = TRUE, perl = TRUE),
+         body = gsub('Presse.*','', body, perl = TRUE, ignore.case = TRUE),
+         body = gsub('Telefon.*','', body, perl = TRUE, ignore.case = TRUE),
+         body = gsub('Fax.*','', body, perl = TRUE, ignore.case = TRUE),
+         body = gsub('Internet.*','', body, perl = TRUE, ignore.case = TRUE),
+         body = gsub('Email.*','', body, perl = TRUE, ignore.case = TRUE),
+         title_body = paste(title, body),
+         date = as.POSIXct(gsub('\\-.*','',date, perl = T), format = "%d.%m.%Y"),
+         party = "union"
+         ) 
+```
+
+```{r}
+afd <- read.csv("../scrapedata/afd.csv", stringsAsFactors=FALSE)
+
+afd <- afd %>%
+  mutate(body = gsub('Berlin[^n\\.]*','',body, ignore.case = TRUE, perl = TRUE),
+         body = gsub('Drucken','',body, ignore.case = TRUE, perl = TRUE),
+         title_body = paste(title, body),
+         party = "afd",
+         date = gsub('Mrz',"März",date),
+         date = as.POSIXct(date, format = "%d%b %Y")
+         ) 
+```
+
+
+```{r}
+pressReleases <- bind_rows(cdu, spd, afd, gruene)
+```
+
+# Clean Data
+```{r}
+pressReleases$text_cleaned <- gsub("[[:punct:]]", " ", pressReleases$title_body)
+pressReleases$text_cleaned <- gsub("[[:cntrl:]]", " ", pressReleases$text_cleaned)
+pressReleases$text_cleaned <- gsub("[[:digit:]]", " ", pressReleases$text_cleaned)
+pressReleases$text_cleaned <- gsub("^[[:space:]]+", " ", pressReleases$text_cleaned)
+pressReleases$text_cleaned <- gsub("[[:space:]]+$", " ", pressReleases$text_cleaned)
+pressReleases$text_cleaned <- tolower(pressReleases$text_cleaned)
+
+## Remove stopwords
+# 1
+german_stopwords_full <- read.table("dict/german_stopwords_full.txt", stringsAsFactors = F)
+german_stopwords_full <- german_stopwords_full$V1
+
+# 2
+mystopwords <- c("januar","feburar","märz","april","mai","juni","juli","august","september","oktober","november","dezember")
+stopwords <- c(german_stopwords_full, mystopwords)
+stopwords <- unique(stopwords)
+
+# 3
+pressReleases$text_cleaned<- tm::removeWords(pressReleases$text_cleaned, stopwords)
+
+## Stemming
+stem_text<- function(text, language = "porter", mc.cores = 1) {
+  # stem each word in a block of text
+  stem_string <- function(str, language) {
+    str <- strsplit(x = str, split = "\\s")
+    str <- SnowballC::wordStem(unlist(str), language = language)
+    str <- paste(str, collapse = " ")
+    return(str)
+  }
+   
+  # stem each text block in turn
+  x <- parallel::mclapply(X = text, FUN = stem_string, language, mc.cores = mc.cores)
+   
+  # return stemed text blocks
+  return(unlist(x))
+}
+
+pressReleases$text_cleaned1 <- stem_text(pressReleases$text_cleaned)
+```
+
+```{r}
+pressReleases %>%
+  sample_n(1) %>%
+  select(text_cleaned, text_cleaned1) %>%
+  htmlTable::htmlTable()
+```
+
+# Inspect Data
+
+```{r}
+library(tidytext)
+
+tokens <- pressReleases %>% unnest_tokens(word, text_cleaned)
+bigrams <- pressReleases %>% unnest_tokens(bigrams, text_cleaned, token="ngrams", n=2)
+```
+
+```{r}
+tokens2 <- tokens %>%
+  count(party, word, sort = TRUE) %>%
+  ungroup() %>%
+  bind_tf_idf(word,party,n)
+
+tokens2 %>% 
+    arrange(desc(tf)) %>%
+  mutate(word = factor(word, levels = rev(unique(word)))) %>% 
+  group_by(party) %>% 
+  top_n(10) %>% 
+  ungroup %>%
+  ggplot(aes(word, tf, fill = party)) +
+  geom_col(show.legend = FALSE) +
+  labs(x = NULL, y = "tf-idf") +
+  facet_wrap(~party, ncol = 2, scales = "free") +
+  coord_flip()
+```
+
+```{r}
+bigrams2 <- bigrams %>%
+  count(party, bigrams, sort = TRUE) %>%
+  ungroup() %>%
+  bind_tf_idf(bigrams,party,n)
+
+bigrams2 %>% 
+    arrange(desc(tf_idf)) %>%
+  mutate(word = factor(bigrams, levels = rev(unique(bigrams)))) %>% 
+  group_by(party) %>% 
+  top_n(10) 
+  ungroup %>%
+  ggplot(aes(bigrams, tf_idf, fill = party)) +
+  geom_col(show.legend = FALSE) +
+  labs(x = NULL, y = "tf-idf") +
+  facet_wrap(~party, ncol = 2, scales = "free") +
+  coord_flip()
+```
+
+# Structural Topic Model
+
+### Build Corpus
+```{r eval=FALSE, include=FALSE}
+library(stm)
+
+processed <- textProcessor(pressReleases$text_cleaned1, 
+                           metadata = pressReleases[,c("party","text_cleaned1")],
+                           wordLengths = c(2,Inf),
+                           lowercase = F,
+                           removestopwords = F,
+                           removenumbers = F,
+                           removepunctuation = F,
+                           stem = F)
+out <- prepDocuments(processed$documents, processed$vocab, processed$meta)
+out$meta$party <- as.factor(out$meta$party)
+
+save(pressReleases, out, file="../output/pressReleases.Rda")
+```
+
+### Run Model
+```{r}
+
+```
+

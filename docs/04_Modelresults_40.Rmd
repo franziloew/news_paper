@@ -1,7 +1,7 @@
 ---
 title: "Topic and tone of political news articles in German online media."
 subtitle: ""
-author: "Franziska L??w"
+author: "Franziska Löw"
 date: "April 2018"
 output: 
   html_document:
@@ -12,12 +12,8 @@ output:
 ---
 
 ```{r include=FALSE}
-library(ggplot2)     # Static data visualization
-library(dplyr)       # Data manipulation
-library(stringr)     # String manipulation
+library(tidyverse)
 library(lubridate)   # Date and time manipulation
-library(tidyr)       # Reshaping
-library(readr)       # Importing data
 library(data.table)
 library(readxl)
 library(xtable)
@@ -58,14 +54,7 @@ source("func/functions.R")
 ```
 
 ```{r caching, echo = FALSE}
-load("../output/btw_out2.Rda")
-
-btw <- btw %>%
-  mutate(site = ifelse(site == "welt.de", "DIE WELT", site),
-         site = ifelse(site == "zeit.de", "ZEIT ONLINE", site),
-         site = ifelse(site == "focus.de", "FOCUS ONLINE", site),
-         site = ifelse(site == "spiegel.de", "SPIEGEL ONLINE", site),
-         site = ifelse(site == "tagesschau.de", "Tagesschau.de", site))
+load("../output/models/stm40.Rda")
 ```
 
 # Data Exploratory Analysis 
@@ -73,7 +62,7 @@ btw <- btw %>%
 ## Distribution of articles
 
 ```{r message=FALSE, warning=FALSE}
-btw %>%
+df %>%
   ggplot(aes(site)) +
   geom_bar(fill=col[3], alpha = 0.8) +
   labs(x="", y="Number of articles") +
@@ -85,7 +74,7 @@ btw %>%
 ```
 
 ```{r message=FALSE, warning=FALSE}
-btw %>%
+df %>%
   group_by(date) %>%
   dplyr::summarise(obs = n()) %>%
   ggplot(aes(date, obs)) +
@@ -118,9 +107,13 @@ plot(newsSelect)
 # Model Results
 
 ```{r echo = FALSE}
-load("../output/models/modelresult_40.Rda")
+#load("../output/models/STM 40_nocontent.Rda")
 k <- stmOut$settings$dim$K
 sagelabs <- sageLabels(stmOut, 15)
+```
+
+```{r}
+stmOut$settings$call
 ```
 
 ## 1. Topic
@@ -236,7 +229,7 @@ keep <- c(1,2,4,10,13,17,22,23,26,27,30,32,37)
 
 ### 1.4. Estimating the relationship between metadata and topics
 
-ince we included news source as a covariate in estimat- ing topical prevalence part within the model, we can estimate the differences in frequency, or how much each of the news sources discussed each topic.
+Since we included news source as a covariate in estimating topical prevalence part within the model, we can estimate the differences in frequency, or how much each of the news sources discussed each topic.
 
 The conditional expectation of topic prevalence for given document characteristics can be estimated by using a linear model, where the documents are observations, the dependent variable is the posterior probability of a topic and the covariates are the metadata of documents. The function we use (**estimateEffect()**) uses the method of composition to incorporate uncertainty in the dependent variable, drawing a set of topic proportions from the variational posterior repeated times and compute the coefficients as the average over all results. 
 
@@ -245,8 +238,9 @@ effect <- estimateEffect(c(1:k) ~site, stmOut,
                          metadata = out$meta, uncertainty = "Global")
 ```
 
+
 #### Mean prevalence of each topic within each news source corpus
-```{r eval=FALSE, fig.height=16, fig.width=12, include=FALSE}
+```{r fig.height=16, fig.width=12}
 par(mfrow = c(8,5))
 
 labels <- c("DIE WELT","stern.de", "ZEIT ONLINE", "FOCUS ONLINE","Bild.de", "SPIEGEL ONLINE", "Tagesschau.de")
@@ -255,7 +249,7 @@ labels <- c("DIE WELT","stern.de", "ZEIT ONLINE", "FOCUS ONLINE","Bild.de", "SPI
 for (i in 1:k) {
   plot(effect, covariate = "site", topics = i,
      method = "pointestimate", model = stmOut,
-     main = topics.df$topic_name[i],
+    #main = topics.df$topic_name[i],
      xlim = c(-.02,.08),
     labeltype = "custom",
     custom.labels = labels
@@ -284,6 +278,92 @@ dev.off()
 
 ![Mean topic proportions](../figs/topic_proportions.png)
 
+### 1.6 Document Similarity 
+from https://www.kaggle.com/ktattan/lda-and-document-similarity
+
+We can now compare two documents by comparing their topic vectors. We use the Jensen-Shannon distance metric to find the most similar documents.
+
+What the Jensen-Shannon distance tells us, is which documents are statisically "closer" (and therefore more similar), by comparing the divergence of their distributions. Jensen-Shannon is symmetric, unlike Kullback-Leibler on which the formula is based. This is good, because we want the similarity between documents A and B to be the same as the similarity between B and A.
+
+For discrete distirbutions $P$ and $Q$, the Jensen-Shannon divergence, **JSD** is defined as
+
+$$
+JSD(P||Q)=\frac{1}{2}D(P||M)+\frac{1}{2}D(Q||M)
+$$
+
+where $M=\frac{1}{2}(P+Q)$ and $D$ is the Kullback-Leibler divergence. 
+
+The smaller the Jensen-Shannon Distance, the more similar two distributions are (and in our case, the more similar any 2 documents are)
+
+To enable efficient computation, we need to get all the topic distributions into a dense matrix of size  $M×K$  where $M$ is the number of documents and $K$ is the number of topics.
+
+```{r}
+theta <- stmOut %>% 
+  tidy("theta") %>% 
+  spread(topic, value = gamma) %>%
+  select(-document) %>%
+  as.matrix() -> theta.m
+
+dim(theta.m)
+```
+
+To test this approach, we can check the most similar document to document 1:
+
+```{r}
+samp <- btw %>% select(articleID, title) %>% sample_n(1)
+samp
+```
+
+```{r}
+a <- theta.m[samp$articleID, ]
+
+datalist <- list()
+
+for (i in 1:nrow(theta.m)) {
+  b <- theta.m[i,]
+  x <- data.frame(jsd = JSD(a,b), articleID = i)
+  datalist[[i]] <- x
+}
+
+df <- bind_rows(datalist)
+```
+
+```{r}
+df %>%
+  mutate(outlier = ifelse(jsd < quantile(jsd, 0.003), TRUE, FALSE)) %>%
+  left_join(btw %>% select(articleID, site, title, text),
+            by = "articleID") -> df
+```
+
+```{r}
+ggplot(df) +
+  geom_point(aes(articleID, jsd)) +
+  ggrepel::geom_text_repel(
+    aes(articleID, jsd,
+        label = articleID), 
+    subset(df, outlier == TRUE),
+            na.rm = TRUE, hjust = -0.3) +
+  labs(title =  paste("Most similar articles to",samp$articleID),
+       subtitle = paste("Title:", samp$title))
+```
+
+```{r}
+df %>%
+  select(articleID, jsd,site,title) %>%
+  arrange(jsd) %>%
+  head(n=20) %>%
+  htmlTable::htmlTable(align="l")
+```
+
+```{r}
+df %>%
+  select(articleID, jsd,site,title) %>%
+  arrange(desc(jsd)) %>%
+  head(n=20) %>%
+  htmlTable::htmlTable(align="l")
+```
+
+
 ### 1.5 Topic Correlation
 ```{r}
 ## Create Dataframe with correlations
@@ -305,7 +385,7 @@ df <- df %>%
   left_join(., topics.df, by="topic")
 ```
 
-```{r fig.height=7, fig.width=6}
+```{r}
 p1 <- df %>%
   filter(topic %in% keep) %>%
     filter(topic1 %in% keep) %>%
