@@ -10,12 +10,21 @@ rm(list = ls())
 ```
 
 ```{r}
+linke <- read.csv("../scrapedata/linke.csv", stringsAsFactors=FALSE)
+
+linke <- linke %>%
+  mutate(title_body = paste(title, body),
+    date = gsub("\n","",date, perl = T),
+         date = as.Date(date, format = "%d. %B %Y"))
+```
+
+```{r}
 gruene <- read.csv("../scrapedata/gruene.csv", stringsAsFactors=FALSE)
 
 gruene <- gruene %>%
   mutate(body = gsub('Die Fraktionspressestelle auf Twitter: @GruenSprecher','',body),
          title_body = paste(title, body),
-         date = as.POSIXct(date, format = "%d.%m.%Y"),
+         date = as.Date(date, format = "%d.%m.%Y"),
          party = "gruene"
          )
 ```
@@ -26,7 +35,7 @@ spd <- read.csv("../scrapedata/spd.csv", stringsAsFactors=FALSE)
 spd <- spd %>%
   mutate(body = gsub('(.+?):','', body, perl = TRUE, ignore.case = TRUE),
          title_body = paste(title, body),
-         date = as.POSIXct(gsub('\\|.*','',date, perl = T), format = "%d.%m.%Y"),
+         date = as.Date(gsub('\\|.*','',date, perl = T), format = "%d.%m.%Y"),
          party = "spd"
          )
 ```
@@ -43,7 +52,7 @@ cdu <- cdu %>%
          body = gsub('Internet.*','', body, perl = TRUE, ignore.case = TRUE),
          body = gsub('Email.*','', body, perl = TRUE, ignore.case = TRUE),
          title_body = paste(title, body),
-         date = as.POSIXct(gsub('\\-.*','',date, perl = T), format = "%d.%m.%Y"),
+         date = as.Date(gsub('\\-.*','',date, perl = T), format = "%d.%m.%Y"),
          party = "union"
          ) 
 ```
@@ -57,13 +66,22 @@ afd <- afd %>%
          title_body = paste(title, body),
          party = "afd",
          date = gsub('Mrz',"März",date),
-         date = as.POSIXct(date, format = "%d%b %Y")
+         date = as.Date(date, format = "%d%b %Y")
          ) 
 ```
 
+```{r}
+pressReleases <- bind_rows(cdu, spd, afd, gruene, linke) %>%
+  filter(date >= as.Date("2017-06-01"))
+```
 
 ```{r}
-pressReleases <- bind_rows(cdu, spd, afd, gruene)
+pressReleases %>%
+  count(party, date) %>%
+  ggplot(aes(date,n, color=party, group=party)) +
+  geom_point() +
+  ggthemes::theme_hc() +
+  ggthemes::scale_color_hc()
 ```
 
 # Clean Data
@@ -184,6 +202,10 @@ save(pressReleases, out, file="../output/pressReleases.Rda")
 
 ### Run Model
 ```{r}
+stmOut <- stm(documents = out$documents, vocab = out$vocab,
+              K = 20, prevalence =~ party, content = ~party,
+              max.em.its = 75, data = out$meta,
+              init.type = "Spectral")
 
 ```
 
