@@ -190,57 +190,77 @@ library(ggmap)</code></pre>
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBzZWxlY3QgZXhhbXBsZSBzZW50ZW5jZVxuYnR3ICU+JVxuICBzYW1wbGVfbigxKSAlPiVcbiAgc2VsZWN0KHRleHQpICU+JVxuICB1bm5lc3Rfc2VudGVuY2VzKHNlbnRzLCB0ZXh0KSAtPiBzZW50ZW5jZVxuaGVhZChzZW50ZW5jZSRzZW50cylcbmBgYCJ9 -->
-<pre class="r"><code># select example sentence
-btw %&gt;%
-  sample_n(1) %&gt;%
-  select(text) %&gt;%
-  unnest_sentences(sents, text) -&gt; sentence
-head(sentence$sents)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiTmFjaCBlaW5lbSBJbnRlcnZpZXcgenUgRmzDvGNodGxpbmdlbiB3YXJmZW4gS3JpdGlrZXIgQ2hyaXN0aWFuIExpbmRuZXIgcmVjaHRzcG9wdWxpc3Rpc2NoZSBUw7ZuZSB2b3IuXCJcblsyXSBcIkpldHp0IHByw6RzZW50aWVydCBkZXIgRkRQLUNoZWYgc2VpbiBLb256ZXB0IHp1ciBBc3lsLSB1bmQgRWlud2FuZGVydW5nc3BvbGl0aWsuXCIgICAgICAgICAgICAgICAgICAgICBcblszXSBcIldpZSBpc3Qgc2VpbiBLdXJzP1wiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzRdIFwiRFBBIERlciBGRFAtU3BpdHplbmthbmRpZGF0IENocmlzdGlhbiBMaW5kbmVyXFxuVm9uIEFubmEgUmVpbWFubiBcXG5DaHJpc3RpYW4gTy5cIiAgICAgICAgICAgICAgICAgICAgICBcbls1XSBcIkJydWNoLyBsYWlmIEFubmEgUmVpbWFubiBHZWJvcmVuIDE5NzksIGF1Zmdld2FjaHNlbiBpbiBSZWluYmVrIGJlaSBIYW1idXJnIHVuZCBPc2xvLlwiICAgICAgICAgICAgICAgIFxuWzZdIFwiU3R1ZGl1bSBkZXIgR2VzY2hpY2h0cy0gdW5kIFBvbGl0aWt3aXNzZW5zY2hhZnRlbiBpbiBIYW1idXJnLCBWZW5lZGlnIHVuZCBCZXJsaW4uXCIgICAgICAgICAgICAgICAgICAgXG4ifQ== -->
-<pre><code>[1] &quot;Nach einem Interview zu Flüchtlingen warfen Kritiker Christian Lindner rechtspopulistische Töne vor.&quot;
-[2] &quot;Jetzt präsentiert der FDP-Chef sein Konzept zur Asyl- und Einwanderungspolitik.&quot;                     
-[3] &quot;Wie ist sein Kurs?&quot;                                                                                  
-[4] &quot;DPA Der FDP-Spitzenkandidat Christian Lindner\nVon Anna Reimann \nChristian O.&quot;                      
-[5] &quot;Bruch/ laif Anna Reimann Geboren 1979, aufgewachsen in Reinbek bei Hamburg und Oslo.&quot;                
-[6] &quot;Studium der Geschichts- und Politikwissenschaften in Hamburg, Venedig und Berlin.&quot;                   </code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2VudF9hbm5vdCA8LSBNYXhlbnRfU2VudF9Ub2tlbl9Bbm5vdGF0b3IoKVxud29yZF9hbm5vdCA9IE1heGVudF9Xb3JkX1Rva2VuX0Fubm90YXRvcigpXG5sb2NfYW5ub3QgPSBNYXhlbnRfRW50aXR5X0Fubm90YXRvcihraW5kID0gXCJsb2NhdGlvblwiKSAjYW5ub3RhdGUgbG9jYXRpb25cbnBlb3BsZV9hbm5vdCA9IE1heGVudF9FbnRpdHlfQW5ub3RhdG9yKGtpbmQgPSBcInBlcnNvblwiKSAjYW5ub3RhdGUgcGVyc29uXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2VudF9hbm5vdCA8LSBNYXhlbnRfU2VudF9Ub2tlbl9Bbm5vdGF0b3IoKVxud29yZF9hbm5vdCA9IE1heGVudF9Xb3JkX1Rva2VuX0Fubm90YXRvcigpXG5wZW9wbGVfYW5ub3QgPSBNYXhlbnRfRW50aXR5X0Fubm90YXRvcihraW5kID0gXCJwZXJzb25cIikgI2Fubm90YXRlIHBlcnNvblxuYGBgIn0= -->
 <pre class="r"><code>sent_annot &lt;- Maxent_Sent_Token_Annotator()
 word_annot = Maxent_Word_Token_Annotator()
-loc_annot = Maxent_Entity_Annotator(kind = &quot;location&quot;) #annotate location
 people_annot = Maxent_Entity_Annotator(kind = &quot;person&quot;) #annotate person</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBzZWxlY3QgZXhhbXBsZSBzZW50ZW5jZVxuYnR3ICU+JVxuICBmaWx0ZXIoc2l0ZSA9PSBcInRhZ2Vzc2NoYXUuZGVcIikgJT4lXG4gIHNhbXBsZV9uKDEpICU+JVxuICBzZWxlY3QodGV4dCkgLT4gdGV4dCBcbnRleHQgPC0gYXMuU3RyaW5nKHRleHQkdGV4dClcbmFubm90LmwxID0gTkxQOjphbm5vdGF0ZSh0ZXh0LCBsaXN0KHNlbnRfYW5ub3Qsd29yZF9hbm5vdCxsb2NfYW5ub3QscGVvcGxlX2Fubm90KSlcbmsgPC0gc2FwcGx5KGFubm90LmwxJGZlYXR1cmVzLCBgW1tgLCBcImtpbmRcIilcbmJlcmtfbG9jYXRpb25zID0gdGV4dFthbm5vdC5sMVtrID09IFwibG9jYXRpb25cIl1dXG5iZXJrX3Blb3BsZSA9IHRleHRbYW5ub3QubDFbayA9PSBcInBlcnNvblwiXV1cbnVuaXF1ZShiZXJrX3Blb3BsZSlcbmBgYCJ9 -->
-<pre class="r"><code># select example sentence
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBzZWxlY3Qgc2FtcGxlXG5idHcgJT4lXG4gIHNhbXBsZV9uKDEpICU+JVxuICBzZWxlY3QodGV4dCkgJT4lXG4gIGFzLlN0cmluZygpLT4gdGV4dCBcbmh0bWxUYWJsZTo6aHRtbFRhYmxlKHRleHQpXG5gYGAifQ== -->
+<pre class="r"><code># select sample
 btw %&gt;%
-  filter(site == &quot;tagesschau.de&quot;) %&gt;%
   sample_n(1) %&gt;%
-  select(text) -&gt; text 
-text &lt;- as.String(text$text)
-annot.l1 = NLP::annotate(text, list(sent_annot,word_annot,loc_annot,people_annot))
+  select(text) %&gt;%
+  as.String()-&gt; text 
+htmlTable::htmlTable(text)</code></pre>
+<!-- rnb-source-end -->
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImh0bWwiLCJodG1sVGFibGUiLCJjaGFyYWN0ZXIiXSwic2l6aW5nUG9saWN5IjpbXX19 -->
+
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<tbody>
+<tr style='border-top: 2px solid grey;'>
+<td style='border-top: 2px solid grey; border-bottom: 2px solid grey; text-align: center;'>"Internationalsozialistische Antifa": Das ist die Facebook-Seite, auf die sich die AfD beruft 26. Juli 2017 16:45 Uhr "Internationalsozialistische Antifa" Das ist die Facebook-Seite, auf die sich die AfD bei ihrem Einspruch beruft 
+Die AfD will die Landtagswahl in Nordrhein-Westfalen anfechten. Im Begründungsschreiben wird auch der Facebook-Post einer angeblichen Antifa-Seite erwähnt. Doch wer steckt wirklich hinter dem Account? Fullscreen 
+Die Facebook-Seite "Internationalsozialistische Antifa" 
+Am Montag hat die AfD mitgeteilt, dass sie Einspruch gegen die Feststellung des endgültigen Ergebnisses der nordrhein-westfälischen Landtagswahl erhoben hat . In einem Begründungsschreiben an den Präsidenten des Landtags legt die Partei auch einen Post der Facebook-Seite "Internationalsozialistische Antifa" vor. Dort hätten sich Menschen zu der Wahlmanipulation in NRW bekannt und ihn als "Testlauf" bezeichnet. Dem stern liegt das Schreiben vor. Die AfD schreibt darin zwar, dass diese Facebook-Seite "nicht personenmäßig greifbar" sei. Dennoch sei dieser Hinweis "sehr glaubhaft", da er "mit den bereits vorgefundenen Fakten" einer "systematischen Schädigung der AfD" übereinstimme. "Die Glaubhaftigkeit des Facebook-Postings ergibt sich daraus, dass (...) die Antifa versucht, die antragstellende AfD NRW an der Ausübung ihrer demokratischen Rechte zu hindern." 
+Doch stecken hinter der Facebook-Seite wirklich Antifa-Aktivisten? Das meiste, was dort in den vergangenen Jahren gepostet wurde, legt den Verdacht nahe, dass der oder die Macher der Seite Satire betreiben wollen. So findet sich dort etwa folgender Post mit dem Text: "Schottland erlaubt es in Zukunft muslimischen Polizistinnen, sich zu verschleiern. Das muss schnellstmöglich auch in Deutschland eine Selbstverständlichkeit werden!" 
+Immer wieder werden auch Politikern Fake-Zitate in den Mund gelegt, wie hier dem Grünen-Politiker Cem Özdemir: 
+Beschriftet mit "Schluss mit Rassenhass, auch im Straßenverkehr!" teilte die Seite folgendes Bild: 
+Nach dem Terroranschlag auf den Berliner Weihnachtsmarkt im vergangenen Jahr verbreitete die Facebook-Seite die Aussage: "Wer Muslime ständig provoziert, muss sich über Anschläge wie in Berlin nicht wundern." Hinter den provokanten Postings könnte die Motivation stecken, vermeintlich linke Ansichten radikal zu überspitzen. So "fordert" der Betreiber der Webseite im Mai 2017 etwa, dass sich "Deutsche in die orientalische Mehrheitsgesellschaft integrieren". Die Maßnahmen dafür wären: "Türkisch- und Arabisch-Kurse für jeden Deutschen (...) Repräsentative Großmoscheen mit je vier Minaretten und Muezzinruf müssen in jedem Bezirk und jeder Gemeinde stehen. Wir brauchen zudem endlich gesetzliche muslimische Feiertage und flächendeckenden Islamunterricht in jeder Schule!" Von Wigbert Löer 
+Die Reaktionen in den Kommentaren sind gespalten. Während viele den mutmaßlichen Satireversuch als solchen erkennen, echauffieren sich andere wütend über die vermeintlichen "linksversifften Gutmenschen". Wiederum andere sind sich sicher, dass der oder die Betreiber eher aus dem AfD- oder Pegida-Umfeld stammen. "Merkt denn keiner, dass es sich hierbei nicht um die Antifa handelt sondern um Leute aus der rechtsradikalen Szene, die die Antifa diffamieren und hinterfotzigen Bullshit verbreiten?", schreibt ein Nutzer zwischen die echauffierten Kommentare. 
+Das Hauptthema der vergangenen zwei Jahre der Seite "Internationalsozialistische Antifa" ist der Islam. Immer wieder drehen sich die Posts um die angebliche Islamisierung Europas und darum, wie sehr man dies doch begrüße. Alle Deutschen, die damit ein Problem hätten, könnten doch bitte das Land verlassen. Zitat: "Deutschland wird bunter, undeutscher und unchristlicher mit jedem weiteren Tag - und das ist auch gut so!" "Untergrenze für Flüchtlinge" 
+Die meisten Postings auf "Internationalsozialistische Antifa " stellen sich bei genauerer Betrachtung als Versuch einer Überspitzung heraus. Hier einige Beispiele: Mai 2017: "Überfremdung? Ja, bitte!" Juli 2017: "Wir fordern eine Untergrenze von 200.000 Flüchtlingen jedes Jahr nach Deutschland!" April 2017: "Für jede Kirche, die abgerissen wird, müssen zwei neue Moscheen gebaut werden!" April 2017: "Erdogan will, dass Deutschland türkisch wird. Das macht ihn uns irgendwie dann doch sympathisch." April 2017: "Es ist keine Schande, den ganzen Tag besoffen und bekifft rumzulungern. Es ist eine Schande, AfD-Nazi zu sein und Deutschland zu lieben!" Mai 2016: "Sozialismus und Multikulti statt Deutschland!" Februar 2016: "Muslime aus aller Welt sind eingeladen, hier zu bleiben und Deutschland radikal zu verändern!" Januar 2016: "Deutschland mit Flüchtlingen fluten! Wir schaffen das!" Januar 2016: "Uns sind kriminelle Flüchtlinge lieber als kriminelle Deutsche." Dezember 2015: "Wir feiern kein Weihnachten! Tradition und Brauchtum gehören auf den Müllhaufen der Geschichte!" 
+Der älteste Post auf der Facebook -Seite ist aus dem Jahr 2012. Bis 2015 wurde jedoch nur sehr unregelmäßig und teilweise in sehr großen Abständen gepostet - und hauptsächlich plumpe Beleidigungen an Nazis. Erst im Laufe des Jahres 2015 erhöht sich die Posting-Frequenz auf der Seite. Etwa in diesem Zeitraum werden auch die offenbar mit satirischer Absicht geteilten Beiträge mehr. Auf eine Gesprächsanfrage des stern haben der oder die Betreiber der Facebook-Seite noch nicht reagiert. Erfahren Sie mehr:</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYW5ub3QubDEgPSBOTFA6OmFubm90YXRlKHRleHQsIGxpc3Qoc2VudF9hbm5vdCx3b3JkX2Fubm90LHBlb3BsZV9hbm5vdCkpXG5rIDwtIHNhcHBseShhbm5vdC5sMSRmZWF0dXJlcywgYFtbYCwgXCJraW5kXCIpXG5iZXJrX3Blb3BsZSA9IHRleHRbYW5ub3QubDFbayA9PSBcInBlcnNvblwiXV1cbnVuaXF1ZShiZXJrX3Blb3BsZSlcbmBgYCJ9 -->
+<pre class="r"><code>annot.l1 = NLP::annotate(text, list(sent_annot,word_annot,people_annot))
 k &lt;- sapply(annot.l1$features, `[[`, &quot;kind&quot;)
-berk_locations = text[annot.l1[k == &quot;location&quot;]]
 berk_people = text[annot.l1[k == &quot;person&quot;]]
 unique(berk_people)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiQW5nZWxhIE1lcmtlbFwiICAgICAgICAgICAgICAgICAgICBcIlZvbiBkZXJcIiAgICAgICAgICAgICAgICAgICAgICAgICAgXCJBbGV4YW5kZXIgRG9icmluZHRcIiAgICAgICAgICAgICAgIFwiRGVyIFZvcnNpdHplbmRlIEtvbnN0YW50aW4gS3VobGVcIlxuIn0= -->
-<pre><code>[1] &quot;Angela Merkel&quot;                    &quot;Von der&quot;                          &quot;Alexander Dobrindt&quot;               &quot;Der Vorsitzende Konstantin Kuhle&quot;</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiVm9uIFdpZ2JlcnQgTMO2ZXIgXFxuRGllIFJlYWt0aW9uZW5cIiBcIlVudGVyZ3JlbnplIHZvbiAyMDAuMDAwXCIgICAgICAgICAgXG4ifQ== -->
+<pre><code>[1] &quot;Von Wigbert Löer \nDie Reaktionen&quot; &quot;Untergrenze von 200.000&quot;          </code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYW5ub3QubDEkXG5gYGAifQ== -->
+<pre class="r"><code>annot.l1$</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRW50aXR5IFJlY29nbml0aW9uIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgpgYGB7cn0KbGlicmFyeShsZXhSYW5rcikKbGlicmFyeShlbnRpdHkpCmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KE5MUCkKbGlicmFyeShvcGVuTkxQKQpsaWJyYXJ5KGdnbWFwKQpgYGAKCmBgYHtyfQojIHNlbGVjdCBleGFtcGxlIHNlbnRlbmNlCmJ0dyAlPiUKICBzYW1wbGVfbigxKSAlPiUKICBzZWxlY3QodGV4dCkgJT4lCiAgdW5uZXN0X3NlbnRlbmNlcyhzZW50cywgdGV4dCkgLT4gc2VudGVuY2UKCmhlYWQoc2VudGVuY2Ukc2VudHMpCmBgYAoKYGBge3J9CnNlbnRfYW5ub3QgPC0gTWF4ZW50X1NlbnRfVG9rZW5fQW5ub3RhdG9yKCkKd29yZF9hbm5vdCA9IE1heGVudF9Xb3JkX1Rva2VuX0Fubm90YXRvcigpCmxvY19hbm5vdCA9IE1heGVudF9FbnRpdHlfQW5ub3RhdG9yKGtpbmQgPSAibG9jYXRpb24iKSAjYW5ub3RhdGUgbG9jYXRpb24KcGVvcGxlX2Fubm90ID0gTWF4ZW50X0VudGl0eV9Bbm5vdGF0b3Ioa2luZCA9ICJwZXJzb24iKSAjYW5ub3RhdGUgcGVyc29uCmBgYAoKYGBge3J9CiMgc2VsZWN0IGV4YW1wbGUgc2VudGVuY2UKYnR3ICU+JQogIGZpbHRlcihzaXRlID09ICJ0YWdlc3NjaGF1LmRlIikgJT4lCiAgc2FtcGxlX24oMSkgJT4lCiAgc2VsZWN0KHRleHQpIC0+IHRleHQgCgp0ZXh0IDwtIGFzLlN0cmluZyh0ZXh0JHRleHQpCgphbm5vdC5sMSA9IE5MUDo6YW5ub3RhdGUodGV4dCwgbGlzdChzZW50X2Fubm90LHdvcmRfYW5ub3QsbG9jX2Fubm90LHBlb3BsZV9hbm5vdCkpCgprIDwtIHNhcHBseShhbm5vdC5sMSRmZWF0dXJlcywgYFtbYCwgImtpbmQiKQpiZXJrX2xvY2F0aW9ucyA9IHRleHRbYW5ub3QubDFbayA9PSAibG9jYXRpb24iXV0KYmVya19wZW9wbGUgPSB0ZXh0W2Fubm90LmwxW2sgPT0gInBlcnNvbiJdXQoKdW5pcXVlKGJlcmtfcGVvcGxlKQpgYGAKCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRW50aXR5IFJlY29nbml0aW9uIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgpgYGB7cn0KbGlicmFyeShsZXhSYW5rcikKbGlicmFyeShlbnRpdHkpCmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KE5MUCkKbGlicmFyeShvcGVuTkxQKQpsaWJyYXJ5KGdnbWFwKQpgYGAKCmBgYHtyfQpybShsaXN0ID0gbHMoKSkKbG9hZCgiLi4vb3V0cHV0L2RhdGFfc3RlcDIuUmRhIikKYGBgCgpgYGB7cn0Kc2VudF9hbm5vdCA8LSBNYXhlbnRfU2VudF9Ub2tlbl9Bbm5vdGF0b3IoKQp3b3JkX2Fubm90ID0gTWF4ZW50X1dvcmRfVG9rZW5fQW5ub3RhdG9yKCkKcGVvcGxlX2Fubm90ID0gTWF4ZW50X0VudGl0eV9Bbm5vdGF0b3Ioa2luZCA9ICJwZXJzb24iKSAjYW5ub3RhdGUgcGVyc29uCmBgYAoKYGBge3J9CiMgc2VsZWN0IHNhbXBsZQpidHcgJT4lCiAgc2FtcGxlX24oMSkgJT4lCiAgc2VsZWN0KHRleHQpICU+JQogIGFzLlN0cmluZygpLT4gdGV4dCAKCmh0bWxUYWJsZTo6aHRtbFRhYmxlKHRleHQpCmBgYAoKYGBge3J9CmFubm90LmwxID0gTkxQOjphbm5vdGF0ZSh0ZXh0LCBsaXN0KHNlbnRfYW5ub3Qsd29yZF9hbm5vdCxwZW9wbGVfYW5ub3QpKQoKayA8LSBzYXBwbHkoYW5ub3QubDEkZmVhdHVyZXMsIGBbW2AsICJraW5kIikKYmVya19wZW9wbGUgPSB0ZXh0W2Fubm90LmwxW2sgPT0gInBlcnNvbiJdXQoKdW5pcXVlKGJlcmtfcGVvcGxlKQpgYGAKCmBgYHtyfQphbm5vdC5sMSQKYGBgCgo=</div>
 
 
 

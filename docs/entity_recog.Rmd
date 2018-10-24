@@ -13,37 +13,36 @@ library(ggmap)
 ```
 
 ```{r}
-# select example sentence
-btw %>%
-  sample_n(1) %>%
-  select(text) %>%
-  unnest_sentences(sents, text) -> sentence
-
-head(sentence$sents)
+rm(list = ls())
+load("../output/data_step2.Rda")
 ```
 
 ```{r}
 sent_annot <- Maxent_Sent_Token_Annotator()
 word_annot = Maxent_Word_Token_Annotator()
-loc_annot = Maxent_Entity_Annotator(kind = "location") #annotate location
 people_annot = Maxent_Entity_Annotator(kind = "person") #annotate person
 ```
 
 ```{r}
-# select example sentence
+# select sample
 btw %>%
-  filter(site == "tagesschau.de") %>%
   sample_n(1) %>%
-  select(text) -> text 
+  select(text) %>%
+  as.String()-> text 
 
-text <- as.String(text$text)
+htmlTable::htmlTable(text)
+```
 
-annot.l1 = NLP::annotate(text, list(sent_annot,word_annot,loc_annot,people_annot))
+```{r}
+annot.l1 = NLP::annotate(text, list(sent_annot,word_annot,people_annot))
 
 k <- sapply(annot.l1$features, `[[`, "kind")
-berk_locations = text[annot.l1[k == "location"]]
 berk_people = text[annot.l1[k == "person"]]
 
 unique(berk_people)
+```
+
+```{r}
+annot.l1$
 ```
 
