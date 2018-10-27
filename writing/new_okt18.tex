@@ -69,43 +69,16 @@
 
 \section{Introduction}
 
-% -- Die Rolle der Massenmedien für die politische Meinungsbildung 
-% ------------------------------
-Die Rolle der (Massen)medien ist ein ongoing Untersuchungsgegenstand der social science. 
-
-Eine stärkere Verbreitung von politischen Inhalten einer Partei ist positiv mit der Einstellung gegenüber dieser Partei verbunden \citep{benewick_floating_1969}. 
-
-\citet{mccombs_agenda-setting_1972} Massenmedien könnten die Agenda der politischen Kampagnen bestimmen. Sie werfen die Frage auf, ob die Massenmedien die politische Welt tatsächlich perfekt abbilden. In einem unvollkommenen Umfeld könnten sich Verzerrungen der Medien in der öffentlichen Meinung ausbreiten und somit die Bevorzugung gegenüber der einen oder anderen Partei oder Politikerin beeinflussen und so die politische Realität prägen. Die meisten dieser Verzerrungen werden durch den Bearbeitungs- und Auswahlprozess eingeführt. 
-
-The media are the core arena for public political debates \citep{ferree_four_2002} and citizens' main source of political information. 
 
 % -- Bilden online Nachrichten die politische Realität ab? -> 3 types of bias
 % ------------------------------
 
-One central responsibility of the media arguably is to supply voters with balanced and objective information on relevant political issues and actors. \citep{stromback_four_2008, eberl_one_2017}
-
-\citep{mccombs_look_2005}: media bias is also important because it can have substantial effects on recipients’ political interest, knowledge, attitudes, and even vote choice
-
-Bias in political news coverage may have a profound influence on voter opinions and preferences. \citet{eberl_one_2017} 
-
 recent studies investigate the effects of media bias on evaluations of party leaders \citep{lenz_looking_2011, prior_incumbent_2006} on vote intention \citep{boomgaarden_reporting_2007} or both \citep{druckman_impact_2005}
 
-In studying the effects of media bias, it is important to disaggregate this broader concept into different sub-types, which refer to different aspects of the journalistic product. In the literature, three sub-types of biases are commonly identified \citep{dalessio_media_2000, eberl_one_2017, junque_de_fortuny_media_2012}:
 
-\begin{enumerate}
-	\item Visibility / coverage bias: salience of political parties or candidates in the news
-	\item Tonality / statement bias: how these actors are evaluated
-	\item Agenda / gatekeeping bias: which issues parties are able to address in media coverage
-\end{enumerate}
 
 % -- ... in Zeiten des Internets
 % ------------------------------
-It is well established that mass media and the internet in particular play an increasingly more important role in opinion formation. \citep{savigny_public_2002} (The expansion of the internet as a new method of communication provides a potential challenge to the primacy of the traditional media and political parties as formers of public opinion.)
-
-Reuters Institute research consistently shows that most consumers prefer text when consuming online news \citep{holig_reuters_2018}: Online‐Nachrichten werden von 65 Prozent der Internetnutzer im Alter über 18 Jahren mehrmals pro Woche abgerufen. (Television remains the most widely used source of news (2018: 74\%), though numbers watching continue to decline while use of the internet for news has grown significantly in the last year (+5\%, 2018: 65\%).)
-
-Trust in online news: Reuters Institute data show that public service providers like ARD and ZDF remain the most trusted news brands in Germany along with regional newspapers. Tabloid newspapers and digital-born portals tend to have less trust. 
-
 Online articles provide the unique opportunity to access, analyse and compare a large body of text data using state of the art text mining techniques. Studies that analyse the effect of media content on voter behaviour primarily employ manual content analysis and are therefore much more time-consuming and susceptible to errors. Using automated data mining tools reduce human induced bias \citep{junque_de_fortuny_media_2012} 
 
 \todo{Say some words on unsupervised method (no labeled data)}
@@ -123,7 +96,7 @@ The tonality of coverage is important because it can provide the media audience 
 
 \section{Literature}
 
-Most of the literature on influences of media bias focuses on one type of bias only (see \citet{eberl_one_2017}). Overall, most research tends to disregard agenda bias as the operationalization is somewhat more challenging. Because in order to know which news stories have been selected as well as deselected by journalists, one would have to know the universe of news stories at a given point in time \citet{dalessio_media_2000}. \citet{eberl_one_2017} use parties' campaign communication as an approximation of the potential universe of news stories \citep{brandenburg_political_2005}
+Most of the literature on influences of media bias focuses on one type of bias (see \citet{eberl_one_2017}). Overall, most research tends to disregard agenda bias as the operationalization is somewhat more challenging. In order to know which news stories have been selected as well as deselected by journalists, one would have to know the universe of news stories at a given point in time \citet{dalessio_media_2000}. \citet{eberl_one_2017} use parties' campaign communication as an approximation of the potential universe of news stories \citep{brandenburg_political_2005}
 
 %---- 1. Coverage bias / Impact of media coverage on electoral outcomes ---%
 
@@ -177,7 +150,18 @@ Studies that examine bias do so indirectly by aggregating media outlets across m
 %----------------- Begin paper -------------------%
 %------------------------------------------------%
 
-The discussion about the influence of digital media on the political opinion-forming process has gained momentum since the presidential elections in October 2016. Overall, the importance of the Internet as a source of information for political topics has been very strong in recent years. According to a study on the media coverage of the German-speaking population, nearly 40\% of respondents used the internet at least once a week in 2017 to inform themselves about the current news compared to 34\% in 2016.\footnote{Verbrauchs- und Medienanalyse - VuMA 2018: https://www.vuma.de/vuma-praxis/die-studie/}
+The discussion about the influence of digital media on the political opinion-forming process has gained momentum since the presidential elections in October 2016. In recent years, the importance of the Internet as a source of information for political topics has been growing strongly. Even though television remains the most widely used source of news in Germany (2018: 74\%), numbers watching continue to decline while use of the internet for news has grown significantly in the last year (+5\%, 2018: 65\%) \citep{holig_reuters_2018}. The expansion of the internet as a new method of communication provides a potential challenge to the primacy of the traditional media and political parties as formers of public opinion \citep{savigny_public_2002}
+
+Schon vor dem Internet war die Rolle der (Massen)medien ein ongoing Untersuchungsgegenstand der social science. Die vorherrschende These dabei ist, dass die Medien als Hauptinformationsquelle für die Wähler ein wichtiger Faktor bei die Meinungsbildung sind \citep{ferree_four_2002, mccombs_look_2005, eberl_one_2017}. One central responsibility of the media arguably is to supply voters with balanced and objective information on relevant political issues and actors \citep{stromback_four_2008, eberl_one_2017}. Bias in political news coverage may have a profound influence on voter opinions and preferences \citep{eberl_one_2017}. So kann beispielsweise eine stärkere Verbreitung von politischen Inhalten einer Partei einen positiven Einfluss auf die Einstellung gegenüber dieser Partei haben \citep{benewick_floating_1969}. Vor der Annahme, dass Medien einen Einfluss auf Wählerpräferenzen haben, werfen \citet{mccombs_agenda-setting_1972} die Frage auf, ob die politische Welt in den Medien unverzerrt abgebildet wird. Sie kommen zu dem Ergebnis, dass Massenmedien die politische Agenda beeinflusst. 
+
+In order to address the question whether the media landscape transmits a biased reality of the political landscape, this paper analyzes German online news articles covering domestic politics together with press releases of the party in the german "Bundestag". The data contains online news articles from seven major news provider dated from June 1, 2017 to March 1, 2018. As the German federal elections took place on 24th of September 2017 and the formation of the government has taken up a period of about five months, the articles considered inform their readers about both the election promises of the parties (before the election) and the coalition talks (after the election). We use state-of-the art text-mining techniques to analyze a corpus of over 15.000 online news articles an nearly 1.800 press releases. Online articles and press releases provide the opportunity to access, analyse and compare a large body of text data using state of the art text mining techniques. Earlier studies that analyse the effect of media content on voter behaviour primarily employ manual content analysis and are therefore much more time-consuming and susceptible to errors. Using automated data mining tools reduce human induced bias \citep{junque_de_fortuny_media_2012}.
+
+In studying the effects of media bias, three sub-types of biases are commonly identified in the literature \citep{dalessio_media_2000, eberl_one_2017, junque_de_fortuny_media_2012}: (1) Coverage bias, (2) statement bias and (3) gatekeeping bias.\footnote{\citep{eberl_one_2017} refer to the as (1) visibility bias, (2) tonality bias and (3) agenda bias.} Those three concepts measure how often political actors appear in the media (visibility bias), how they are evaluated (tonality bias) and whether political actors are allowed to present their own policy positions and talk about their issues in the media (gatekeeping bias). The gatekeeping bias therefore stems from a journalist's or editor's decision to select or ignore specific news stories. Most of the literature on media bias focuses on one type of bias and most research tends to disregard agenda bias as the operationalization is somewhat more challenging. In order to know which news stories have been selected as well as deselected by journalists, one would have to know the universe of news stories at a given point in time \citet{dalessio_media_2000}. 
+
+Building on the insight that media bias can have three different forms, this study makes two key contributions. (1) combination of different text-mining techniques to analyze a large text corpus reduces the human induced bias and makes research nachvollviehbarer und vergleichbarer, (2) technique to measure agenda bias.   
+
+Ich übernehme die Idee von \citet{eberl_one_2017} in using parties' campaign communication as an approximation of the potential universe of news stories. However, my analysis differs from earlier approaches in that I use machine learning techniques to identify the underlying topics in the text corpus. 
+
 
 %---- Research Question ---%
 1. What were the main topics potentially discussed in the time-spam? 

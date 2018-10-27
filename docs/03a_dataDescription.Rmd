@@ -8,7 +8,7 @@ output: github_document
 
 ```{r, include=FALSE}
 # load the packages
-libs <- c("readr","lubridate","tidyverse","patchwork","data.table","stringr","scales","ggthemes","xtable")
+libs <- c("readr","lubridate","tidyverse","data.table","stringr","scales","ggthemes","xtable")
 lapply(libs, library, character.only = TRUE)
 
 rm(list=ls())
@@ -16,7 +16,7 @@ rm(list=ls())
 
 # Load Dataframes
 visits <- read.csv("../data/visits", stringsAsFactors = FALSE) # visits
-load("../output/btw_combined_new.Rda")
+load("../output/data_step2.Rda")
 ```
 
 # Visits

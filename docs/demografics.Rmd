@@ -1,0 +1,78 @@
+---
+title: "Demografics"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+
+rm(list=ls())
+df <- read.csv("../data/btw17_rws_bst2.csv", sep=";", stringsAsFactors=FALSE)
+
+# create function
+substrRight <- function(x, n){
+  substr(x, nchar(x)-n+1, nchar(x))
+}
+```
+
+```{r}
+df <- df %>% 
+  filter(Land == "Bund") %>%
+  filter(Erst..Zweitstimme == 1) %>%
+  filter(Geschlecht != "Summe") %>%
+  filter(Geburtsjahresgruppe != "Summe") %>%
+  transmute(gender = Geschlecht,
+            birthyear = Geburtsjahresgruppe,
+            birthyear_start = as.numeric(substr(birthyear,1,4)),
+            birthyear_end = as.numeric(substrRight(birthyear, 4)),
+            age_start = 2008 - birthyear_end,
+            age_end = 2008 - birthyear_start,
+            age_range = paste(as.character(age_start),"-",as.character(age_end)),
+            cdu = CDU,
+            spd = SPD,
+            linke = DIE.LINKE,
+            grüne = GRÜNE,
+            csu = CSU,
+            fdp = FDP,
+            afd = AfD
+            ) %>%
+  gather(party, votes, cdu:afd)
+```
+
+
+```{r}
+df %>%
+  group_by(party) %>%
+  mutate(totalVotes = sum(votes)) %>%
+  ungroup() %>%
+  group_by(gender, party) %>%
+  mutate(votes_share = sum(votes)/totalVotes) %>%
+  ungroup() %>%
+  group_by(gender, party) %>%
+  summarise(votes_share = mean(votes_share)) %>%
+  ggplot(aes(factor(party), votes_share, 
+             fill = factor(gender))) +
+  geom_col() +
+  ggthemes::theme_hc() +
+  ggthemes::scale_fill_hc() +
+  labs(x = NULL, y = "%")
+```
+
+```{r}
+df %>%
+  group_by(party) %>%
+  mutate(totalVotes = sum(votes)) %>%
+  ungroup() %>%
+  group_by(age_range, party) %>%
+  mutate(votes_share = sum(votes)/totalVotes) %>%
+  ungroup() %>%
+  group_by(age_range, party) %>%
+  summarise(votes_share = mean(votes_share)) %>%
+  ggplot(aes(factor(age_range), votes_share, 
+             fill = factor(party))) +
+  geom_col(show.legend = F) +
+  ggthemes::theme_hc() +
+  ggthemes::scale_fill_hc() +
+  labs(x = NULL, y = "%") +
+  facet_wrap(~party)
+```

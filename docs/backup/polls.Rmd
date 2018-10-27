@@ -1,0 +1,96 @@
+---
+title: "Scrape Election polls"
+output: 
+---
+
+```{r message=FALSE, warning=TRUE}
+library(rvest)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(scales)
+library(RColorBrewer)
+
+# Theming
+quartzFonts(
+  Roboto =
+    c("Roboto-Light",
+      "Roboto-Bold",
+      "Roboto-Regular",
+      "Roboto-Thin")
+)
+
+theme_set(
+  theme_bw(base_family = "Roboto", base_size = 10) +
+    theme(
+      plot.title = element_text(size = 14,
+                                margin = margin(0, 0, 4, 0, "pt")),
+      plot.subtitle = element_text(size = 8),
+      plot.caption = element_text(size = 6),
+      plot.background   = element_rect("#fafafa", "#fafafa"),
+      panel.background  = element_rect("#fafafa"),
+      panel.border = element_blank()
+    )
+)
+
+col <- brewer.pal(6,"Dark2")
+```
+
+# Scrape Data
+```{r}
+url <- "https://www.infratest-dimap.de/umfragen-analysen/bundesweit/sonntagsfrage/"
+rare <- read_html(url)
+```
+
+```{r}
+table <- rare %>%
+  html_nodes("table") %>%
+  html_table() 
+
+table <- table[[1]]
+names(table) <- table[1,]
+
+table <- table %>%
+  filter(Datum != "Datum") %>%
+  transmute(Datum = as.Date(Datum, "%d.%m.%y"),
+         Union = as.numeric(Union),
+         SPD = as.numeric(SPD),
+         AfD = as.numeric(AfD),
+         FDP = as.numeric(FDP),
+         Linke = as.numeric(`Linke*`),
+         Grüne = as.numeric(Grüne),
+         Piraten = as.numeric(Piraten),
+         Sonstige = as.numeric(Sonstige))
+
+head(table) %>% htmlTable::htmlTable()
+```
+
+```{r}
+table_long <- table %>% 
+  gather(party, value, -Datum) 
+```
+
+# Plot Data
+```{r}
+ggplot(table_long, aes(Datum, value, color=party)) +
+  geom_line() +
+  labs(x="", y="", title = "Sonntagsumfrage",
+       subtitle = "Standartisierte Werte") +
+  scale_x_date(breaks = date_breaks("1 year"), labels=date_format("%Y", tz="CET")) 
+```
+
+```{r}
+table_long %>%
+  filter(Datum > as.Date("2017", "%Y")) %>%
+  ggplot(aes(Datum, value, color=party)) +
+  geom_line() +
+  labs(x="", y="", color="",
+       title = "Sonntagsumfrage") +
+  scale_x_date(breaks = date_breaks("1 month"), labels=date_format("%b-%y", tz="CET")) 
+```
+
+```{r}
+save(table, table_long, file = "../output/polls.Rda")
+load("../output/polls.Rda")
+```
+

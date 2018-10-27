@@ -236,7 +236,7 @@ btw <- btw %>%
 
   # remove articles about Deutsche Bahn and weather
   filter(!grepl("wetter", url, ignore.case = TRUE)) %>%
-  filter(!grepl("deutschebahn", url, ignore.case = TRUE)) 
+  filter(!grepl("bahn", url, ignore.case = TRUE)) 
 ```
 
 ```{r}

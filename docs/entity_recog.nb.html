@@ -190,52 +190,71 @@ library(ggmap)</code></pre>
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2VudF9hbm5vdCA8LSBNYXhlbnRfU2VudF9Ub2tlbl9Bbm5vdGF0b3IoKVxud29yZF9hbm5vdCA9IE1heGVudF9Xb3JkX1Rva2VuX0Fubm90YXRvcigpXG5wZW9wbGVfYW5ub3QgPSBNYXhlbnRfRW50aXR5X0Fubm90YXRvcihraW5kID0gXCJwZXJzb25cIikgI2Fubm90YXRlIHBlcnNvblxuYGBgIn0= -->
-<pre class="r"><code>sent_annot &lt;- Maxent_Sent_Token_Annotator()
-word_annot = Maxent_Word_Token_Annotator()
-people_annot = Maxent_Entity_Annotator(kind = &quot;person&quot;) #annotate person</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucm0obGlzdCA9IGxzKCkpXG5sb2FkKFwiLi4vb3V0cHV0L2RhdGFfc3RlcDIuUmRhXCIpXG5gYGAifQ== -->
+<pre class="r"><code>rm(list = ls())
+load(&quot;../output/data_step2.Rda&quot;)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBzZWxlY3Qgc2FtcGxlXG5idHcgJT4lXG4gIHNhbXBsZV9uKDEpICU+JVxuICBzZWxlY3QodGV4dCkgJT4lXG4gIGFzLlN0cmluZygpLT4gdGV4dCBcbmh0bWxUYWJsZTo6aHRtbFRhYmxlKHRleHQpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0dlbmVyYXRlIGFuIGFubm90YXRvciB3aGljaCBjb21wdXRlcyBzZW50ZW5jZSx3b3JkLCBQT1MgdGFnIGFubm90YXRpb25zIHVzaW5nIHRoZSBBcGFjaGUgT3Blbk5MUCBNYXhlbnQgc2VudGVuY2UgZGV0ZWN0b3IuXG5zZW50X3Rva2VuX2Fubm90YXRvciA8LSBNYXhlbnRfU2VudF9Ub2tlbl9Bbm5vdGF0b3IobGFuZ3VhZ2UgPSBcImRlXCIsIG1vZGVsID0gXCJOTFBtb2RlbHMvZGUtc2VudC5iaW5cIilcbndvcmRfdG9rZW5fYW5ub3RhdG9yIDwtIE1heGVudF9Xb3JkX1Rva2VuX0Fubm90YXRvcigpXG5wb3NfdGFnX2Fubm90YXRvciA8LSBNYXhlbnRfUE9TX1RhZ19Bbm5vdGF0b3IobGFuZ3VhZ2UgPSBcImRlXCIsXG4gICAgICAgICAgICAgICAgICAgICAgICBwcm9icyA9IEZBTFNFLG1vZGVsID0gXCJOTFBtb2RlbHMvZGUtcG9zLW1heGVudC5iaW5cIilcblxuI0NvbXB1dGUgYW5ub3RhdGlvbnMgYnkgaXRlcmF0aXZlbHkgY2FsbGluZyB0aGUgZ2l2ZW4gYW5ub3RhdG9ycyB3aXRoIHRoZSBnaXZlblxuICN0ZXh0IGFuZCBjdXJyZW50IGFubm90YXRpb25zLCBhbmQgbWVyZ2luZyB0aGUgbmV3bHkgY29tcHV0ZWQgYW5ub3RhdGlvbnMgd2l0aCB0aGUgY3VycmVudCBvbmVzLlxuXG5hMyA8LSBhbm5vdGF0ZShzLFxuIGxpc3Qoc2VudF90b2tlbl9hbm5vdGF0b3IsXG4gd29yZF90b2tlbl9hbm5vdGF0b3IpKVxuIGE0IDwtIGFubm90YXRlKHMscG9zX3RhZ19hbm5vdGF0b3IsYTMpXG4gI2Fubm90YXRlKHMsIE1heGVudF9DaHVua19Bbm5vdGF0b3IoKSwgYTQpXG4gI2Fubm90YXRlKHMsIE1heGVudF9DaHVua19Bbm5vdGF0b3IocHJvYnMgPSBUUlVFKSwgYTMpXG5cbiNleHRyYWN0IHdvcmRzXG4gYXc0IDwtc3Vic2V0KGE0LHR5cGU9PVwid29yZFwiKVxuXG4jVXNlIGFwcGx5IGZ1bmN0aW9uIHRvIGV4dHJhY3Qgb25seSB0aGUgUE9TIHRhZ3NcbiB0YWdzIDwtIHNhcHBseShhdzQkZmVhdHVyZXMsICdbWycsXCJQT1NcIilcbiB0YWJsZSh0YWdzKVxuICMgcHJpbnQgdGhlIHdvcmQgd2l0aCBQT1MgVGFnXG4gc3ByaW50ZihcIiVzJXNcIiwgc1thdzRdLHRhZ3MpXG4gIyBSZWZlciB0byB0aGUgbGluayBmb3IgZGVmaW5pdGlvbiBvZiBQT1MgdGFnc1xuICNodHRwczovL2NzLm55dS5lZHUvZ3Jpc2htYW4vamV0L2d1aWRlL1Blbm5QT1MuaHRtbFxuYGBgIn0= -->
+<pre class="r"><code>#Generate an annotator which computes sentence,word, POS tag annotations using the Apache OpenNLP Maxent sentence detector.
+sent_token_annotator &lt;- Maxent_Sent_Token_Annotator(language = &quot;de&quot;, model = &quot;NLPmodels/de-sent.bin&quot;)
+word_token_annotator &lt;- Maxent_Word_Token_Annotator()
+pos_tag_annotator &lt;- Maxent_POS_Tag_Annotator(language = &quot;de&quot;,
+                        probs = FALSE,model = &quot;NLPmodels/de-pos-maxent.bin&quot;)
+
+#Compute annotations by iteratively calling the given annotators with the given
+ #text and current annotations, and merging the newly computed annotations with the current ones.
+
+a3 &lt;- annotate(s,
+ list(sent_token_annotator,
+ word_token_annotator))
+ a4 &lt;- annotate(s,pos_tag_annotator,a3)
+ #annotate(s, Maxent_Chunk_Annotator(), a4)
+ #annotate(s, Maxent_Chunk_Annotator(probs = TRUE), a3)
+
+#extract words
+ aw4 &lt;-subset(a4,type==&quot;word&quot;)
+
+#Use apply function to extract only the POS tags
+ tags &lt;- sapply(aw4$features, '[[',&quot;POS&quot;)
+ table(tags)
+ # print the word with POS Tag
+ sprintf(&quot;%s%s&quot;, s[aw4],tags)
+ # Refer to the link for definition of POS tags
+ #https://cs.nyu.edu/grishman/jet/guide/PennPOS.html</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuTWF4ZW50X1BPU19UYWdfQW5ub3RhdG9yKGxhbmd1YWdlID0gXCJkZVwiLFxuICAgICAgICAgICAgICAgICAgICAgICAgcHJvYnMgPSBGQUxTRSxtb2RlbCA9IFwiTkxQbW9kZWxzL2RlLXBvcy1tYXhlbnQuYmluXCIpXG5cbmBgYCJ9 -->
+<pre class="r"><code>Maxent_POS_Tag_Annotator(language = &quot;de&quot;,
+                        probs = FALSE,model = &quot;NLPmodels/de-pos-maxent.bin&quot;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiQW4gYW5ub3RhdG9yIGluaGVyaXRpbmcgZnJvbSBjbGFzc2VzXG4gIFNpbXBsZV9QT1NfVGFnX0Fubm90YXRvciBBbm5vdGF0b3JcbndpdGggZGVzY3JpcHRpb25cbiAgQ29tcHV0ZXMgUE9TIHRhZyBhbm5vdGF0aW9ucyB1c2luZyB0aGUgQXBhY2hlIE9wZW5OTFAgTWF4ZW50IFBhcnQgb2YgU3BlZWNoIHRhZ2dlciBlbXBsb3lpbmcgYVxuICB1c2VyLWRlZmluZWQgbW9kZWxcbiJ9 -->
+<pre><code>An annotator inheriting from classes
+  Simple_POS_Tag_Annotator Annotator
+with description
+  Computes POS tag annotations using the Apache OpenNLP Maxent Part of Speech tagger employing a
+  user-defined model</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBzZWxlY3Qgc2FtcGxlXG5idHcgJT4lXG4gIHNhbXBsZV9uKDEpICU+JVxuICBzZWxlY3QodGV4dCkgJT4lXG4gIGFzLlN0cmluZygpLT4gdGV4dCBcblxuaHRtbFRhYmxlOjpodG1sVGFibGUodGV4dClcbmBgYCJ9 -->
 <pre class="r"><code># select sample
 btw %&gt;%
   sample_n(1) %&gt;%
   select(text) %&gt;%
   as.String()-&gt; text 
+
 htmlTable::htmlTable(text)</code></pre>
 <!-- rnb-source-end -->
-
-<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImh0bWwiLCJodG1sVGFibGUiLCJjaGFyYWN0ZXIiXSwic2l6aW5nUG9saWN5IjpbXX19 -->
-
-<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
-<tbody>
-<tr style='border-top: 2px solid grey;'>
-<td style='border-top: 2px solid grey; border-bottom: 2px solid grey; text-align: center;'>"Internationalsozialistische Antifa": Das ist die Facebook-Seite, auf die sich die AfD beruft 26. Juli 2017 16:45 Uhr "Internationalsozialistische Antifa" Das ist die Facebook-Seite, auf die sich die AfD bei ihrem Einspruch beruft 
-Die AfD will die Landtagswahl in Nordrhein-Westfalen anfechten. Im Begründungsschreiben wird auch der Facebook-Post einer angeblichen Antifa-Seite erwähnt. Doch wer steckt wirklich hinter dem Account? Fullscreen 
-Die Facebook-Seite "Internationalsozialistische Antifa" 
-Am Montag hat die AfD mitgeteilt, dass sie Einspruch gegen die Feststellung des endgültigen Ergebnisses der nordrhein-westfälischen Landtagswahl erhoben hat . In einem Begründungsschreiben an den Präsidenten des Landtags legt die Partei auch einen Post der Facebook-Seite "Internationalsozialistische Antifa" vor. Dort hätten sich Menschen zu der Wahlmanipulation in NRW bekannt und ihn als "Testlauf" bezeichnet. Dem stern liegt das Schreiben vor. Die AfD schreibt darin zwar, dass diese Facebook-Seite "nicht personenmäßig greifbar" sei. Dennoch sei dieser Hinweis "sehr glaubhaft", da er "mit den bereits vorgefundenen Fakten" einer "systematischen Schädigung der AfD" übereinstimme. "Die Glaubhaftigkeit des Facebook-Postings ergibt sich daraus, dass (...) die Antifa versucht, die antragstellende AfD NRW an der Ausübung ihrer demokratischen Rechte zu hindern." 
-Doch stecken hinter der Facebook-Seite wirklich Antifa-Aktivisten? Das meiste, was dort in den vergangenen Jahren gepostet wurde, legt den Verdacht nahe, dass der oder die Macher der Seite Satire betreiben wollen. So findet sich dort etwa folgender Post mit dem Text: "Schottland erlaubt es in Zukunft muslimischen Polizistinnen, sich zu verschleiern. Das muss schnellstmöglich auch in Deutschland eine Selbstverständlichkeit werden!" 
-Immer wieder werden auch Politikern Fake-Zitate in den Mund gelegt, wie hier dem Grünen-Politiker Cem Özdemir: 
-Beschriftet mit "Schluss mit Rassenhass, auch im Straßenverkehr!" teilte die Seite folgendes Bild: 
-Nach dem Terroranschlag auf den Berliner Weihnachtsmarkt im vergangenen Jahr verbreitete die Facebook-Seite die Aussage: "Wer Muslime ständig provoziert, muss sich über Anschläge wie in Berlin nicht wundern." Hinter den provokanten Postings könnte die Motivation stecken, vermeintlich linke Ansichten radikal zu überspitzen. So "fordert" der Betreiber der Webseite im Mai 2017 etwa, dass sich "Deutsche in die orientalische Mehrheitsgesellschaft integrieren". Die Maßnahmen dafür wären: "Türkisch- und Arabisch-Kurse für jeden Deutschen (...) Repräsentative Großmoscheen mit je vier Minaretten und Muezzinruf müssen in jedem Bezirk und jeder Gemeinde stehen. Wir brauchen zudem endlich gesetzliche muslimische Feiertage und flächendeckenden Islamunterricht in jeder Schule!" Von Wigbert Löer 
-Die Reaktionen in den Kommentaren sind gespalten. Während viele den mutmaßlichen Satireversuch als solchen erkennen, echauffieren sich andere wütend über die vermeintlichen "linksversifften Gutmenschen". Wiederum andere sind sich sicher, dass der oder die Betreiber eher aus dem AfD- oder Pegida-Umfeld stammen. "Merkt denn keiner, dass es sich hierbei nicht um die Antifa handelt sondern um Leute aus der rechtsradikalen Szene, die die Antifa diffamieren und hinterfotzigen Bullshit verbreiten?", schreibt ein Nutzer zwischen die echauffierten Kommentare. 
-Das Hauptthema der vergangenen zwei Jahre der Seite "Internationalsozialistische Antifa" ist der Islam. Immer wieder drehen sich die Posts um die angebliche Islamisierung Europas und darum, wie sehr man dies doch begrüße. Alle Deutschen, die damit ein Problem hätten, könnten doch bitte das Land verlassen. Zitat: "Deutschland wird bunter, undeutscher und unchristlicher mit jedem weiteren Tag - und das ist auch gut so!" "Untergrenze für Flüchtlinge" 
-Die meisten Postings auf "Internationalsozialistische Antifa " stellen sich bei genauerer Betrachtung als Versuch einer Überspitzung heraus. Hier einige Beispiele: Mai 2017: "Überfremdung? Ja, bitte!" Juli 2017: "Wir fordern eine Untergrenze von 200.000 Flüchtlingen jedes Jahr nach Deutschland!" April 2017: "Für jede Kirche, die abgerissen wird, müssen zwei neue Moscheen gebaut werden!" April 2017: "Erdogan will, dass Deutschland türkisch wird. Das macht ihn uns irgendwie dann doch sympathisch." April 2017: "Es ist keine Schande, den ganzen Tag besoffen und bekifft rumzulungern. Es ist eine Schande, AfD-Nazi zu sein und Deutschland zu lieben!" Mai 2016: "Sozialismus und Multikulti statt Deutschland!" Februar 2016: "Muslime aus aller Welt sind eingeladen, hier zu bleiben und Deutschland radikal zu verändern!" Januar 2016: "Deutschland mit Flüchtlingen fluten! Wir schaffen das!" Januar 2016: "Uns sind kriminelle Flüchtlinge lieber als kriminelle Deutsche." Dezember 2015: "Wir feiern kein Weihnachten! Tradition und Brauchtum gehören auf den Müllhaufen der Geschichte!" 
-Der älteste Post auf der Facebook -Seite ist aus dem Jahr 2012. Bis 2015 wurde jedoch nur sehr unregelmäßig und teilweise in sehr großen Abständen gepostet - und hauptsächlich plumpe Beleidigungen an Nazis. Erst im Laufe des Jahres 2015 erhöht sich die Posting-Frequenz auf der Seite. Etwa in diesem Zeitraum werden auch die offenbar mit satirischer Absicht geteilten Beiträge mehr. Auf eine Gesprächsanfrage des stern haben der oder die Betreiber der Facebook-Seite noch nicht reagiert. Erfahren Sie mehr:</td>
-</tr>
-</tbody>
-</table>
-
-
-<!-- rnb-html-end -->
-
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
@@ -260,7 +279,7 @@ unique(berk_people)</code></pre>
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRW50aXR5IFJlY29nbml0aW9uIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgpgYGB7cn0KbGlicmFyeShsZXhSYW5rcikKbGlicmFyeShlbnRpdHkpCmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KE5MUCkKbGlicmFyeShvcGVuTkxQKQpsaWJyYXJ5KGdnbWFwKQpgYGAKCmBgYHtyfQpybShsaXN0ID0gbHMoKSkKbG9hZCgiLi4vb3V0cHV0L2RhdGFfc3RlcDIuUmRhIikKYGBgCgpgYGB7cn0Kc2VudF9hbm5vdCA8LSBNYXhlbnRfU2VudF9Ub2tlbl9Bbm5vdGF0b3IoKQp3b3JkX2Fubm90ID0gTWF4ZW50X1dvcmRfVG9rZW5fQW5ub3RhdG9yKCkKcGVvcGxlX2Fubm90ID0gTWF4ZW50X0VudGl0eV9Bbm5vdGF0b3Ioa2luZCA9ICJwZXJzb24iKSAjYW5ub3RhdGUgcGVyc29uCmBgYAoKYGBge3J9CiMgc2VsZWN0IHNhbXBsZQpidHcgJT4lCiAgc2FtcGxlX24oMSkgJT4lCiAgc2VsZWN0KHRleHQpICU+JQogIGFzLlN0cmluZygpLT4gdGV4dCAKCmh0bWxUYWJsZTo6aHRtbFRhYmxlKHRleHQpCmBgYAoKYGBge3J9CmFubm90LmwxID0gTkxQOjphbm5vdGF0ZSh0ZXh0LCBsaXN0KHNlbnRfYW5ub3Qsd29yZF9hbm5vdCxwZW9wbGVfYW5ub3QpKQoKayA8LSBzYXBwbHkoYW5ub3QubDEkZmVhdHVyZXMsIGBbW2AsICJraW5kIikKYmVya19wZW9wbGUgPSB0ZXh0W2Fubm90LmwxW2sgPT0gInBlcnNvbiJdXQoKdW5pcXVlKGJlcmtfcGVvcGxlKQpgYGAKCmBgYHtyfQphbm5vdC5sMSQKYGBgCgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRW50aXR5IFJlY29nbml0aW9uIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgpgYGB7cn0KbGlicmFyeShsZXhSYW5rcikKbGlicmFyeShlbnRpdHkpCmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KE5MUCkKbGlicmFyeShvcGVuTkxQKQpsaWJyYXJ5KGdnbWFwKQpgYGAKCmBgYHtyfQpybShsaXN0ID0gbHMoKSkKbG9hZCgiLi4vb3V0cHV0L2RhdGFfc3RlcDIuUmRhIikKYGBgCgpgYGB7cn0KI0dlbmVyYXRlIGFuIGFubm90YXRvciB3aGljaCBjb21wdXRlcyBzZW50ZW5jZSx3b3JkLCBQT1MgdGFnIGFubm90YXRpb25zIHVzaW5nIHRoZSBBcGFjaGUgT3Blbk5MUCBNYXhlbnQgc2VudGVuY2UgZGV0ZWN0b3IuCnNlbnRfdG9rZW5fYW5ub3RhdG9yIDwtIE1heGVudF9TZW50X1Rva2VuX0Fubm90YXRvcihsYW5ndWFnZSA9ICJkZSIsIG1vZGVsID0gIk5MUG1vZGVscy9kZS1zZW50LmJpbiIpCndvcmRfdG9rZW5fYW5ub3RhdG9yIDwtIE1heGVudF9Xb3JkX1Rva2VuX0Fubm90YXRvcigpCnBvc190YWdfYW5ub3RhdG9yIDwtIE1heGVudF9QT1NfVGFnX0Fubm90YXRvcihsYW5ndWFnZSA9ICJkZSIsCiAgICAgICAgICAgICAgICAgICAgICAgIHByb2JzID0gRkFMU0UsbW9kZWwgPSAiTkxQbW9kZWxzL2RlLXBvcy1tYXhlbnQuYmluIikKCiNDb21wdXRlIGFubm90YXRpb25zIGJ5IGl0ZXJhdGl2ZWx5IGNhbGxpbmcgdGhlIGdpdmVuIGFubm90YXRvcnMgd2l0aCB0aGUgZ2l2ZW4KICN0ZXh0IGFuZCBjdXJyZW50IGFubm90YXRpb25zLCBhbmQgbWVyZ2luZyB0aGUgbmV3bHkgY29tcHV0ZWQgYW5ub3RhdGlvbnMgd2l0aCB0aGUgY3VycmVudCBvbmVzLgoKYTMgPC0gYW5ub3RhdGUocywKIGxpc3Qoc2VudF90b2tlbl9hbm5vdGF0b3IsCiB3b3JkX3Rva2VuX2Fubm90YXRvcikpCiBhNCA8LSBhbm5vdGF0ZShzLHBvc190YWdfYW5ub3RhdG9yLGEzKQogI2Fubm90YXRlKHMsIE1heGVudF9DaHVua19Bbm5vdGF0b3IoKSwgYTQpCiAjYW5ub3RhdGUocywgTWF4ZW50X0NodW5rX0Fubm90YXRvcihwcm9icyA9IFRSVUUpLCBhMykKCiNleHRyYWN0IHdvcmRzCiBhdzQgPC1zdWJzZXQoYTQsdHlwZT09IndvcmQiKQoKI1VzZSBhcHBseSBmdW5jdGlvbiB0byBleHRyYWN0IG9ubHkgdGhlIFBPUyB0YWdzCiB0YWdzIDwtIHNhcHBseShhdzQkZmVhdHVyZXMsICdbWycsIlBPUyIpCiB0YWJsZSh0YWdzKQogIyBwcmludCB0aGUgd29yZCB3aXRoIFBPUyBUYWcKIHNwcmludGYoIiVzJXMiLCBzW2F3NF0sdGFncykKICMgUmVmZXIgdG8gdGhlIGxpbmsgZm9yIGRlZmluaXRpb24gb2YgUE9TIHRhZ3MKICNodHRwczovL2NzLm55dS5lZHUvZ3Jpc2htYW4vamV0L2d1aWRlL1Blbm5QT1MuaHRtbApgYGAKCmBgYHtyfQpzZW50X2Fubm90IDwtIE1heGVudF9TZW50X1Rva2VuX0Fubm90YXRvcihsYW5ndWFnZSA9ICJkZSIsIG1vZGVsID0gIk5MUG1vZGVscy9kZS1zZW50LmJpbiIpCndvcmRfYW5ub3QgPSBNYXhlbnRfV29yZF9Ub2tlbl9Bbm5vdGF0b3IoKQojcGVvcGxlX2Fubm90ID0gTWF4ZW50X0VudGl0eV9Bbm5vdGF0b3IobGFuZ3VhZ2UgPSAiZGUiKSAjYW5ub3RhdGUgcGVyc29uCgpwb3NfdGFnX2Fubm90YXRvciA8LSBNYXhlbnRfUE9TX1RhZ19Bbm5vdGF0b3IobGFuZ3VhZ2UgPSAiZGUiLAogICAgICAgICAgICAgICAgICAgICAgICBwcm9icyA9IEZBTFNFLG1vZGVsID0gIk5MUG1vZGVscy9kZS1wb3MtbWF4ZW50LmJpbiIpCgpgYGAKCmBgYHtyfQojIHNlbGVjdCBzYW1wbGUKYnR3ICU+JQogIHNhbXBsZV9uKDEpICU+JQogIHNlbGVjdCh0ZXh0KSAlPiUKICBhcy5TdHJpbmcoKS0+IHRleHQgCgpodG1sVGFibGU6Omh0bWxUYWJsZSh0ZXh0KQpgYGAKCmBgYHtyfQphbm5vdC5sMSA9IE5MUDo6YW5ub3RhdGUodGV4dCwgbGlzdChzZW50X2Fubm90LHdvcmRfYW5ub3QscGVvcGxlX2Fubm90KSkKCmsgPC0gc2FwcGx5KGFubm90LmwxJGZlYXR1cmVzLCBgW1tgLCAia2luZCIpCmJlcmtfcGVvcGxlID0gdGV4dFthbm5vdC5sMVtrID09ICJwZXJzb24iXV0KCnVuaXF1ZShiZXJrX3Blb3BsZSkKYGBgCgpgYGB7cn0KYW5ub3QubDEkCmBgYAoK</div>
 
 
 

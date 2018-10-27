@@ -5,27 +5,48 @@ output: html_notebook
 
 ```{r}
 library(tidyverse)
-
 rm(list = ls())
+```
+
+```{r}
+fdp <- read.csv("../scrapedata/fdp.csv", stringsAsFactors=FALSE)
+
+# get the first sentence of the "gastbeitrag" releases
+text <- unlist(strsplit(fdp$body, '\\:|\\.'))
+ignore <- text[!grep(pattern = "Gastbeitrag", text, ignore.case = T)]
+
+fdp <- fdp %>%
+  filter(!grepl("interview",title,ignore.case = T)) %>%
+  transmute(text = gsub(paste(ignore, sep = "|", collapse = "|"),"", body),
+            date = as.Date(date, format = "%d.%m.%Y"),
+            title = gsub('(.+?):','',title, perl = T),
+            title_text = paste(title, text),
+            source = party
+         ) 
 ```
 
 ```{r}
 linke <- read.csv("../scrapedata/linke.csv", stringsAsFactors=FALSE)
 
 linke <- linke %>%
-  mutate(title_body = paste(title, body),
-    date = gsub("\n","",date, perl = T),
-         date = as.Date(date, format = "%d. %B %Y"))
+  transmute(text = body,
+            title = title,
+            title_text = paste(title, text),
+            date = gsub("\n","",date, perl = T),
+            date = as.Date(date, format = "%d. %B %Y"),
+            source = party)
+
 ```
 
 ```{r}
 gruene <- read.csv("../scrapedata/gruene.csv", stringsAsFactors=FALSE)
 
 gruene <- gruene %>%
-  mutate(body = gsub('Die Fraktionspressestelle auf Twitter: @GruenSprecher','',body),
-         title_body = paste(title, body),
-         date = as.Date(date, format = "%d.%m.%Y"),
-         party = "gruene"
+  transmute(text = gsub('Die Fraktionspressestelle auf Twitter: @GruenSprecher','',body),
+            title = title,
+            title_text = paste(title, text),
+            date = as.Date(date, format = "%d.%m.%Y"),
+            source = party
          )
 ```
 
@@ -33,10 +54,11 @@ gruene <- gruene %>%
 spd <- read.csv("../scrapedata/spd.csv", stringsAsFactors=FALSE)
 
 spd <- spd %>%
-  mutate(body = gsub('(.+?):','', body, perl = TRUE, ignore.case = TRUE),
-         title_body = paste(title, body),
-         date = as.Date(gsub('\\|.*','',date, perl = T), format = "%d.%m.%Y"),
-         party = "spd"
+  transmute(text = gsub('(.+?):','', body, perl = TRUE, ignore.case = TRUE),
+            title = title,
+            title_text = paste(title, text),
+            date = as.Date(gsub('\\|.*','',date, perl = T), format = "%d.%m.%Y"),
+            source = "spd"
          )
 ```
 
@@ -44,49 +66,54 @@ spd <- spd %>%
 cdu <- read.csv("../scrapedata/cdu.csv", stringsAsFactors=FALSE)
 
 cdu <- cdu %>%
-  mutate(body = gsub('Berlin','',body, ignore.case = TRUE, perl = TRUE),
-         body = gsub('ots','',body, ignore.case = TRUE, perl = TRUE),
-         body = gsub('Presse.*','', body, perl = TRUE, ignore.case = TRUE),
-         body = gsub('Telefon.*','', body, perl = TRUE, ignore.case = TRUE),
-         body = gsub('Fax.*','', body, perl = TRUE, ignore.case = TRUE),
-         body = gsub('Internet.*','', body, perl = TRUE, ignore.case = TRUE),
-         body = gsub('Email.*','', body, perl = TRUE, ignore.case = TRUE),
-         title_body = paste(title, body),
+  transmute(text = gsub('Berlin','',body, ignore.case = TRUE, perl = TRUE),
+         text = gsub('ots','',text, ignore.case = TRUE, perl = TRUE),
+         text = gsub('Presse.*','', text, perl = TRUE, ignore.case = TRUE),
+         text = gsub('Telefon.*','', text, perl = TRUE, ignore.case = TRUE),
+         text = gsub('Fax.*','', text, perl = TRUE, ignore.case = TRUE),
+         text = gsub('Internet.*','', text, perl = TRUE, ignore.case = TRUE),
+         text = gsub('Email.*','', text, perl = TRUE, ignore.case = TRUE),
+         title = gsub('(.+?):','',title, perl = T),
+         title_text = paste(title, text),
          date = as.Date(gsub('\\-.*','',date, perl = T), format = "%d.%m.%Y"),
-         party = "union"
+         source = "union"
          ) 
 ```
+
 
 ```{r}
 afd <- read.csv("../scrapedata/afd.csv", stringsAsFactors=FALSE)
 
 afd <- afd %>%
-  mutate(body = gsub('Berlin[^n\\.]*','',body, ignore.case = TRUE, perl = TRUE),
-         body = gsub('Drucken','',body, ignore.case = TRUE, perl = TRUE),
-         title_body = paste(title, body),
-         party = "afd",
+  filter(!grepl("interview",title,ignore.case = T)) %>%
+  transmute(text = gsub('Berlin[^n\\.]*','',body, ignore.case = TRUE, perl = TRUE),
+         text = gsub('Drucken','',text, ignore.case = TRUE, perl = TRUE),
+         title = gsub('(.+?):','',title, perl = T),
+         title_text = paste(title, text),
+         source = "afd",
          date = gsub('Mrz',"März",date),
          date = as.Date(date, format = "%d%b %Y")
          ) 
 ```
 
 ```{r}
-pressReleases <- bind_rows(cdu, spd, afd, gruene, linke) %>%
-  filter(date >= as.Date("2017-06-01"))
+pressReleases <- bind_rows(cdu, spd, afd, gruene, linke, fdp) %>%
+  filter(date >= as.Date("2017-06-01")) %>%
+  mutate(type = "press")
 ```
 
 ```{r}
 pressReleases %>%
-  count(party, date) %>%
-  ggplot(aes(date,n, color=party, group=party)) +
-  geom_point() +
+  ggplot(aes(source, fill=source)) +
+  geom_bar(show.legend = F) +
   ggthemes::theme_hc() +
-  ggthemes::scale_color_hc()
+  ggthemes::scale_fill_hc() +
+  labs(y = NULL, x = NULL, title = "Number of press releases (June 2017 - March 2018)")
 ```
 
 # Clean Data
 ```{r}
-pressReleases$text_cleaned <- gsub("[[:punct:]]", " ", pressReleases$title_body)
+pressReleases$text_cleaned <- gsub("[[:punct:]]", " ", pressReleases$title_text)
 pressReleases$text_cleaned <- gsub("[[:cntrl:]]", " ", pressReleases$text_cleaned)
 pressReleases$text_cleaned <- gsub("[[:digit:]]", " ", pressReleases$text_cleaned)
 pressReleases$text_cleaned <- gsub("^[[:space:]]+", " ", pressReleases$text_cleaned)
@@ -99,7 +126,10 @@ german_stopwords_full <- read.table("dict/german_stopwords_full.txt", stringsAsF
 german_stopwords_full <- german_stopwords_full$V1
 
 # 2
-mystopwords <- c("januar","feburar","märz","april","mai","juni","juli","august","september","oktober","november","dezember")
+mystopwords <- c("januar","feburar","märz","april","mai","juni","juli",
+                 "august","september","oktober","november","dezember",
+                 "linke","cdu","csu","union","spd","afd","grüne","fdp"
+                 )
 stopwords <- c(german_stopwords_full, mystopwords)
 stopwords <- unique(stopwords)
 
@@ -182,12 +212,40 @@ bigrams2 %>%
 
 # Structural Topic Model
 
-### Build Corpus
+## Combine with news articles
+```{r}
+load("../output/data_step2.Rda")
+```
+
+```{r}
+btw %>%
+  mutate(date = as.Date(date),
+         type = "news",
+         source = site
+         ) %>%
+  bind_rows(.,pressReleases) -> model_df
+```
+
+```{r fig.height=3, fig.width=6}
+model_df %>%
+  ggplot(aes(source, fill=type)) +
+  geom_bar(show.legend = F) +
+  facet_wrap(~type, scales = "free") +
+  ggthemes::theme_economist() +
+  ggthemes::scale_fill_economist()
+```
+
+```{r}
+model_df %>%
+  sample_n(10) %>% select(text_cleaned1, source) %>% htmlTable::htmlTable()
+```
+
+## Build Corpus
 ```{r eval=FALSE, include=FALSE}
 library(stm)
 
-processed <- textProcessor(pressReleases$text_cleaned1, 
-                           metadata = pressReleases[,c("party","text_cleaned1")],
+processed <- textProcessor(model_df$text_cleaned1, 
+                           metadata = model_df[,c("source","type","text_cleaned1")],
                            wordLengths = c(2,Inf),
                            lowercase = F,
                            removestopwords = F,
@@ -195,17 +253,118 @@ processed <- textProcessor(pressReleases$text_cleaned1,
                            removepunctuation = F,
                            stem = F)
 out <- prepDocuments(processed$documents, processed$vocab, processed$meta)
-out$meta$party <- as.factor(out$meta$party)
+out$meta$source <- as.factor(out$meta$source)
 
-save(pressReleases, out, file="../output/pressReleases.Rda")
+save(model_df, out, file="../output/final_modeldf.Rda")
 ```
 
-### Run Model
-```{r}
+## Run Model
+```{r eval=FALSE, include=FALSE}
+k=40
+
 stmOut <- stm(documents = out$documents, vocab = out$vocab,
-              K = 20, prevalence =~ party, content = ~party,
+              K = k, prevalence =~ source,
               max.em.its = 75, data = out$meta,
               init.type = "Spectral")
 
+save(model_df, out, stmOut, file = "../output/models/finalmodel_40.Rda")
+```
+
+## Results
+```{r}
+library(stm)
+library(tidyverse)
+library(dplyr)
+
+rm(list = ls())
+load("../output/models/pressR_40.RData")
+```
+
+### 1. Label topics
+
+```{r}
+labels <- labelTopics(stmOut)
+
+topics.df <- as.data.frame(labels$prob) %>%
+  transmute(topic = as.numeric(rownames(.)),
+            topic_name = paste("Topic",as.character(topic),":",V1,V2,V3,V4))
+```
+
+### Topic frequency
+```{r}
+overall_freq <- as.data.frame(colMeans(stmOut$theta)) %>%
+  transmute(
+    topic = as.numeric(rownames(.)),
+    frequency = colMeans(stmOut$theta)
+         ) %>%
+  left_join(., topics.df, by = "topic") %>% 
+  arrange(desc(frequency))%>%
+  mutate(order = row_number())
+
+head(overall_freq)
+```
+
+```{r fig.height=5, fig.width=4}
+overall_freq %>%
+  ggplot(aes(reorder(topic_name, -order), frequency)) +
+  geom_col(alpha = 0.7) +
+  coord_flip() +
+  ggthemes::theme_fivethirtyeight() +
+  labs(x=NULL, y=NULL, title="Expected Frequency of Topics") 
+```
+
+### Relationship between metadata and topics
+
+```{r}
+k <- 40
+effect <- estimateEffect(c(1:k) ~party, stmOut, metadata = out$meta, uncertainty = "Global")
+```
+
+
+#### Mean prevalence of each topic within each news source corpus
+```{r fig.height=16, fig.width=12}
+par(mfrow = c(8,5))
+
+labels <- c("CDU/CSU","SPD", "AfD", "B90/Grüne","DIE LINKE")
+#topic <- 1
+
+for (i in 1:k) {
+  plot(effect, covariate = "party", topics = i,
+     method = "pointestimate", model = stmOut,
+     main = topics.df$topic_name[i],
+     #xlim = c(-.02,.08),
+     labeltype = "custom",
+     custom.labels = labels
+  )
+}
+```
+
+```{r}
+theta <- (as.data.frame(stmOut$theta)) %>%
+  mutate(document = as.numeric(rownames(.))) %>%
+  gather(key = topic, value = gamma, -document) %>%
+  mutate(topic = as.numeric(gsub("V","",topic)))
+```
+
+```{r}
+top_topics <- theta %>% 
+  group_by(document) %>%
+  mutate(therank = rank(-gamma)) %>%
+  filter(therank == 1) %>%
+  select(- therank)
+
+head(top_topics)
+```
+
+```{r}
+df <- pressReleases %>%
+  mutate(document = as.numeric(rownames(.))) %>%
+  left_join(.,top_topics, by="document")
+```
+
+```{r}
+df %>% filter(topic==12) %>% 
+  arrange(desc(gamma)) %>%
+  select(party, title, gamma) %>% htmlTable::htmlTable()
 ```
 
