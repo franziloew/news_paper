@@ -1,0 +1,157 @@
+---
+title: "Run Structural Topic Model"
+output: html_notebook
+---
+
+# Structural Topic Model
+
+## Combine press release with news articles
+```{r}
+load("../output/pressReleases.Rda")
+load("../output/data_step2.Rda")
+
+btw %>%
+  mutate(date = as.Date(date),
+         type = "news",
+         source = site
+         ) %>%
+  bind_rows(.,pressReleases) -> model_df
+```
+
+```{r fig.height=3, fig.width=6}
+model_df %>%
+  ggplot(aes(source, fill=type)) +
+  geom_bar(show.legend = F) +
+  facet_wrap(~type, scales = "free") +
+  ggthemes::theme_economist() +
+  ggthemes::scale_fill_economist()
+```
+
+## Build Corpus
+```{r eval=FALSE, include=FALSE}
+library(stm)
+
+processed <- textProcessor(model_df$text_cleaned1, 
+                           metadata = model_df[,c("source","type","text_cleaned1")],
+                           wordLengths = c(2,Inf),
+                           lowercase = F,
+                           removestopwords = F,
+                           removenumbers = F,
+                           removepunctuation = F,
+                           stem = F)
+out <- prepDocuments(processed$documents, processed$vocab, processed$meta)
+out$meta$source <- as.factor(out$meta$source)
+
+save(model_df, out, file="../output/final_modeldf.Rda")
+```
+
+## Run Model
+```{r eval=FALSE, include=FALSE}
+k=40
+
+stmOut <- stm(documents = out$documents, vocab = out$vocab,
+              K = k, prevalence =~ source,
+              max.em.its = 75, data = out$meta,
+              init.type = "Spectral")
+
+save(model_df, out, stmOut, file = "../output/models/finalmodel_40.Rda")
+```
+
+## Results
+```{r}
+library(stm)
+library(tidyverse)
+library(dplyr)
+
+rm(list = ls())
+load("../output/models/pressR_40.RData")
+```
+
+### 1. Label topics
+
+```{r}
+labels <- labelTopics(stmOut)
+
+topics.df <- as.data.frame(labels$prob) %>%
+  transmute(topic = as.numeric(rownames(.)),
+            topic_name = paste("Topic",as.character(topic),":",V1,V2,V3,V4))
+```
+
+### Topic frequency
+```{r}
+overall_freq <- as.data.frame(colMeans(stmOut$theta)) %>%
+  transmute(
+    topic = as.numeric(rownames(.)),
+    frequency = colMeans(stmOut$theta)
+         ) %>%
+  left_join(., topics.df, by = "topic") %>% 
+  arrange(desc(frequency))%>%
+  mutate(order = row_number())
+
+head(overall_freq)
+```
+
+```{r fig.height=5, fig.width=4}
+overall_freq %>%
+  ggplot(aes(reorder(topic_name, -order), frequency)) +
+  geom_col(alpha = 0.7) +
+  coord_flip() +
+  ggthemes::theme_fivethirtyeight() +
+  labs(x=NULL, y=NULL, title="Expected Frequency of Topics") 
+```
+
+### Relationship between metadata and topics
+
+```{r}
+k <- 40
+effect <- estimateEffect(c(1:k) ~party, stmOut, metadata = out$meta, uncertainty = "Global")
+```
+
+
+#### Mean prevalence of each topic within each news source corpus
+```{r fig.height=16, fig.width=12}
+par(mfrow = c(8,5))
+
+labels <- c("CDU/CSU","SPD", "AfD", "B90/Grüne","DIE LINKE")
+#topic <- 1
+
+for (i in 1:k) {
+  plot(effect, covariate = "party", topics = i,
+     method = "pointestimate", model = stmOut,
+     main = topics.df$topic_name[i],
+     #xlim = c(-.02,.08),
+     labeltype = "custom",
+     custom.labels = labels
+  )
+}
+```
+
+```{r}
+theta <- (as.data.frame(stmOut$theta)) %>%
+  mutate(document = as.numeric(rownames(.))) %>%
+  gather(key = topic, value = gamma, -document) %>%
+  mutate(topic = as.numeric(gsub("V","",topic)))
+```
+
+```{r}
+top_topics <- theta %>% 
+  group_by(document) %>%
+  mutate(therank = rank(-gamma)) %>%
+  filter(therank == 1) %>%
+  select(- therank)
+
+head(top_topics)
+```
+
+```{r}
+df <- pressReleases %>%
+  mutate(document = as.numeric(rownames(.))) %>%
+  left_join(.,top_topics, by="document")
+```
+
+```{r}
+df %>% filter(topic==12) %>% 
+  arrange(desc(gamma)) %>%
+  select(party, title, gamma) %>% htmlTable::htmlTable()
+```
+
