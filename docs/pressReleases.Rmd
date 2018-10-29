@@ -4,6 +4,11 @@ output: html_notebook
 ---
 
 ```{r}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+
+```{r message=FALSE, warning=FALSE}
 library(tidyverse)
 rm(list = ls())
 ```
@@ -35,7 +40,6 @@ linke <- linke %>%
             date = gsub("\n","",date, perl = T),
             date = as.Date(date, format = "%d. %B %Y"),
             source = party)
-
 ```
 
 ```{r}

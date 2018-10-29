@@ -1,0 +1,107 @@
+---
+title: "Visibility Bias"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r message=FALSE, warning=FALSE}
+rm(list = ls())
+
+library(tidyverse)
+source("func/functions.R")
+
+load("../output/data_step2.Rda")
+
+parties <- c("SPD",paste("CDU","CSU",sep = "|"),"FDP","Grüne","AfD","Linke")
+```
+
+To determine visibility bias, we first need to measure visibility per se. Eberl (2017) treats a party as visible in an article if the party itself or candidates from the party are a speaker or addressee in at least one of the claims included, where a claim is a statement made by an actor about a political issue and/or actor. Similar to that, we treat a party as visible in an article if the party itself is mentioned in an article (if an article contains the word "SPD", "CDU"/"CSU","FDP","Grüne","AfD" or "Linke"). 
+
+The visibility of a party $p$ by a newspaper $s$ is defined as the number of news articles published by the newspaper on that party, normalised on the total amount of articles by that newspaper in the corpus.
+
+$$
+\text{visibility}(p,s) = \frac{\text{#Articles}_{p,s}}{\text{#Articles}_s}
+$$
+
+Sample some articles to get an impression of the selection criteria
+
+```{r}
+btw %>%
+  filter(grepl("AfD",text)) %>%
+  sample_n(1) %>% select(title_text) %>%
+  htmlTable::htmlTable()
+```
+
+```{r}
+# claculate #Articles_s: total amount of articles by newspaper
+btw <- btw %>% 
+  group_by(medium) %>%
+  mutate(articles_s = n()) %>%
+  ungroup()
+```
+
+```{r}
+# Function to calculate average visibility for each party
+visibility <- function(data, party) {
+     
+  data %>% 
+    # filter all articles that contain the party as a word
+    filter(grepl(party,text)) %>%
+    # calculate the number of articles by each newspaper
+    group_by(medium) %>%
+    summarise(
+      # pass the total amount of articles to the grouped df
+      articles_s = mean(articles_s),
+      # calculate the number of articles about a party
+      articles_p_s = n(),
+      # calculate relative amount
+      visibility_p_s = articles_p_s/articles_s) %>%
+    mutate(party = party) -> df1
+  
+}
+```
+
+```{r}
+for (party in parties) {
+  partydf <- visibility(btw, party)
+  
+  if (exists('vis')) {
+   vis <- bind_rows(vis, partydf) 
+  } else {
+    vis <- partydf
+  }
+}
+```
+
+The next step is to define an appropriate reference point to distinguish between balanced/neutral and biased reporting. We use the average visibility of all parties in each media outlet during the period of analysis as a key benchmark. By doing so, we consider differences between parties as well as media outlets similar to Eberl (2017). Our bias measure therefore captures whether party visibility is biased in comparison to what is typical for that outlet. Visibility bias $v(p,s)$ is then computed as the deviation of each party’s specific visibility from the average visibility of all other parties in that outlet.
+
+$$
+v(p,s) =  \text{visibility}(p,s) - \frac{1}{N}\sum^N_{p=1}\text{visibility(p,s)}
+$$
+
+```{r}
+# Average visibility of all parties in each media outlet
+vis <- vis %>%
+  group_by(medium) %>%
+  mutate(mean_vis = mean(visibility_p_s)) %>%
+  ungroup() %>%
+  mutate(v_bias = visibility_p_s-mean_vis,
+         v_bias_normalized = normalize_data2(v_bias)
+         )
+```
+
+```{r}
+vis %>%
+  ggplot(aes(party, v_bias_normalized)) +
+  geom_col() +
+  facet_wrap(~medium) +
+  ggthemes::theme_fivethirtyeight() +
+  coord_flip() +
+  labs(title = "Visibility bias",
+       subtitle = "Normalized between -1 and 1")
+```
+
+# Results
+
+Visibility bias follows a similar pattern in most media outlets, with larger and government parties more visible than smaller opposition parties (as in Eberl (2017)). In this sample, the strongest positive deviation from the balanced benchmark was in favour of the government party union of CDU/CSU, while the strongest negative deviation from the balanced benchmark is against DIE LINKE. This phenomenon can be seen as reflecting the status quo division of power (e.g., Hopmann, de Vreese, & Albæk, 2011a; Semetko & Boomgaarden, 2007) 

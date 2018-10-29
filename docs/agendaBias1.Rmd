@@ -1,0 +1,293 @@
+---
+title: "Agenda Bias 1"
+subtitle: Control for topical content & topical prevalence
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(echo=FALSE)
+```
+
+To allow for an operationalization of agenda bias, I use parties' campaign communication as an approximation of the potential universe of news stories (D’Alessio & Allen, 2000; Eberl, 2017). I compare the policy issues addressed in campaign communication (i.e., the party agenda) with the policy issues the parties address in media coverage (i.e., the mediated party agenda).
+
+To discover the latent topics in the corpus of press releases (1.942) and news articles (11.880), a structural topic modeling (STM) developed by [Roberts (2016)](https://scholar.princeton.edu/sites/default/files/bstewart/files/a_model_of_text_for_experimentation_in_the_social_sciences.pdf) is applied. The STM is an unsupervised machine learning approach that models topics as multinomial distributions of words and documents as multinomial distributions of topics, allowing to incorporate external variables that effect both, topical content and topical prevalence.
+
+# Structural Topic Model
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+set.seed(456)
+
+library(stm)
+library(tidyverse)
+library(dplyr)
+
+rm(list = ls())
+load("../output/pressReleases.Rda")
+load("../output/data_step2.Rda")
+
+btw %>%
+  mutate(date = as.Date(date),
+         type = "news",
+         source = medium 
+         ) %>%
+  bind_rows(.,pressReleases) -> model_df
+```
+
+```{r eval=FALSE, fig.height=3, fig.width=8, include=FALSE}
+model_df %>%
+  ggplot(aes(source, fill=type)) +
+  geom_bar(show.legend = F) +
+  facet_wrap(~type, scales = "free") +
+  ggthemes::theme_igray() +
+  ggthemes::scale_fill_economist() +
+  labs(title = "Document distribution", y=NULL)
+```
+
+## Build Corpus
+```{r eval=FALSE, include=FALSE}
+library(stm)
+
+processed <- textProcessor(model_df$text_cleaned1, 
+                           metadata = model_df[,c("source","type","text_cleaned1")],
+                           wordLengths = c(2,Inf),
+                           lowercase = F,
+                           removestopwords = F,
+                           removenumbers = F,
+                           removepunctuation = F,
+                           stem = F)
+out <- prepDocuments(processed$documents, processed$vocab, processed$meta)
+out$meta$source <- as.factor(out$meta$source)
+
+save(model_df, out, file="../output/final_modeldf.Rda")
+```
+
+I included the document source as a control for the topical topical prevalence and the type (press release or news article) as a control for topical content. Thus, I assume that the distribution of topics depends on the source and the word distribution within each topic differes between party press releases and news articles. The number of topics is set to 40.
+
+## Select Model
+
+STM assumes a fixed user-specified number of topics. There is not a “right” answer to the number of topics that are appropriate for a given corpus (Grimmer and Stewart 2013), but the function searchK uses a data-driven approach to selecting the number of topics. The function will perform several automated tests to help choose the number of topics including calculating the held out likelihood (Wallach et al. 2009) and performing a residual analysis
+(Taddy 2012).
+
+```{r eval=FALSE, include=FALSE}
+# Model search across numbers of topics
+k=c(30,35,40,45,50)
+
+storage <- stm(documents = out$documents, vocab = out$vocab,
+              K = k, prevalence =~ source, content = ~type, data = out$meta)
+```
+
+## Run Model
+```{r eval=FALSE, include=FALSE}
+k=40
+
+stmOut <- stm(documents = out$documents, vocab = out$vocab,
+              K = k, prevalence =~ source, content = ~type,
+              max.em.its = 75, data = out$meta,
+              init.type = "Spectral")
+
+save(model_df, out, stmOut, file = "../output/models/finalmodel_40.Rda")
+```
+
+## Results
+```{r message=FALSE, warning=FALSE}
+library(stm)
+library(tidyverse)
+
+rm(list = ls())
+source("func/functions.R")
+load("../output/models/finalmodel_40_content.RData")
+
+model_df <- model_df %>%
+  mutate(doc_index = as.numeric(rownames(.)))
+```
+
+```{r}
+sagelabs <- sageLabels(stmOut)
+
+newsLabels <- as.data.frame(sagelabs$cov.betas[[1]]$problabels) %>% 
+  transmute(topic = as.numeric(rownames(.)),
+            topic_name_news = paste("Topic",as.character(topic),":",V1,V2,V3,V4,V5))
+
+pressLabels <- as.data.frame(sagelabs$cov.betas[[2]]$problabels) %>% 
+  transmute(topic = as.numeric(rownames(.)),
+            topic_name_press = paste("Topic",as.character(topic),":",V1,V2,V3,V4,V5))
+
+topics.df <- left_join(newsLabels, pressLabels, by="topic")
+
+htmlTable::htmlTable(topics.df, align="l")
+```
+
+### Topic frequency
+
+In order to get an initial overview of the results, the figure below displays the topics ordered by their expected frequency across the corpus. The four most frequent words in each topic are used as a label for that topic. 
+
+```{r include=FALSE}
+overall_freq <- as.data.frame(colMeans(stmOut$theta)) %>%
+  transmute(
+    topic = as.numeric(rownames(.)),
+    frequency = colMeans(stmOut$theta)
+         ) %>%
+  left_join(., topics.df, by = "topic") %>% 
+  arrange(desc(frequency))%>%
+  mutate(order = row_number())
+```
+
+```{r fig.height=6}
+overall_freq %>%
+  ggplot(aes(reorder(topic_name_news, -order), frequency)) +
+  geom_col(alpha = 0.7) +
+  coord_flip() +
+  ggthemes::theme_igray() +
+  labs(x=NULL, y=NULL, title="Expected Frequency of Topics") 
+```
+
+### Measure Agendas
+
+```{r}
+theta <- as.data.frame(stmOut$theta) %>% # get all theta values for echt document
+  
+  mutate(doc_index = as.numeric(rownames(.))) %>%
+  # convert to long format
+  gather(topic, theta, V1:V40) %>%
+  mutate(topic = as.numeric(gsub("V","",topic))) %>%
+  
+  # join with topic df
+  left_join(., topics.df, by="topic") %>%
+  
+  # join with model_df
+  left_join(., model_df %>% 
+              select(date,type,source,doc_index,title_text), by="doc_index")
+```
+
+For each document, we have a distribution over all topics:
+
+```{r fig.height=6, fig.width=9}
+sample_doc <- sample(nrow(model_df),1)
+
+# uncomment this to only select docs from press releases
+#sample_doc <- theta %>% filter(type=="press") %>% sample_n(1) %>% select(doc_index)
+#sample_doc <- sample_doc$doc_index
+
+title <- model_df$title[which(model_df$doc_index == sample_doc)]
+source <- model_df$source[which(model_df$doc_index == sample_doc)]
+
+theta %>%
+  filter(doc_index == sample_doc) %>%
+  select(doc_index, topic_name_news, theta) %>%
+  ggplot(aes(topic_name_news, theta)) +
+  geom_col() +
+  ylim(c(0,1)) +
+  coord_flip() +
+  ggthemes::theme_igray() +
+  labs(title = paste("Topic distribution of document",sample_doc),
+       subtitle = paste0("Source: ",source,"\nTitle: ", title),
+       x = NULL, y = NULL
+       )
+```
+
+What is the document acutally about? 
+
+```{r}
+model_df %>%
+  filter(doc_index == sample_doc) %>%
+  select(source, title_text) %>%
+  htmlTable::htmlTable()
+```
+
+Agendas were measured in terms of percentage distributions across the 40 topics. For each source the average distribution of each topic is calculated. 
+```{r fig.height=6, fig.width=12}
+topicmean_news <- theta %>%
+  filter(type == "news") %>%
+  group_by(topic,topic_name_news, source) %>%
+  summarise(topicmean = mean(theta)) %>% 
+  ungroup()
+
+topicmean_news %>%
+  ggplot(aes(topic_name_news,topicmean)) +
+  geom_col() +
+  coord_flip() +
+  ggthemes::theme_igray() +
+  facet_grid(~source) +
+  labs(x=NULL, y=NULL, title="Average distribution of topics")
+```
+
+```{r fig.height=6, fig.width=12}
+topicmean_press <- theta %>%
+  filter(type == "press") %>%
+  group_by(topic,topic_name_press, source) %>%
+  summarise(topicmean = mean(theta)) %>% 
+  ungroup()
+
+topicmean_press %>%
+  ggplot(aes(topic_name_press,topicmean)) +
+  geom_col() +
+  coord_flip() +
+  ggthemes::theme_igray() +
+  facet_grid(~source) +
+  labs(x=NULL, y=NULL, title="Average distribution of topics")
+```
+
+
+Then, we estimated bivariate correlations between party agendas and the mediated party agendas in the online news. These correlations represent the agenda selectivity each party experiences in each media outlet. The higher the correlation, the more congruent both agendas are (Brandenburg, 2005; Harris, Fury, & Lock, 2006; Kim, Xiang, & Kiousis, 2011). 
+
+```{r}
+topicCorr <- function(medium, party){
+  
+  topicmean_news %>% filter(source == medium) -> df1
+  topicmean_press %>% filter(source == party) -> df2
+  
+  cor <- cor(df1$topicmean,df2$topicmean)
+  return(cor)
+}
+```
+
+```{r message=FALSE, warning=FALSE}
+media <- c("bild.de","focus.de","spiegel.de", "stern.de","tagesschau.de", "welt.de", "zeit.de")
+parties <- c("afd","fdp","gruene","linke","spd","union")
+
+correlations <- as.tibble(expand.grid(media, parties))
+colnames(correlations) <- c("medium","party")
+
+for (party in parties) {
+  for (medium in media) {
+    c <- topicCorr(medium, party)
+    correlations$cor[which(correlations$medium==medium & correlations$party==party)] <- c
+  }
+  
+}
+```
+
+```{r}
+ggplot(correlations, aes(party, cor)) +
+  geom_col() +
+  coord_flip() +
+  ggthemes::theme_igray() +
+  facet_wrap(~medium) +
+  labs(x = NULL, y = NULL, title = "Topic correlation between press release and news outlet")
+```
+
+Again, to measure the bias and not just outlet specificities, for each outlet the mean agenda selectivity of all other parties was subtracted from each party's specific agenda selectivity value and then standardized to range from −1 to 1, where −1 stands for both agendas being not congruent at all and +1 stands for both agendas being identical.
+
+```{r}
+correlations <- correlations %>%
+  group_by(medium) %>%
+  mutate(avg_cor = mean(cor)) %>%
+  ungroup() %>%
+  mutate(agenda_bias = cor-avg_cor,
+         agenda_bias_norm = normalize_data2(agenda_bias)
+         )
+```
+
+```{r}
+ggplot(correlations, aes(party, agenda_bias_norm)) +
+  geom_col() +
+  coord_flip() +
+  ggthemes::theme_igray() +
+  facet_wrap(~medium) +
+  labs(x = NULL, y = NULL, title = "Agenda bias",
+       subtitle = "−1: agendas not congruent at all\n+1: agendas are identical")
+```
+
+This underlines the importance of studying all three types of media biases simultane- ously, as examining just one aspect provides a misleading picture of the extent and nature of bias. The existence of various and diverse forms of media bias also means that it is worth considering their distinct effects on party preferences.

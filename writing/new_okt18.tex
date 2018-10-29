@@ -270,6 +270,21 @@ To use text as data for statistical analysis, the next step is to divide the ent
  
 
 \section{Methodology}
+
+To ensure comparability between the bias metrics, they are standardized to range from −1 to 1, where a party would have a bias of 0 (neutral), when its visibility or tonality is equal to the mean visibility or tonality across all parties in that media outlet.
+
+\subsection{Visibility Bias}
+
+To determine visibility bias, we first need to measure visibility per se. We treat a party as visible in an article if the party itself is mentioned in an article. The overall visibility for each party is then defined by the relative amount of articles in which the party is present.
+% Which benchmark ?
+The next step is to define an appropriate reference point to distinguish between balanced/neutral and biased reporting. 
+% list different approchase (D’Alessio & Allen, 2000, Hopmann et al. (2011b))
+In another setting \citet{junque_de_fortuny_media_2012} uses the popularity in terms of votes as the a priori fair distribution. The visibility bias of a media source is the difference between the real distribution and the fair distribution.
+
+To consider differences between parties as well as media outlets, the average visibility of all parties in each media outlet during the period of analysis is a key benchmark \citep{eberl_one_2017}. Our bias measure therefore captures whether party visibility is biased in comparison to what is typical for that outlet. Visibility bias is then computed as the deviation of each party’s specific visibility from the average visibility of all other parties in that outlet.
+
+ 
+
 % ----------------------
 % Structural topic Model
 % ----------------------

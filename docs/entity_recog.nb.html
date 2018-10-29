@@ -178,10 +178,8 @@ $(document).ready(function () {
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShsZXhSYW5rcilcbmxpYnJhcnkoZW50aXR5KVxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KE5MUClcbmxpYnJhcnkob3Blbk5MUClcbmxpYnJhcnkoZ2dtYXApXG5gYGAifQ== -->
-<pre class="r"><code>library(lexRankr)
-library(entity)
-library(tidyverse)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KE5MUClcbmxpYnJhcnkob3Blbk5MUClcbmxpYnJhcnkoZ2dtYXApXG5gYGAifQ== -->
+<pre class="r"><code>library(tidyverse)
 library(NLP)
 library(openNLP)
 library(ggmap)</code></pre>
@@ -198,88 +196,55 @@ load(&quot;../output/data_step2.Rda&quot;)</code></pre>
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0dlbmVyYXRlIGFuIGFubm90YXRvciB3aGljaCBjb21wdXRlcyBzZW50ZW5jZSx3b3JkLCBQT1MgdGFnIGFubm90YXRpb25zIHVzaW5nIHRoZSBBcGFjaGUgT3Blbk5MUCBNYXhlbnQgc2VudGVuY2UgZGV0ZWN0b3IuXG5zZW50X3Rva2VuX2Fubm90YXRvciA8LSBNYXhlbnRfU2VudF9Ub2tlbl9Bbm5vdGF0b3IobGFuZ3VhZ2UgPSBcImRlXCIsIG1vZGVsID0gXCJOTFBtb2RlbHMvZGUtc2VudC5iaW5cIilcbndvcmRfdG9rZW5fYW5ub3RhdG9yIDwtIE1heGVudF9Xb3JkX1Rva2VuX0Fubm90YXRvcigpXG5wb3NfdGFnX2Fubm90YXRvciA8LSBNYXhlbnRfUE9TX1RhZ19Bbm5vdGF0b3IobGFuZ3VhZ2UgPSBcImRlXCIsXG4gICAgICAgICAgICAgICAgICAgICAgICBwcm9icyA9IEZBTFNFLG1vZGVsID0gXCJOTFBtb2RlbHMvZGUtcG9zLW1heGVudC5iaW5cIilcblxuI0NvbXB1dGUgYW5ub3RhdGlvbnMgYnkgaXRlcmF0aXZlbHkgY2FsbGluZyB0aGUgZ2l2ZW4gYW5ub3RhdG9ycyB3aXRoIHRoZSBnaXZlblxuICN0ZXh0IGFuZCBjdXJyZW50IGFubm90YXRpb25zLCBhbmQgbWVyZ2luZyB0aGUgbmV3bHkgY29tcHV0ZWQgYW5ub3RhdGlvbnMgd2l0aCB0aGUgY3VycmVudCBvbmVzLlxuXG5hMyA8LSBhbm5vdGF0ZShzLFxuIGxpc3Qoc2VudF90b2tlbl9hbm5vdGF0b3IsXG4gd29yZF90b2tlbl9hbm5vdGF0b3IpKVxuIGE0IDwtIGFubm90YXRlKHMscG9zX3RhZ19hbm5vdGF0b3IsYTMpXG4gI2Fubm90YXRlKHMsIE1heGVudF9DaHVua19Bbm5vdGF0b3IoKSwgYTQpXG4gI2Fubm90YXRlKHMsIE1heGVudF9DaHVua19Bbm5vdGF0b3IocHJvYnMgPSBUUlVFKSwgYTMpXG5cbiNleHRyYWN0IHdvcmRzXG4gYXc0IDwtc3Vic2V0KGE0LHR5cGU9PVwid29yZFwiKVxuXG4jVXNlIGFwcGx5IGZ1bmN0aW9uIHRvIGV4dHJhY3Qgb25seSB0aGUgUE9TIHRhZ3NcbiB0YWdzIDwtIHNhcHBseShhdzQkZmVhdHVyZXMsICdbWycsXCJQT1NcIilcbiB0YWJsZSh0YWdzKVxuICMgcHJpbnQgdGhlIHdvcmQgd2l0aCBQT1MgVGFnXG4gc3ByaW50ZihcIiVzJXNcIiwgc1thdzRdLHRhZ3MpXG4gIyBSZWZlciB0byB0aGUgbGluayBmb3IgZGVmaW5pdGlvbiBvZiBQT1MgdGFnc1xuICNodHRwczovL2NzLm55dS5lZHUvZ3Jpc2htYW4vamV0L2d1aWRlL1Blbm5QT1MuaHRtbFxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYnR3ICU+JVxuICBmaWx0ZXIocGFydHljb3VudCA9PSBcIkI5MC9HcsO8bmVcIikgJT4lXG4gIHNhbXBsZV9uKDEpICU+JVxuICBzZWxlY3QodGl0bGVfdGV4dCkgJT4lIGh0bWxUYWJsZTo6aHRtbFRhYmxlKClcbmBgYCJ9 -->
+<pre class="r"><code>btw %&gt;%
+  filter(partycount == &quot;B90/Grüne&quot;) %&gt;%
+  sample_n(1) %&gt;%
+  select(title_text) %&gt;% htmlTable::htmlTable()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="nlp" class="section level2">
+<h2>NLP</h2>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0dlbmVyYXRlIGFuIGFubm90YXRvciB3aGljaCBjb21wdXRlcyBzZW50ZW5jZSx3b3JkLCBQT1MgdGFnIGFubm90YXRpb25zIHVzaW5nIHRoZSBBcGFjaGUgT3Blbk5MUCBNYXhlbnQgc2VudGVuY2UgZGV0ZWN0b3IuXG5zZW50X3Rva2VuX2Fubm90YXRvciA8LSBNYXhlbnRfU2VudF9Ub2tlbl9Bbm5vdGF0b3IobGFuZ3VhZ2UgPSBcImRlXCIsIG1vZGVsID0gXCJOTFBtb2RlbHMvZGUtc2VudC5iaW5cIilcbndvcmRfdG9rZW5fYW5ub3RhdG9yIDwtIE1heGVudF9Xb3JkX1Rva2VuX0Fubm90YXRvcigpXG5wb3NfdGFnX2Fubm90YXRvciA8LSBNYXhlbnRfUE9TX1RhZ19Bbm5vdGF0b3IobGFuZ3VhZ2UgPSBcImRlXCIsXG4gICAgICAgICAgICAgICAgICAgICAgICBwcm9icyA9IEZBTFNFLG1vZGVsID0gXCJOTFBtb2RlbHMvZGUtcG9zLW1heGVudC5iaW5cIilcbmBgYCJ9 -->
 <pre class="r"><code>#Generate an annotator which computes sentence,word, POS tag annotations using the Apache OpenNLP Maxent sentence detector.
 sent_token_annotator &lt;- Maxent_Sent_Token_Annotator(language = &quot;de&quot;, model = &quot;NLPmodels/de-sent.bin&quot;)
 word_token_annotator &lt;- Maxent_Word_Token_Annotator()
 pos_tag_annotator &lt;- Maxent_POS_Tag_Annotator(language = &quot;de&quot;,
-                        probs = FALSE,model = &quot;NLPmodels/de-pos-maxent.bin&quot;)
+                        probs = FALSE,model = &quot;NLPmodels/de-pos-maxent.bin&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0NvbXB1dGUgYW5ub3RhdGlvbnMgYnkgaXRlcmF0aXZlbHkgY2FsbGluZyB0aGUgZ2l2ZW4gYW5ub3RhdG9ycyB3aXRoIHRoZSBnaXZlbiB0ZXh0IGFuZCBjdXJyZW50IGFubm90YXRpb25zLCBhbmQgbWVyZ2luZyB0aGUgbmV3bHkgY29tcHV0ZWQgYW5ub3RhdGlvbnMgd2l0aCB0aGUgY3VycmVudCBvbmVzLlxuXG5hMyA8LSBhbm5vdGF0ZSh0ZXh0LFxuIGxpc3Qoc2VudF90b2tlbl9hbm5vdGF0b3IsXG4gd29yZF90b2tlbl9hbm5vdGF0b3IpKVxuXG5hNCA8LSBhbm5vdGF0ZSh0ZXh0LHBvc190YWdfYW5ub3RhdG9yLGEzKVxuXG4jZXh0cmFjdCB3b3Jkc1xuYXc0IDwtc3Vic2V0KGE0LHR5cGU9PVwid29yZFwiKVxuXG4jVXNlIGFwcGx5IGZ1bmN0aW9uIHRvIGV4dHJhY3Qgb25seSB0aGUgUE9TIHRhZ3NcbnRhZ3MgPC0gc2FwcGx5KGF3NCRmZWF0dXJlcywgJ1tbJyxcIlBPU1wiKVxuXG5hcy5kYXRhLmZyYW1lKHRleHRbYXc0XSx0YWdzKSAlPiVcbiAgdHJhbnNtdXRlKHBvcyA9IHJvd25hbWVzKC4pLFxuICAgICAgICAgd29yZCA9IGB0ZXh0W2F3NF1gKSAlPiUgXG4gIGZpbHRlcihwb3MgPT0gXCJORVwiKVxuYGBgIn0= -->
+<pre class="r"><code>#Compute annotations by iteratively calling the given annotators with the given text and current annotations, and merging the newly computed annotations with the current ones.
 
-#Compute annotations by iteratively calling the given annotators with the given
- #text and current annotations, and merging the newly computed annotations with the current ones.
-
-a3 &lt;- annotate(s,
+a3 &lt;- annotate(text,
  list(sent_token_annotator,
  word_token_annotator))
- a4 &lt;- annotate(s,pos_tag_annotator,a3)
- #annotate(s, Maxent_Chunk_Annotator(), a4)
- #annotate(s, Maxent_Chunk_Annotator(probs = TRUE), a3)
+
+a4 &lt;- annotate(text,pos_tag_annotator,a3)
 
 #extract words
- aw4 &lt;-subset(a4,type==&quot;word&quot;)
+aw4 &lt;-subset(a4,type==&quot;word&quot;)
 
 #Use apply function to extract only the POS tags
- tags &lt;- sapply(aw4$features, '[[',&quot;POS&quot;)
- table(tags)
- # print the word with POS Tag
- sprintf(&quot;%s%s&quot;, s[aw4],tags)
- # Refer to the link for definition of POS tags
- #https://cs.nyu.edu/grishman/jet/guide/PennPOS.html</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuTWF4ZW50X1BPU19UYWdfQW5ub3RhdG9yKGxhbmd1YWdlID0gXCJkZVwiLFxuICAgICAgICAgICAgICAgICAgICAgICAgcHJvYnMgPSBGQUxTRSxtb2RlbCA9IFwiTkxQbW9kZWxzL2RlLXBvcy1tYXhlbnQuYmluXCIpXG5cbmBgYCJ9 -->
-<pre class="r"><code>Maxent_POS_Tag_Annotator(language = &quot;de&quot;,
-                        probs = FALSE,model = &quot;NLPmodels/de-pos-maxent.bin&quot;)
-</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiQW4gYW5ub3RhdG9yIGluaGVyaXRpbmcgZnJvbSBjbGFzc2VzXG4gIFNpbXBsZV9QT1NfVGFnX0Fubm90YXRvciBBbm5vdGF0b3JcbndpdGggZGVzY3JpcHRpb25cbiAgQ29tcHV0ZXMgUE9TIHRhZyBhbm5vdGF0aW9ucyB1c2luZyB0aGUgQXBhY2hlIE9wZW5OTFAgTWF4ZW50IFBhcnQgb2YgU3BlZWNoIHRhZ2dlciBlbXBsb3lpbmcgYVxuICB1c2VyLWRlZmluZWQgbW9kZWxcbiJ9 -->
-<pre><code>An annotator inheriting from classes
-  Simple_POS_Tag_Annotator Annotator
-with description
-  Computes POS tag annotations using the Apache OpenNLP Maxent Part of Speech tagger employing a
-  user-defined model</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBzZWxlY3Qgc2FtcGxlXG5idHcgJT4lXG4gIHNhbXBsZV9uKDEpICU+JVxuICBzZWxlY3QodGV4dCkgJT4lXG4gIGFzLlN0cmluZygpLT4gdGV4dCBcblxuaHRtbFRhYmxlOjpodG1sVGFibGUodGV4dClcbmBgYCJ9 -->
-<pre class="r"><code># select sample
-btw %&gt;%
-  sample_n(1) %&gt;%
-  select(text) %&gt;%
-  as.String()-&gt; text 
+tags &lt;- sapply(aw4$features, '[[',&quot;POS&quot;)
 
-htmlTable::htmlTable(text)</code></pre>
+as.data.frame(text[aw4],tags) %&gt;%
+  transmute(pos = rownames(.),
+         word = `text[aw4]`) %&gt;% 
+  filter(pos == &quot;NE&quot;)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYW5ub3QubDEgPSBOTFA6OmFubm90YXRlKHRleHQsIGxpc3Qoc2VudF9hbm5vdCx3b3JkX2Fubm90LHBlb3BsZV9hbm5vdCkpXG5rIDwtIHNhcHBseShhbm5vdC5sMSRmZWF0dXJlcywgYFtbYCwgXCJraW5kXCIpXG5iZXJrX3Blb3BsZSA9IHRleHRbYW5ub3QubDFbayA9PSBcInBlcnNvblwiXV1cbnVuaXF1ZShiZXJrX3Blb3BsZSlcbmBgYCJ9 -->
-<pre class="r"><code>annot.l1 = NLP::annotate(text, list(sent_annot,word_annot,people_annot))
-k &lt;- sapply(annot.l1$features, `[[`, &quot;kind&quot;)
-berk_people = text[annot.l1[k == &quot;person&quot;]]
-unique(berk_people)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiVm9uIFdpZ2JlcnQgTMO2ZXIgXFxuRGllIFJlYWt0aW9uZW5cIiBcIlVudGVyZ3JlbnplIHZvbiAyMDAuMDAwXCIgICAgICAgICAgXG4ifQ== -->
-<pre><code>[1] &quot;Von Wigbert Löer \nDie Reaktionen&quot; &quot;Untergrenze von 200.000&quot;          </code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYW5ub3QubDEkXG5gYGAifQ== -->
-<pre class="r"><code>annot.l1$</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
+</div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRW50aXR5IFJlY29nbml0aW9uIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgpgYGB7cn0KbGlicmFyeShsZXhSYW5rcikKbGlicmFyeShlbnRpdHkpCmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KE5MUCkKbGlicmFyeShvcGVuTkxQKQpsaWJyYXJ5KGdnbWFwKQpgYGAKCmBgYHtyfQpybShsaXN0ID0gbHMoKSkKbG9hZCgiLi4vb3V0cHV0L2RhdGFfc3RlcDIuUmRhIikKYGBgCgpgYGB7cn0KI0dlbmVyYXRlIGFuIGFubm90YXRvciB3aGljaCBjb21wdXRlcyBzZW50ZW5jZSx3b3JkLCBQT1MgdGFnIGFubm90YXRpb25zIHVzaW5nIHRoZSBBcGFjaGUgT3Blbk5MUCBNYXhlbnQgc2VudGVuY2UgZGV0ZWN0b3IuCnNlbnRfdG9rZW5fYW5ub3RhdG9yIDwtIE1heGVudF9TZW50X1Rva2VuX0Fubm90YXRvcihsYW5ndWFnZSA9ICJkZSIsIG1vZGVsID0gIk5MUG1vZGVscy9kZS1zZW50LmJpbiIpCndvcmRfdG9rZW5fYW5ub3RhdG9yIDwtIE1heGVudF9Xb3JkX1Rva2VuX0Fubm90YXRvcigpCnBvc190YWdfYW5ub3RhdG9yIDwtIE1heGVudF9QT1NfVGFnX0Fubm90YXRvcihsYW5ndWFnZSA9ICJkZSIsCiAgICAgICAgICAgICAgICAgICAgICAgIHByb2JzID0gRkFMU0UsbW9kZWwgPSAiTkxQbW9kZWxzL2RlLXBvcy1tYXhlbnQuYmluIikKCiNDb21wdXRlIGFubm90YXRpb25zIGJ5IGl0ZXJhdGl2ZWx5IGNhbGxpbmcgdGhlIGdpdmVuIGFubm90YXRvcnMgd2l0aCB0aGUgZ2l2ZW4KICN0ZXh0IGFuZCBjdXJyZW50IGFubm90YXRpb25zLCBhbmQgbWVyZ2luZyB0aGUgbmV3bHkgY29tcHV0ZWQgYW5ub3RhdGlvbnMgd2l0aCB0aGUgY3VycmVudCBvbmVzLgoKYTMgPC0gYW5ub3RhdGUocywKIGxpc3Qoc2VudF90b2tlbl9hbm5vdGF0b3IsCiB3b3JkX3Rva2VuX2Fubm90YXRvcikpCiBhNCA8LSBhbm5vdGF0ZShzLHBvc190YWdfYW5ub3RhdG9yLGEzKQogI2Fubm90YXRlKHMsIE1heGVudF9DaHVua19Bbm5vdGF0b3IoKSwgYTQpCiAjYW5ub3RhdGUocywgTWF4ZW50X0NodW5rX0Fubm90YXRvcihwcm9icyA9IFRSVUUpLCBhMykKCiNleHRyYWN0IHdvcmRzCiBhdzQgPC1zdWJzZXQoYTQsdHlwZT09IndvcmQiKQoKI1VzZSBhcHBseSBmdW5jdGlvbiB0byBleHRyYWN0IG9ubHkgdGhlIFBPUyB0YWdzCiB0YWdzIDwtIHNhcHBseShhdzQkZmVhdHVyZXMsICdbWycsIlBPUyIpCiB0YWJsZSh0YWdzKQogIyBwcmludCB0aGUgd29yZCB3aXRoIFBPUyBUYWcKIHNwcmludGYoIiVzJXMiLCBzW2F3NF0sdGFncykKICMgUmVmZXIgdG8gdGhlIGxpbmsgZm9yIGRlZmluaXRpb24gb2YgUE9TIHRhZ3MKICNodHRwczovL2NzLm55dS5lZHUvZ3Jpc2htYW4vamV0L2d1aWRlL1Blbm5QT1MuaHRtbApgYGAKCmBgYHtyfQpzZW50X2Fubm90IDwtIE1heGVudF9TZW50X1Rva2VuX0Fubm90YXRvcihsYW5ndWFnZSA9ICJkZSIsIG1vZGVsID0gIk5MUG1vZGVscy9kZS1zZW50LmJpbiIpCndvcmRfYW5ub3QgPSBNYXhlbnRfV29yZF9Ub2tlbl9Bbm5vdGF0b3IoKQojcGVvcGxlX2Fubm90ID0gTWF4ZW50X0VudGl0eV9Bbm5vdGF0b3IobGFuZ3VhZ2UgPSAiZGUiKSAjYW5ub3RhdGUgcGVyc29uCgpwb3NfdGFnX2Fubm90YXRvciA8LSBNYXhlbnRfUE9TX1RhZ19Bbm5vdGF0b3IobGFuZ3VhZ2UgPSAiZGUiLAogICAgICAgICAgICAgICAgICAgICAgICBwcm9icyA9IEZBTFNFLG1vZGVsID0gIk5MUG1vZGVscy9kZS1wb3MtbWF4ZW50LmJpbiIpCgpgYGAKCmBgYHtyfQojIHNlbGVjdCBzYW1wbGUKYnR3ICU+JQogIHNhbXBsZV9uKDEpICU+JQogIHNlbGVjdCh0ZXh0KSAlPiUKICBhcy5TdHJpbmcoKS0+IHRleHQgCgpodG1sVGFibGU6Omh0bWxUYWJsZSh0ZXh0KQpgYGAKCmBgYHtyfQphbm5vdC5sMSA9IE5MUDo6YW5ub3RhdGUodGV4dCwgbGlzdChzZW50X2Fubm90LHdvcmRfYW5ub3QscGVvcGxlX2Fubm90KSkKCmsgPC0gc2FwcGx5KGFubm90LmwxJGZlYXR1cmVzLCBgW1tgLCAia2luZCIpCmJlcmtfcGVvcGxlID0gdGV4dFthbm5vdC5sMVtrID09ICJwZXJzb24iXV0KCnVuaXF1ZShiZXJrX3Blb3BsZSkKYGBgCgpgYGB7cn0KYW5ub3QubDEkCmBgYAoK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRW50aXR5IFJlY29nbml0aW9uIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgpgYGB7cn0KbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkoTkxQKQpsaWJyYXJ5KG9wZW5OTFApCmxpYnJhcnkoZ2dtYXApCmBgYAoKYGBge3J9CnJtKGxpc3QgPSBscygpKQpsb2FkKCIuLi9vdXRwdXQvZGF0YV9zdGVwMi5SZGEiKQpgYGAKCmBgYHtyfQpidHcgJT4lCiAgZmlsdGVyKHBhcnR5Y291bnQgPT0gIkI5MC9HcsO8bmUiKSAlPiUKICBzYW1wbGVfbigxKSAlPiUKICBzZWxlY3QodGl0bGVfdGV4dCkgJT4lIGh0bWxUYWJsZTo6aHRtbFRhYmxlKCkKYGBgCgojIyBOTFAKCmBgYHtyfQojR2VuZXJhdGUgYW4gYW5ub3RhdG9yIHdoaWNoIGNvbXB1dGVzIHNlbnRlbmNlLHdvcmQsIFBPUyB0YWcgYW5ub3RhdGlvbnMgdXNpbmcgdGhlIEFwYWNoZSBPcGVuTkxQIE1heGVudCBzZW50ZW5jZSBkZXRlY3Rvci4Kc2VudF90b2tlbl9hbm5vdGF0b3IgPC0gTWF4ZW50X1NlbnRfVG9rZW5fQW5ub3RhdG9yKGxhbmd1YWdlID0gImRlIiwgbW9kZWwgPSAiTkxQbW9kZWxzL2RlLXNlbnQuYmluIikKd29yZF90b2tlbl9hbm5vdGF0b3IgPC0gTWF4ZW50X1dvcmRfVG9rZW5fQW5ub3RhdG9yKCkKcG9zX3RhZ19hbm5vdGF0b3IgPC0gTWF4ZW50X1BPU19UYWdfQW5ub3RhdG9yKGxhbmd1YWdlID0gImRlIiwKICAgICAgICAgICAgICAgICAgICAgICAgcHJvYnMgPSBGQUxTRSxtb2RlbCA9ICJOTFBtb2RlbHMvZGUtcG9zLW1heGVudC5iaW4iKQpgYGAKCmBgYHtyfQojQ29tcHV0ZSBhbm5vdGF0aW9ucyBieSBpdGVyYXRpdmVseSBjYWxsaW5nIHRoZSBnaXZlbiBhbm5vdGF0b3JzIHdpdGggdGhlIGdpdmVuIHRleHQgYW5kIGN1cnJlbnQgYW5ub3RhdGlvbnMsIGFuZCBtZXJnaW5nIHRoZSBuZXdseSBjb21wdXRlZCBhbm5vdGF0aW9ucyB3aXRoIHRoZSBjdXJyZW50IG9uZXMuCgphMyA8LSBhbm5vdGF0ZSh0ZXh0LAogbGlzdChzZW50X3Rva2VuX2Fubm90YXRvciwKIHdvcmRfdG9rZW5fYW5ub3RhdG9yKSkKCmE0IDwtIGFubm90YXRlKHRleHQscG9zX3RhZ19hbm5vdGF0b3IsYTMpCgojZXh0cmFjdCB3b3JkcwphdzQgPC1zdWJzZXQoYTQsdHlwZT09IndvcmQiKQoKI1VzZSBhcHBseSBmdW5jdGlvbiB0byBleHRyYWN0IG9ubHkgdGhlIFBPUyB0YWdzCnRhZ3MgPC0gc2FwcGx5KGF3NCRmZWF0dXJlcywgJ1tbJywiUE9TIikKCmFzLmRhdGEuZnJhbWUodGV4dFthdzRdLHRhZ3MpICU+JQogIHRyYW5zbXV0ZShwb3MgPSByb3duYW1lcyguKSwKICAgICAgICAgd29yZCA9IGB0ZXh0W2F3NF1gKSAlPiUgCiAgZmlsdGVyKHBvcyA9PSAiTkUiKQpgYGAKCgo=</div>
 
 
 

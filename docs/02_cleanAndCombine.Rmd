@@ -91,17 +91,19 @@ save(df_full, file="../output/data_step1.Rda")
 
 # Clean Data
 ```{r}
+library(tidyverse)
 rm(list=ls())
 load(file="../output/data_step1.Rda")
 ```
 
 ## A. Select Sample
 
-### 1. by date and news source...
+### 1. by date, medium & party ... 
 ```{r}
 start <- "2017-06-01"
 end <- "2018-03-01"
 keeps <- c("bild.de","focus.de","spiegel.de", "stern.de","tagesschau.de", "welt.de", "zeit.de")
+parties <- c("CDU","CSU","AfD","SPD","FDP","Grüne","Linke")
 
 df <- df_full %>%
   filter(site %in% keeps) %>%
@@ -115,10 +117,11 @@ df <- df_full %>%
          ) %>%
   select(-fullname) %>%
   filter(date > start & date < end) %>%
+  filter(grepl(paste(parties, sep="|", collapse = "|"), text)) %>%
   mutate(title_text = paste(title, text, sep=" "),
          index = as.integer(rownames(.)),
          text_length = sapply(gregexpr("\\S+", text), length)
-         ) 
+         )  
 ```
 
 ### 2. by website section...
@@ -144,7 +147,13 @@ df <- df %>%
 ```
 
 ```{r}
-df %>% sample_n(10) %>% select(site, subsite, url, ressort1) %>% 
+df_url %>% filter(is.na(ressort1))
+```
+
+```{r}
+df %>% 
+  filter(is.na(ressort1)) %>%
+  sample_n(10) %>% select(site, title, subsite, url, ressort1) %>% 
   htmlTable::htmlTable(align="l")
 ```
 
@@ -382,7 +391,7 @@ stopwords <- c(german_stopwords_full, mystopwords)
 stopwords <- unique(stopwords)
 
 # 3
-btw$text_cleaned<- removeWords(btw$text_cleaned, stopwords)
+btw$text_cleaned<- tm::removeWords(btw$text_cleaned, stopwords)
 ```
 
 ### Stemming
@@ -391,13 +400,13 @@ stem_text<- function(text, language = "porter", mc.cores = 1) {
   # stem each word in a block of text
   stem_string <- function(str, language) {
     str <- strsplit(x = str, split = "\\s")
-    str <- wordStem(unlist(str), language = language)
+    str <- SnowballC::wordStem(unlist(str), language = language)
     str <- paste(str, collapse = " ")
     return(str)
   }
    
   # stem each text block in turn
-  x <- mclapply(X = text, FUN = stem_string, language, mc.cores = mc.cores)
+  x <- parallel::mclapply(X = text, FUN = stem_string, language, mc.cores = mc.cores)
    
   # return stemed text blocks
   return(unlist(x))
@@ -417,21 +426,6 @@ btw %>%
 save(btw, df, file="../output/data_step2.Rda")
 ```
 
-# Structural Topic Model
-
-```{r eval=FALSE, include=FALSE}
-processed <- textProcessor(btw$text_cleaned1, metadata = btw[,c("site","text_cleaned1")],
-                           wordLengths = c(2,Inf),
-                           lowercase = F,
-                           removestopwords = F,
-                           removenumbers = F,
-                           removepunctuation = F,
-                           stem = F)
-out <- prepDocuments(processed$documents, processed$vocab, processed$meta)
-out$meta$site <- as.factor(out$meta$site)
-
-save(btw, out, df, file="../output/data_step2.Rda")
-```
 
 
 

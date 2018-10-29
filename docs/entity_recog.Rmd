@@ -4,8 +4,6 @@ output: html_notebook
 ---
 
 ```{r}
-library(lexRankr)
-library(entity)
 library(tidyverse)
 library(NLP)
 library(openNLP)
@@ -18,64 +16,41 @@ load("../output/data_step2.Rda")
 ```
 
 ```{r}
+btw %>%
+  filter(partycount == "B90/Grüne") %>%
+  sample_n(1) %>%
+  select(title_text) %>% htmlTable::htmlTable()
+```
+
+## NLP
+
+```{r}
 #Generate an annotator which computes sentence,word, POS tag annotations using the Apache OpenNLP Maxent sentence detector.
 sent_token_annotator <- Maxent_Sent_Token_Annotator(language = "de", model = "NLPmodels/de-sent.bin")
 word_token_annotator <- Maxent_Word_Token_Annotator()
 pos_tag_annotator <- Maxent_POS_Tag_Annotator(language = "de",
                         probs = FALSE,model = "NLPmodels/de-pos-maxent.bin")
+```
 
-#Compute annotations by iteratively calling the given annotators with the given
- #text and current annotations, and merging the newly computed annotations with the current ones.
+```{r}
+#Compute annotations by iteratively calling the given annotators with the given text and current annotations, and merging the newly computed annotations with the current ones.
 
-a3 <- annotate(s,
+a3 <- annotate(text,
  list(sent_token_annotator,
  word_token_annotator))
- a4 <- annotate(s,pos_tag_annotator,a3)
- #annotate(s, Maxent_Chunk_Annotator(), a4)
- #annotate(s, Maxent_Chunk_Annotator(probs = TRUE), a3)
+
+a4 <- annotate(text,pos_tag_annotator,a3)
 
 #extract words
- aw4 <-subset(a4,type=="word")
+aw4 <-subset(a4,type=="word")
 
 #Use apply function to extract only the POS tags
- tags <- sapply(aw4$features, '[[',"POS")
- table(tags)
- # print the word with POS Tag
- sprintf("%s%s", s[aw4],tags)
- # Refer to the link for definition of POS tags
- #https://cs.nyu.edu/grishman/jet/guide/PennPOS.html
+tags <- sapply(aw4$features, '[[',"POS")
+
+as.data.frame(text[aw4],tags) %>%
+  transmute(pos = rownames(.),
+         word = `text[aw4]`) %>% 
+  filter(pos == "NE")
 ```
 
-```{r}
-sent_annot <- Maxent_Sent_Token_Annotator(language = "de", model = "NLPmodels/de-sent.bin")
-word_annot = Maxent_Word_Token_Annotator()
-#people_annot = Maxent_Entity_Annotator(language = "de") #annotate person
-
-pos_tag_annotator <- Maxent_POS_Tag_Annotator(language = "de",
-                        probs = FALSE,model = "NLPmodels/de-pos-maxent.bin")
-
-```
-
-```{r}
-# select sample
-btw %>%
-  sample_n(1) %>%
-  select(text) %>%
-  as.String()-> text 
-
-htmlTable::htmlTable(text)
-```
-
-```{r}
-annot.l1 = NLP::annotate(text, list(sent_annot,word_annot,people_annot))
-
-k <- sapply(annot.l1$features, `[[`, "kind")
-berk_people = text[annot.l1[k == "person"]]
-
-unique(berk_people)
-```
-
-```{r}
-annot.l1$
-```
 
