@@ -65,7 +65,7 @@ save(model_df, out, file="../output/final_modeldf.Rda")
 I included the document source as a control for the topical topical prevalenc. Thus, I assume that the distribution of topics depends on the source. The number of topics is set to 40.
 
 ## Run Model
-```{r eval=FALSE, include=FALSE}
+```{r eval=FALSE}
 k=40
 
 stmOut <- stm(documents = out$documents, vocab = out$vocab,
@@ -118,7 +118,7 @@ overall_freq %>%
   ggplot(aes(reorder(topic_name, -order), frequency)) +
   geom_col(alpha = 0.7) +
   coord_flip() +
-  ggthemes::theme_igray() +
+  ggthemes::theme_fivethirtyeight() +
   labs(x=NULL, y=NULL, title="Expected Frequency of Topics") 
 ```
 
@@ -159,7 +159,7 @@ theta %>%
   geom_col() +
   ylim(c(0,1)) +
   coord_flip() +
-  ggthemes::theme_igray() +
+  ggthemes::theme_fivethirtyeight() +
   labs(title = paste("Topic distribution of document",sample_doc),
        subtitle = paste0("Source: ",source,"\nTitle: ", title),
        x = NULL, y = NULL
@@ -177,6 +177,13 @@ model_df %>%
 
 Agendas were measured in terms of percentage distributions across the 40 topics. For each source the average distribution of each topic is calculated. 
 
+```{r}
+topicmean <- theta %>%
+  group_by(topic,topic_name, source) %>%
+  summarise(topicmean = mean(theta)) %>% 
+  ungroup()
+```
+
 ```{r fig.height=6, fig.width=12}
 topicmean_news <- theta %>%
   filter(type == "news") %>%
@@ -188,7 +195,7 @@ topicmean_news %>%
   ggplot(aes(topic_name,topicmean)) +
   geom_col() +
   coord_flip() +
-  ggthemes::theme_igray() +
+  ggthemes::theme_fivethirtyeight() +
   facet_grid(~source) +
   labs(x=NULL, y=NULL, title="Average distribution of topics")
 ```
@@ -204,7 +211,7 @@ topicmean_press %>%
   ggplot(aes(topic_name,topicmean)) +
   geom_col() +
   coord_flip() +
-  ggthemes::theme_igray() +
+  ggthemes::theme_fivethirtyeight() +
   facet_grid(~source) +
   labs(x=NULL, y=NULL, title="Average distribution of topics")
 ```
@@ -242,7 +249,7 @@ for (party in parties) {
 ggplot(correlations, aes(party, cor)) +
   geom_col() +
   coord_flip() +
-  ggthemes::theme_igray() +
+  ggthemes::theme_fivethirtyeight() +
   facet_wrap(~medium) +
   labs(x = NULL, y = NULL, title = "Topic correlation between press release and news outlet")
 ```
@@ -250,21 +257,57 @@ ggplot(correlations, aes(party, cor)) +
 Again, to measure the bias and not just outlet specificities, for each outlet the mean agenda selectivity of all other parties was subtracted from each party's specific agenda selectivity value and then standardized to range from −1 to 1, where −1 stands for both agendas being not congruent at all and +1 stands for both agendas being identical.
 
 ```{r}
-correlations <- correlations %>%
-  group_by(medium) %>%
-  mutate(avg_cor = mean(cor)) %>%
-  ungroup() %>%
-  mutate(agenda_bias = cor-avg_cor,
-         agenda_bias_norm = normalize_data2(agenda_bias)
-         )
+estimateBias <- function(party){
+  
+  df1 <- correlations %>% 
+    filter(party == party) 
+  
+  df2 <- correlations %>%
+    filter(party != party) %>%
+    group_by(medium) %>%
+    summarise(avg_cor = mean(cor)) 
+  
+  tempdf <- left_join(df1,df2) %>%
+    mutate(agenda_bias = cor-avg_cor,
+           agenda_bias_norm = normalize_data2(agenda_bias))
+  
+  return(tempdf)
+  
+}
 ```
 
 ```{r}
-ggplot(correlations, aes(party, agenda_bias_norm)) +
+parties <- unique(correlations$party)
+
+for (i in parties) {
+  
+    df1 <- correlations %>% filter(party == i) 
+    
+    df2 <- correlations %>%
+      filter(party != i) %>%
+      group_by(medium) %>%
+      summarise(avg_cor = mean(cor)) 
+    
+    tempdf <- left_join(df1,df2, by="medium") %>%
+      mutate(agenda_bias = cor-avg_cor,
+             agenda_bias_norm = normalize_data2(agenda_bias)
+             )
+    
+    if (exists('agendaBias')){
+      agendaBias <- bind_rows(agendaBias,tempdf)
+    } else {
+      agendaBias <- tempdf
+    }
+}
+```
+
+
+```{r}
+ggplot(agendaBias, aes(medium, agenda_bias_norm)) +
   geom_col() +
   coord_flip() +
-  ggthemes::theme_igray() +
-  facet_wrap(~medium) +
+  ggthemes::theme_fivethirtyeight() +
+  facet_wrap(~party) +
   labs(x = NULL, y = NULL, title = "Agenda bias",
        subtitle = "−1: agendas not congruent at all\n+1: agendas are identical")
 ```

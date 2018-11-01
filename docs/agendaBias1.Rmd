@@ -79,7 +79,7 @@ storage <- stm(documents = out$documents, vocab = out$vocab,
 ```
 
 ## Run Model
-```{r eval=FALSE, include=FALSE}
+```{r eval=FALSE}
 k=40
 
 stmOut <- stm(documents = out$documents, vocab = out$vocab,
@@ -103,25 +103,30 @@ model_df <- model_df %>%
   mutate(doc_index = as.numeric(rownames(.)))
 ```
 
+### Label topics
+
+To explore the words associated with each topic we use the words with the highest probability in each topic. As we included the source type (press release or news paper) as a control for the topical content (the word distribution of each topic), we have two different labels for each topic.
+
 ```{r}
 sagelabs <- sageLabels(stmOut)
 
 newsLabels <- as.data.frame(sagelabs$cov.betas[[1]]$problabels) %>% 
   transmute(topic = as.numeric(rownames(.)),
-            topic_name_news = paste("Topic",as.character(topic),":",V1,V2,V3,V4,V5))
+            topic_name_news = paste("Topic",as.character(topic),":",V1,V2,V3,V4))
 
 pressLabels <- as.data.frame(sagelabs$cov.betas[[2]]$problabels) %>% 
   transmute(topic = as.numeric(rownames(.)),
-            topic_name_press = paste("Topic",as.character(topic),":",V1,V2,V3,V4,V5))
+            topic_name_press = paste("Topic",as.character(topic),":",V1,V2,V3,V4))
 
 topics.df <- left_join(newsLabels, pressLabels, by="topic")
 
 htmlTable::htmlTable(topics.df, align="l")
 ```
 
+
 ### Topic frequency
 
-In order to get an initial overview of the results, the figure below displays the topics ordered by their expected frequency across the corpus. The four most frequent words in each topic are used as a label for that topic. 
+The expected proportion of the corpus that belongs to each topic is used to geht an initial overview of the results. The figure below displays the topics ordered by their expected frequency across the corpus. The four most frequent words in each topic are used as a label for that topic. 
 
 ```{r include=FALSE}
 overall_freq <- as.data.frame(colMeans(stmOut$theta)) %>%
@@ -139,14 +144,25 @@ overall_freq %>%
   ggplot(aes(reorder(topic_name_news, -order), frequency)) +
   geom_col(alpha = 0.7) +
   coord_flip() +
-  ggthemes::theme_igray() +
-  labs(x=NULL, y=NULL, title="Expected Frequency of Topics") 
+  ggthemes::theme_fivethirtyeight() +
+  labs(x=NULL, y=NULL, title="Expected Frequency of Topics", 
+       subtitle="Most frequent words from the covariate 'news' is used to label the topics") 
+```
+
+```{r fig.height=6}
+overall_freq %>%
+  ggplot(aes(reorder(topic_name_press, -order), frequency)) +
+  geom_col(alpha = 0.7) +
+  coord_flip() +
+  ggthemes::theme_fivethirtyeight() +
+  labs(x=NULL, y=NULL, title="Expected Frequency of Topics", 
+       subtitle="Most frequent words from the covariate 'press release' is used to label the topics") 
 ```
 
 ### Measure Agendas
 
 ```{r}
-theta <- as.data.frame(stmOut$theta) %>% # get all theta values for echt document
+theta <- as.data.frame(stmOut$theta) %>% # get all theta values for each document
   
   mutate(doc_index = as.numeric(rownames(.))) %>%
   # convert to long format
@@ -180,7 +196,7 @@ theta %>%
   geom_col() +
   ylim(c(0,1)) +
   coord_flip() +
-  ggthemes::theme_igray() +
+  ggthemes::theme_fivethirtyeight() +
   labs(title = paste("Topic distribution of document",sample_doc),
        subtitle = paste0("Source: ",source,"\nTitle: ", title),
        x = NULL, y = NULL
@@ -197,7 +213,8 @@ model_df %>%
 ```
 
 Agendas were measured in terms of percentage distributions across the 40 topics. For each source the average distribution of each topic is calculated. 
-```{r fig.height=6, fig.width=12}
+
+```{r fig.height=8, fig.width=14}
 topicmean_news <- theta %>%
   filter(type == "news") %>%
   group_by(topic,topic_name_news, source) %>%
@@ -208,12 +225,13 @@ topicmean_news %>%
   ggplot(aes(topic_name_news,topicmean)) +
   geom_col() +
   coord_flip() +
-  ggthemes::theme_igray() +
+  ggthemes::theme_fivethirtyeight() +
   facet_grid(~source) +
-  labs(x=NULL, y=NULL, title="Average distribution of topics")
+  labs(x=NULL, y=NULL, title="Average distribution of topics",
+       subtitle = "Online news")
 ```
 
-```{r fig.height=6, fig.width=12}
+```{r fig.height=8, fig.width=14}
 topicmean_press <- theta %>%
   filter(type == "press") %>%
   group_by(topic,topic_name_press, source) %>%
@@ -224,11 +242,12 @@ topicmean_press %>%
   ggplot(aes(topic_name_press,topicmean)) +
   geom_col() +
   coord_flip() +
-  ggthemes::theme_igray() +
+  ggthemes::theme_fivethirtyeight() +
   facet_grid(~source) +
-  labs(x=NULL, y=NULL, title="Average distribution of topics")
+  labs(x=NULL, y=NULL, title="Average distribution of topics",
+       subtitle = "Press release"
+       )
 ```
-
 
 Then, we estimated bivariate correlations between party agendas and the mediated party agendas in the online news. These correlations represent the agenda selectivity each party experiences in each media outlet. The higher the correlation, the more congruent both agendas are (Brandenburg, 2005; Harris, Fury, & Lock, 2006; Kim, Xiang, & Kiousis, 2011). 
 
@@ -257,37 +276,75 @@ for (party in parties) {
   }
   
 }
+
+correlations <- correlations %>% mutate(party = as.character(party), medium = as.character(medium))
 ```
 
 ```{r}
 ggplot(correlations, aes(party, cor)) +
   geom_col() +
   coord_flip() +
-  ggthemes::theme_igray() +
+  ggthemes::theme_fivethirtyeight() +
   facet_wrap(~medium) +
-  labs(x = NULL, y = NULL, title = "Topic correlation between press release and news outlet")
+  labs(x = NULL, y = NULL, title = "Topic correlation",
+       subtitle = "Between news and press releases")
 ```
 
 Again, to measure the bias and not just outlet specificities, for each outlet the mean agenda selectivity of all other parties was subtracted from each party's specific agenda selectivity value and then standardized to range from −1 to 1, where −1 stands for both agendas being not congruent at all and +1 stands for both agendas being identical.
 
 ```{r}
-correlations <- correlations %>%
-  group_by(medium) %>%
-  mutate(avg_cor = mean(cor)) %>%
-  ungroup() %>%
-  mutate(agenda_bias = cor-avg_cor,
-         agenda_bias_norm = normalize_data2(agenda_bias)
-         )
+estimateBias <- function(party){
+  
+  df1 <- correlations %>% 
+    filter(party == party) 
+  
+  df2 <- correlations %>%
+    filter(party != party) %>%
+    group_by(medium) %>%
+    summarise(avg_cor = mean(cor)) 
+  
+  tempdf <- left_join(df1,df2) %>%
+    mutate(agenda_bias = cor-avg_cor,
+           agenda_bias_norm = normalize_data2(agenda_bias))
+  
+  return(tempdf)
+  
+}
 ```
 
 ```{r}
-ggplot(correlations, aes(party, agenda_bias_norm)) +
+parties <- unique(correlations$party)
+
+for (i in parties) {
+  
+    df1 <- correlations %>% filter(party == i) 
+    
+    df2 <- correlations %>%
+      filter(party != i) %>%
+      group_by(medium) %>%
+      summarise(avg_cor = mean(cor)) 
+    
+    tempdf <- left_join(df1,df2, by="medium") %>%
+      mutate(agenda_bias = cor-avg_cor,
+             agenda_bias_norm = normalize_data2(agenda_bias)
+             )
+    
+    if (exists('agendaBias')){
+      agendaBias <- bind_rows(agendaBias,tempdf)
+    } else {
+      agendaBias <- tempdf
+    }
+}
+```
+
+```{r}
+ggplot(agendaBias, aes(party, agenda_bias_norm)) +
   geom_col() +
   coord_flip() +
-  ggthemes::theme_igray() +
+  ggthemes::theme_fivethirtyeight() +
   facet_wrap(~medium) +
   labs(x = NULL, y = NULL, title = "Agenda bias",
        subtitle = "−1: agendas not congruent at all\n+1: agendas are identical")
 ```
 
-This underlines the importance of studying all three types of media biases simultane- ously, as examining just one aspect provides a misleading picture of the extent and nature of bias. The existence of various and diverse forms of media bias also means that it is worth considering their distinct effects on party preferences.
+This underlines the importance of studying all three types of media biases simultaneously, as examining just one aspect provides a misleading picture of the extent and nature of bias. The existence of various and diverse forms of media bias also means that it is worth considering their distinct effects on party preferences.

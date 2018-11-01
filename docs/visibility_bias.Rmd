@@ -5,6 +5,10 @@ output:
     df_print: paged
 ---
 
+```{r include=FALSE}
+knitr::opts_chunk$set(echo=FALSE)
+```
+
 ```{r message=FALSE, warning=FALSE}
 rm(list = ls())
 
@@ -92,8 +96,53 @@ vis <- vis %>%
 ```
 
 ```{r}
-vis %>%
-  ggplot(aes(party, v_bias_normalized)) +
+estimateBias <- function(party){
+  
+  df1 <- vis %>% 
+    filter(party == party) 
+  
+  df2 <- vis %>%
+    filter(party != party) %>%
+    group_by(medium) %>%
+    summarise(avg_vis = mean(visibility_p_s)) 
+  
+  tempdf <- left_join(df1,df2) %>%
+    mutate(visibility_bias = visibility_p_s-avg_vis,
+           vis_bias_norm = normalize_data2(visibility_bias))
+  
+  return(tempdf)
+  
+}
+```
+
+```{r}
+parties <- unique(vis$party)
+
+for (i in parties) {
+  
+    df1 <- vis %>% 
+    filter(party == i) 
+  
+  df2 <- vis %>%
+    filter(party != i) %>%
+    group_by(medium) %>%
+    summarise(avg_vis = mean(visibility_p_s)) 
+  
+  tempdf <- left_join(df1,df2, by="medium") %>%
+    mutate(visibility_bias = visibility_p_s-avg_vis,
+           vis_bias_norm = normalize_data2(visibility_bias))
+    
+    if (exists('visBias')){
+      visBias <- bind_rows(visBias,tempdf)
+    } else {
+      visBias <- tempdf
+    }
+}
+```
+
+```{r}
+visBias %>%
+  ggplot(aes(party, vis_bias_norm)) +
   geom_col() +
   facet_wrap(~medium) +
   ggthemes::theme_fivethirtyeight() +
@@ -101,7 +150,3 @@ vis %>%
   labs(title = "Visibility bias",
        subtitle = "Normalized between -1 and 1")
 ```
-
-# Results
-
-Visibility bias follows a similar pattern in most media outlets, with larger and government parties more visible than smaller opposition parties (as in Eberl (2017)). In this sample, the strongest positive deviation from the balanced benchmark was in favour of the government party union of CDU/CSU, while the strongest negative deviation from the balanced benchmark is against DIE LINKE. This phenomenon can be seen as reflecting the status quo division of power (e.g., Hopmann, de Vreese, & Albæk, 2011a; Semetko & Boomgaarden, 2007) 
