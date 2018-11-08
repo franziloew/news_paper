@@ -66,6 +66,7 @@ visibility <- function(data, party) {
 }
 ```
 
+
 ```{r}
 for (party in parties) {
   partydf <- visibility(btw, party)
@@ -78,22 +79,7 @@ for (party in parties) {
 }
 ```
 
-The next step is to define an appropriate reference point to distinguish between balanced/neutral and biased reporting. We use the average visibility of all parties in each media outlet during the period of analysis as a key benchmark. By doing so, we consider differences between parties as well as media outlets similar to Eberl (2017). Our bias measure therefore captures whether party visibility is biased in comparison to what is typical for that outlet. Visibility bias $v(p,s)$ is then computed as the deviation of each party’s specific visibility from the average visibility of all other parties in that outlet.
-
-$$
-v(p,s) =  \text{visibility}(p,s) - \frac{1}{N}\sum^N_{p=1}\text{visibility(p,s)}
-$$
-
-```{r}
-# Average visibility of all parties in each media outlet
-vis <- vis %>%
-  group_by(medium) %>%
-  mutate(mean_vis = mean(visibility_p_s)) %>%
-  ungroup() %>%
-  mutate(v_bias = visibility_p_s-mean_vis,
-         v_bias_normalized = normalize_data2(v_bias)
-         )
-```
+The next step is to define an appropriate reference point to distinguish between balanced/neutral and biased reporting. We use the average visibility of all parties in each media outlet during the period of analysis as a key benchmark. By doing so, we consider differences between parties as well as media outlets similar to Eberl (2017). Our bias measure therefore captures whether party visibility is biased in comparison to what is typical for that outlet. Visibility bias is then computed as the deviation of each party’s specific visibility from the average visibility of all other parties in that outlet.
 
 ```{r}
 estimateBias <- function(party){
@@ -143,10 +129,13 @@ for (i in parties) {
 ```{r}
 visBias %>%
   ggplot(aes(party, vis_bias_norm)) +
-  geom_col() +
+  geom_col(position = "dodge") +
   facet_wrap(~medium) +
-  ggthemes::theme_fivethirtyeight() +
+  ggthemes::theme_gdocs() +
+  ggthemes::scale_fill_gdocs() +
   coord_flip() +
   labs(title = "Visibility bias",
-       subtitle = "Normalized between -1 and 1")
+       subtitle = "Normalized between -1 and 1",
+       x = NULL, y = NULL
+       )
 ```
