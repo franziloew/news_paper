@@ -58,7 +58,7 @@
 \begin{titlepage}
 	\maketitle
 	\begin{abstract}
-	tba
+	However, the concept of media bias actually encompasses different subtypes: Visibility bias is the salience of political actors, tonality bias the evaluation of these actors, and agenda bias the extent to which parties address preferred issues in media coverage. Most literature on media bias focuses on only one type of bias, mainly disregarding agenda bias, as the operationalization is somewhat challenging. Additionally, studies that analyse the effect of media content primarily employ manual content analysis and are therefore much more time-consuming and susceptible to errors. Using automated data mining tools this paper provides an approach that allows an efficient and objective analysis to measure the different types of media bias. In order to investigate whether the media landscape transmits a biased reality of the political landscape, online news articles are analysed together with party press releases.
 	\end{abstract}
 
 \end{titlepage}
@@ -67,40 +67,59 @@
 
 \pagebreak
 
+%------------------------------------------------%
+%----------------- Begin paper -------------------%
+%------------------------------------------------%
+
 \section{Introduction}
 
+The discussion about the influence of digital media on the political opinion-forming process has gained momentum since the presidential elections in October 2016. The importance of the internet as a source of information for political topics has grown strongly in recent years. Even though television remains the most widely used source of news in Germany (2018: 74\%), numbers watching continue to decline while use of the internet for news has grown significantly in the last year (+5\%, 2018: 65\%) \citep{holig_reuters_2018}. The expansion of the internet as a new method of communication provides a potential challenge to the primacy of the traditional media and political parties as formers of public opinion \citep{savigny_public_2002}.
 
-% -- Bilden online Nachrichten die politische Realität ab? -> 3 types of bias
-% ------------------------------
+However, the influence of media bias on voter preferences has not only been studied in the literature since the growing importance of the internet. The general hypothesis is that bias in political news may have a profound influence on voter opinions and preferences \citep{ferree_four_2002, mccombs_look_2005, eberl_one_2017}. It can therefore be argued, that one central responsibility of the media is to supply voters with balanced and objective information on relevant political issues and actors \citep{stromback_four_2008, eberl_one_2017}. However, the concept of media bias actually encompasses different subtypes \citep{dalessio_media_2000, eberl_one_2017, junque_de_fortuny_media_2012}: (1) Coverage bias, (2) tonality bias und (3) agenda bias. These three concepts measure how often political actors appear in the media (coverage bias), how they are evaluated (tonality bias) and whether they are able to present their own political positions and talk about their issues in the media (agenda bias). The latter therefore stems from a journalist's or editor's decision to select or ignore specific news stories. Most of the literature on media bias focuses on one type of bias and most research tends to disregard agenda bias as the operationalization is somewhat more challenging. In order to know which news stories have been selected as well as deselected by journalists, one would have to know the universe of news stories at a given point in time \citep{dalessio_media_2000}. I adopt the approach used in \citet{eberl_one_2017}, in using parties' campaign communication as an approximation of the potential universe of news stories. However, this analysis differs from earlier approaches in that I use machine learning techniques to identify the underlying topics in the text corpus. Furthermore, I use text-mining techniques to measure coverage and tonality bias. Similar to \citet{junque_de_fortuny_media_2012} I refrained from interpreting the results on a political level as much as possible, yet I demonstrate how text-mining techniques allow an efficient and objective analysis of today's on-line media landscape. 
 
-recent studies investigate the effects of media bias on evaluations of party leaders \citep{lenz_looking_2011, prior_incumbent_2006} on vote intention \citep{boomgaarden_reporting_2007} or both \citep{druckman_impact_2005}
+The data analyzed in this study contains nearly 12.000 online news articles from seven major news provider dated from June 1, 2017 to March 1, 2018 as well as over 1.900 press releases of the parties in the german "Bundestag". As the German federal elections took place on 24th of September 2017 and the formation of the government has taken up a period of about five months, the articles considered inform their readers about both the election promises of the parties (before the election) and the coalition talks (after the election). 
 
+% --- coverage bias --- %
 
+% --- sentiament bias --- %
 
-% -- ... in Zeiten des Internets
-% ------------------------------
-Online articles provide the unique opportunity to access, analyse and compare a large body of text data using state of the art text mining techniques. Studies that analyse the effect of media content on voter behaviour primarily employ manual content analysis and are therefore much more time-consuming and susceptible to errors. Using automated data mining tools reduce human induced bias \citep{junque_de_fortuny_media_2012} 
+To conduct such an analysis, a list of words (dictionary) associated with a given emotion, such as negativity is pre-defined. The document is then deconstructed into individual words and each word is assigned a sentiment value according to the dictionary, where the sum of all values results in the emotional score for the given document. 
 
-\todo{Say some words on unsupervised method (no labeled data)}
+% --- agenda bias --- %
 
-% ---- Research Hypothesis ---- %
+While the coverage and tonality bias can be calculated using simple counting methods, more sophisticated approaches are required to operationalize the agenda bias, since the topics covered have to be identified. To discover the latent topics in the corpus of text data, the structural topic modeling (STM) developed by \citet{roberts_model_2016} is applied. The STM is an unsupervised machine learning approach that models topics as multinomial distributions of words and documents (as a synonym for news articles) as multinomial distributions of topics, allowing the incorporation of external variables that affect both, topical content and topical prevalence. The results of the generative process of the STM are two posterior distributions: One for the topic prevalence in a document (what is the article or press release about?) and one for the content of a topic (what is the topic about?).
 
-Please note that we refrained from interpreting the results on a political level as much as possible, yet we write to demonstrate how a text mining approach allows an efficient and objective analysis and to summarise news coverage in today’s on-line media landscape \citep{junque_de_fortuny_media_2012}. 
+% --- Key contributions --- %
 
-1. The more visible a party is in voters' media repertoire, the higher their preferences for that party (Studies have found that the mere visibility of parties and candidates is an important factor influencing vote choice)
+Building on the insight that media bias can have three different forms, this study makes two key contributions. (1) combination of different text-mining techniques to analyze a large text corpus reduces the human induced bias and makes research more traceable and comparable. Our measures of media bias are based on extensive content analyses of newspaper coverage and party press releases. and (2) a new approach to measure agenda bias.    
 
-2. The more favorable the tonality toward a party is in voters' media repertoire, the higher their preference for that party.
+This study presents evidence from an integrated research design that combines data from an extensive media content analysis of eight national newspapers with data about party press releases of six parties
 
-The tonality of coverage is important because it can provide the media audience with templates for understanding politics. For instance, valence framing suggests that positive or negative aspects of an object are highlighted in the media, consequentially affecting the salience of these aspects in the public's mind \citep{de_vreese_valenced_2006}  Similarly, \citet{druckman_impact_2005} argue that audiences' inferences about candidate traits are rather automatically made from positive or negative descriptions in texts.
+% --- remaining course of the paper... --- %
 
+The remaining course of the paper is as follows: The following section provides an overview of the related literature. Section \ref{ch_elections} gives a introduction to the political trends in the past six month (June 2017 to March 2018). The data used to conduct the model is described in section \ref{ch_data}. Section \ref{ch_model} explains the generative process of the structural topic model as well as the selected parameters to run the model. The empirical analysis is conducted in section \ref{ch_empirical}. 
+
+%-------------------------------------------------------%
+%----------------- Literature Review -------------------%
+%-------------------------------------------------------%
 
 \section{Literature}
 
 Most of the literature on influences of media bias focuses on one type of bias (see \citet{eberl_one_2017}). Overall, most research tends to disregard agenda bias as the operationalization is somewhat more challenging. In order to know which news stories have been selected as well as deselected by journalists, one would have to know the universe of news stories at a given point in time \citet{dalessio_media_2000}. \citet{eberl_one_2017} use parties' campaign communication as an approximation of the potential universe of news stories \citep{brandenburg_political_2005}
 
+So kann beispielsweise eine stärkere Verbreitung von politischen Inhalten einer Partei einen positiven Einfluss auf die Einstellung gegenüber dieser Partei haben \citep{benewick_floating_1969}. Vor der Annahme, dass Medien einen Einfluss auf Wählerpräferenzen haben, werfen \citet{mccombs_agenda-setting_1972} die Frage auf, ob die politische Welt in den Medien unverzerrt abgebildet wird. Sie kommen zu dem Ergebnis, dass Massenmedien die politische Agenda beeinflusst. 
+
 %---- 1. Coverage bias / Impact of media coverage on electoral outcomes ---%
 
-Empirical studies that measure the influence of media coverage on the electoral behaviour of voters are usually based on regional differences in the reach of certain media.  
+Benchmark to measure bias: 
+- Differences between media outlets
+- Votes
+
+The hypothesis behind the coverage bias is: The more visible a party is in voters' media repertoire, the higher their preferences for that party (Studies have found that the mere visibility of parties and candidates is an important factor influencing vote choice)
+
+Benchmark to measure outcome of bias: 
+
+- Empirical studies that measure the influence of media coverage on the electoral behaviour of voters are usually based on regional differences in the reach of certain media.
 
 \citet{enikolopov_media_2011} Analyze the impact of media coverage on electoral outcomes of the 1999 parliamentary elections in Russian regions with differing access to an independent national TV channel. The authors find that access to independent TV led to a decreased vote for the governing party by 8.9 percentage points and to an increased vote for major opposition parties by 6.3 percentage points.
 
@@ -110,7 +129,10 @@ Empirical studies that measure the influence of media coverage on the electoral 
 
 \citet{dewenter_can_2018} use human-coded data from leading media in Germany together with the German Politbarometer survey to investigate how media coverage affects short- and long-term political preferences between February 1998 and December 2012. They find a positive correlation between the media coverage and the short-term voting intention for a political party. In the long-term, however, voting preferences are stable.
 
-%---- 2. Measure sentiment in digital news ---%
+% ---- Tonality Bias --- %
+The more favorable the tonality toward a party is in voters' media repertoire, the higher their preference for that party.
+
+The tonality of coverage is important because it can provide the media audience with templates for understanding politics. For instance, valence framing suggests that positive or negative aspects of an object are highlighted in the media, consequentially affecting the salience of these aspects in the public's mind \citep{de_vreese_valenced_2006}  Similarly, \citet{druckman_impact_2005} argue that audiences' inferences about candidate traits are rather automatically made from positive or negative descriptions in texts.
 
 \citet{soelistio_simple_2015}: suggests a method to implement sentiment’s analysis using naïve Bayesian method on digital articles and newspapers. The sentiment analysis focuses on the probability of whether news media give positive or negative review on some particular political figures.
 
@@ -145,28 +167,7 @@ Studies that examine bias do so indirectly by aggregating media outlets across m
 
 \citet{eberl_one_2017}: To measure media effects, the dependent variables has often been modelled as voters' decisions on pre- or post-election surveys. As this variable does not allow for much variation in a country with rather stable voting behavior, the literature on media effects has long struggled with the challenge that these effects might be minimal \citep{bennett_new_2008, holbert_new_2010}. To allow for more variation in the dependent variable, \citet{eberl_one_2017} use the propensity to vote (ptv) for each party on a scale from 0 (very unlikely) to 10 (very likely), a non-ipsative measure of party preferences.
 
-
-%------------------------------------------------%
-%----------------- Begin paper -------------------%
-%------------------------------------------------%
-
-The discussion about the influence of digital media on the political opinion-forming process has gained momentum since the presidential elections in October 2016. In recent years, the importance of the Internet as a source of information for political topics has been growing strongly. Even though television remains the most widely used source of news in Germany (2018: 74\%), numbers watching continue to decline while use of the internet for news has grown significantly in the last year (+5\%, 2018: 65\%) \citep{holig_reuters_2018}. The expansion of the internet as a new method of communication provides a potential challenge to the primacy of the traditional media and political parties as formers of public opinion \citep{savigny_public_2002}.
-
-Schon vor dem Internet war die Rolle der (Massen)medien ein ongoing Untersuchungsgegenstand der social science. Die vorherrschende These dabei ist, dass die Medien als Hauptinformationsquelle für die Wähler ein wichtiger Faktor bei die Meinungsbildung sind \citep{ferree_four_2002, mccombs_look_2005, eberl_one_2017}. One central responsibility of the media arguably is to supply voters with balanced and objective information on relevant political issues and actors \citep{stromback_four_2008, eberl_one_2017}. Bias in political news coverage may have a profound influence on voter opinions and preferences \citep{eberl_one_2017}. So kann beispielsweise eine stärkere Verbreitung von politischen Inhalten einer Partei einen positiven Einfluss auf die Einstellung gegenüber dieser Partei haben \citep{benewick_floating_1969}. Vor der Annahme, dass Medien einen Einfluss auf Wählerpräferenzen haben, werfen \citet{mccombs_agenda-setting_1972} die Frage auf, ob die politische Welt in den Medien unverzerrt abgebildet wird. Sie kommen zu dem Ergebnis, dass Massenmedien die politische Agenda beeinflusst. 
-
-In order to address the question whether the media landscape transmits a biased reality of the political landscape, this paper analyzes German online news articles covering domestic politics together with press releases of the party in the german "Bundestag". The data contains online news articles from seven major news provider dated from June 1, 2017 to March 1, 2018. As the German federal elections took place on 24th of September 2017 and the formation of the government has taken up a period of about five months, the articles considered inform their readers about both the election promises of the parties (before the election) and the coalition talks (after the election). We use state-of-the art text-mining techniques to analyze a corpus of over 15.000 online news articles an nearly 1.800 press releases. Online articles and press releases provide the opportunity to access, analyse and compare a large body of text data using state of the art text mining techniques. Earlier studies that analyse the effect of media content on voter behaviour primarily employ manual content analysis and are therefore much more time-consuming and susceptible to errors. Using automated data mining tools reduce human induced bias \citep{junque_de_fortuny_media_2012}.
-
-In studying the effects of media bias, three sub-types of biases are commonly identified in the literature \citep{dalessio_media_2000, eberl_one_2017, junque_de_fortuny_media_2012}: (1) Coverage bias, (2) statement bias and (3) gatekeeping bias.\footnote{\citep{eberl_one_2017} refer to the as (1) visibility bias, (2) tonality bias and (3) agenda bias.} Those three concepts measure how often political actors appear in the media (visibility bias), how they are evaluated (tonality bias) and whether political actors are allowed to present their own policy positions and talk about their issues in the media (gatekeeping bias). The gatekeeping bias therefore stems from a journalist's or editor's decision to select or ignore specific news stories. Most of the literature on media bias focuses on one type of bias and most research tends to disregard agenda bias as the operationalization is somewhat more challenging. In order to know which news stories have been selected as well as deselected by journalists, one would have to know the universe of news stories at a given point in time \citet{dalessio_media_2000}.  Ich übernehme die Idee von \citet{eberl_one_2017} in using parties' campaign communication as an approximation of the potential universe of news stories. However, my analysis differs from earlier approaches in that I use machine learning techniques to identify the underlying topics in the text corpus.
-
-To discover the latent topics in the corpus of text data, the structural topic modeling (STM) developed by \citet{roberts_model_2016} is applied. The STM is an unsupervised machine learning approach that models topics as multinomial distributions of words and documents (as a synonym for news articles) as multinomial distributions of topics, allowing the incorporation of external variables that affect both, topical content and topical prevalence. The results of the generative process of the STM are two posterior distributions: One for the topic prevalence in a document (what is the article or press release about?) and one for the content of a topic (what is the topic about?).
-
-Building on the insight that media bias can have three different forms, this study makes two key contributions. (1) combination of different text-mining techniques to analyze a large text corpus reduces the human induced bias and makes research nachvollviehbarer und vergleichbarer, (2) technique to measure agenda bias.    
- 
-
-After assigning a topic to each article, a dictionary-based sentiment analysis is conducted to estimate how topics are discussed differently by different news websites. To conduct such an analysis, a list of words (dictionary) associated with a given emotion, such as negativity is pre-defined. The document is then deconstructed into individual words and each word is assigned a sentiment value according to the dictionary, where the sum of all values results in the emotional score for the given document.   
-
-
-The remaining course of the paper is as follows: The following section gives an overview of political trends in the past six month (June 2017 to March 2018). The data used to conduct the model is described in section \ref{ch_data}. Section \ref{ch_model} explains the generative process of the structural topic model as well as the selected parameters to run the model. The empirical analysis is conducted in section \ref{ch_empirical}. 
+recent studies investigate the effects of media bias on evaluations of party leaders \citep{lenz_looking_2011, prior_incumbent_2006} on vote intention \citep{boomgaarden_reporting_2007} or both \citep{druckman_impact_2005}
  
 % -------------------------
 % Background Bundestagswahl
@@ -258,6 +259,12 @@ To use text as data for statistical analysis, the next step is to divide the ent
 
 \section{Methodology}
 
+Understand bias through its opposite (objectivity). In terms of news reporting this quality cirterion consists of many different aspects: (1) accuracy and realism, (2) separation of fact and opinion, (3) avoidance of slant (McQuail, 1992). 
+
+In order to arrive at a better operational definition, some scholars argue that the opposite of bias is not necessarily objectivity but neutrality or balance \citep{hopmann_political_2012}. An unbiased news report is a neutral or balanced report, thus one that is not strongly slanted in favor of or against any political side. All sides should be equally represented according to some kind of benchmark for balance or neutrality. Conversely, in this view, bias is the extent to which media reporting deviates from this benchmark. The literature describes three types of media biases that may affect voters' party preferences: visibility bias, tonality bias, and agenda bias. In the next section, we describe each type of bias in turn and explain why each type is important for under- standing voter attitudes or behavior.
+
+
+
 To ensure comparability between the bias metrics, they are standardized to range from −1 to 1, where a party would have a bias of 0 (neutral), when its visibility or tonality is equal to the mean visibility or tonality across all parties in that media outlet.
 
 \subsection{Visibility Bias}
@@ -302,7 +309,7 @@ The model has been applied to multiple academic fields: \citet{roberts_structura
 % ----------------------
 Inference of mixed-membership models, such as the one applied in this paper, has been a thread of research in applied statistics in the past few years (\citet{blei_latent_2003} \citet{erosheva_mixed-membership_2004} \citet{braun_variational_2010}). Topic models are usually imprecise as the function to be optimized has multiple modes, such that the model results can be sensitive to the starting values (e.g. the number of topics). Since an ex ante valuation of a model is hardly possible, I compute a variety of different models and compare their posterior probability. This enables me to check how results vary for different model solution \citep{roberts_navigating_2016}. I then cross-checked some subset of assigned topic distributions to evaluate whether the estimates align with the concept of interest \citep{gentzkow_text_2017}. These manual audits are applied together with numeric optimization based on the topic coherence measure suggested by \citet{mimno_optimizing_2011}. 
 
-This process revealed that a model with 40 topics best reflects the structure in the corpus. Furthermore, the news website of a document (article) is used as covariate in the topic prevalence. In other words, the corresponding news website of an article influences the probability distribution of topics for that document. 
+This process revealed that a model with 55 topics best reflects the structure in the corpus. Furthermore, the source (news website or party) of a document is used as covariate in the topic prevalence. In other words, the corresponding news website or party of an article or press release influences the probability distribution of topics for that document. Additionally I assume that the topical content differs between news articles and press releases. 
 
 \subsection{Sentiment Analysis}
 
