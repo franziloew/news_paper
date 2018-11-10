@@ -149,38 +149,6 @@ topics.df %>% select(joint_label, topic_name_news, topic_name_press) %>%
                        rnames = F)
 ```
 
-
-### Topic frequency
-
-The expected proportion of the corpus that belongs to each topic is used to get an initial overview of the results. The figure below displays the topics ordered by their expected frequency across the corpus. The four most frequent words in each topic are used as a label for that topic. 
-
-```{r include=FALSE}
-overall_freq <- as.data.frame(colMeans(stmOut$theta)) %>%
-  transmute(
-    topic = as.numeric(rownames(.)),
-    frequency = colMeans(stmOut$theta)
-         ) %>%
-  left_join(., topics.df, by = "topic") %>% 
-  arrange(desc(frequency))%>%
-  mutate(order = row_number())
-```
-
-```{r Plot expected frequency, eval=FALSE, include=FALSE}
-overall_freq %>%
-  ggplot(aes(reorder(joint_label, -order), frequency)) +
-  geom_col(fill="#0099c6", alpha = 0.8) +
-  coord_flip() +
-  theme_hc() +
-  labs(x=NULL, y=NULL) +
-  theme(axis.text.x = element_text(size = 6))
-
-ggsave("../figs/topic_proportion.png", height = 8)
-```
-
-![](../figs/topic_proportion.png)
-
-### Measure Agendas
-
 ```{r include=FALSE}
 theta <- as.data.frame(stmOut$theta) %>% # get all theta values for each document
   
@@ -197,7 +165,9 @@ theta <- as.data.frame(stmOut$theta) %>% # get all theta values for each documen
               select(date,type,source,doc_index,title_text), by="doc_index")
 ```
 
-For each document, we have a distribution over all topics:
+### Topic distribution 
+
+For each document, we have a distribution over all topics, e.g.:
 
 ```{r include=FALSE}
 sample_doc <- sample(nrow(model_df),1)
@@ -239,6 +209,37 @@ model_df %>%
   htmlTable::htmlTable(align="l", rnames=FALSE, header = c("Source", "Title + Body"))
 ```
 
+### Topic frequency
+
+The expected proportion of the corpus that belongs to each topic is used to get an initial overview of the results. The figure below displays the topics ordered by their expected frequency across the corpus. The four most frequent words in each topic are used as a label for that topic. 
+
+```{r include=FALSE}
+overall_freq <- as.data.frame(colMeans(stmOut$theta)) %>%
+  transmute(
+    topic = as.numeric(rownames(.)),
+    frequency = colMeans(stmOut$theta)
+         ) %>%
+  left_join(., topics.df, by = "topic") %>% 
+  arrange(desc(frequency))%>%
+  mutate(order = row_number())
+```
+
+```{r Plot expected frequency, eval=FALSE, include=FALSE}
+overall_freq %>%
+  ggplot(aes(reorder(joint_label, -order), frequency)) +
+  geom_col(fill="#0099c6", alpha = 0.8) +
+  coord_flip() +
+  theme_hc() +
+  labs(x=NULL, y=NULL) +
+  theme(axis.text.x = element_text(size = 6))
+
+ggsave("../figs/topic_proportion.png", height = 8)
+```
+
+![](../figs/topic_proportion.png)
+
+### Measure Agendas
+
 Agendas were measured in terms of percentage distributions across the 55 topics. For each source the average distribution of each topic is calculated. 
 
 ```{r include=FALSE}
@@ -257,7 +258,7 @@ topicmean_press <- theta %>%
 
 ```{r eval=FALSE, include=FALSE}
 topicmean_news %>%
-  ggplot(aes(joint_label,topicmean)) +
+  ggplot(aes(reorder(joint_label,desc(topic)),topicmean)) +
   geom_col(fill="#0099c6", alpha = 0.8) +
   coord_flip() +
   theme_hc() +
@@ -273,7 +274,7 @@ ggsave("../figs/topic_proportion_news.png", width = 11, height =8)
 
 ```{r eval=FALSE, include=FALSE}
 topicmean_press %>%
-  ggplot(aes(joint_label,topicmean)) +
+  ggplot(aes(reorder(joint_label,desc(topic)),topicmean)) +
   geom_col(fill = "#66AA00", alpha=0.8) +
   coord_flip() +
     theme_hc() +
