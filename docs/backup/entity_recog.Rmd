@@ -1,0 +1,56 @@
+---
+title: "Entity Recognition"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(NLP)
+library(openNLP)
+library(ggmap)
+```
+
+```{r}
+rm(list = ls())
+load("../output/data_step2.Rda")
+```
+
+```{r}
+btw %>%
+  filter(partycount == "B90/Grüne") %>%
+  sample_n(1) %>%
+  select(title_text) %>% htmlTable::htmlTable()
+```
+
+## NLP
+
+```{r}
+#Generate an annotator which computes sentence,word, POS tag annotations using the Apache OpenNLP Maxent sentence detector.
+sent_token_annotator <- Maxent_Sent_Token_Annotator(language = "de", model = "NLPmodels/de-sent.bin")
+word_token_annotator <- Maxent_Word_Token_Annotator()
+pos_tag_annotator <- Maxent_POS_Tag_Annotator(language = "de",
+                        probs = FALSE,model = "NLPmodels/de-pos-maxent.bin")
+```
+
+```{r}
+#Compute annotations by iteratively calling the given annotators with the given text and current annotations, and merging the newly computed annotations with the current ones.
+
+a3 <- annotate(text,
+ list(sent_token_annotator,
+ word_token_annotator))
+
+a4 <- annotate(text,pos_tag_annotator,a3)
+
+#extract words
+aw4 <-subset(a4,type=="word")
+
+#Use apply function to extract only the POS tags
+tags <- sapply(aw4$features, '[[',"POS")
+
+as.data.frame(text[aw4],tags) %>%
+  transmute(pos = rownames(.),
+         word = `text[aw4]`) %>% 
+  filter(pos == "NE")
+```
+
+

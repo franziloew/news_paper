@@ -1,0 +1,33 @@
+---
+title: "Structural topic model"
+output: html_document
+---
+
+```{r eval=FALSE, include=FALSE}
+set.seed(456)
+
+library(stm)
+
+rm(list = ls())
+load("../output/final_modeldf.Rda")
+```
+
+```{r eval=FALSE, include=FALSE}
+# Model search across numbers of topics
+k=c(40,45,50,55,60)
+
+storage <- searchK(documents = out$documents, vocab = out$vocab,
+              K = k, prevalence =~ source, content = ~type, data = out$meta)
+```
+
+## Run Model
+```{r eval=FALSE, include=FALSE}
+k=50
+
+stmOut <- stm(documents = out$documents, vocab = out$vocab,
+              K = k, prevalence =~ source, content = ~type,
+              max.em.its = 75, data = out$meta,
+              init.type = "Spectral")
+
+save(model_df, out, stmOut, file = "../output/models/finalmodel_50.Rda")
+```
