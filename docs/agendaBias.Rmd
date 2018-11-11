@@ -2,7 +2,7 @@
 title: "Different types of media bias - agenda bias"
 author: "Franziska Löw"
 date: "`r format(Sys.Date())`"
-output: github_document
+output: html_document
 ---
 
 ```{r echo=FALSE}
@@ -87,17 +87,17 @@ plot(storage)
 
 ## Run Model
 ```{r eval=FALSE, include=FALSE}
-k=55
+k=50
 
 stmOut <- stm(documents = out$documents, vocab = out$vocab,
               K = k, prevalence =~ source, content = ~type,
               max.em.its = 75, data = out$meta,
               init.type = "Spectral")
 
-save(model_df, out, stmOut, file = "../output/models/finalmodel_55.Rda")
+save(model_df, out, stmOut, file = "../output/models/finalmodel_50.Rda")
 ```
 
-I included the document source as a control for the topical topical prevalence and the type (press release or news article) as a control for topical content. Thus, I assume that the distribution of topics depends on the source and the word distribution within each topic differes between party press releases and news articles. The number of topics is set to 55.
+I included the document source as a control for the topical topical prevalence and the type (press release or news article) as a control for topical content. Thus, I assume that the distribution of topics depends on the source and the word distribution within each topic differes between party press releases and news articles. The number of topics is set to 50.
 
 ## Results
 ```{r include=FALSE}

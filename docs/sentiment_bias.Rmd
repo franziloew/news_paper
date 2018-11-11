@@ -7,6 +7,7 @@ output: github_document
 
 ```{r include=FALSE}
 knitr::opts_chunk$set(eval=FALSE, include=FALSE)
+library(tidyverse)
 ```
 
 ```{r}
@@ -22,7 +23,7 @@ parties <- c("SPD",paste("CDU","CSU",sep = "|"),"FDP","Grüne","AfD","DIE LINKE"
 btw %>% mutate(doc_index = as.numeric(rownames(.))) -> btw
 ```
 
-A dictionary-based method is then applied to measure the tone (or sentiment) of a document. To conduct such an analysis, a lists of words (dictionary) associated with a given emotion, such as negativity is pre-defined by the analyst. The target text is then deconstructed into individual words (or tokens) and the frequencies of words contained in a given dictionary are then calculated. 
+To measure the tone (or sentiment) of a document adictionary-based method is applied. To conduct such an analysis, a lists of words (dictionary) associated with a given emotion, such as negativity is pre-defined by the analyst. The target text is then deconstructed into individual words (or tokens) and the frequencies of words contained in a given dictionary are then calculated. 
 
 The present paper uses a dictionary that lists words associated with positive and negative polarity weighted within the interval of $[-1; 1]$. [SentimentWortschatz](http://wortschatz.uni-leipzig.de/de/download), or SentiWS for short, is a publicly available German-language resource for sentiment analysis, opinion mining etc. The current version of SentiWS (v1.8b) contains 1,650 positive and 1,818 negative words, which sum up to 15,649 positive and 15,632 negative word forms incl. their inflections, respectively. It not only contains adjectives and adverbs explicitly expressing a sentiment, but also nouns and verbs implicitly containing one.
 
@@ -30,7 +31,7 @@ The sentiment score for each party in an article is calculated from each word th
 
 The score is then calculated from the sum of the words in a document (which can be assigned to a word from the dictionary) divided by the total number of words in that document.
 
-```{r}
+```{r eval=TRUE, include=TRUE, echo=FALSE}
 sent <- c(
   # positive Wörter
   readLines("dict/SentiWS_v1.8c_Negative.txt",
@@ -63,9 +64,7 @@ sent <- c(
   filter(!grepl('hell',word,ignore.case = T)) %>%
   # filter values that that score between -0.1 and +0.1 
   filter(!between(value, -0.1,0.1))
-```
 
-```{r}
 sent %>% 
   sample_n(10) %>%
   htmlTable::htmlTable(align="l")
@@ -153,10 +152,17 @@ sentDF %>%
   facet_grid(~party) +
   labs(x = NULL, y = "sentiment") +
   coord_flip() +
+  scale_y_continuous(limits = c(-.3,0),
+                     breaks = c(-.3,-.15,0), 
+                     labels = c(-.3,-.15,0)) +
   theme(axis.text.x = element_text(size = 6),
         axis.title = element_text(size = 7)
         )
+
+ggsave("../figs/sentiment.png", width = 6, height = 3)
 ```
+
+![](../figs/sentiment.png)
 
 ```{r}
 sent <- sentDF %>% 
@@ -197,7 +203,7 @@ sentBias %>%
   geom_text(aes(y = 0), size = 3) +
   theme_hc() +
   facet_grid(~party) +
-  labs(x = NULL, y = "Agenda bias") +
+  labs(x = NULL, y = "Sentiment bias") +
   coord_flip() +
   scale_y_continuous(breaks = c(-1,0,1), labels = c(-1,0,1)) +
   theme(axis.text = element_text(size = 7),

@@ -1,5 +1,7 @@
 ---
-title: "Visibility Bias"
+title: "Different types of media bias - visibility bias"
+author: "Franziska Löw"
+date: "`r format(Sys.Date())`"
 output: html_document
 ---
 
@@ -21,9 +23,7 @@ parties <- c("SPD",paste("CDU","CSU","Union",sep = "|"),"FDP","Grüne","AfD","Li
 
 The visibility of a party or a candidate is important as the visibility of political actors in media coverage will increase their accessibility to audiences, influencing subsequent political judgments. Studies combining media content data with voter surveys have indeed found that voters tend to infer a party's political importance from its media salience.
 
-There is visibility bias in a medium when a political actor is the subject of an undue amount of coverage compared to other actors and other outlets. This type of bias is therefore defined by the relative amount of coverage devoted to each political actor in each medium. Of course, we should not expect all political actors to receive equal amounts of coverage: Some actors will be covered more because of their media viability or because of journalistic news values such as relevance and novelty. However, these factors should influence all media outlets equally, and in this study we focus on relative levels of media bias within one political and media system. Hence, our interest lies in the extent to which some media outlets devote disproportionally more coverage to some actors than other outlets do.
-
-To determine visibility bias, we first need to measure visibility per se. Eberl (2017) treats a party as visible in an article if the party itself or candidates from the party are a speaker or addressee in at least one of the claims included, where a claim is a statement made by an actor about a political issue and/or actor. Similar to that, we treat a party as visible in an article if the party itself is mentioned in an article (if an article contains the word "SPD", "CDU"/"CSU","FDP","Grüne","AfD" or "Linke"). 
+To determine visibility bias, we first need to measure visibility per se. A party is treated as visible in an article if the party itself is mentioned in an article (if an article contains the word "SPD", "CDU"/"CSU/Union","FDP","Grüne","AfD" or "Linke") ( [Eberl, 2017](https://journals.sagepub.com/doi/abs/10.1177/0093650215614364) )
 
 The visibility of a party $p$ in a newspaper $s$ is defined as the number of news articles published by the newspaper on that party (e.g. articles that contain the name of the party), normalised on the total amount of articles by that newspaper in the corpus.
 
@@ -83,6 +83,9 @@ vis %>%
   facet_grid(~party) +
   labs(x = NULL, y = "visibility") +
   coord_flip() +
+  scale_y_continuous(limits = c(0,1),
+                     breaks = c(0,0.5,1), 
+                     labels = c(0,0.5,1)) +
   theme(axis.text.x = element_text(size = 6),
         axis.title = element_text(size = 7)
         )
@@ -92,9 +95,11 @@ ggsave("../figs/visibility.png", width = 7, height = 3)
 
 ![](../figs/visibility.png)
 
-The next step is to define an appropriate reference point to distinguish between balanced/neutral and biased reporting. In the following analysis the average visibility of all parties in each media outlet during the period of analysis are used as a key benchmark. Visibility bias is then computed as the deviation of each party's specific visibility from the average visibility of all other parties in that outlet. The bias therefore captures whether party visibility is biased in comparison to what is typical for that outlet (Eberl, 2017). 
+The next step is to define an appropriate reference point to distinguish between balanced/neutral and biased reporting. As my interest lies in the extent to which some media outlets devote disproportionally more coverage to some actors than other outlets do, I focus on relative levels of visibility bias within one political and media system: There is a bias in a medium when a political actor is overrepresented compared to other actors and other outlets.
 
-Alternative approaches to conceptualize the benchmark are the amount of the party campaign communication or their standing in polls (Hopmann et al. (2011b). However, this logic does not allow for comparison across diverse media outlets as some media outlets might generally leave less space to parties or their issues, or be overall more skeptical of them, not due to partisan but rather due to genre or format influences. 
+In the following analysis the average visibility of all parties in each media outlet during the period of analysis are used as a key benchmark. Visibility bias is then computed as the deviation of each party's specific visibility from the average visibility of all other parties in that outlet. The bias therefore captures whether party visibility is biased in comparison to what is typical for that outlet (Eberl, 2017). 
+
+Alternative approaches to conceptualize the benchmark are the amount of the party campaign communication or their standing in polls (Hopmann et al., 2011b). However, this logic does not allow for comparison across diverse media outlets as some media outlets might generally leave less space to parties or their issues, or be overall more skeptical of them, not due to partisan but rather due to genre or format influences. 
 
 ```{r Estimate Bias}
 parties <- unique(vis$party)
