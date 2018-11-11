@@ -1,8 +1,8 @@
 ---
-title: "Sentiment bias"
-output:
-  html_document:
-    df_print: paged
+title: "Different types of media bias - tonality bias"
+author: "Franziska Löw"
+date: "`r format(Sys.Date())`"
+output: github_document
 ---
 
 ```{r include=FALSE}

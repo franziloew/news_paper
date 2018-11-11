@@ -1,6 +1,9 @@
 ---
-title: "Bias"
-output: html_document
+title: "Different types of media bias"
+subtitle: "Comparing bias measures"
+author: "Franziska Löw"
+date: "`r format(Sys.Date())`"
+output: github_document
 ---
 
 ```{r setup, include=FALSE}

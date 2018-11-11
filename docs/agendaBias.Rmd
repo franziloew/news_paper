@@ -1,6 +1,8 @@
 ---
-title: "Agenda Bias"
-output: html_document
+title: "Different types of media bias - agenda bias"
+author: "Franziska Löw"
+date: "`r format(Sys.Date())`"
+output: github_document
 ---
 
 ```{r echo=FALSE}
@@ -403,7 +405,7 @@ ggsave("../figs/agenda_bias.png", width = 6, height = 3)
 
 ![](../figs/agenda_bias.png)
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 save(agendaBias, file = "../output/agendabias.Rda")
 ```
 

@@ -1,10 +1,13 @@
 ---
-title: "Topic Modeling of News"
-subtitle: "Data Description"
+title: "Different types of media bias - data description"
 author: "Franziska Löw"
 date: "`r format(Sys.Date())`"
 output: github_document
 ---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(eval=FALSE, include=FALSE)
+```
 
 ```{r, include=FALSE}
 # load the packages
@@ -32,12 +35,14 @@ visits %>%
   scale_fill_hc()+
   coord_flip() +
   labs(x="", y="Visits in million",
-       #title = "Users of mobile and/or stationary services",
-       #subtitle = "September 2017",
+       title = "Users of mobile and/or stationary services",
+       subtitle = "September 2017",
        caption="Source: AGOF daily digital facts\nINFOnline (tagesschau.de)")
 
-ggsave(filename = "../figs/visits.png", width = 6)
+ggsave(filename = "../figs/visits.png", width = 6, height = 5)
 ```
+
+![](../figs/visits.png)
 
 # Articles
 
@@ -79,7 +84,7 @@ btw %>%
   group_by(medium, date) %>%
   tally() %>%
   ggplot(aes(date, n,color = medium)) +
-  geom_line(show.legend = F) +
+  geom_line() +
   # G20 Summit
   geom_vline(xintercept = as.POSIXct("2017-07-07"), linetype=2) +
   annotate(geom="text", x=as.POSIXct("2017-06-15"), 
@@ -89,22 +94,23 @@ btw %>%
   annotate(geom="text", x=as.POSIXct("2017-10-15"), 
            y=45, label="Election Date") +
   theme_hc() +
-  scale_color_hc() +
+  scale_color_hc(name = NULL) +
   labs(x="",y="")
 
-ggsave(filename = "../figs/article_timeline.png")
+ggsave(filename = "../figs/article_timeline.png", width = 7, height = 4)
 ```
+
+![](../figs/article_timeline.png)
 
 ```{r}
 btw %>%
-  ggplot(aes(medium, fill = medium)) +
+  ggplot(aes(medium)) +
   geom_bar(show.legend = F, alpha = 0.8) +
   theme_hc() +
-  scale_fill_hc() +
   coord_flip() +
-  labs(x="",y="")
+  labs(title = "Distribution of articles", x="",y="")
 
-ggsave(filename = "../figs/article_distribution.png", width = 4)
+ggsave(filename = "../figs/article_distribution.png", width = 4, height = 3)
 ```
 
-
+![](../figs/article_distribution.png)
