@@ -143,11 +143,10 @@ As with visibility bias, we then take the average party tonality in each outlet,
 load("../output/sentiment.Rda")
 ```
 
-
 ```{r}
 sentDF %>%
   group_by(medium, party) %>%
-  summarise(sentiment = mean(sentiment_sum, na.rm = T)) %>%
+  summarise(sentiment = mean(sentiment_mean, na.rm = T)) %>%
   ggplot(aes(medium, sentiment)) +
   geom_col(fill="#0099c6", alpha=0.8) +
   theme_hc() +
@@ -209,3 +208,6 @@ ggsave("../figs/sent_bias.png", width = 6, height = 3)
 ```
 
 ![](../figs/sent_bias.png)
+```{r}
+save(sentBias, file = "../output/sentbias.Rda")
+```

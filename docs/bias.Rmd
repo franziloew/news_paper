@@ -1,0 +1,50 @@
+---
+title: "Bias"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+rm(list = ls())
+library(tidyverse)
+library(ggthemes)
+```
+
+```{r}
+load("../output/agendabias.Rda")
+load("../output/sentbias.Rda")
+load("../output/visbias.Rda")
+
+agendaBias %>%
+  left_join(., visBias, by = c("medium","party")) %>%
+  left_join(., sentBias, by = c("medium","party")) -> bias
+```
+
+```{r}
+bias %>%
+  select(medium, party, agenda_bias_norm, vis_bias_norm, sent_bias_norm) %>%
+  gather(bias, value, agenda_bias_norm:sent_bias_norm) -> biasDF
+```
+
+```{r}
+biasDF %>%
+  ggplot(aes(party, value, fill = bias)) +
+  geom_col(alpha=0.8, position = "dodge") +
+  #geom_text(aes(y = 0), size = 3) +
+  theme_hc() +
+  scale_fill_gdocs(name=NULL,
+                   breaks=c("vis_bias_norm", "sent_bias_norm", "agenda_bias_norm"),
+                   labels=c("Visibility bias", "Tonality bias", "Agenda bias")) +
+  facet_grid(~medium) +
+  labs(x = NULL, y = NULL) +
+  coord_flip() +
+  scale_y_continuous(breaks = c(-1,0,1), labels = c(-1,0,1)) +
+  theme(axis.text = element_text(size = 7),
+        axis.title = element_text(size = 7)
+        )
+
+ggsave("../figs/bias.png", width = 8, height = 4)
+```

@@ -68,6 +68,11 @@ for (party in parties) {
     vis <- partydf
   }
 }
+
+vis <- vis %>%
+  mutate(party = ifelse(grepl("CDU",party), "CDU|CSU",party),
+         party = ifelse(grepl("Linke",party), "DIE LINKE",party)
+         )
 ```
 
 ```{r Plot visibility}
@@ -94,19 +99,23 @@ Alternative approaches to conceptualize the benchmark are the amount of the part
 ```{r Estimate Bias}
 parties <- unique(vis$party)
 
+rm(visBias)
 for (i in parties) {
   
+    # dataframe that only contains the party
     df1 <- vis %>% 
-    filter(party == i) 
-  
-  df2 <- vis %>%
-    filter(party != i) %>%
-    group_by(medium) %>%
-    summarise(avg_vis = mean(visibility_p_s)) 
-  
-  tempdf <- left_join(df1,df2, by="medium") %>%
-    mutate(visibility_bias = visibility_p_s-avg_vis,
-           vis_bias_norm = normalize_data2(visibility_bias))
+      filter(party == i) 
+    
+    # average visibility for the medium
+    df2 <- vis %>%
+      filter(party != i) %>%
+      group_by(medium) %>%
+      summarise(avg_vis = mean(visibility_p_s, na.rm = TRUE)) 
+    
+    # combine dataframes and calculate deviation
+    tempdf <- left_join(df1,df2, by="medium") %>%
+      mutate(visibility_bias = visibility_p_s-avg_vis,
+             vis_bias_norm = normalize_data2(visibility_bias))
     
     if (exists('visBias')){
       visBias <- bind_rows(visBias,tempdf)
@@ -134,3 +143,8 @@ ggsave("../figs/visibility_bias.png", width = 7, height = 3)
 ```
 
 ![](../figs/visibility_bias.png)
+
+```{r}
+save(visBias, file = "../output/visbias.Rda")
+```
+

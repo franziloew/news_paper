@@ -402,3 +402,8 @@ ggsave("../figs/agenda_bias.png", width = 6, height = 3)
 ```
 
 ![](../figs/agenda_bias.png)
+
+```{r}
+save(agendaBias, file = "../output/agendabias.Rda")
+```
+

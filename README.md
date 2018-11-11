@@ -11,14 +11,10 @@ The data analyzed in this study contains nearly 12.000 online news articles from
 
 1. [Visibility Bias](https://franziloew.github.io/news_paper/visibility_bias.html)
 
-![](/figs/visibility_bias.png)
+2. [Tonality Bias](https://franziloew.github.io/news_paper/sentiment_bias.html)
 
-1. [Tonality Bias](https://franziloew.github.io/news_paper/sentiment_bias.html)
+3. [Agenda Bias](https://franziloew.github.io/news_paper/agendaBias.html)
 
-![](/figs/sent_bias.png)
-
-2. [Agenda Bias](https://franziloew.github.io/news_paper/agendaBias.html)
-
-![](/figs/agenda_bias.png)
+![](/figs/bias.png)
 
 The different results underline the importance of studying different types of media biases simultaneously, as examining just one aspect provides a misleading picture of the extent and nature of bias. The existence of various and diverse forms of media bias also means that it is worth considering their distinct effects on party preferences.
