@@ -1,6 +1,8 @@
 ---
 title: "Sentiment bias"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
 
 ```{r include=FALSE}
@@ -16,15 +18,17 @@ source("func/functions.R")
 
 load("../output/data_step2.Rda")
 
-parties <- c("SPD",paste("CDU","CSU",sep = "|"),"FDP","Grüne","AfD","Linke")
+parties <- c("SPD",paste("CDU","CSU",sep = "|"),"FDP","Grüne","AfD","DIE LINKE")
 btw %>% mutate(doc_index = as.numeric(rownames(.))) -> btw
 ```
 
-Lexical or bag-ofwords approaches are commonly used to estimate the sentiment of an article. In that approach, the researcher provides pre-defined dictionaries (lists) of words associated with a given emotion, such as negativity. The target text is then deconstructed into individual words (or tokens) and the frequencies of words contained in a given dictionary are then calculated. 
+A dictionary-based method is then applied to measure the tone (or sentiment) of a document. To conduct such an analysis, a lists of words (dictionary) associated with a given emotion, such as negativity is pre-defined by the analyst. The target text is then deconstructed into individual words (or tokens) and the frequencies of words contained in a given dictionary are then calculated. 
 
-I calculate the polarity of each word that occurs in a window of two sentences before and two sentences after the occurence of a political party. An article can mention several party names, or switch tone. The given interval ensures a more reliable correlation between the political party being mentioned (the "target") and the word's polarity score, contrary to measuring all adjectives in the article. A similar approach for target identification is used in de Fortuny et al. (2012) and in Balahur et al. (2010). They latter used a 10-word window and report improved accuracy when compared to measuring all words in the article. Furthermore adjectives that score between -0.1 and +0.1 are excluded to reduce noise. 
+The present paper uses a dictionary that lists words associated with positive and negative polarity weighted within the interval of $[-1; 1]$. [SentimentWortschatz](http://wortschatz.uni-leipzig.de/de/download), or SentiWS for short, is a publicly available German-language resource for sentiment analysis, opinion mining etc. The current version of SentiWS (v1.8b) contains 1,650 positive and 1,818 negative words, which sum up to 15,649 positive and 15,632 negative word forms incl. their inflections, respectively. It not only contains adjectives and adverbs explicitly expressing a sentiment, but also nouns and verbs implicitly containing one.
 
-[SentimentWortschatz](http://wortschatz.uni-leipzig.de/de/download), or SentiWS for short, is a publicly available German-language resource for sentiment analysis, opinion mining etc. It lists positive and negative polarity bearing words weighted within the interval of [-1; 1]. The current version of SentiWS (v1.8b) contains 1,650 positive and 1,818 negative words, which sum up to 15,649 positive and 15,632 negative word forms incl. their inflections, respectively. It not only contains adjectives and adverbs explicitly expressing a sentiment, but also nouns and verbs implicitly containing one.
+The sentiment score for each party in an article is calculated from each word that occurs in a window of two sentences before and two sentences after the occurence of that political party. An article can mention several party names, or switch tone. The given interval ensures a more reliable correlation between the political party being mentioned (the "target") and the word's polarity score, contrary to measuring all adjectives in the article. A similar approach for target identification is used in de Fortuny et al. (2012) and in Balahur et al. (2010). They latter used a 10-word window and report improved accuracy when compared to measuring all words in the article. Furthermore adjectives that score between -0.1 and +0.1 are excluded to reduce noise. 
+
+The score is then calculated from the sum of the words in a document (which can be assigned to a word from the dictionary) divided by the total number of words in that document.
 
 ```{r}
 sent <- c(
@@ -76,12 +80,12 @@ sentence <- btw %>%
   unnest_tokens(sentence, text, token = "sentences") 
   
 sentence <- sentence %>%
-  mutate(party = ifelse(grepl("spd",sentence),"SPD",NA),
-         party = ifelse(grepl("afd",sentence),"AfD",party),
-         party = ifelse(grepl("fdp",sentence),"FDP",party),
-         party = ifelse(grepl("gruene",sentence),"Grüne",party),
-         party = ifelse(grepl("linke",sentence),"DIE LINKE",party),
-         party = ifelse(grepl(paste("cdu","csu",sep="|"),sentence),"CDU|CSU",party)
+  mutate(party = ifelse(grepl("SPD",sentence, ignore.case = T),"SPD",NA),
+         party = ifelse(grepl("AfD",sentence, ignore.case = T),"AfD",party),
+         party = ifelse(grepl("FDP",sentence, ignore.case = T),"FDP",party),
+         party = ifelse(grepl("Grüne",sentence, ignore.case = T),"Grüne",party),
+         party = ifelse(grepl("Linke",sentence, ignore.case = T),"DIE LINKE",party),
+         party = ifelse(grepl(paste("CDU","CSU","Union",sep="|"),sentence, ignore.case = T),"CDU|CSU",party)
          )
 ```
 
@@ -91,12 +95,11 @@ sentDF <- data.frame()
 for (x in btw$doc_index) {
   
   token <- sentence %>%
-  filter(doc_index == x) %>%
-  mutate(sentence_index = as.numeric(rownames(.))) %>%
-  unnest_tokens(word, sentence) %>%
-  
-  # Combine second word with sentiment values
-  left_join(., sent, by = "word") 
+    filter(doc_index == x) %>%
+    mutate(sentence_index = as.numeric(rownames(.))) %>%
+    unnest_tokens(word, sentence) %>%
+    # Combine second word with sentiment values
+    left_join(., sent, by = "word") 
   
   for (i in parties) {
     
@@ -109,6 +112,8 @@ for (x in btw$doc_index) {
              upper = sentence_index + 2
              ) %>% 
       gather(index, sentence) %>% 
+      distinct(sentence) %>%
+      filter(sentence > 0) %>%
       select(sentence) -> tempdf
   
     token %>%
@@ -126,7 +131,8 @@ sentDF %>%
             party = as.character(i),
             sentiment_mean = mean_value,
             sentiment_sum = sum_value
-            ) -> sentDF
+            ) %>%
+  left_join(.,btw %>% select(doc_index, medium, text), by="doc_index") -> sentDF
 
 save(sentDF, file = "../output/sentiment.Rda")
 ```
@@ -134,23 +140,14 @@ save(sentDF, file = "../output/sentiment.Rda")
 As with visibility bias, we then take the average party tonality in each outlet, with tonality bias computed as the deviation of each party's specific tonality from the average tonality of all parties in that outlet. To ensure comparability between visibility and tonality bias, both have been standardized to range from −1 to 1, where a party would have a bias of 0 (balanced/neutral), when its visibility or tonality is equal to the mean visibility or tonality across all parties in that media outlet.
 
 ```{r}
-sentDF %>%
-  left_join(.,btw %>% select(doc_index, medium, text), by="doc_index") -> sentDF
-```
-
-```{r}
-sentDF %>%
-  group_by(medium, party) %>%
-  summarise(sentiment_mean = mean(sentiment_mean, na.rm = T),
-            sentiment_sum = mean(sentiment_sum, na.rm = T)
-            )
+load("../output/sentiment.Rda")
 ```
 
 
 ```{r}
 sentDF %>%
   group_by(medium, party) %>%
-  summarise(sentiment = mean(sentiment, na.rm = T)) %>%
+  summarise(sentiment = mean(sentiment_sum, na.rm = T)) %>%
   ggplot(aes(medium, sentiment)) +
   geom_col(fill="#0099c6", alpha=0.8) +
   theme_hc() +
@@ -162,5 +159,53 @@ sentDF %>%
         )
 ```
 
+```{r}
+sent <- sentDF %>% 
+  group_by(medium, party) %>%
+  summarise(avg_sent_p_s = mean(sentiment_mean, na.rm = T)) %>%
+  ungroup()
+```
 
+```{r Estimate Bias}
+parties <- unique(sentDF$party)
 
+for (i in parties) {
+  
+  df1 <- sent %>% 
+    filter(party == i) 
+  
+  df2 <- sentDF %>% 
+    filter(party != i) %>%
+    group_by(medium) %>%
+    summarise(avg_sent = mean(sentiment_mean, na.rm = T)) 
+  
+  left_join(df1,df2, by="medium") %>%
+    mutate(sent_bias = avg_sent_p_s-avg_sent,
+           sent_bias_norm = normalize_data2(sent_bias)) -> tempdf
+    
+    if (exists('sentBias')){
+      sentBias <- bind_rows(sentBias,tempdf)
+    } else {
+      sentBias <- tempdf
+    }
+}
+```
+
+```{r}
+sentBias %>%
+  ggplot(aes(medium, sent_bias_norm, label = round(sent_bias_norm, digits = 2))) +
+  geom_col(fill="#0099c6", alpha=0.8) +
+  geom_text(aes(y = 0), size = 3) +
+  theme_hc() +
+  facet_grid(~party) +
+  labs(x = NULL, y = "Agenda bias") +
+  coord_flip() +
+  scale_y_continuous(breaks = c(-1,0,1), labels = c(-1,0,1)) +
+  theme(axis.text = element_text(size = 7),
+        axis.title = element_text(size = 7)
+        )
+
+ggsave("../figs/sent_bias.png", width = 6, height = 3)
+```
+
+![](../figs/sent_bias.png)

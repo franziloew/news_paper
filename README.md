@@ -1,6 +1,6 @@
 # Media Bias
 
-The discussion about the influence of digital media on the political opinion-forming process has gained momentum since the presidential elections in October 2016. The importance of the internet as a source of information for political topics has grown strongly in recent years. Even though television remains the most widely used source of news in Germany (2018: 74%), numbers watching continue to decline while use of the internet for news has grown significantly in the last year (+5%, 2018: 65%) [Reuters, 2018](http://www.digitalnewsreport.org/survey/2018/germany-2018/). The expansion of the internet as a new method of communication provides a potential challenge to the primacy of the traditional media and political parties as formers of public opinion.
+The importance of the internet as a source of information for political topics has grown strongly in recent years. Even though television remains the most widely used source of news in Germany (2018: 74%), numbers watching continue to decline while use of the internet for news has grown significantly in the last year (+5%, 2018: 65%) [Reuters, 2018](http://www.digitalnewsreport.org/survey/2018/germany-2018/). The expansion of the internet as a new method of communication provides a potential challenge to the primacy of the traditional media and political parties as formers of public opinion.
 
 However, the influence of media bias on voter preferences has not only been studied in the literature since the growing importance of the internet. The general hypothesis is that bias in political news may have a profound influence on voter opinions and preferences. It can therefore be argued, that one central responsibility of the media is to supply voters with balanced and objective information on relevant political issues and actors.
 
@@ -13,7 +13,11 @@ The data analyzed in this study contains nearly 12.000 online news articles from
 
 ![](/figs/visibility_bias.png)
 
-2. [Agenda Bias](https://franziloew.github.io/news_paper/agendaBias1.html)
+1. [Tonality Bias](https://franziloew.github.io/news_paper/sentiment_bias.html)
+
+![](/figs/sent_bias.png)
+
+2. [Agenda Bias](https://franziloew.github.io/news_paper/agendaBias.html)
 
 ![](/figs/agenda_bias.png)
 

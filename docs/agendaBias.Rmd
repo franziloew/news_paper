@@ -105,7 +105,7 @@ library(ggthemes)
 
 rm(list = ls())
 source("func/functions.R")
-load("../output/models/finalmodel_55.RDa")
+load("../output/models/finalmodel_50.RDa")
 
 model_df <- model_df %>%
   mutate(doc_index = as.numeric(rownames(.)),
@@ -154,7 +154,7 @@ theta <- as.data.frame(stmOut$theta) %>% # get all theta values for each documen
   
   mutate(doc_index = as.numeric(rownames(.))) %>%
   # convert to long format
-  gather(topic, theta, V1:V55) %>%
+  gather(topic, theta, V1:V50) %>%
   mutate(topic = as.numeric(gsub("V","",topic))) %>%
   
   # join with topic df
@@ -386,12 +386,14 @@ for (i in parties) {
 
 ```{r eval=FALSE, include=FALSE}
 agendaBias %>%
-  ggplot(aes(medium, agenda_bias_norm)) +
+  ggplot(aes(medium, agenda_bias_norm, label = round(agenda_bias_norm, digits = 2))) +
   geom_col(fill="#0099c6", alpha=0.8) +
+  geom_text(aes(y = 0), size = 3) +
   theme_hc() +
   facet_grid(~party) +
   labs(x = NULL, y = "Agenda bias") +
   coord_flip() +
+  scale_y_continuous(breaks = c(-1,0,1), labels = c(-1,0,1)) +
   theme(axis.text = element_text(size = 7),
         axis.title = element_text(size = 7)
         )

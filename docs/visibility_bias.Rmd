@@ -16,7 +16,7 @@ source("func/functions.R")
 
 load("../output/data_step2.Rda")
 
-parties <- c("SPD",paste("CDU","CSU",sep = "|"),"FDP","Grüne","AfD","Linke")
+parties <- c("SPD",paste("CDU","CSU","Union",sep = "|"),"FDP","Grüne","AfD","Linke")
 ```
 
 The visibility of a party or a candidate is important as the visibility of political actors in media coverage will increase their accessibility to audiences, influencing subsequent political judgments. Studies combining media content data with voter surveys have indeed found that voters tend to infer a party's political importance from its media salience.
@@ -43,7 +43,7 @@ visibility <- function(data, party) {
      
   data %>% 
     # filter all articles that contain the party as a word
-    filter(grepl(party,text)) %>%
+    filter(grepl(party,text, ignore.case = T)) %>%
     # calculate the number of articles by each newspaper
     group_by(medium) %>%
     summarise(
@@ -118,12 +118,14 @@ for (i in parties) {
 
 ```{r Plot bias}
 visBias %>%
-  ggplot(aes(medium, vis_bias_norm)) +
+  ggplot(aes(medium, vis_bias_norm, label = round(vis_bias_norm, digits = 2))) +
   geom_col(fill="#0099c6", alpha=0.8) +
   theme_hc() +
+  geom_text(aes(y = 0), size = 3) +
   facet_grid(~party) +
   labs(x = NULL, y = "visibility bias") +
   coord_flip() +
+  scale_y_continuous(breaks = c(-1,0,1), labels = c(-1,0,1)) +
   theme(axis.text.x = element_text(size = 6),
         axis.title = element_text(size = 7)
         )
