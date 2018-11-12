@@ -33,8 +33,12 @@ $$
 
 ```{r claculate total amount of articles by newspaper}
 btw <- btw %>% 
-  group_by(medium) %>%
-  mutate(articles_s = n()) %>%
+  dplyr::mutate(
+    year = lubridate::year(date),
+    month = lubridate::month(date),
+    date = as.Date(paste0(year,"/",month,"/1"))) %>%
+  group_by(medium,date) %>%
+  dplyr::mutate(articles_s = n()) %>%
   ungroup()
 ```
 
@@ -45,20 +49,21 @@ visibility <- function(data, party) {
     # filter all articles that contain the party as a word
     filter(grepl(party,text, ignore.case = T)) %>%
     # calculate the number of articles by each newspaper
-    group_by(medium) %>%
-    summarise(
+    group_by(medium, date) %>%
+    dplyr::summarise(
       # pass the total amount of articles to the grouped df
       articles_s = mean(articles_s),
       # calculate the number of articles about a party
       articles_p_s = n(),
       # calculate relative amount
       visibility_p_s = articles_p_s/articles_s) %>%
-    mutate(party = party) -> df1
+    dplyr::mutate(party = party) %>% ungroup() -> df1
   
 }
 ```
 
 ```{r Apply function to all parties}
+rm(vis)
 for (party in parties) {
   partydf <- visibility(btw, party)
   
@@ -77,23 +82,19 @@ vis <- vis %>%
 
 ```{r Plot visibility}
 vis %>%
-  ggplot(aes(medium, visibility_p_s, order = visibility_p_s)) +
-  geom_col(fill="#0099c6", alpha=0.8) +
-  theme_hc() +
-  facet_grid(~party) +
-  labs(x = NULL, y = "visibility") +
-  coord_flip() +
-  scale_y_continuous(limits = c(0,1),
-                     breaks = c(0,0.5,1), 
-                     labels = c(0,0.5,1)) +
-  theme(axis.text.x = element_text(size = 6),
-        axis.title = element_text(size = 7)
+  ggplot(aes(date, visibility_p_s, fill = medium)) +
+  geom_col(show.legend = FALSE, alpha = 0.7) +
+  theme_gdocs() +
+  scale_fill_gdocs(name=NULL) +
+  facet_grid(party~medium) +
+  labs(x = NULL, y = NULL, title = "Visibility") +
+  theme(axis.text = element_text(size = 5),
+        strip.text = element_text(size = 6),
+        title = element_text(size = 7)
         )
 
-ggsave("../figs/visibility.png", width = 7, height = 3)
+ggsave("../figs/visibility.png", width = 7, height = 4)
 ```
-
-![](../figs/visibility.png)
 
 The next step is to define an appropriate reference point to distinguish between balanced/neutral and biased reporting. As my interest lies in the extent to which some media outlets devote disproportionally more coverage to some actors than other outlets do, I focus on relative levels of visibility bias within one political and media system: There is a bias in a medium when a political actor is overrepresented compared to other actors and other outlets.
 
@@ -114,12 +115,13 @@ for (i in parties) {
     # average visibility for the medium
     df2 <- vis %>%
       filter(party != i) %>%
-      group_by(medium) %>%
-      summarise(avg_vis = mean(visibility_p_s, na.rm = TRUE)) 
+      group_by(medium, date) %>%
+      dplyr::summarise(avg_vis = mean(visibility_p_s, na.rm = TRUE)) %>%
+      ungroup()
     
     # combine dataframes and calculate deviation
-    tempdf <- left_join(df1,df2, by="medium") %>%
-      mutate(visibility_bias = visibility_p_s-avg_vis,
+    tempdf <- left_join(df1,df2, by=c("medium","date")) %>%
+      dplyr::mutate(visibility_bias = visibility_p_s-avg_vis,
              vis_bias_norm = normalize_data2(visibility_bias))
     
     if (exists('visBias')){
@@ -132,19 +134,20 @@ for (i in parties) {
 
 ```{r Plot bias}
 visBias %>%
-  ggplot(aes(medium, vis_bias_norm, label = round(vis_bias_norm, digits = 2))) +
-  geom_col(fill="#0099c6", alpha=0.8) +
-  theme_hc() +
-  geom_text(aes(y = 0), size = 3) +
-  facet_grid(~party) +
-  labs(x = NULL, y = "visibility bias") +
-  coord_flip() +
-  scale_y_continuous(breaks = c(-1,0,1), labels = c(-1,0,1)) +
-  theme(axis.text.x = element_text(size = 6),
-        axis.title = element_text(size = 7)
+  ggplot(aes(date, vis_bias_norm, fill = medium)) +
+  geom_col(show.legend = FALSE, alpha = 0.7) +
+  theme_gdocs() +
+  scale_fill_gdocs(name=NULL) +
+  facet_grid(party~medium) +
+  labs(x = NULL, y = NULL, title = "Visibility bias",
+       subtitle = "Normalized between -1 and 1"
+       ) +
+  theme(axis.text = element_text(size = 5),
+        strip.text = element_text(size = 6),
+        title = element_text(size = 7)
         )
 
-ggsave("../figs/visibility_bias.png", width = 7, height = 3)
+ggsave("../figs/visibility_bias.png", width = 7, height = 5)
 ```
 
 ![](../figs/visibility_bias.png)

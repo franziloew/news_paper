@@ -10,9 +10,7 @@ The concept of media bias encompasses different subtypes: (1) Visibility bias, (
 
 The data analyzed in this study contains nearly 12.000 online news articles from seven major news provider dated from June 1, 2017 to March 1, 2018 as well as over 1.900 press releases of the parties in the german "Bundestag". As the German federal elections took place on 24th of September 2017 and the formation of the government has taken up a period of about five months, the articles considered inform their readers about both the election promises of the parties (before the election) and the coalition talks (after the election). 
 
-
 ![](/figs/article_timeline.png)
-
 
 ## Bias measures
 

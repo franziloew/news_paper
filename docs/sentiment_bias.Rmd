@@ -2,7 +2,7 @@
 title: "Different types of media bias - tonality bias"
 author: "Franziska Löw"
 date: "`r format(Sys.Date())`"
-output: github_document
+output: html_document
 ---
 
 ```{r include=FALSE}
@@ -140,40 +140,45 @@ As with visibility bias, we then take the average party tonality in each outlet,
 
 ```{r}
 load("../output/sentiment.Rda")
+
+sentDF <- sentDF %>%
+  left_join(., btw %>% select(date, doc_index), by="doc_index") %>%
+  mutate(
+    year = lubridate::year(date),
+    month = lubridate::month(date),
+    date = as.Date(paste0(year,"/",month,"/1"))
+    ) 
 ```
 
 ```{r}
 sentDF %>%
-  group_by(medium, party) %>%
-  summarise(sentiment = mean(sentiment_mean, na.rm = T)) %>%
-  ggplot(aes(medium, sentiment)) +
-  geom_col(fill="#0099c6", alpha=0.8) +
-  theme_hc() +
-  facet_grid(~party) +
-  labs(x = NULL, y = "sentiment") +
-  coord_flip() +
-  scale_y_continuous(limits = c(-.3,0),
-                     breaks = c(-.3,-.15,0), 
-                     labels = c(-.3,-.15,0)) +
-  theme(axis.text.x = element_text(size = 6),
-        axis.title = element_text(size = 7)
+  group_by(medium, party, date) %>%
+  dplyr::summarise(sentiment = mean(sentiment_mean, na.rm = T)) %>%
+  ggplot(aes(date, sentiment, fill = medium)) +
+  geom_col(show.legend = FALSE, alpha = 0.7) +
+  theme_gdocs() +
+  scale_fill_gdocs(name=NULL) +
+  facet_grid(party~medium) +
+  labs(x = NULL, y = NULL, title = "Sentiment") +
+  theme(axis.text = element_text(size = 5),
+        strip.text = element_text(size = 6),
+        title = element_text(size = 7)
         )
 
-ggsave("../figs/sentiment.png", width = 6, height = 3)
+ggsave("../figs/sentiment.png", width = 7, height = 4)
 ```
-
-![](../figs/sentiment.png)
 
 ```{r}
 sent <- sentDF %>% 
-  group_by(medium, party) %>%
-  summarise(avg_sent_p_s = mean(sentiment_mean, na.rm = T)) %>%
+  group_by(medium, party, date) %>%
+  dplyr::summarise(avg_sent_p_s = mean(sentiment_mean, na.rm = T)) %>%
   ungroup()
 ```
 
 ```{r Estimate Bias}
 parties <- unique(sentDF$party)
 
+rm(sentBias)
 for (i in parties) {
   
   df1 <- sent %>% 
@@ -181,10 +186,10 @@ for (i in parties) {
   
   df2 <- sentDF %>% 
     filter(party != i) %>%
-    group_by(medium) %>%
-    summarise(avg_sent = mean(sentiment_mean, na.rm = T)) 
+    group_by(medium, date) %>%
+    dplyr::summarise(avg_sent = mean(sentiment_mean, na.rm = T)) 
   
-  left_join(df1,df2, by="medium") %>%
+  left_join(df1,df2, by=c("medium","date")) %>%
     mutate(sent_bias = avg_sent_p_s-avg_sent,
            sent_bias_norm = normalize_data2(sent_bias)) -> tempdf
     
@@ -198,19 +203,20 @@ for (i in parties) {
 
 ```{r}
 sentBias %>%
-  ggplot(aes(medium, sent_bias_norm, label = round(sent_bias_norm, digits = 2))) +
-  geom_col(fill="#0099c6", alpha=0.8) +
-  geom_text(aes(y = 0), size = 3) +
-  theme_hc() +
-  facet_grid(~party) +
-  labs(x = NULL, y = "Sentiment bias") +
-  coord_flip() +
-  scale_y_continuous(breaks = c(-1,0,1), labels = c(-1,0,1)) +
-  theme(axis.text = element_text(size = 7),
-        axis.title = element_text(size = 7)
+  ggplot(aes(date, sent_bias_norm, fill = medium)) +
+  geom_col(show.legend = FALSE, alpha = 0.7) +
+  theme_gdocs() +
+  scale_fill_gdocs(name=NULL) +
+  facet_grid(party~medium) +
+  labs(x = NULL, y = NULL, title = "Sentiment bias",
+       subtitle = "Normalized between -1 and 1"
+       ) +
+  theme(axis.text = element_text(size = 5),
+        strip.text = element_text(size = 6),
+        title = element_text(size = 7)
         )
 
-ggsave("../figs/sent_bias.png", width = 6, height = 3)
+ggsave("../figs/sent_bias.png", width = 7, height = 4)
 ```
 
 ![](../figs/sent_bias.png)
