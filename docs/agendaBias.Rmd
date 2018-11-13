@@ -32,6 +32,7 @@ set.seed(4556)
 library(stm)
 library(tidyverse)
 library(dplyr)
+library(ggthemes)
 
 rm(list = ls())
 load("../output/pressReleases.Rda")
@@ -131,11 +132,11 @@ model_df <- model_df %>%
          source = ifelse(source == "bild.de", "Bild.de", source),
          source = ifelse(source == "spiegel.de", "SPIEGEL ONLINE", source),
          
-         source = ifelse(source == "union", "CDU|CSU", source),
+         source = ifelse(source == "union", "Union", source),
          source = ifelse(source == "spd", "SPD", source),
          source = ifelse(source == "afd", "AfD", source),
          source = ifelse(source == "gruene", "Grüne", source),
-         source = ifelse(source == "linke", "DIE LINKE", source),
+         source = ifelse(source == "linke", "Linke", source),
          source = ifelse(source == "fdp", "FDP", source)
          )
 ```
@@ -368,27 +369,8 @@ corrDF %>%
 ggsave("../figs/agenda_correlation.png", width = 7, height = 5)
 ```
 
-Again, to measure the bias and not just outlet specificities, for each outlet the mean agenda selectivity of all other parties was subtracted from each party's specific agenda selectivity value and then standardized to range from −1 to 1, where −1 stands for both agendas being not congruent at all and +1 stands for both agendas being identical.
+Again, to measure the bias and not just outlet specificities, for each outlet the mean agenda selectivity of all other parties was subtracted from each party's specific agenda selectivity value.
 
-```{r eval=FALSE, include=FALSE}
-estimateBias <- function(party){
-  
-  df1 <- correlations %>% 
-    filter(party == party) 
-  
-  df2 <- correlations %>%
-    filter(party != party) %>%
-    group_by(medium) %>%
-    summarise(avg_cor = mean(cor)) 
-  
-  tempdf <- left_join(df1,df2) %>%
-    mutate(agenda_bias = cor-avg_cor,
-           agenda_bias_norm = normalize_data2(agenda_bias))
-  
-  return(tempdf)
-  
-}
-```
 
 ```{r eval=FALSE, include=FALSE}
 parties <- unique(corrDF$party)
@@ -404,9 +386,7 @@ for (i in parties) {
       dplyr::summarise(avg_cor = mean(cor)) %>% ungroup()
     
     tempdf <- left_join(df1,df2, by=c("medium","year","month")) %>%
-      mutate(agenda_bias = cor-avg_cor,
-             agenda_bias_norm = normalize_data2(agenda_bias)
-             )
+      mutate(agenda_bias = cor-avg_cor)
     
     if (exists('agendaBias')){
       agendaBias <- bind_rows(agendaBias,tempdf)
@@ -420,7 +400,7 @@ agendaBias <- agendaBias %>% mutate(date = as.Date(paste0(year,"/",month,"/1")))
 
 ```{r eval=FALSE, include=FALSE}
 agendaBias %>%
-  ggplot(aes(date, agenda_bias_norm, fill = medium)) +
+  ggplot(aes(date, agenda_bias, fill = medium)) +
   geom_col(show.legend = FALSE, alpha = 0.7) +
   theme_gdocs() +
   scale_fill_gdocs(name=NULL) +

@@ -19,7 +19,7 @@ source("func/functions.R")
 
 load("../output/data_step2.Rda")
 
-parties <- c("SPD",paste("CDU","CSU",sep = "|"),"FDP","Grüne","AfD","DIE LINKE")
+parties <- c("SPD",paste("CDU","CSU",sep = "|"),"FDP","Grüne","AfD","Linke")
 btw %>% mutate(doc_index = as.numeric(rownames(.))) -> btw
 ```
 
@@ -83,8 +83,8 @@ sentence <- sentence %>%
          party = ifelse(grepl("AfD",sentence, ignore.case = T),"AfD",party),
          party = ifelse(grepl("FDP",sentence, ignore.case = T),"FDP",party),
          party = ifelse(grepl("Grüne",sentence, ignore.case = T),"Grüne",party),
-         party = ifelse(grepl("Linke",sentence, ignore.case = T),"DIE LINKE",party),
-         party = ifelse(grepl(paste("CDU","CSU","Union",sep="|"),sentence, ignore.case = T),"CDU|CSU",party)
+         party = ifelse(grepl("Linke",sentence, ignore.case = T),"Linke",party),
+         party = ifelse(grepl(paste("CDU","CSU","Union",sep="|"),sentence, ignore.case = T),"Union",party)
          )
 ```
 
@@ -136,7 +136,7 @@ sentDF %>%
 save(sentDF, file = "../output/sentiment.Rda")
 ```
 
-As with visibility bias, we then take the average party tonality in each outlet, with tonality bias computed as the deviation of each party's specific tonality from the average tonality of all parties in that outlet. To ensure comparability between visibility and tonality bias, both have been standardized to range from −1 to 1, where a party would have a bias of 0 (balanced/neutral), when its visibility or tonality is equal to the mean visibility or tonality across all parties in that media outlet.
+As with visibility bias, we then take the average party tonality in each outlet, with tonality bias computed as the deviation of each party's specific tonality from the average tonality of all parties in that outlet.
 
 ```{r}
 load("../output/sentiment.Rda")
@@ -146,8 +146,10 @@ sentDF <- sentDF %>%
   mutate(
     year = lubridate::year(date),
     month = lubridate::month(date),
-    date = as.Date(paste0(year,"/",month,"/1"))
-    ) 
+    date = as.Date(paste0(year,"/",month,"/1")),
+    party = ifelse(grepl("Cdu",party, ignore.case = T),"Union",party),
+    party = ifelse(grepl("Linke",party, ignore.case = T),"Linke",party)
+    )
 ```
 
 ```{r}
@@ -190,8 +192,7 @@ for (i in parties) {
     dplyr::summarise(avg_sent = mean(sentiment_mean, na.rm = T)) 
   
   left_join(df1,df2, by=c("medium","date")) %>%
-    mutate(sent_bias = avg_sent_p_s-avg_sent,
-           sent_bias_norm = normalize_data2(sent_bias)) -> tempdf
+    mutate(sent_bias = avg_sent_p_s-avg_sent) -> tempdf
     
     if (exists('sentBias')){
       sentBias <- bind_rows(sentBias,tempdf)
@@ -203,13 +204,12 @@ for (i in parties) {
 
 ```{r}
 sentBias %>%
-  ggplot(aes(date, sent_bias_norm, fill = medium)) +
+  ggplot(aes(date, sent_bias, fill = medium)) +
   geom_col(show.legend = FALSE, alpha = 0.7) +
   theme_gdocs() +
   scale_fill_gdocs(name=NULL) +
   facet_grid(party~medium) +
-  labs(x = NULL, y = NULL, title = "Sentiment bias",
-       subtitle = "Normalized between -1 and 1"
+  labs(x = NULL, y = NULL, title = "Sentiment bias"
        ) +
   theme(axis.text = element_text(size = 5),
         strip.text = element_text(size = 6),

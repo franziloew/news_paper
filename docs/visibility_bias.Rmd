@@ -75,9 +75,7 @@ for (party in parties) {
 }
 
 vis <- vis %>%
-  mutate(party = ifelse(grepl("CDU",party), "CDU|CSU",party),
-         party = ifelse(grepl("Linke",party), "DIE LINKE",party)
-         )
+  mutate(party = ifelse(grepl("CDU",party), "Union",party))
 ```
 
 ```{r Plot visibility}
@@ -116,13 +114,12 @@ for (i in parties) {
     df2 <- vis %>%
       filter(party != i) %>%
       group_by(medium, date) %>%
-      dplyr::summarise(avg_vis = mean(visibility_p_s, na.rm = TRUE)) %>%
+      dplyr::summarise(avg_visibility = mean(visibility_p_s, na.rm = TRUE)) %>%
       ungroup()
     
     # combine dataframes and calculate deviation
     tempdf <- left_join(df1,df2, by=c("medium","date")) %>%
-      dplyr::mutate(visibility_bias = visibility_p_s-avg_vis,
-             vis_bias_norm = normalize_data2(visibility_bias))
+      dplyr::mutate(visibility_bias = visibility_p_s-avg_visibility)
     
     if (exists('visBias')){
       visBias <- bind_rows(visBias,tempdf)
@@ -134,7 +131,7 @@ for (i in parties) {
 
 ```{r Plot bias}
 visBias %>%
-  ggplot(aes(date, vis_bias_norm, fill = medium)) +
+  ggplot(aes(date, visibility_bias, fill = medium)) +
   geom_col(show.legend = FALSE, alpha = 0.7) +
   theme_gdocs() +
   scale_fill_gdocs(name=NULL) +
