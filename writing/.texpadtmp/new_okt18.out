@@ -1,0 +1,21 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Literature}{}% 2
+\BOOKMARK [1][-]{section.3}{Background on the federal election in Germany \(2017\)}{}% 3
+\BOOKMARK [1][-]{section.4}{Data}{}% 4
+\BOOKMARK [1][-]{section.5}{Methodology}{}% 5
+\BOOKMARK [2][-]{subsection.5.1}{Visibility Bias}{section.5}% 6
+\BOOKMARK [2][-]{subsection.5.2}{Sentiment Analysis}{section.5}% 7
+\BOOKMARK [2][-]{subsection.5.3}{Agenda Bias}{section.5}% 8
+\BOOKMARK [1][-]{section.6}{Empirical Evaluation}{}% 9
+\BOOKMARK [2][-]{subsection.6.1}{Topic}{section.6}% 10
+\BOOKMARK [2][-]{subsection.6.2}{Tone}{section.6}% 11
+\BOOKMARK [2][-]{subsection.6.3}{News sentiment and poll data}{section.6}% 12
+\BOOKMARK [1][-]{section.7}{Conclusion}{}% 13
+\BOOKMARK [1][-]{appendix.A}{Appendices}{}% 14
+\BOOKMARK [2][-]{subsection.A.1}{Generative Process of STM}{appendix.A}% 15
+\BOOKMARK [2][-]{subsection.A.2}{Wordclouds}{appendix.A}% 16
+\BOOKMARK [2][-]{subsection.A.3}{Most frequent words}{appendix.A}% 17
+\BOOKMARK [2][-]{subsection.A.4}{Regression Results}{appendix.A}% 18
+\BOOKMARK [2][-]{subsection.A.5}{Sentiment Values \(monthly aggregated\)}{appendix.A}% 19
+\BOOKMARK [2][-]{subsection.A.6}{Sentiment Values \(aggregated by news website\)}{appendix.A}% 20
+\BOOKMARK [2][-]{subsection.A.7}{Cross Correlation Coefficient \(lag 0\)}{appendix.A}% 21

@@ -30,8 +30,8 @@ load("../output/sentbias.Rda")
 load("../output/visbias.Rda")
 
 agendaBias %>%
-  left_join(., visBias, by = c("medium","party","date")) %>%
-  left_join(., sentBias, by = c("medium","party","date")) %>% ungroup() -> bias
+  left_join(., visBias, by = c("medium","party","year", "month")) %>%
+  left_join(., sentBias, by = c("medium","party","year", "month")) %>% ungroup() -> bias
 
 # Import and prepare survey data
 load("../output/polls.Rda")
@@ -51,16 +51,40 @@ polls <- table_long %>%
   mutate(poll_normalized = normalize_data2(poll_value))
 ```
 
+```{r}
+polls %>%
+  ggplot(aes(date, poll_value, 
+             group = factor(party),
+             color = factor(party))) +
+  geom_line() +
+  theme_hc() +
+  scale_color_manual(values =  c("deepskyblue", "gold", "limegreen", "deeppink", "red", "black")) +
+  scale_x_date(breaks = date_breaks("1 month"), 
+               labels=date_format("%b\n%y", tz="CET")) +
+    geom_vline(xintercept = as.Date("2017-09-24"), 
+             linetype = 2, color = 'black') +
+  labs(x="", y="", color="",
+       title = "",
+       caption = "source: infratest dimap") +
+    guides(color = guide_legend(nrow = 1,
+                                label.theme = element_text(size = 10,
+                                                           angle=0))) +
+  theme(axis.text = element_text(size=10),
+        legend.position = "bottom")
+
+ggsave(filename = "../figs/polls.png", width = 6, height = 4, dpi = 600)
+```
+
 To ensure comparability between different metrics, all have been standardized to range from −1 to 1.
 
 ```{r}
-biasDF <- left_join(bias, polls, by = c('date','party','month','year')) %>%
+biasDF <- left_join(bias, polls, by = c('party','month','year')) %>%
   mutate(agenda_bias_norm = normalize_data2(agenda_bias),
          sent_bias_norm = normalize_data2(sent_bias),
          vis_bias_norm = normalize_data2(visibility_bias),
          polls_norm = normalize_data2(poll_value)
          ) %>%
-    select(medium, party, date, agenda_bias_norm, vis_bias_norm, sent_bias_norm, polls_norm)
+    select(year,month,date, medium, party, agenda_bias_norm, vis_bias_norm, sent_bias_norm, polls_norm)
   
 biasDF_long <- biasDF %>%
   gather(metric, value, agenda_bias_norm:polls_norm) 
@@ -84,6 +108,98 @@ biasDF_long %>%
 ggsave("../figs/bias.png", width = 9, height = 6)
 ```
 
+```{r eval=FALSE, include=FALSE}
+biasDF %>%
+  group_by(party) %>%
+  do(data.frame(Cor=t(cor(.[,c("agenda_bias_norm","vis_bias_norm","sent_bias_norm")], .[,"polls_norm"])))) %>%
+    gather(bias, cor, 2:4) %>%
+    mutate(bias = gsub("Cor.","",bias)) %>%
+  ungroup() -> cor
 
-![](../figs/bias.png)
+cor %>%
+  ggplot(aes(bias,party,fill=cor, 
+             label= round(cor,digits = 1))) +
+  geom_tile() +
+  geom_text(color = "white") +
+  #facet_wrap(~bias) +
+  theme(axis.title = element_blank())
+```
+
+# Data Modelling
+
+$$
+Y = \beta_0 + \beta_1x_{\text{visibility bias}}+\beta_2x_{\text{tonality bias}}+\beta_3x_{\text{agenda bias}} + \beta_4D_{\text{AfD}}+\beta_5D_{\text{FDP}}+\beta_6D_{\text{Grüne}}+\beta_7D_{\text{Linke}}+\beta_8D_{\text{SPD}}+\beta_9D_{\text{Union}}
+$$
+where ...
+
+  - $Y$ = average monthly poll value of parties
+
+
+## medium-specific Fixed Effects using Dummy Variables (LSDV Model)
+
+```{r}
+biasDF$party <- factor(biasDF$party)
+  
+fixed.dum <-lm(polls_norm ~ vis_bias_norm + sent_bias_norm + agenda_bias_norm + party, 
+               data = biasDF)
+summary(fixed.dum)
+```
+
+### Fixed effects
+
+I use fixed-effects (FE) as I am only interested in analyzing the impact of the different biases that vary over time.
+
+FE explore the relationship between predictor and outcome variables within an entity, in this case party. Each party has its own individual characteristics that may or may not influence the predictor variables; e.g. the communication practices of a party may influence its poll value.
+
+When using FE I assume that something within the party may impact the outcome variables (poll value) that need to be controled for. This is the rationale behind the assumption of the correlation between entity's error term and predictor variables. FE remove the effect of those time-invariant characteristics so I can assess the net effect of the predictors on the outcome variable.
+
+Another important assumption of the FE model is that those time-invariant characteristics are unique to the party and should not be correlated with other party characteristics. Each party is different therefore the party's error term and the constant (which captures individual characteristics) should not be correlated with the others. If the error terms are correlated, then FE is no suitable since inferences may not be correct and you need to model that relationship (probably using random-effects), this is the main rationale for the Hausman test.
+
+*"The key insight is that if the unobserved variable does not change over time, then any changes in the dependent variable must be due to influences other than these fixed characteristics."* (Stock and Watson, 2003, p.289-290)
+
+*"In the case of time-series cross-sectional data the interpretation of the beta coefficients would be "...for a given country, as $X$ varies across time by one unit, $Y$ increases or decreases by $\beta$ units"* (Bartels, Brandom, “Beyond “Fixed Versus Random Effects”: A framework for improving substantive and statistical analysis of panel, time-series cross-sectional, and multilevel data”, Stony Brook University, working paper, 2008).
+
+$$
+Y_{it}=\beta_0 + \beta_1X_{1it} + \beta_2X_{2it} + \beta_3X_{3it} + \alpha_i + \epsilon_{it}
+$$
+
+Where...
+
+  - $\alpha_i$ ($i=1,...,n$) is the unknown intercept for each party (7 party-specific intercepts).
+  – $Y_{it}$ is the poll value where $i$ = party and $t$ = month.
+  – $X_{jit}$ represents the independent variables (IV) visibility bias ($j=1$), tonality bias ($j=2$) and agenda bias ($j=3$)
+  – $\beta_{j}$ is the coefficient for that IV,
+  – $\epsilon_{it}$ is the error term 
+
+```{r}
+library(plm)
+
+biasDF_plm <- biasDF %>% 
+  group_by(date, party) %>%
+  summarise(agenda_bias_norm = mean(agenda_bias_norm),
+            vis_bias_norm = mean(vis_bias_norm),
+            sent_bias_norm = mean(sent_bias_norm),
+            polls_norm = mean(polls_norm)
+            ) %>%
+  ungroup() %>%
+  mutate(party = as.factor(party))
+
+fixed <- plm(polls_norm ~ vis_bias_norm + sent_bias_norm + agenda_bias_norm ,
+             data = biasDF_plm, index = c("party","date"), model = "within")
+
+summary(fixed)
+```
+
+```{r}
+random <- plm(polls_norm ~ vis_bias_norm + sent_bias_norm + agenda_bias_norm,
+             data = biasDF_plm, index = c("party","date"), model = "random")
+
+summary(random)
+```
+
+How do we know when to use fixed or random effects? We can use the Hausman Test, where the null hypothesis is that the model is random effects and the alternative is that fixed effects are better fit. In this example, the p-value is below .05 so a fixed effects model is the better fit for this data.
+
+```{r}
+phtest(random, fixed)
+```
 

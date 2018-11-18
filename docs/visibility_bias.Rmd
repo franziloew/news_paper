@@ -17,8 +17,6 @@ library(ggthemes)
 source("func/functions.R")
 
 load("../output/data_step2.Rda")
-
-parties <- c("SPD",paste("CDU","CSU","Union",sep = "|"),"FDP","Grüne","AfD","Linke")
 ```
 
 The visibility of a party or a candidate is important as the visibility of political actors in media coverage will increase their accessibility to audiences, influencing subsequent political judgments. Studies combining media content data with voter surveys have indeed found that voters tend to infer a party's political importance from its media salience.
@@ -35,63 +33,60 @@ $$
 btw <- btw %>% 
   dplyr::mutate(
     year = lubridate::year(date),
-    month = lubridate::month(date),
-    date = as.Date(paste0(year,"/",month,"/1"))) %>%
-  group_by(medium,date) %>%
+    month = lubridate::month(date)) %>%
+  group_by(medium,year,month) %>%
   dplyr::mutate(articles_s = n()) %>%
   ungroup()
 ```
 
-```{r Function to calculate average visibility for each party}
-visibility <- function(data, party) {
-     
-  data %>% 
-    # filter all articles that contain the party as a word
-    filter(grepl(party,text, ignore.case = T)) %>%
-    # calculate the number of articles by each newspaper
-    group_by(medium, date) %>%
-    dplyr::summarise(
-      # pass the total amount of articles to the grouped df
-      articles_s = mean(articles_s),
-      # calculate the number of articles about a party
-      articles_p_s = n(),
-      # calculate relative amount
-      visibility_p_s = articles_p_s/articles_s) %>%
-    dplyr::mutate(party = party) %>% ungroup() -> df1
-  
-}
-```
-
 ```{r Apply function to all parties}
+parties <- c("SPD",paste("CDU","CSU","Union",sep = "|"),"FDP","Grüne","AfD","Linke")
+
+
 rm(vis)
 for (party in parties) {
-  partydf <- visibility(btw, party)
   
+    tempdf <- btw %>% 
+      # filter all articles that contain the party as a word
+      filter(grepl(party,text, ignore.case = T)) %>%
+      # calculate the number of articles by each newspaper
+      group_by(medium, year, month) %>%
+      dplyr::summarise(
+        # pass the total amount of articles to the grouped df
+        articles_s = mean(articles_s),
+        # calculate the number of articles about a party in a newsletter
+        articles_p_s = n()) %>% ungroup() %>%
+      mutate(
+        party = party,
+        # calculate relative amount
+        visibility_p_s = articles_p_s/articles_s)
+    
   if (exists('vis')) {
-   vis <- bind_rows(vis, partydf) 
+   vis <- bind_rows(vis, tempdf) 
   } else {
-    vis <- partydf
+    vis <- tempdf
   }
 }
 
 vis <- vis %>%
-  mutate(party = ifelse(grepl("CDU",party), "Union",party))
+  mutate(party = ifelse(grepl("CDU",party), "Union",party),
+    date = as.Date(paste0(year,"/",month,"/1")))
 ```
 
 ```{r Plot visibility}
 vis %>%
-  ggplot(aes(date, visibility_p_s, fill = medium)) +
+  ggplot(aes(date, visibility_p_s)) +
   geom_col(show.legend = FALSE, alpha = 0.7) +
-  theme_gdocs() +
-  scale_fill_gdocs(name=NULL) +
+  theme_hc() +
+  #scale_fill_gdocs(name=NULL) +
   facet_grid(party~medium) +
-  labs(x = NULL, y = NULL, title = "Visibility") +
+  labs(x = NULL, y = "visibility", title = "") +
   theme(axis.text = element_text(size = 5),
         strip.text = element_text(size = 6),
         title = element_text(size = 7)
         )
 
-ggsave("../figs/visibility.png", width = 7, height = 4)
+ggsave("../figs/visibility.png", width = 7, height = 5)
 ```
 
 The next step is to define an appropriate reference point to distinguish between balanced/neutral and biased reporting. As my interest lies in the extent to which some media outlets devote disproportionally more coverage to some actors than other outlets do, I focus on relative levels of visibility bias within one political and media system: There is a bias in a medium when a political actor is overrepresented compared to other actors and other outlets.
@@ -112,13 +107,13 @@ for (i in parties) {
     
     # average visibility for the medium
     df2 <- vis %>%
-      filter(party != i) %>%
-      group_by(medium, date) %>%
+      #filter(party != i) %>%
+      group_by(medium, year, month) %>%
       dplyr::summarise(avg_visibility = mean(visibility_p_s, na.rm = TRUE)) %>%
       ungroup()
     
     # combine dataframes and calculate deviation
-    tempdf <- left_join(df1,df2, by=c("medium","date")) %>%
+    tempdf <- left_join(df1,df2, by=c("medium","year","month")) %>%
       dplyr::mutate(visibility_bias = visibility_p_s-avg_visibility)
     
     if (exists('visBias')){
@@ -131,13 +126,15 @@ for (i in parties) {
 
 ```{r Plot bias}
 visBias %>%
-  ggplot(aes(date, visibility_bias, fill = medium)) +
+  mutate(date = as.Date(paste0(year,"/",month,"/1"))) %>%
+  mutate(visibility_bias = normalize_data2(visibility_bias)) %>%
+  ggplot(aes(date, visibility_bias)) +
   geom_col(show.legend = FALSE, alpha = 0.7) +
-  theme_gdocs() +
-  scale_fill_gdocs(name=NULL) +
+  theme_hc() +
+  #scale_fill_gdocs(name=NULL) +
   facet_grid(party~medium) +
-  labs(x = NULL, y = NULL, title = "Visibility bias",
-       subtitle = "Normalized between -1 and 1"
+  labs(x = NULL, y = "visibility bias", title = NULL,
+       subtitle = ""
        ) +
   theme(axis.text = element_text(size = 5),
         strip.text = element_text(size = 6),
@@ -151,5 +148,58 @@ ggsave("../figs/visibility_bias.png", width = 7, height = 5)
 
 ```{r}
 save(visBias, file = "../output/visbias.Rda")
+```
+
+```{r}
+# Import and prepare survey data
+load("../output/polls.Rda")
+
+polls <- table_long %>%
+  dplyr::mutate(
+    year = lubridate::year(Datum),
+    month = lubridate::month(Datum),
+    date = as.Date(paste0(year,"/",month,"/1"))
+    ) %>%
+  filter(Datum > as.Date("2017-05-01")) %>%
+  filter(Datum < as.Date("2018-03-01")) %>%
+  filter(!party %in% c("Piraten", "Sonstige")) %>%
+  group_by(year,month,date, party) %>%
+  dplyr::summarise(poll_value = mean(value, na.rm=T)) %>%
+  ungroup() %>%
+  mutate(poll_normalized = normalize_data2(poll_value))
+```
+
+```{r}
+biasDF <- left_join(visBias, polls, by = c('date','party','month','year')) %>%
+  mutate(
+    # bias metric1 (benchmark: polls)
+    vis_norm = normalize_data2(visibility_p_s),
+         polls_norm = normalize_data2(poll_value),
+         vis_bias_norm1 = vis_norm - polls_norm,
+    # bias metric2 (benchmark: avg visibility of other partys)
+         vis_bias_norm2 = normalize_data2(visibility_bias),
+         date = as.Date(paste0(year,"/",month,"/1"))
+         ) %>%
+  select(medium, party, date, vis_bias_norm1, vis_bias_norm2)
+  
+biasDF_long <- biasDF %>%
+  gather(metric, value, vis_bias_norm1:vis_bias_norm2) 
+```
+
+```{r}
+biasDF_long %>%
+  ggplot(aes(date, value, fill=metric)) +
+  geom_col(alpha = 0.7, position = "dodge") +
+  theme_hc() +
+  scale_fill_hc(name=NULL) +
+  scale_y_continuous(limits = c(-1,1)) +
+  facet_grid(party~medium) +
+  labs(x = NULL, y = "visibility bias", title = NULL,
+       subtitle = ""
+       ) +
+  theme(axis.text = element_text(size = 5),
+        strip.text = element_text(size = 6),
+        title = element_text(size = 7)
+        ) 
 ```
 

@@ -1,0 +1,1950 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.7.17)  17 NOV 2018 18:53
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**new_okt18.tex
+(./new_okt18.tex
+LaTeX2e <2018-04-01> patch level 2
+Babel <3.18> and hyphenation patterns for 84 language(s) loaded.
+(/usr/local/texlive/2018/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+(/usr/local/texlive/2018/texmf-dist/tex/latex/base/size12.clo
+File: size12.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2018/04/06 v1.3b Input encoding file
+\inpenc@prehook=\toks14
+\inpenc@posthook=\toks15
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/babel/babel.sty
+Package: babel 2018/02/14 3.18 The Babel package
+ (/usr/local/texlive/2018/texmf-dist/tex/generic/babel/switch.def
+File: switch.def 2018/02/14 3.18 Babel switching mechanism
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/babel-english/english.ldf
+Language: english 2017/06/06 v3.3r English support from the babel system
+ (/usr/local/texlive/2018/texmf-dist/tex/generic/babel/babel.def
+File: babel.def 2018/02/14 3.18 Babel common definitions
+\babel@savecnt=\count88
+\U@D=\dimen103
+ (/usr/local/texlive/2018/texmf-dist/tex/generic/babel/txtbabel.def)
+\bbl@dirlevel=\count89
+)
+\l@canadian = a dialect from \language\l@american 
+\l@australian = a dialect from \language\l@british 
+\l@newzealand = a dialect from \language\l@british 
+)) (/usr/local/texlive/2018/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2017/04/05 v2.0i Standard LaTeX package
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/base/t1enc.def
+File: t1enc.def 2017/04/05 v2.0i Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 48.
+)) (/usr/local/texlive/2018/texmf-dist/tex/latex/preprint/authblk.sty
+Package: authblk 2001/02/27 1.3 (PWD)
+\affilsep=\skip43
+\@affilsep=\skip44
+\c@Maxaffil=\count90
+\c@authors=\count91
+\c@affil=\count92
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/biblatex/biblatex.sty
+Package: biblatex 2018/03/04 v3.11 programmable bibliographies (PK/MW)
+ (/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2018/01/30 v0.27 Utility functions of pdfTeX for LuaTeX (HO)
+ (/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2018/02/11 v2.5e e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count93
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks16
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
+ (/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+ (/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+))) (/usr/local/texlive/2018/texmf-dist/tex/latex/logreq/logreq.sty
+Package: logreq 2010/08/04 v1.0 xml request logger
+\lrq@indent=\count94
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/logreq/logreq.def
+File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
+)) (/usr/local/texlive/2018/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip10
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/xstring/xstring.sty (/usr/local/texlive/2018/texmf-dist/tex/generic/xstring/xstring.tex
+\@xs@message=\write3
+\integerpart=\count95
+\decimalpart=\count96
+)
+Package: xstring 2013/10/13  v1.7c  String manipulations (C Tellechea)
+)
+\c@tabx@nest=\count97
+\c@listtotal=\count98
+\c@listcount=\count99
+\c@liststart=\count100
+\c@liststop=\count101
+\c@citecount=\count102
+\c@citetotal=\count103
+\c@multicitecount=\count104
+\c@multicitetotal=\count105
+\c@instcount=\count106
+\c@maxnames=\count107
+\c@minnames=\count108
+\c@maxitems=\count109
+\c@minitems=\count110
+\c@citecounter=\count111
+\c@savedcitecounter=\count112
+\c@uniquelist=\count113
+\c@uniquename=\count114
+\c@refsection=\count115
+\c@refsegment=\count116
+\c@maxextratitle=\count117
+\c@maxextratitleyear=\count118
+\c@maxextradate=\count119
+\c@maxextraalpha=\count120
+\c@abbrvpenalty=\count121
+\c@highnamepenalty=\count122
+\c@lownamepenalty=\count123
+\c@maxparens=\count124
+\c@parenlevel=\count125
+\blx@tempcnta=\count126
+\blx@tempcntb=\count127
+\blx@tempcntc=\count128
+\blx@maxsection=\count129
+\blx@maxsegment@0=\count130
+\blx@notetype=\count131
+\blx@parenlevel@text=\count132
+\blx@parenlevel@foot=\count133
+\blx@sectionciteorder@0=\count134
+\labelnumberwidth=\skip45
+\labelalphawidth=\skip46
+\biblabelsep=\skip47
+\bibitemsep=\skip48
+\bibnamesep=\skip49
+\bibinitsep=\skip50
+\bibparsep=\skip51
+\bibhang=\skip52
+\blx@bcfin=\read1
+\blx@bcfout=\write4
+\c@mincomprange=\count135
+\c@maxcomprange=\count136
+\c@mincompwidth=\count137
+Package biblatex Info: Trying to load biblatex default data model...
+Package biblatex Info: ... file 'blx-dm.def' found.
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/biblatex/blx-dm.def
+File: blx-dm.def 2018/03/04 v3.11 biblatex localization (PK/MW)
+)
+Package biblatex Info: Trying to load biblatex style data model...
+Package biblatex Info: ... file 'authoryear-icomp.dbx' not found.
+Package biblatex Info: Trying to load biblatex custom data model...
+Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
+\c@afterword=\count138
+\c@savedafterword=\count139
+\c@annotator=\count140
+\c@savedannotator=\count141
+\c@author=\count142
+\c@savedauthor=\count143
+\c@bookauthor=\count144
+\c@savedbookauthor=\count145
+\c@commentator=\count146
+\c@savedcommentator=\count147
+\c@editor=\count148
+\c@savededitor=\count149
+\c@editora=\count150
+\c@savededitora=\count151
+\c@editorb=\count152
+\c@savededitorb=\count153
+\c@editorc=\count154
+\c@savededitorc=\count155
+\c@foreword=\count156
+\c@savedforeword=\count157
+\c@holder=\count158
+\c@savedholder=\count159
+\c@introduction=\count160
+\c@savedintroduction=\count161
+\c@namea=\count162
+\c@savednamea=\count163
+\c@nameb=\count164
+\c@savednameb=\count165
+\c@namec=\count166
+\c@savednamec=\count167
+\c@translator=\count168
+\c@savedtranslator=\count169
+\c@shortauthor=\count170
+\c@savedshortauthor=\count171
+\c@shorteditor=\count172
+\c@savedshorteditor=\count173
+\c@labelname=\count174
+\c@savedlabelname=\count175
+\c@institution=\count176
+\c@savedinstitution=\count177
+\c@lista=\count178
+\c@savedlista=\count179
+\c@listb=\count180
+\c@savedlistb=\count181
+\c@listc=\count182
+\c@savedlistc=\count183
+\c@listd=\count184
+\c@savedlistd=\count185
+\c@liste=\count186
+\c@savedliste=\count187
+\c@listf=\count188
+\c@savedlistf=\count189
+\c@location=\count190
+\c@savedlocation=\count191
+\c@organization=\count192
+\c@savedorganization=\count193
+\c@origlocation=\count194
+\c@savedoriglocation=\count195
+\c@origpublisher=\count196
+\c@savedorigpublisher=\count197
+\c@publisher=\count198
+\c@savedpublisher=\count199
+\c@language=\count266
+\c@savedlanguage=\count267
+\c@origlanguage=\count268
+\c@savedoriglanguage=\count269
+\c@pageref=\count270
+\c@savedpageref=\count271
+\shorthandwidth=\skip53
+\shortjournalwidth=\skip54
+\shortserieswidth=\skip55
+\shorttitlewidth=\skip56
+\shortauthorwidth=\skip57
+\shorteditorwidth=\skip58
+\locallabelnumberwidth=\skip59
+\locallabelalphawidth=\skip60
+\localshorthandwidth=\skip61
+\localshortjournalwidth=\skip62
+\localshortserieswidth=\skip63
+\localshorttitlewidth=\skip64
+\localshortauthorwidth=\skip65
+\localshorteditorwidth=\skip66
+Package biblatex Info: Trying to load compatibility code...
+Package biblatex Info: ... file 'blx-compat.def' found.
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/biblatex/blx-compat.def
+File: blx-compat.def 2018/03/04 v3.11 biblatex compatibility (PK/MW)
+)
+Package biblatex Info: Trying to load generic definitions...
+Package biblatex Info: ... file 'biblatex.def' found.
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/biblatex/biblatex.def
+File: biblatex.def 2018/03/04 v3.11 biblatex compatibility (PK/MW)
+\c@textcitecount=\count272
+\c@textcitetotal=\count273
+\c@textcitemaxnames=\count274
+\c@biburlnumpenalty=\count275
+\c@biburlucpenalty=\count276
+\c@biburllcpenalty=\count277
+\c@smartand=\count278
+)
+Package biblatex Info: Trying to load natbib compatibility...
+Package biblatex Info: ... file 'blx-natbib.def' found.
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/biblatex/blx-natbib.def
+File: blx-natbib.def 2018/03/04 v3.11 biblatex compatibility (PK/MW)
+)
+Package biblatex Info: Trying to load bibliography style 'authoryear'...
+Package biblatex Info: ... file 'authoryear.bbx' found.
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/biblatex/bbx/authoryear.bbx
+File: authoryear.bbx 2018/03/04 v3.11 biblatex bibliography style (PK/MW)
+Package biblatex Info: Trying to load bibliography style 'standard'...
+Package biblatex Info: ... file 'standard.bbx' found.
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/biblatex/bbx/standard.bbx
+File: standard.bbx 2018/03/04 v3.11 biblatex bibliography style (PK/MW)
+\c@bbx:relatedcount=\count279
+\c@bbx:relatedtotal=\count280
+))
+Package biblatex Info: Trying to load citation style 'authoryear-icomp'...
+Package biblatex Info: ... file 'authoryear-icomp.cbx' found.
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/biblatex/cbx/authoryear-icomp.cbx
+File: authoryear-icomp.cbx 2018/03/04 v3.11 biblatex citation style (PK/MW)
+Package biblatex Info: Redefining '\cite'.
+Package biblatex Info: Redefining '\parencite'.
+Package biblatex Info: Redefining '\footcite'.
+Package biblatex Info: Redefining '\footcitetext'.
+Package biblatex Info: Redefining '\smartcite'.
+Package biblatex Info: Redefining '\textcite'.
+Package biblatex Info: Redefining '\textcites'.
+Package biblatex Info: Redefining '\cites'.
+Package biblatex Info: Redefining '\parencites'.
+Package biblatex Info: Redefining '\footcites'.
+Package biblatex Info: Redefining '\footcitetexts'.
+Package biblatex Info: Redefining '\smartcites'.
+)
+Package biblatex Info: Trying to load configuration file...
+Package biblatex Info: ... file 'biblatex.cfg' found.
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/biblatex/biblatex.cfg
+File: biblatex.cfg 
+)) (/usr/local/texlive/2018/texmf-dist/tex/latex/eurosym/eurosym.sty
+Package: eurosym 1998/08/06 v1.1 European currency symbol ``Euro''
+\@eurobox=\box26
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/enumitem/enumitem.sty
+Package: enumitem 2011/09/28 v3.5.2 Customized lists
+\labelindent=\skip67
+\enit@outerparindent=\dimen104
+\enit@toks=\toks17
+\enit@inbox=\box27
+\enitdp@description=\count281
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/blindtext/blindtext.sty
+Package: blindtext 2012/01/06 V2.0 blindtext-Package
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/tools/xspace.sty
+Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
+)
+\c@blindtext=\count282
+\c@Blindtext=\count283
+\c@blind@countparstart=\count284
+\blind@countxx=\count285
+\blindtext@numBlindtext=\count286
+\blind@countyy=\count287
+\c@blindlist=\count288
+\c@blindlistlevel=\count289
+\c@blindlist@level=\count290
+\blind@listitem=\count291
+\c@blind@listcount=\count292
+\c@blind@levelcount=\count293
+\blind@mathformula=\count294
+\blind@Mathformula=\count295
+\c@blind@randomcount=\count296
+\c@blind@randommax=\count297
+\c@blind@pangramcount=\count298
+\c@blind@pangrammax=\count299
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2018/02/06 v6.86b Hypertext links for LaTeX
+ (/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+Package: hobsub-hyperref 2016/05/16 v1.14 Bundle oberdiek, subset hyperref (HO)
+ (/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty
+Package: hobsub-generic 2016/05/16 v1.14 Bundle oberdiek, subset generic (HO)
+Package: hobsub 2016/05/16 v1.14 Construct package bundles (HO)
+Package hobsub Info: Skipping package `infwarerr' (already loaded).
+Package hobsub Info: Skipping package `ltxcmds' (already loaded).
+Package hobsub Info: Skipping package `ifluatex' (already loaded).
+Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+Package: intcalc 2016/05/16 v1.2 Expandable calculations with integers (HO)
+Package hobsub Info: Skipping package `ifpdf' (already loaded).
+Package hobsub Info: Skipping package `etexcmds' (already loaded).
+Package hobsub Info: Skipping package `kvsetkeys' (already loaded).
+Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+Package hobsub Info: Skipping package `pdftexcmds' (already loaded).
+Package: pdfescape 2016/05/16 v1.14 Implements pdfTeX's escape features (HO)
+Package: bigintcalc 2016/05/16 v1.4 Expandable calculations on big integers (HO)
+Package: bitset 2016/05/16 v1.2 Handle bit-vector datatype (HO)
+Package: uniquecounter 2016/05/16 v1.3 Provide unlimited unique counter (HO)
+)
+Package hobsub Info: Skipping package `hobsub' (already loaded).
+Package: letltxmacro 2016/05/16 v1.5 Let assignment for LaTeX macros (HO)
+Package: hopatch 2016/05/16 v1.3 Wrapper for package hooks (HO)
+Package: xcolor-patch 2016/05/16 xcolor patch
+Package: atveryend 2016/05/16 v1.9 Hooks at the very end of document (HO)
+Package: atbegshi 2016/06/09 v1.18 At begin shipout hook (HO)
+Package: refcount 2016/05/16 v3.5 Data extraction from label references (HO)
+Package: hycolor 2016/05/16 v1.8 Color options for hyperref/bookmark (HO)
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/oberdiek/auxhook.sty
+Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
+)
+\@linkdim=\dimen105
+\Hy@linkcounter=\count300
+\Hy@pagecounter=\count301
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2018/02/06 v6.86b Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+)
+\Hy@SavedSpaceFactor=\count302
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/latexconfig/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+Package hyperref Info: Hyper figures OFF on input line 4509.
+Package hyperref Info: Link nesting OFF on input line 4514.
+Package hyperref Info: Hyper index ON on input line 4517.
+Package hyperref Info: Plain pages OFF on input line 4524.
+Package hyperref Info: Backreferencing OFF on input line 4529.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4762.
+\c@Hy@tempcnt=\count303
+LaTeX Info: Redefining \url on input line 5115.
+\XeTeXLinkMargin=\dimen106
+\Fld@menulength=\count304
+\Field@Width=\dimen107
+\Fld@charsize=\dimen108
+Package hyperref Info: Hyper figures OFF on input line 6369.
+Package hyperref Info: Link nesting OFF on input line 6374.
+Package hyperref Info: Hyper index ON on input line 6377.
+Package hyperref Info: backreferencing OFF on input line 6384.
+Package hyperref Info: Link coloring OFF on input line 6389.
+Package hyperref Info: Link coloring with OCG OFF on input line 6394.
+Package hyperref Info: PDF/A mode OFF on input line 6399.
+LaTeX Info: Redefining \ref on input line 6439.
+LaTeX Info: Redefining \pageref on input line 6443.
+\Hy@abspage=\count305
+\c@Item=\count306
+\c@Hfootnote=\count307
+)
+Package hyperref Info: Driver (autodetected): hpdftex.
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2018/02/06 v6.86b Hyperref driver for pdfTeX
+\Fld@listcount=\count308
+\c@bookmark@seq@number=\count309
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
+Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 282.
+)
+\Hy@SectionHShift=\skip68
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/breakurl/breakurl.sty
+Package: breakurl 2013/04/10 v1.40 Breakable hyperref URLs
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
+ (/usr/local/texlive/2018/texmf-dist/tex/generic/xkeyval/xkeyval.tex (/usr/local/texlive/2018/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+\XKV@toks=\toks18
+\XKV@tempa@toks=\toks19
+)
+\XKV@depth=\count310
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+))
+
+Package breakurl Warning: You are using breakurl while processing via pdflatex.
+(breakurl)                \burl will be just a synonym of \url.
+(breakurl)                 on input line 48.
+
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2017/09/02 v2.17a AMS math features
+\@mathmargin=\skip69
+
+For additional information on amsmath, use the `?' option.
+(/usr/local/texlive/2018/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01 AMS text
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks20
+\ex@=\dimen109
+)) (/usr/local/texlive/2018/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen110
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count311
+LaTeX Info: Redefining \frac on input line 213.
+\uproot@=\count312
+\leftroot@=\count313
+LaTeX Info: Redefining \overline on input line 375.
+\classnum@=\count314
+\DOTSCASE@=\count315
+LaTeX Info: Redefining \ldots on input line 472.
+LaTeX Info: Redefining \dots on input line 475.
+LaTeX Info: Redefining \cdots on input line 596.
+\Mathstrutbox@=\box28
+\strutbox@=\box29
+\big@size=\dimen111
+LaTeX Font Info:    Redeclaring font encoding OML on input line 712.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
+\macc@depth=\count316
+\c@MaxMatrixCols=\count317
+\dotsspace@=\muskip11
+\c@parentequation=\count318
+\dspbrk@lvl=\count319
+\tag@help=\toks21
+\row@=\count320
+\column@=\count321
+\maxfields@=\count322
+\andhelp@=\toks22
+\eqnshift@=\dimen112
+\alignsep@=\dimen113
+\tagshift@=\dimen114
+\tagwidth@=\dimen115
+\totwidth@=\dimen116
+\lineht@=\dimen117
+\@envbody=\toks23
+\multlinegap=\skip70
+\multlinetaggap=\skip71
+\mathdisplay@stack=\toks24
+LaTeX Info: Redefining \[ on input line 2817.
+LaTeX Info: Redefining \] on input line 2818.
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/titling/titling.sty
+Package: titling 2009/09/04 v2.1d maketitle typesetting
+\thanksmarkwidth=\skip72
+\thanksmargin=\skip73
+\droptitle=\skip74
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/pgfplots/pgfplots.sty (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/pgfplots.revision.tex)
+Package: pgfplots 2018/03/28 v1.16 Data Visualization (1.16)
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 99.
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen118
+\Gin@req@width=\dimen119
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty (/usr/local/texlive/2018/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty (/usr/local/texlive/2018/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
+\pgfutil@everybye=\toks25
+\pgfutil@tempdima=\dimen120
+\pgfutil@tempdimb=\dimen121
+ (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/utilities/pgfutil-common-lists.tex)) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
+\pgfutil@abb=\box30
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/ms/everyshi.sty
+Package: everyshi 2001/05/15 v3.00 EveryShipout Package (MS)
+)) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex
+Package: pgfrcs 2015/08/07 v3.0.1a (rcs-revision 1.31)
+))
+Package: pgf 2015/08/07 v3.0.1a (rcs-revision 1.15)
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty (/usr/local/texlive/2018/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
+Package: pgfsys 2014/07/09 v3.0.1a (rcs-revision 1.48)
+ (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
+\pgfkeys@pathtoks=\toks26
+\pgfkeys@temptoks=\toks27
+ (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/utilities/pgfkeysfiltered.code.tex
+\pgfkeys@tmptoks=\toks28
+))
+\pgf@x=\dimen122
+\pgf@y=\dimen123
+\pgf@xa=\dimen124
+\pgf@ya=\dimen125
+\pgf@xb=\dimen126
+\pgf@yb=\dimen127
+\pgf@xc=\dimen128
+\pgf@yc=\dimen129
+\w@pgf@writea=\write5
+\r@pgf@reada=\read2
+\c@pgf@counta=\count323
+\c@pgf@countb=\count324
+\c@pgf@countc=\count325
+\c@pgf@countd=\count326
+\t@pgf@toka=\toks29
+\t@pgf@tokb=\toks30
+\t@pgf@tokc=\toks31
+ (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
+File: pgf.cfg 2008/05/14  (rcs-revision 1.7)
+)
+Driver file for pgf: pgfsys-pdftex.def
+
+(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-pdftex.def
+File: pgfsys-pdftex.def 2014/10/11  (rcs-revision 1.35)
+ (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def
+File: pgfsys-common-pdf.def 2013/10/10  (rcs-revision 1.13)
+))) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
+File: pgfsyssoftpath.code.tex 2013/09/09  (rcs-revision 1.9)
+\pgfsyssoftpath@smallbuffer@items=\count327
+\pgfsyssoftpath@bigbuffer@items=\count328
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
+File: pgfsysprotocol.code.tex 2006/10/16  (rcs-revision 1.4)
+)) (/usr/local/texlive/2018/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
+Package xcolor Info: Model `RGB' extended on input line 1364.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
+Package: pgfcore 2010/04/11 v3.0.1a (rcs-revision 1.7)
+ (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
+\pgfmath@dimen=\dimen130
+\pgfmath@count=\count329
+\pgfmath@box=\box31
+\pgfmath@toks=\toks32
+\pgfmath@stack@operand=\toks33
+\pgfmath@stack@operation=\toks34
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.tex) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.code.tex) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.tex) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code.tex) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.code.tex))) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
+\c@pgfmathroundto@lastzeros=\count330
+)) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
+File: pgfcorepoints.code.tex 2013/10/07  (rcs-revision 1.27)
+\pgf@picminx=\dimen131
+\pgf@picmaxx=\dimen132
+\pgf@picminy=\dimen133
+\pgf@picmaxy=\dimen134
+\pgf@pathminx=\dimen135
+\pgf@pathmaxx=\dimen136
+\pgf@pathminy=\dimen137
+\pgf@pathmaxy=\dimen138
+\pgf@xx=\dimen139
+\pgf@xy=\dimen140
+\pgf@yx=\dimen141
+\pgf@yy=\dimen142
+\pgf@zx=\dimen143
+\pgf@zy=\dimen144
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex
+File: pgfcorepathconstruct.code.tex 2013/10/07  (rcs-revision 1.29)
+\pgf@path@lastx=\dimen145
+\pgf@path@lasty=\dimen146
+)
+(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex
+File: pgfcorepathusage.code.tex 2014/11/02  (rcs-revision 1.24)
+\pgf@shorten@end@additional=\dimen147
+\pgf@shorten@start@additional=\dimen148
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
+File: pgfcorescopes.code.tex 2015/05/08  (rcs-revision 1.46)
+\pgfpic=\box32
+\pgf@hbox=\box33
+\pgf@layerbox@main=\box34
+\pgf@picture@serial@count=\count331
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex
+File: pgfcoregraphicstate.code.tex 2014/11/02  (rcs-revision 1.12)
+\pgflinewidth=\dimen149
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex
+File: pgfcoretransformations.code.tex 2015/08/07  (rcs-revision 1.20)
+\pgf@pt@x=\dimen150
+\pgf@pt@y=\dimen151
+\pgf@pt@temp=\dimen152
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
+File: pgfcorequick.code.tex 2008/10/09  (rcs-revision 1.3)
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex
+File: pgfcoreobjects.code.tex 2006/10/11  (rcs-revision 1.2)
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathprocessing.code.tex
+File: pgfcorepathprocessing.code.tex 2013/09/09  (rcs-revision 1.9)
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex
+File: pgfcorearrows.code.tex 2015/05/14  (rcs-revision 1.43)
+\pgfarrowsep=\dimen153
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
+File: pgfcoreshade.code.tex 2013/07/15  (rcs-revision 1.15)
+\pgf@max=\dimen154
+\pgf@sys@shading@range@num=\count332
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
+File: pgfcoreimage.code.tex 2013/07/15  (rcs-revision 1.18)
+ (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex
+File: pgfcoreexternal.code.tex 2014/07/09  (rcs-revision 1.21)
+\pgfexternal@startupbox=\box35
+)) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex
+File: pgfcorelayers.code.tex 2013/07/18  (rcs-revision 1.7)
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex
+File: pgfcoretransparency.code.tex 2013/09/30  (rcs-revision 1.5)
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.code.tex
+File: pgfcorepatterns.code.tex 2013/11/07  (rcs-revision 1.5)
+))) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex
+File: pgfmoduleshapes.code.tex 2014/03/21  (rcs-revision 1.35)
+\pgfnodeparttextbox=\box36
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex
+File: pgfmoduleplot.code.tex 2015/08/03  (rcs-revision 1.13)
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty
+Package: pgfcomp-version-0-65 2007/07/03 v3.0.1a (rcs-revision 1.7)
+\pgf@nodesepstart=\dimen155
+\pgf@nodesepend=\dimen156
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty
+Package: pgfcomp-version-1-18 2007/07/23 v3.0.1a (rcs-revision 1.1)
+)) (/usr/local/texlive/2018/texmf-dist/tex/latex/pgf/utilities/pgffor.sty (/usr/local/texlive/2018/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex)) (/usr/local/texlive/2018/texmf-dist/tex/latex/pgf/math/pgfmath.sty (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex))
+(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
+Package: pgffor 2013/12/13 v3.0.1a (rcs-revision 1.25)
+ (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)
+\pgffor@iter=\dimen157
+\pgffor@skip=\dimen158
+\pgffor@stack=\toks35
+\pgffor@toks=\toks36
+)) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
+Package: tikz 2015/08/07 v3.0.1a (rcs-revision 1.151)
+ (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex
+File: pgflibraryplothandlers.code.tex 2013/08/31 v3.0.1a (rcs-revision 1.20)
+\pgf@plot@mark@count=\count333
+\pgfplotmarksize=\dimen159
+)
+\tikz@lastx=\dimen160
+\tikz@lasty=\dimen161
+\tikz@lastxsaved=\dimen162
+\tikz@lastysaved=\dimen163
+\tikzleveldistance=\dimen164
+\tikzsiblingdistance=\dimen165
+\tikz@figbox=\box37
+\tikz@figbox@bg=\box38
+\tikz@tempbox=\box39
+\tikz@tempbox@bg=\box40
+\tikztreelevel=\count334
+\tikznumberofchildren=\count335
+\tikznumberofcurrentchild=\count336
+\tikz@fig@count=\count337
+ (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
+File: pgfmodulematrix.code.tex 2013/09/17  (rcs-revision 1.8)
+\pgfmatrixcurrentrow=\count338
+\pgfmatrixcurrentcolumn=\count339
+\pgf@matrix@numberofcolumns=\count340
+)
+\tikz@expandcount=\count341
+ (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopaths.code.tex
+File: tikzlibrarytopaths.code.tex 2008/06/17 v3.0.1a (rcs-revision 1.2)
+))) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/pgfplots.code.tex (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/pgfplotscore.code.tex
+\t@pgfplots@toka=\toks37
+\t@pgfplots@tokb=\toks38
+\t@pgfplots@tokc=\toks39
+\pgfplots@tmpa=\dimen166
+\c@pgfplots@coordindex=\count342
+\c@pgfplots@scanlineindex=\count343
+ (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/sys/pgfplotssysgeneric.code.tex)) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/libs/pgfplotslibrary.code.tex) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pgfplotsoldpgfsupp_loader.code.tex (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/libraries/pgflibraryfpu.code.tex)
+Package pgfplots: loading complementary arithmetics for your pgf version...
+(/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pgfplotsoldpgfsupp_pgflibraryfpu.code.tex) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pgfplotsoldpgfsupp_pgfmathfloat.code.tex
+\c@pgfmathroundto@lastzeros=\count344
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pgfplotsoldpgfsupp_leq.code.tex)) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/util/pgfplotsutil.code.tex (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotsliststructure.code.tex) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotsliststructureext.code.tex) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotsarray.code.tex
+\c@pgfplotsarray@tmp=\count345
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotsmatrix.code.tex) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/numtable/pgfplotstableshared.code.tex
+\c@pgfplotstable@counta=\count346
+\t@pgfplotstable@a=\toks40
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotsdeque.code.tex) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/util/pgfplotsbinary.code.tex (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/util/pgfplotsbinary.data.code.tex)) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/util/pgfplotsutil.verb.code.tex) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/libs/pgflibrarypgfplots.surfshading.code.tex
+\c@pgfplotslibrarysurf@no=\count347
+ (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/sys/pgflibrarypgfplots.surfshading.pgfsys-pdftex.def))) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/util/pgfplotscolormap.code.tex (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/util/pgfplotscolor.code.tex)) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/pgfplotsstackedplots.code.tex) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/pgfplotsplothandlers.code.tex (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/pgfplotsmeshplothandler.code.tex (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/pgfplotsmeshplotimage.code.tex)))
+(/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/pgfplots.scaling.code.tex) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/pgfplotscoordprocessing.code.tex) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/pgfplots.errorbars.code.tex) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/pgfplots.markers.code.tex) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/pgfplotsticks.code.tex) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgfplots/pgfplots.paths.code.tex) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarydecorations.code.tex (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/modules/pgfmoduledecorations.code.tex
+\pgfdecoratedcompleteddistance=\dimen167
+\pgfdecoratedremainingdistance=\dimen168
+\pgfdecoratedinputsegmentcompleteddistance=\dimen169
+\pgfdecoratedinputsegmentremainingdistance=\dimen170
+\pgf@decorate@distancetomove=\dimen171
+\pgf@decorate@repeatstate=\count348
+\pgfdecorationsegmentamplitude=\dimen172
+\pgfdecorationsegmentlength=\dimen173
+)
+\tikz@lib@dec@box=\box41
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarydecorations.pathmorphing.code.tex (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/libraries/decorations/pgflibrarydecorations.pathmorphing.code.tex)) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarydecorations.pathreplacing.code.tex (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/libraries/decorations/pgflibrarydecorations.pathreplacing.code.tex))
+\pgfplots@numplots=\count349
+\pgfplots@xmin@reg=\dimen174
+\pgfplots@xmax@reg=\dimen175
+\pgfplots@ymin@reg=\dimen176
+\pgfplots@ymax@reg=\dimen177
+\pgfplots@zmin@reg=\dimen178
+\pgfplots@zmax@reg=\dimen179
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryplotmarks.code.tex
+File: tikzlibraryplotmarks.code.tex 2008/01/09 v3.0.1a (rcs-revision 1.1)
+ (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/libraries/pgflibraryplotmarks.code.tex
+File: pgflibraryplotmarks.code.tex 2015/08/03 v3.0.1a (rcs-revision 1.14)
+))) (/usr/local/texlive/2018/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2016/02/21 v3.3-144 Customizing captions (AR)
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2016/05/22 v1.7-166 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 67.
+\captionmargin=\dimen180
+\captionmargin@=\dimen181
+\captionwidth=\dimen182
+\caption@tempdima=\dimen183
+\caption@indent=\dimen184
+\caption@parindent=\dimen185
+\caption@hangindent=\dimen186
+)
+\c@ContinuedFloat=\count350
+Package caption Info: hyperref package is loaded.
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2016/05/22 v1.1-161 Sub-captions (AR)
+\c@subfigure=\count351
+\c@subtable=\count352
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/tools/dcolumn.sty
+Package: dcolumn 2014/10/28 v1.06 decimal alignment package (DPC)
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/tools/array.sty
+Package: array 2018/04/07 v2.4g Tabular extension package (FMi)
+\col@sep=\dimen187
+\ar@mcellbox=\box42
+\extrarowheight=\dimen188
+\NC@list=\toks41
+\extratabsurround=\skip75
+\backup@length=\skip76
+\ar@cellbox=\box43
+)) (/usr/local/texlive/2018/texmf-dist/tex/latex/tikz-3dplot/tikz-3dplot.sty (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarycalc.code.tex
+File: tikzlibrarycalc.code.tex 2013/07/15 v3.0.1a (rcs-revision 1.9)
+) (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrary3d.code.tex
+File: tikzlibrary3d.code.tex 2013/07/17 v3.0.1a (rcs-revision 1.2)
+)
+(/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryarrows.code.tex
+File: tikzlibraryarrows.code.tex 2008/01/09 v3.0.1a (rcs-revision 1.1)
+ (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.code.tex
+File: pgflibraryarrows.code.tex 2013/09/23 v3.0.1a (rcs-revision 1.16)
+\arrowsize=\dimen189
+))) (/usr/local/texlive/2018/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count353
+\float@exts=\toks42
+\float@box=\box44
+\@float@everytoks=\toks43
+\@floatcapt=\box45
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/adjustbox/adjustbox.sty
+Package: adjustbox 2018/04/08 v1.1 Adjusting TeX boxes (trim, clip, ...)
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/adjustbox/adjcalc.sty
+Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back-ends (calc, etex, pgfmath)
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/adjustbox/trimclip.sty
+Package: trimclip 2018/04/08 v1.1 Trim and clip general TeX material
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/collectbox/collectbox.sty
+Package: collectbox 2012/05/17 v0.4b Collect macro arguments as boxes
+\collectedbox=\box46
+)
+\tc@llx=\dimen190
+\tc@lly=\dimen191
+\tc@urx=\dimen192
+\tc@ury=\dimen193
+Package trimclip Info: Using driver 'tc-pdftex.def'.
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/adjustbox/tc-pdftex.def
+File: tc-pdftex.def 2018/04/08 v2.1 Clipping driver for pdftex
+))
+\adjbox@Width=\dimen194
+\adjbox@Height=\dimen195
+\adjbox@Depth=\dimen196
+\adjbox@Totalheight=\dimen197
+\adjbox@pwidth=\dimen198
+\adjbox@pheight=\dimen199
+\adjbox@pdepth=\dimen256
+\adjbox@ptotalheight=\dimen257
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty
+Package: ifoddpage 2016/04/23 v1.1 Conditionals for odd/even page detection
+\c@checkoddpage=\count354
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/varwidth/varwidth.sty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box47
+\sift@deathcycles=\count355
+\@vwid@loff=\dimen258
+\@vwid@roff=\dimen259
+)) (/usr/local/texlive/2018/texmf-dist/tex/latex/multirow/multirow.sty
+Package: multirow 2016/11/25 v2.2 Span multiple rows of a table
+\multirow@colwidth=\skip77
+\multirow@cntb=\count356
+\multirow@dima=\skip78
+\bigstrutjot=\dimen260
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/graphics/rotating.sty
+Package: rotating 2016/08/11 v2.16d rotated objects in LaTeX
+\c@r@tfl@t=\count357
+\rotFPtop=\skip79
+\rotFPbot=\skip80
+\rot@float@box=\box48
+\rot@mess@toks=\toks44
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/csquotes/csquotes.sty
+Package: csquotes 2018/02/11 v5.2c context-sensitive quotations (JAW)
+\csq@reset=\count358
+\csq@gtype=\count359
+\csq@glevel=\count360
+\csq@qlevel=\count361
+\csq@maxlvl=\count362
+\csq@tshold=\count363
+\csq@ltx@everypar=\toks45
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/csquotes/csquotes.def
+File: csquotes.def 2018/02/11 v5.2c csquotes generic definitions (JAW)
+)
+Package csquotes Info: Trying to load configuration file 'csquotes.cfg'...
+Package csquotes Info: ... configuration file loaded successfully.
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/csquotes/csquotes.cfg
+File: csquotes.cfg 
+)
+Package csquotes Info: Enabling multilingual quotes.
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/appendix/appendix.sty
+Package: appendix 2009/09/02 v1.2b extra appendix facilities
+\c@@pps=\count364
+\c@@ppsavesec=\count365
+\c@@ppsaveapp=\count366
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/graphics/lscape.sty
+Package: lscape 2000/10/22 v3.01 Landscape Pages (DPC)
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/todonotes/todonotes.sty
+Package: todonotes 2015/07/09 .dtx Todonotes source and documentation.
+Package: todonotes 2012/07/25
+ (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarypositioning.code.tex
+File: tikzlibrarypositioning.code.tex 2008/10/06 v3.0.1a (rcs-revision 1.7)
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count367
+\calc@Bcount=\count368
+\calc@Adimen=\dimen261
+\calc@Bdimen=\dimen262
+\calc@Askip=\skip81
+\calc@Bskip=\skip82
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count369
+\calc@Cskip=\skip83
+)
+\c@@todonotes@numberoftodonotes=\count370
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/booktabs/booktabs.sty
+Package: booktabs 2016/04/27 v1.618033 publication quality tables
+\heavyrulewidth=\dimen263
+\lightrulewidth=\dimen264
+\cmidrulewidth=\dimen265
+\belowrulesep=\dimen266
+\belowbottomsep=\dimen267
+\aboverulesep=\dimen268
+\abovetopsep=\dimen269
+\cmidrulesep=\dimen270
+\cmidrulekern=\dimen271
+\defaultaddspace=\dimen272
+\@cmidla=\count371
+\@cmidlb=\count372
+\@aboverulesep=\dimen273
+\@belowrulesep=\dimen274
+\@thisruleclass=\count373
+\@lastruleclass=\count374
+\@thisrulewidth=\dimen275
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/tools/bm.sty
+Package: bm 2017/01/16 v1.2c Bold Symbol Support (DPC/FMi)
+\symboldoperators=\mathgroup6
+\symboldletters=\mathgroup7
+\symboldsymbols=\mathgroup8
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 141.
+LaTeX Info: Redefining \bm on input line 207.
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/oberdiek/pdflscape.sty
+Package: pdflscape 2016/05/14 v0.11 Display of landscape pages in PDF (HO)
+Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2018/03/24 v5.7 Page Geometry
+\Gm@cnth=\count375
+\Gm@cntv=\count376
+\c@Gm@tempcnt=\count377
+\Gm@bindingoffset=\dimen276
+\Gm@wd@mp=\dimen277
+\Gm@odd@mp=\dimen278
+\Gm@even@mp=\dimen279
+\Gm@layoutwidth=\dimen280
+\Gm@layoutheight=\dimen281
+\Gm@layouthoffset=\dimen282
+\Gm@layoutvoffset=\dimen283
+\Gm@dimlist=\toks46
+)
+Package biblatex Info: Trying to load language 'english'...
+Package biblatex Info: ... file 'english.lbx' found.
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/biblatex/lbx/english.lbx
+File: english.lbx 2018/03/04 v3.11 biblatex localization (PK/MW)
+)
+
+Package biblatex Warning: Attempt to redefine deprecated '\mkbibnamelast'.
+(biblatex)                Please use '\mkbibnamefamily' instead.
+(biblatex)                Using '\mkbibnamefamily'.
+
+Package csquotes Info: Checking for multilingual support...
+Package csquotes Info: ... found 'babel' package.
+(/Users/franzi/Projects/news_paper/writing/.texpadtmp/new_okt18.aux)
+\openout1 = `new_okt18.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+Package biblatex Info: Input encoding 'utf8' detected.
+Package biblatex Info: Automatic encoding selection.
+(biblatex)             Assuming data encoding 'utf8'.
+\openout4 = `new_okt18.bcf'.
+
+Package biblatex Info: Trying to load bibliographic data...
+Package biblatex Info: ... file 'new_okt18.bbl' found.
+ (/Users/franzi/Projects/news_paper/writing/.texpadtmp/new_okt18.bbl)
+Package biblatex Info: Reference section=0 on input line 57.
+Package biblatex Info: Reference segment=0 on input line 57.
+\AtBeginShipoutBox=\box49
+Package hyperref Info: Link coloring OFF on input line 57.
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
+ (/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
+Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
+)
+\c@section@level=\count378
+)
+LaTeX Info: Redefining \ref on input line 57.
+LaTeX Info: Redefining \pageref on input line 57.
+LaTeX Info: Redefining \nameref on input line 57.
+ (/Users/franzi/Projects/news_paper/writing/.texpadtmp/new_okt18.out) (/Users/franzi/Projects/news_paper/writing/.texpadtmp/new_okt18.out)
+\@outlinefile=\write6
+\openout6 = `new_okt18.out'.
+
+ (/usr/local/texlive/2018/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count379
+\scratchdimen=\dimen284
+\scratchbox=\box50
+\nofMPsegments=\count380
+\nofMParguments=\count381
+\everyMPshowfont=\toks47
+\MPscratchCnt=\count382
+\MPscratchDim=\dimen285
+\MPnumerator=\count383
+\makeMPintoPDFobject=\count384
+\everyMPtoPDFconversion=\toks48
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
+)
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 438.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 456.
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
+)) ABD: EveryShipout initializing macros
+
+Package pgfplots Warning: running in backwards compatibility mode (unsuitable tick labels; missing features). Consider writing \pgfplotsset{compat=1.16} into your preamble.
+ on input line 57.
+
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
+Package caption Info: rotating package is loaded.
+Package caption Info: End \AtBeginDocument code.
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(85.35826pt, 455.24411pt, 56.9055pt)
+* v-part:(T,H,B)=(56.9055pt, 731.23584pt, 56.9055pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=455.24411pt
+* \textheight=731.23584pt
+* \oddsidemargin=13.08827pt
+* \evensidemargin=13.08827pt
+* \topmargin=-52.36449pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=12.0pt
+* \footskip=30.0pt
+* \marginparwidth=35.0pt
+* \marginparsep=10.0pt
+* \columnsep=10.0pt
+* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+LaTeX Font Info:    Try loading font information for U+msa on input line 59.
+(/usr/local/texlive/2018/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 59.
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 59.
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 59.
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <7> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 59.
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 59.
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/base/t1cmtt.fd
+File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+) [1
+
+{/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] (/Users/franzi/Projects/news_paper/writing/.texpadtmp/new_okt18.toc)
+\tf@toc=\write7
+\openout7 = `new_okt18.toc'.
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.69 
+      [1] [2]
+
+LaTeX Warning: Reference `ch_model' on page 3 undefined on input line 88.
+
+./new_okt18.tex:99: Misplaced alignment tab character &.
+l.99 ...t factor influencing vote choice (Oegema &
+                                                   Kleinnijenhuis, 2000). Th...
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+[3]
+
+./new_okt18.tex:104: Package inputenc Error: Unicode character  (U+80)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.104 ...culated. Such lexical or "bag-of-words"
+                                                   approaches are widely p...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+./new_okt18.tex:104: Package inputenc Error: Unicode character  (U+9D)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.104 ...lated. Such lexical or "bag-of-words"
+                                                   approaches are widely pre...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+[4]
+Overfull \hbox (4.82744pt too wide) in paragraph at lines 116--116
+[]\T1/cmr/bx/n/17.28 Background on the fed-eral elec-tion in Ger-many (2017) 
+ []
+
+
+./new_okt18.tex:122: Package inputenc Error: Unicode character  (U+9F)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.122 ...n ("GroKo" - from the German word Groß
+                                                  e Koalition) of CDU/CSU an...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+./new_okt18.tex:122: Package inputenc Error: Unicode character  (U+80)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.122 ...rünen sharply criticized the liberals'
+                                                   withdrawal. The then Gr...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+./new_okt18.tex:122: Package inputenc Error: Unicode character  (U+99)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.122 ...�nen sharply criticized the liberals'
+                                                   withdrawal. The then Gree...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+<../figs/polls.png, id=229, 3613.5pt x 2409.0pt>
+File: ../figs/polls.png Graphic file (type png)
+<use ../figs/polls.png>
+Package pdftex.def Info: ../figs/polls.png  used on input line 131.
+(pdftex.def)             Requested size: 273.14923pt x 182.06403pt.
+[5] (./tables/data_summary.tex)
+<../figs/article_timeline.png, id=242, 2107.875pt x 1204.5pt>
+File: ../figs/article_timeline.png Graphic file (type png)
+<use ../figs/article_timeline.png>
+Package pdftex.def Info: ../figs/article_timeline.png  used on input line 151.
+(pdftex.def)             Requested size: 268.59235pt x 153.46603pt.
+<../figs/visits.png, id=243, 1806.75pt x 1505.625pt>
+File: ../figs/visits.png Graphic file (type png)
+<use ../figs/visits.png>
+Package pdftex.def Info: ../figs/visits.png  used on input line 156.
+(pdftex.def)             Requested size: 182.09486pt x 151.74298pt.
+ [6 <../figs/polls.png>]
+
+./new_okt18.tex:165: Package inputenc Error: Unicode character − (U+2212)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.165 ..., they are standardized to range from −
+                                                  1 to 1, where a party woul...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+<../figs/visibility.png, id=261, 2107.875pt x 1204.5pt>
+File: ../figs/visibility.png Graphic file (type png)
+<use ../figs/visibility.png>
+Package pdftex.def Info: ../figs/visibility.png  used on input line 176.
+(pdftex.def)             Requested size: 364.19667pt x 208.1073pt.
+[7 <../figs/article_timeline.png> <../figs/visits.png>]
+<../figs/visibility_bias.png, id=275, 2107.875pt x 1505.625pt>
+File: ../figs/visibility_bias.png Graphic file (type png)
+<use ../figs/visibility_bias.png>
+Package pdftex.def Info: ../figs/visibility_bias.png  used on input line 186.
+(pdftex.def)             Requested size: 364.19667pt x 260.13412pt.
+ [8 <../figs/visibility.png> <../figs/visibility_bias.png>]
+
+./new_okt18.tex:201: Package inputenc Error: Unicode character  (U+80)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.201 Such lexical or "bag-of-words"
+                                       approaches are widely presented in ...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+./new_okt18.tex:201: Package inputenc Error: Unicode character  (U+9D)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.201 Such lexical or "bag-of-words"
+                                         approaches are widely presented in ...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+(./tables/sent_dict.tex) [9]
+Underfull \hbox (badness 10000) in paragraph at lines 220--220
+[][][]\T1/cmr/m/n/10 https://www.afd.de/presse, https://www.spdfraktion.de, https://www.die-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 220--220
+\T1/cmr/m/n/10 linke.de/start/presse/aus-dem-bundestag, https://www.fdp.de, https://www.gruene-bundestag.de/,
+ []
+
+
+Package caption Warning: \label without proper reference on input line 222.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `fig_wordcloud1' on page 10 undefined on input line 220.
+
+<../figs/wordcloud.png, id=304, 481.8pt x 481.8pt>
+File: ../figs/wordcloud.png Graphic file (type png)
+<use ../figs/wordcloud.png>
+Package pdftex.def Info: ../figs/wordcloud.png  used on input line 225.
+(pdftex.def)             Requested size: 318.66948pt x 318.68002pt.
+[10]
+
+Package caption Warning: \label without proper reference on input line 233.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `fig_wordcloud2' on page 11 undefined on input line 231.
+
+
+./new_okt18.tex:237: LaTeX Error: Unknown graphics extension: .de.png.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.237 ...extwidth]{../figs/wordclouds/Bild.de.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+./new_okt18.tex:241: LaTeX Error: Unknown graphics extension: .de.png.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.241 ...th]{../figs/wordclouds/tagesschau.de.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[11 <../figs/wordcloud.png>]
+Package hyperref Info: bookmark level for unknown todo defaults to 0 on input line 263.
+
+Overfull \hbox (8.00084pt too wide) in paragraph at lines 263--263
+[][][][]\T1/cmr/m/n/12 Assign 
+ []
+
+
+Overfull \hbox (1.67465pt too wide) in paragraph at lines 263--263
+\T1/cmr/m/n/12 prob- 
+ []
+
+
+Overfull \hbox (5.26402pt too wide) in paragraph at lines 263--263
+\T1/cmr/m/n/12 topic?  
+ []
+
+
+Overfull \hbox (8.00084pt too wide) in paragraph at lines 263--263
+[][][][]\T1/cmr/m/n/12 Assign 
+ []
+
+
+Overfull \hbox (1.67465pt too wide) in paragraph at lines 263--263
+\T1/cmr/m/n/12 prob- 
+ []
+
+
+Overfull \hbox (5.26402pt too wide) in paragraph at lines 263--263
+\T1/cmr/m/n/12 topic?  
+ []
+
+
+Overfull \hbox (8.00084pt too wide) in paragraph at lines 263--263
+[][][][]\T1/cmr/m/n/12 Assign 
+ []
+
+
+Overfull \hbox (1.67465pt too wide) in paragraph at lines 263--263
+\T1/cmr/m/n/12 prob- 
+ []
+
+
+Overfull \hbox (5.26402pt too wide) in paragraph at lines 263--263
+\T1/cmr/m/n/12 topic?  
+ []
+
+
+Overfull \hbox (8.00084pt too wide) in paragraph at lines 263--263
+[][][][]\T1/cmr/m/n/12 Assign 
+ []
+
+
+Overfull \hbox (1.67465pt too wide) in paragraph at lines 263--263
+\T1/cmr/m/n/12 prob- 
+ []
+
+
+Overfull \hbox (5.26402pt too wide) in paragraph at lines 263--263
+\T1/cmr/m/n/12 topic?  
+ []
+
+[12]
+
+./new_okt18.tex:270: Package inputenc Error: Unicode character  (U+80)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.270 ...tional development topics of countries'
+                                                   annual statements in th...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+./new_okt18.tex:270: Package inputenc Error: Unicode character  (U+99)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.270 ...onal development topics of countries'
+                                                   annual statements in the ...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+[13]
+
+LaTeX Warning: File `../figs/expected_freq.png' not found on input line 296.
+
+
+./new_okt18.tex:296: Package pdftex.def Error: File `../figs/expected_freq.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.296 ...epaspectratio]{../figs/expected_freq.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[14] [15]
+
+LaTeX Warning: File `figs/estimates.png' not found on input line 333.
+
+
+./new_okt18.tex:333: Package pdftex.def Error: File `figs/estimates.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.333 ...idth,keepaspectratio]{figs/estimates.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[16]
+
+./new_okt18.tex:347: Package inputenc Error: Unicode character ¼ (U+BC)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.347 ...n between the CDU/CSU, FDP and Die GrÃ¼
+                                                  nen. A similar trend can b...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+[17]
+
+LaTeX Warning: File `figs/sentscore_monthly.png' not found on input line 352.
+
+
+./new_okt18.tex:352: Package pdftex.def Error: File `figs/sentscore_monthly.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.352 ...paspectratio]{figs/sentscore_monthly.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[18]
+
+LaTeX Warning: File `figs/sentscore_site.png' not found on input line 364.
+
+
+./new_okt18.tex:364: Package pdftex.def Error: File `figs/sentscore_site.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.364 ...keepaspectratio]{figs/sentscore_site.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[19]
+
+LaTeX Warning: File `figs/sentscore_radar.png' not found on input line 374.
+
+
+./new_okt18.tex:374: Package pdftex.def Error: File `figs/sentscore_radar.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.374 ...eepaspectratio]{figs/sentscore_radar.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[20] [21]
+
+./new_okt18.tex:394: Package inputenc Error: Unicode character  (U+80)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.394 ... lead phone survey results by about 8â
+                                                  15 days.
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+./new_okt18.tex:394: Package inputenc Error: Unicode character  (U+93)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.394 ...ead phone survey results by about 8â
+                                                  15 days.
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+[22] [23]
+
+LaTeX Warning: File `figs/ccf2.png' not found on input line 408.
+
+
+./new_okt18.tex:408: Package pdftex.def Error: File `figs/ccf2.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.408 ...textwidth,keepaspectratio]{figs/ccf2.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[24
+
+]
+Overfull \vbox (187.23769pt too high) has occurred while \output is active []
+
+ [25] [26
+
+] [27] [28] [29]
+Overfull \hbox (16.957pt too wide) in paragraph at lines 435--435
+\T1/cmr/m/n/12 ON WE-BLOGS AND SO-CIAL ME-DIA. Wash-ing-ton. \T1/cmr/m/sc/12 url\T1/cmr/m/n/12 : []$\T1/cmtt/m/n/12 https : / / www . researchgate .
+ []
+
+[30]
+
+LaTeX Warning: File `figs/wordcloud/DIEWELT.png' not found on input line 481.
+
+
+./new_okt18.tex:481: Package pdftex.def Error: File `figs/wordcloud/DIEWELT.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.481 ...h=\textwidth]{figs/wordcloud/DIEWELT.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `figs/wordcloud_FOCUSONLINE.png' not found on input line 485.
+
+
+./new_okt18.tex:485: Package pdftex.def Error: File `figs/wordcloud_FOCUSONLINE.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.485 ...extwidth]{figs/wordcloud_FOCUSONLINE.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `figs/wordcloud_SPIEGELONLINE.png' not found on input line 489.
+
+
+./new_okt18.tex:489: Package pdftex.def Error: File `figs/wordcloud_SPIEGELONLINE.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.489 ...twidth]{figs/wordcloud_SPIEGELONLINE.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `figs/wordcloud_stern.png' not found on input line 493.
+
+
+./new_okt18.tex:493: Package pdftex.def Error: File `figs/wordcloud_stern.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.493 ...dth=\textwidth]{figs/wordcloud_stern.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `figs/wordcloud_ZEITONLINE.png' not found on input line 497.
+
+
+./new_okt18.tex:497: Package pdftex.def Error: File `figs/wordcloud_ZEITONLINE.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.497 ...textwidth]{figs/wordcloud_ZEITONLINE.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[31]
+
+LaTeX Warning: File `figs/plotquote1.png' not found on input line 508.
+
+
+./new_okt18.tex:508: Package pdftex.def Error: File `figs/plotquote1.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.508 ...cs[width=\textwidth]{figs/plotquote1.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `figs/plotquote2.png' not found on input line 511.
+
+
+./new_okt18.tex:511: Package pdftex.def Error: File `figs/plotquote2.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.511 ...cs[width=\textwidth]{figs/plotquote2.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[32]
+
+LaTeX Warning: File `figs/plotquote4.png' not found on input line 520.
+
+
+./new_okt18.tex:520: Package pdftex.def Error: File `figs/plotquote4.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.520 ...cs[width=\textwidth]{figs/plotquote4.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `figs/plotquote10.png' not found on input line 523.
+
+
+./new_okt18.tex:523: Package pdftex.def Error: File `figs/plotquote10.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.523 ...s[width=\textwidth]{figs/plotquote10.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `figs/plotquote13.png' not found on input line 532.
+
+
+./new_okt18.tex:532: Package pdftex.def Error: File `figs/plotquote13.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.532 ...s[width=\textwidth]{figs/plotquote13.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `figs/plotquote17.png' not found on input line 535.
+
+
+./new_okt18.tex:535: Package pdftex.def Error: File `figs/plotquote17.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.535 ...s[width=\textwidth]{figs/plotquote17.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[33]
+
+LaTeX Warning: File `figs/plotquote20.png' not found on input line 544.
+
+
+./new_okt18.tex:544: Package pdftex.def Error: File `figs/plotquote20.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.544 ...s[width=\textwidth]{figs/plotquote20.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `figs/plotquote23.png' not found on input line 547.
+
+
+./new_okt18.tex:547: Package pdftex.def Error: File `figs/plotquote23.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.547 ...s[width=\textwidth]{figs/plotquote23.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `figs/plotquote26.png' not found on input line 556.
+
+
+./new_okt18.tex:556: Package pdftex.def Error: File `figs/plotquote26.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.556 ...s[width=\textwidth]{figs/plotquote26.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `figs/plotquote27.png' not found on input line 559.
+
+
+./new_okt18.tex:559: Package pdftex.def Error: File `figs/plotquote27.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.559 ...s[width=\textwidth]{figs/plotquote27.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[34]
+
+LaTeX Warning: File `figs/plotquote30.png' not found on input line 568.
+
+
+./new_okt18.tex:568: Package pdftex.def Error: File `figs/plotquote30.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.568 ...s[width=\textwidth]{figs/plotquote30.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `figs/plotquote32.png' not found on input line 571.
+
+
+./new_okt18.tex:571: Package pdftex.def Error: File `figs/plotquote32.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.571 ...s[width=\textwidth]{figs/plotquote32.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `figs/plotquote37.png' not found on input line 580.
+
+
+./new_okt18.tex:580: Package pdftex.def Error: File `figs/plotquote37.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.580 ...s[width=\textwidth]{figs/plotquote37.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `figs/plotquote46.png' not found on input line 583.
+
+
+./new_okt18.tex:583: Package pdftex.def Error: File `figs/plotquote46.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.583 ...s[width=\textwidth]{figs/plotquote46.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[35] (./tables/coeff1.tex)
+Underfull \hbox (badness 10000) in paragraph at lines 3--591
+
+ []
+
+(./tables/coeff2.tex)
+Underfull \hbox (badness 10000) in paragraph at lines 3--594
+[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3--594
+
+ []
+
+(./tables/sentscore_monthly1.tex
+
+./tables/sentscore_monthly1.tex:3: LaTeX Error: Not in outer par mode.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3 \begin{table}[ht]
+                     
+You've lost some text.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \hbox (334.2492pt too wide) in paragraph at lines 5--67
+ [][] 
+ []
+
+) (./tables/sentscore_monthly2.tex
+
+./tables/sentscore_monthly2.tex:3: LaTeX Error: Not in outer par mode.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3 \begin{table}[ht]
+                     
+You've lost some text.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \hbox (334.2492pt too wide) in paragraph at lines 5--67
+ [][] 
+ []
+
+) (./tables/sentscore_site1.tex
+
+./tables/sentscore_site1.tex:3: LaTeX Error: Not in outer par mode.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3 \begin{table}[ht]
+                     
+You've lost some text.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \hbox (380.96275pt too wide) in paragraph at lines 5--56
+ [][] 
+ []
+
+) (./tables/sentscore_site2.tex
+
+./tables/sentscore_site2.tex:3: LaTeX Error: Not in outer par mode.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3 \begin{table}[ht]
+                     
+You've lost some text.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \hbox (380.96275pt too wide) in paragraph at lines 5--56
+ [][] 
+ []
+
+) [36] (./tables/corr.tex
+Overfull \hbox (43.30888pt too wide) in paragraph at lines 5--26
+ [][] 
+ []
+
+) [37]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 617.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 617.
+ (/Users/franzi/Projects/news_paper/writing/.texpadtmp/new_okt18.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 617.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 617.
+Package rerunfilecheck Info: File `new_okt18.out' has not changed.
+(rerunfilecheck)             Checksum: <no file>.
+
+
+LaTeX Warning: There were undefined references.
+
+Package logreq Info: Writing requests to 'new_okt18.run.xml'.
+\openout1 = `new_okt18.run.xml'.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 38894 strings out of 492649
+ 873427 string characters out of 6129622
+ 1463755 words of memory out of 5000000
+ 41842 multiletter control sequences out of 15000+600000
+ 31333 words of font info for 86 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 62i,18n,96p,2235b,1850s stack positions out of 5000i,500n,10000p,200000b,80000s
+pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exist, replaced by a fixed one
+
+{/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfcc1000.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfcc1200.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm2074.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfti1440.pfb></usr/local/texlive/2018/texmf-dist/fonts/
+type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
+Output written on /Users/franzi/Projects/news_paper/writing/.texpadtmp/new_okt18.pdf (38 pages, 1467592 bytes).
+PDF statistics:
+ 792 PDF objects out of 1000 (max. 8388607)
+ 705 compressed objects within 8 object streams
+ 186 named destinations out of 1000 (max. 500000)
+ 211 words of extra memory for PDF output out of 10000 (max. 10000000)
+

@@ -46,21 +46,6 @@ btw %>%
   bind_rows(.,pressReleases) -> model_df
 ```
 
-```{r eval=FALSE, include=FALSE}
-model_df %>%
-  ggplot(aes(source, fill=type)) +
-  geom_bar(show.legend = F, alpha = 0.8) +
-  coord_flip() +
-  facet_wrap(~type, scales = "free") +
-  theme_hc() +
-  scale_fill_gdocs() +
-  labs(title = "Document distribution", y=NULL, x = NULL)
-
-ggsave(file="../figs/data.png", width = 6, height = 3)
-```
-
-![](../figs/data.png)
-
 ## Build Corpus
 ```{r eval=FALSE, include=FALSE}
 library(stm)
@@ -140,6 +125,21 @@ model_df <- model_df %>%
          source = ifelse(source == "fdp", "FDP", source)
          )
 ```
+
+```{r eval=FALSE, include=FALSE}
+model_df %>%
+  ggplot(aes(source, fill=type)) +
+  geom_bar(show.legend = F, alpha = 0.8) +
+  coord_flip() +
+  facet_wrap(~type, scales = "free") +
+  theme_hc() +
+  scale_fill_hc() +
+  labs(title = "Document distribution", y=NULL, x = NULL)
+
+ggsave(file="../figs/data.png", width = 6, height = 3)
+```
+
+![](../figs/data.png)
 
 ### Label topics
 
@@ -244,7 +244,7 @@ overall_freq <- as.data.frame(colMeans(stmOut$theta)) %>%
 ```{r Plot expected frequency, eval=FALSE, include=FALSE}
 overall_freq %>%
   ggplot(aes(reorder(joint_label, -order), frequency)) +
-  geom_col(fill="#0099c6", alpha = 0.8) +
+  geom_col(alpha = 0.8) +
   coord_flip() +
   theme_hc() +
   labs(x=NULL, y=NULL) +
@@ -306,7 +306,7 @@ ggsave("../figs/topic_proportion_news.png", width = 11, height =8)
 ```{r eval=FALSE, include=FALSE}
 topicmean_press %>%
   ggplot(aes(reorder(joint_label,desc(topic)),topicmean)) +
-  geom_col(fill = "#66AA00", alpha=0.8) +
+  geom_col(alpha=0.8) +
   coord_flip() +
     theme_hc() +
   facet_grid(~source) +
@@ -355,10 +355,9 @@ corrDF <- corrDF %>%
 
 ```{r eval=FALSE, include=FALSE}
 corrDF %>%
-  ggplot(aes(date, cor, fill = medium)) +
+  ggplot(aes(date, cor)) +
   geom_col(show.legend = FALSE, alpha = 0.7) +
-  theme_gdocs() +
-  scale_fill_gdocs(name=NULL) +
+  theme_hc() +
   facet_grid(party~medium) +
   labs(x = NULL, y = NULL, title = "Correlation of topic prevalence") +
   theme(axis.text = element_text(size = 5),
@@ -400,10 +399,10 @@ agendaBias <- agendaBias %>% mutate(date = as.Date(paste0(year,"/",month,"/1")))
 
 ```{r eval=FALSE, include=FALSE}
 agendaBias %>%
-  ggplot(aes(date, agenda_bias, fill = medium)) +
+  ggplot(aes(date, agenda_bias)) +
   geom_col(show.legend = FALSE, alpha = 0.7) +
-  theme_gdocs() +
-  scale_fill_gdocs(name=NULL) +
+  theme_hc() +
+  #scale_fill_gdocs(name=NULL) +
   facet_grid(party~medium) +
   labs(x = NULL, y = NULL, title = "Agenda bias", 
        subtitle = "Normalized between -1 and 1") +

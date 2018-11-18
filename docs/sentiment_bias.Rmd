@@ -156,10 +156,10 @@ sentDF <- sentDF %>%
 sentDF %>%
   group_by(medium, party, date) %>%
   dplyr::summarise(sentiment = mean(sentiment_mean, na.rm = T)) %>%
-  ggplot(aes(date, sentiment, fill = medium)) +
+  ggplot(aes(date, sentiment)) +
   geom_col(show.legend = FALSE, alpha = 0.7) +
-  theme_gdocs() +
-  scale_fill_gdocs(name=NULL) +
+  theme_hc() +
+  #scale_fill_gdocs(name=NULL) +
   facet_grid(party~medium) +
   labs(x = NULL, y = NULL, title = "Sentiment") +
   theme(axis.text = element_text(size = 5),
@@ -172,7 +172,7 @@ ggsave("../figs/sentiment.png", width = 7, height = 4)
 
 ```{r}
 sent <- sentDF %>% 
-  group_by(medium, party, date) %>%
+  group_by(medium, party, year, month) %>%
   dplyr::summarise(avg_sent_p_s = mean(sentiment_mean, na.rm = T)) %>%
   ungroup()
 ```
@@ -188,10 +188,10 @@ for (i in parties) {
   
   df2 <- sentDF %>% 
     filter(party != i) %>%
-    group_by(medium, date) %>%
+    group_by(medium, year, month) %>%
     dplyr::summarise(avg_sent = mean(sentiment_mean, na.rm = T)) 
   
-  left_join(df1,df2, by=c("medium","date")) %>%
+  left_join(df1,df2, by=c("medium","year","month")) %>%
     mutate(sent_bias = avg_sent_p_s-avg_sent) -> tempdf
     
     if (exists('sentBias')){
@@ -204,10 +204,11 @@ for (i in parties) {
 
 ```{r}
 sentBias %>%
-  ggplot(aes(date, sent_bias, fill = medium)) +
+  mutate(date = as.Date(paste0(year,"/",month,"/1"))) %>%
+  ggplot(aes(date, sent_bias)) +
   geom_col(show.legend = FALSE, alpha = 0.7) +
-  theme_gdocs() +
-  scale_fill_gdocs(name=NULL) +
+  theme_hc() +
+  #scale_fill_gdocs(name=NULL) +
   facet_grid(party~medium) +
   labs(x = NULL, y = NULL, title = "Sentiment bias"
        ) +

@@ -73,27 +73,15 @@
 
 \section{Introduction}
 
-The discussion about the influence of digital media on the political opinion-forming process has gained momentum since the presidential elections in October 2016. The importance of the internet as a source of information for political topics has grown strongly in recent years. Even though television remains the most widely used source of news in Germany (2018: 74\%), numbers watching continue to decline while use of the internet for news has grown significantly in the last year (+5\%, 2018: 65\%) \citep{holig_reuters_2018}. The expansion of the internet as a new method of communication provides a potential challenge to the primacy of the traditional media and political parties as formers of public opinion \citep{savigny_public_2002}.
+The importance of the internet as a source of information for political topics has grown strongly in recent years. Even though television remains the most widely used source of news in Germany (2018: 74\%), numbers watching continue to decline while use of the internet for news has grown significantly in the last year (+5\%, 2018: 65\%) \citep{holig_reuters_2018}. The expansion of the internet as a new method of communication provides a potential challenge to the primacy of the traditional media and political parties as formers of public opinion \citep{savigny_public_2002}.
 
-However, the influence of media bias on voter preferences has not only been studied in the literature since the growing importance of the internet. The general hypothesis is that bias in political news may have a profound influence on voter opinions and preferences \citep{ferree_four_2002, mccombs_look_2005, eberl_one_2017}. It can therefore be argued, that one central responsibility of the media is to supply voters with balanced and objective information on relevant political issues and actors \citep{stromback_four_2008, eberl_one_2017}. However, the concept of media bias actually encompasses different subtypes \citep{dalessio_media_2000, eberl_one_2017, junque_de_fortuny_media_2012}: (1) Coverage bias, (2) tonality bias und (3) agenda bias. These three concepts measure how often political actors appear in the media (coverage bias), how they are evaluated (tonality bias) and whether they are able to present their own political positions and talk about their issues in the media (agenda bias). The latter therefore stems from a journalist's or editor's decision to select or ignore specific news stories. Most of the literature on media bias focuses on one type of bias and most research tends to disregard agenda bias as the operationalization is somewhat more challenging. In order to know which news stories have been selected as well as deselected by journalists, one would have to know the universe of news stories at a given point in time \citep{dalessio_media_2000}. I adopt the approach used in \citet{eberl_one_2017}, in using parties' campaign communication as an approximation of the potential universe of news stories. However, this analysis differs from earlier approaches in that I use machine learning techniques to identify the underlying topics in the text corpus. Furthermore, I use text-mining techniques to measure coverage and tonality bias. Similar to \citet{junque_de_fortuny_media_2012} I refrained from interpreting the results on a political level as much as possible, yet I demonstrate how text-mining techniques allow an efficient and objective analysis of today's on-line media landscape. 
+However, the discussion about the influence of media on the political opinion-forming process has not only been studied in the literature since the growing importance of the internet. The general hypothesis is that a biased media reporting in political news may have a profound influence on voter opinions and preferences \citep{ferree_four_2002, mccombs_look_2005, eberl_one_2017}. It can therefore be argued, that one central responsibility of the media is to supply voters with balanced and objective information on relevant political issues and actors \citep{stromback_four_2008, eberl_one_2017}. The concept of media bias actually encompasses different subtypes \citep{dalessio_media_2000, eberl_one_2017, junque_de_fortuny_media_2012}: (1) Coverage bias, (2) tonality bias und (3) agenda bias. These three concepts measure how often political actors appear in the media (coverage bias), how they are evaluated (tonality bias) and whether they are able to present their own political positions and talk about their issues in the media (agenda bias). Most of the literature on media bias focuses on one type of bias and most research tends to disregard agenda bias as the operationalization is more challenging. In order to know which news stories have been held out by the media, one would have to know the universe of news stories at a given point in time \citep{dalessio_media_2000}. I adopt the approach used in \citet{eberl_one_2017}, in using parties' campaign communication as an approximation of the potential universe of news stories. To identify the underlying topics in the text corpus a structural topic model is applied. To measure coverage and tonality bias computational text-mining approaches are applied. 
 
 The data analyzed in this study contains nearly 12.000 online news articles from seven major news provider dated from June 1, 2017 to March 1, 2018 as well as over 1.900 press releases of the parties in the german "Bundestag". As the German federal elections took place on 24th of September 2017 and the formation of the government has taken up a period of about five months, the articles considered inform their readers about both the election promises of the parties (before the election) and the coalition talks (after the election). 
 
-% --- coverage bias --- %
+While the coverage and tonality bias can be calculated using simple counting methods, more sophisticated approaches are required to operationalize the agenda bias, since the topics covered have to be identified. To discover the latent topics in the corpus of text data, the structural topic modeling (STM) developed by \citet{roberts_model_2016} is applied. The STM is an unsupervised machine learning approach that models topics as multinomial distributions of words and documents (as a synonym for news articles) as multinomial distributions of topics, allowing the incorporation of external variables that affect both, topical content and topical prevalence. The results of the generative process of the STM are two posterior distributions: One for the topic prevalence in a document (what is the article or press release about?) and one for the content of a topic (what is the topic about?). In the next step the topics addressed in campaign communication (i.e., the party agenda) are compared with the topics the parties address in media coverage (i.e., the mediated party agenda).
 
-% --- sentiament bias --- %
-
-To conduct such an analysis, a list of words (dictionary) associated with a given emotion, such as negativity is pre-defined. The document is then deconstructed into individual words and each word is assigned a sentiment value according to the dictionary, where the sum of all values results in the emotional score for the given document. 
-
-% --- agenda bias --- %
-
-While the coverage and tonality bias can be calculated using simple counting methods, more sophisticated approaches are required to operationalize the agenda bias, since the topics covered have to be identified. To discover the latent topics in the corpus of text data, the structural topic modeling (STM) developed by \citet{roberts_model_2016} is applied. The STM is an unsupervised machine learning approach that models topics as multinomial distributions of words and documents (as a synonym for news articles) as multinomial distributions of topics, allowing the incorporation of external variables that affect both, topical content and topical prevalence. The results of the generative process of the STM are two posterior distributions: One for the topic prevalence in a document (what is the article or press release about?) and one for the content of a topic (what is the topic about?).
-
-% --- Key contributions --- %
-
-Building on the insight that media bias can have three different forms, this study makes two key contributions. (1) combination of different text-mining techniques to analyze a large text corpus reduces the human induced bias and makes research more traceable and comparable. Our measures of media bias are based on extensive content analyses of newspaper coverage and party press releases. and (2) a new approach to measure agenda bias.    
-
-This study presents evidence from an integrated research design that combines data from an extensive media content analysis of eight national newspapers with data about party press releases of six parties
+Building on the insight that media bias can have three different forms, this study makes two key contributions. (1) I use a combination of different text-mining techniques to analyze a large text corpus that allows an extensive content analyses of newspaper coverage and party press releases and at the same time reduces human induced bias and makes research more traceable and comparable. (2) I present a new approach to measure agenda bias by combining approaches from political and communication sciences with current text analysis techniques.    
 
 % --- remaining course of the paper... --- %
 
@@ -105,71 +93,22 @@ The remaining course of the paper is as follows: The following section provides 
 
 \section{Literature}
 
-Most of the literature on influences of media bias focuses on one type of bias (see \citet{eberl_one_2017}). Overall, most research tends to disregard agenda bias as the operationalization is somewhat more challenging. In order to know which news stories have been selected as well as deselected by journalists, one would have to know the universe of news stories at a given point in time \citet{dalessio_media_2000}. \citet{eberl_one_2017} use parties' campaign communication as an approximation of the potential universe of news stories \citep{brandenburg_political_2005}
+The general hypothesis of the literature on the influence of media bias on on the political opinion-forming process is that a biased media reporting in political news may have a profound influence on voter opinions and preferences \citep{ferree_four_2002, mccombs_look_2005, eberl_one_2017}. In the literature on the influence of media bias on the political opinion-forming process usually encompasses different subtypes of media bias \citep{eberl_one_2017, dalessio_media_2000}: (1) Visibility bias, (2) tonality bias and (3) agenda bias. These three concepts measure how often political actors appear in the media (visibility bias), how they are evaluated (tonality bias) and whether they are able to present their own political positions and talk about their issues in the media (agenda bias).
+  
+% ---- visibility bias ----
+There is visibility bias when a party is the subject of an undue amount of coverage compared to the benchmark of that party at a given point in time. Media that reports biased in that sense influences voters behaviour in such way, that voters tend to prefer parties that are more visible in their media repertoire \citep{eberl_one_2017}. Studies combining media content data with voter surveys have indeed found that the mere visibility of parties and candidates is an important factor influencing vote choice (Oegema & Kleinnijenhuis, 2000). The amount of a parties campaign communication or their standing in polls are commonly used as a reference point \citep{junque_de_fortuny_media_2012, hopmann_political_2012}. However, these benchmarks do not allow for a comparison between media outlets. \citet{eberl_one_2017} use the average visibility of all parties in each media outlet during the period of their analysis as a key benchmark to capture whether party visibility is biased in comparison to what is typical for that outlet and are therefore able to compare party visibility between outlets. Applying a similar logic to tonality and agenda bias, they measure the effect of the different bias on user voting behaviour using an online panel survey from the Austrian parliamentary election campaign of 2013. Other empirical studies that measure the influence of media visibility on the electoral behaviour of voters are usually based on regional differences in the reach of certain media \citep{enikolopov_media_2011, dellavigna_fox_2006, snyder_press_2010}. \citet{dewenter_can_2018} use human-coded data from leading media in Germany together with the German Politbarometer survey to investigate how media coverage affects short- and long-term political preferences between February 1998 and December 2012. They find a positive correlation between the media coverage and the short-term voting intention for a political party. In the long-term, however, voting preferences are stable. However, in \citet{eberl_one_2017} the coverage bias effect can not be confirmed, as the effect of visibility bias is positive but not statistically significant.
 
-So kann beispielsweise eine stärkere Verbreitung von politischen Inhalten einer Partei einen positiven Einfluss auf die Einstellung gegenüber dieser Partei haben \citep{benewick_floating_1969}. Vor der Annahme, dass Medien einen Einfluss auf Wählerpräferenzen haben, werfen \citet{mccombs_agenda-setting_1972} die Frage auf, ob die politische Welt in den Medien unverzerrt abgebildet wird. Sie kommen zu dem Ergebnis, dass Massenmedien die politische Agenda beeinflusst. 
+% ---- tonality bias ----
+In addition to visibility, the tonality of the reporting is also important, as it provides consumers with a certain understanding of politics. For example, \citet{druckman_impact_2005} argue that the audience's conclusions about parties are automatically drawn from positive or negative descriptions in texts about the parties. Similarly, the concept of valence framing suggests that positive or negative aspects of an object are highlighted in the media, which affects the attitudes towards a certain subject match the context value of the information received the validity of these aspects in the consciousness of the public \citep{de_vreese_valenced_2006, hurtikova_importance_2017}. 
 
-%---- 1. Coverage bias / Impact of media coverage on electoral outcomes ---%
+To measure tonality in a text, studies differ between manually coded data (e.g. \citet{eberl_one_2017}) and dictionary-based analysis ( e.g. \citep{junque_de_fortuny_media_2012}). The latter approach is widely used outside the area of media content analysis. To conduct such an analysis, a lists of words (dictionary) associated with a given emotion, such as negativity is pre-defined by the analyst. The document is then deconstructed into individual words and the frequencies of words contained in a given dictionary are calculated. Such lexical or "bag-of-words" approaches are widely presented in the finance literature to determine the effect of central banks' monetary policy communications on asset prices and real variables (\citet{nyman_news_2018} \citet{tetlock_giving_2007}, \citet{tetlock_more_2008}). \citet{hansen_shocking_2016} use a similar approach to explore the effects of FOMC (Federal Open Market Committee) statements on both market and real economic variables. To calculate their score, they subtract the negative words from the positive words und divide this by the number of total words of the statement. A similar score is used by \citet{nyman_news_2018}, who measure the effect of narratives and sentiment of financial market text-based data on developments in the financial system. 
 
-Benchmark to measure bias: 
-- Differences between media outlets
-- Votes
+In the domain of media content analysis \citet{junque_de_fortuny_media_2012} count the sentiment words in a window of two sentences before and after the mention of a political party and assuming uniformity of sentiment distribution among parties to measure the bias.\footnote{A similar approach for target identification with a 10-word window is used in \citet{balahur_sentiment_2013}} They use a text-mining approach to automate the analysis of a large text corpus showing techniques to measure both visibility and tonality bias. The former is benchmarked by the amount of preference votes for that party. Similar to \citet{junque_de_fortuny_media_2012} the present study uses techniques that allow the computational analysis of a large dataset of text-data. However, a different reference point is used to allow for a comparison between media outlets. Additionally, agenda bias is measured based on the comparison between the content of online news and parties press releases \citet{eberl_one_2017}.  
 
-The hypothesis behind the coverage bias is: The more visible a party is in voters' media repertoire, the higher their preferences for that party (Studies have found that the mere visibility of parties and candidates is an important factor influencing vote choice)
+% ---- agenda bias ----
+Overall, most research tends to disregard agenda bias as the operationalization is more challenging. In order to know which news stories have been held out by journalists, the true universe of news stories at a given point in time has to be known \citet{dalessio_media_2000}. However, a greater dissemination of a party's political content may have a positive impact on attitudes towards that party \citep{benewick_floating_1969, eberl_one_2017}. \citet{brandenburg_party_2006} measure partisan tendencies in reporting in terms of all three biases. Utilizing content analysis data from the 2005 General Election campaign they show that increasingly ambiguous endorsements translate into an absence of open support for political parties. Similarly, \citet{eberl_one_2017} find that voters evaluate parties more favorably if those parties addressed their own favored topics more prominently in media coverage. In their analysis media content was analyzed using manual content analysis of political claims on a sentence level.
 
-Benchmark to measure outcome of bias: 
-
-- Empirical studies that measure the influence of media coverage on the electoral behaviour of voters are usually based on regional differences in the reach of certain media.
-
-\citet{enikolopov_media_2011} Analyze the impact of media coverage on electoral outcomes of the 1999 parliamentary elections in Russian regions with differing access to an independent national TV channel. The authors find that access to independent TV led to a decreased vote for the governing party by 8.9 percentage points and to an increased vote for major opposition parties by 6.3 percentage points.
-
-\citet{dellavigna_fox_2006} Investigate if media bias affect voting looking at the entry of the Fox News Channel in the cable market of US states between 1996 and 2000. Their data set contains voting data for 9,256 towns and they find a significant effect of the introduction of Fox News on the vote share in Presidential elections between 1996 and 2000. Republicans gain 0.4 to 0.7 percentage points in the towns which broadcast Fox News.
-
-\citet{snyder_press_2010} find that voters living in areas with less media coverage are less likely to recall or evaluate the name of their U.S. House representative. Furthermore, congressmen who are less covered by the media are less likely to stand witness before congressional hearings, serve on committees or vote against the party line. Finally, federal spending is lower in regions with exogenously lower press coverage of representatives.
-
-\citet{dewenter_can_2018} use human-coded data from leading media in Germany together with the German Politbarometer survey to investigate how media coverage affects short- and long-term political preferences between February 1998 and December 2012. They find a positive correlation between the media coverage and the short-term voting intention for a political party. In the long-term, however, voting preferences are stable.
-
-However, in \citet{eberl_one_2017} the coverage bias effect can not be confirmed, as the effect of visibility bias is positive but not statistically significant.
-
-% ---- Tonality Bias --- %
-The more favorable the tonality toward a party is in voters' media repertoire, the higher their preference for that party.
-
-The tonality of coverage is important because it can provide the media audience with templates for understanding politics. For instance, valence framing suggests that positive or negative aspects of an object are highlighted in the media, consequentially affecting the salience of these aspects in the public's mind \citep{de_vreese_valenced_2006}  Similarly, \citet{druckman_impact_2005} argue that audiences' inferences about candidate traits are rather automatically made from positive or negative descriptions in texts.
-
-\citet{soelistio_simple_2015}: suggests a method to implement sentiment’s analysis using naïve Bayesian method on digital articles and newspapers. The sentiment analysis focuses on the probability of whether news media give positive or negative review on some particular political figures.
-
-\citet{oliveira_can_2017}: This study aims to determine whether the results obtained by applying sentiment analysis to data extracted from social media can reveal the political preferences of citizens to a greater degree of accuracy than traditional public opinion surveys. The researcher collected and analyzed 92,441 tweets related to the Brazilian presidential candidates during the second round of elections in 2014. The analysis results were compared with six voter preference polls conducted by the Datafolha Research Institute. The results showed that sentiment analysis may indicate voter preferences at an accuracy that was only 1\% to 8\% different than that of traditional research, which has an average accuracy of 81.05\%.
-
-% --- 1. & 2. -------
-
-Some recent studies have included two types of biases in their analysis in order to measure media bias effects more accurately \citep{boomgaarden_reporting_2007, lengauer_candidate_2013, junque_de_fortuny_media_2012}. 
-
-\citet{druckman_impact_2005} We investigate how editorial slant—defined as the quantity and tone of a newspaper's candidate coverage as influenced by its editorial position—shapes candidate evaluations and vote choice.
-
-\citet{junque_de_fortuny_media_2012}:
-
-1. Coverage Bias: Messen die Reichweite als die Anzahl der Online-Artikel. In politischen Fragen kann jede Partei oder jeder Politiker als eine "Seite" oder eine Einheit betrachtet werden. Sie argumentieren, dass die faire Deckung durch eine a priori-Verteilung bestimmt wird. Diese a priori-Verteilung repräsentiert alle Einheiten der Bevölkerung nach ihrer relativen Bedeutung, gemessen an den Wahlstimmen der letzten Wahlen. Große Abweichungen von der fairen Verteilung zeigen tendenziell eine gewisse Verzerrung in Richtung der einen oder anderen Einheit. The coverage c(e,s) of an entity e by a newspaper s is defined as the number of news articles published by the newspaper on that entity, normalised on the total amount of articles by that newspaper in the corpus.
-
-2. Statement bias: Dictionary based sentiment analyse. They take into account sentiment words in a window of two sentences before and after the mention of a political party. Assuming uniformity of sentiment distribution among parties. 
-
-% ---1.,2. & 3. -------
-
-\citet{brandenburg_party_2006}: Utilizing content analysis data from the 2005 General Election campaign, recent hypotheses about press dealignment are tested with quantitative methods. Partisan tendencies in reporting are measured in terms of coverage bias, statement bias, and agenda bias. It can be shown that increasingly ambiguous endorsements in broadsheet and tabloid press alike translate into a general absence of open support for political parties.
-
-\citet{eberl_one_2017} explore how each type of bias influences party preferences (visibility bias, tonality bias, agenda bias). Media content was analyzed using manual content analysis of political claims on a sentence level.
-
-1. Visibility Bias: Defined by the relative amount of coverage devoted to each political actor in each medium. Their interest lies in the extent to which some media outlets devote disproportionally more coverage to some actors than other outlets do.
-
-2. Tonality Bias: The more favorable the tonality toward a party is in voters' media repertoire, the higher their preference for that party. 
-
-3. Agenda / Gatekeeping: Agenda bias therefore stems from a journalist's or editor's decision to select or ignore specific news stories, as a result only giving a voice to some actors and their policy positions. They measure how congruent a party's agenda is with its mediated issue agenda in voters' media repertoire. 
-
-%---- Impact of bias on voters
-Studies that examine bias do so indirectly by aggregating media outlets across markets and/or campaigns, and measuring voters' decisions on pre- or post-election surveys. \citet{druckman_impact_2005} assess slant and its effects on voters by focusing on a single campaign in a single market with two competing, editorially distinct newspapers. They content analyses of the papers with an Election Day exit poll. 
-
-\citet{eberl_one_2017}: To measure media effects, the dependent variables has often been modelled as voters' decisions on pre- or post-election surveys. As this variable does not allow for much variation in a country with rather stable voting behavior, the literature on media effects has long struggled with the challenge that these effects might be minimal \citep{bennett_new_2008, holbert_new_2010}. To allow for more variation in the dependent variable, \citet{eberl_one_2017} use the propensity to vote (ptv) for each party on a scale from 0 (very unlikely) to 10 (very likely), a non-ipsative measure of party preferences.
-
-recent studies investigate the effects of media bias on evaluations of party leaders \citep{lenz_looking_2011, prior_incumbent_2006} on vote intention \citep{boomgaarden_reporting_2007} or both \citep{druckman_impact_2005}
+The present analysis differs from earlier approaches to measure agenda bias in that a machine learning technique is used to identify the underlying topics in the text corpus applying a structural topic model \citep{roberts_model_2016}. Furthermore, I use text-mining techniques to measure coverage and tonality bias. However, I shall refrain as far as possible from interpreting the results at political level. Rather, it is my goal to show how text mining techniques enable an efficient and objective analysis of today's online media landscape and simultaneously allow the analysis to be reproduced. 
  
 % -------------------------
 % Background Bundestagswahl
@@ -180,16 +119,16 @@ The articles analyzed in this paper cover a period from June 1, 2017 to March 1,
 
 On the right side of the political spectrum, AfD (alternative for Germany) managed to be elected to the German Bundestag for the first time in 2017. The political debate about the high refugee numbers of the past years brought a political upswing to the AfD, which used the dissatisfaction of parts of the population to raise its own profile. In the course of the reporting on the federal elections, leading party members of the AfD as well as party supporters repeatedly accused the mass media of reporting unilaterally and intentionally presenting the AfD badly.
 
-After the election, the formation of a government was difficult due to the large number of parties elected to the Bundestag and the considerable loss of votes by the major parties CDU/CSU and SPD. Since all parties rejected a coalition with the AfD, numerically only two coalitions with an absolute parliamentary majority were possible: a grand coalition ("GroKo" - from the German word Große Koalition) of CDU/CSU and SPD, and a Jamaica coalition (coalition of CDU/CSU, FDP (economic liberal party) and B90/Die Gruenen (Buendnis 90/Die Gruenen, green party)). The grand coalition was initially rejected by the SPD. The four-week exploratory talks on the possible formation of a Jamaica coalition officially failed on November 19, 2017 after the FDP announced its withdrawal from the negotiations. FDP party leader Christian Lindner said that there had been no trust between the parties during the negotiations. The main points of contention were climate and refugee policy. CDU and CSU regretted this result, while B90/Die Gruenen sharply criticized the liberals' withdrawal. The then Green leader Cem oezdemir accused the FDP of lacking the will to reach an agreement.
+After the election, the formation of a government was difficult due to the large number of parties elected to the Bundestag and the considerable loss of votes by the major parties CDU/CSU and SPD. Since all parties rejected a coalition with the AfD, numerically only two coalitions with an absolute parliamentary majority were possible: a grand coalition ("GroKo" - from the German word Große Koalition) of CDU/CSU and SPD, and a Jamaica coalition (coalition of CDU/CSU, FDP (economic liberal party) and B90/Die Grünen (Bündnis 90/Die Grünen, green party)). The grand coalition was initially rejected by the SPD. The four-week exploratory talks on the possible formation of a Jamaica coalition officially failed on November 19, 2017 after the FDP announced its withdrawal from the negotiations. FDP party leader Christian Lindner said that there had been no trust between the parties during the negotiations. The main points of contention were climate and refugee policy. CDU and CSU regretted this result, while B90/Die Grünen sharply criticized the liberals' withdrawal. The then Green leader Cem Özdemir accused the FDP of lacking the will to reach an agreement.
 
 After the failure of the Jamaica coalition talks, a possible re-election or a minority government as alternatives were discussed in the media before the SPD decided to hold coalition talks with the CDU/CSU. This led to great resistance from the party base, which called for a party-internal referendum on a grand coalition. After the party members voted in favor of the grand coalition, a government was formed 171 days after the federal elections. 
 
-Figure \ref{fig_polls} shows that support for the two major popular parties has been declining in recent months since August 2017, with the CDU/CSU again showing positive survey results since November 2017. However, the poll results of the SPD have been falling since March 2017. At the same time, the AfD in particular has been recording increasingly positive survey results since June 2017. Section \ref{ch_correlation} examines whether there is a correlation between the survey results and the way the parties are reported about the media. 
+Figure \ref{fig_polls} shows that support for the two major popular parties has been declining in recent months since August 2017, with the CDU/CSU again showing positive survey results since November 2017. However, the poll results of the SPD have been falling since March 2017. At the same time, the AfD in particular has been recording increasingly positive survey results since June 2017.  
 
 \begin{figure}[H]
 \begin{center}
 	\caption{Election Polls}
-	\includegraphics[width=0.8\textwidth]{figs/polls.png}
+	\includegraphics[width=0.6\textwidth]{../figs/polls}
 	\label{fig_polls}
 	\end{center}
 \end{figure}
@@ -197,58 +136,99 @@ Figure \ref{fig_polls} shows that support for the two major popular parties has 
 % -----
 % Data
 % -----
-\section{Dataset and data preparation}\label{ch_data}
+\section{Data}\label{ch_data}
 
-%  An overview of the newspapers, including number of articles, online visits (as in  \citet{junque_de_fortuny_media_2012} )
+\input{tables/data_summary}
 
-\include{tables/data_summary}
-
-I conduct the estimation on a sample of 14,937 online news articles from seven German news providers about domestic politics\footnote{Bild.de, DIE WELT, FOCUS ONLINE, SPIEGEL ONLINE, stern.de, ZEIT ONLINE, Tagesschau.de}. The articles are dated from June 1, 2017 to March 1, 2018. I first extract all online articles using the Webhose.io API.\footnote{For more information see https://docs.webhose.io/v1.0/docs/getting-started. The scraping code was written in Python and can be made available on request.} Then all articles from the section "domestic policy" are filtered by using the URL of an article. Overall, the selected news providers are among the top ten German online news providers - in terms of unique user\footnote{The term unique user refers to a number of different visitors to a website within a certain period of time. Multiple visits from the same user are only considered once.} - in the period under review, with only Tagesschau.de belonging to the public media. The reason for this is that the content structure of Tagesschau.de is most similar to that of the private providers. ZDF.de offers predominantly video content and DLF (Deutschlandfunk) website mainly offers audio content in the form of interviews, which makes it hard to include it in the model. 
+I conduct the estimation on a sample of 11,880 online news articles from seven German news providers about domestic politics\footnote{Bild.de, DIE WELT, FOCUS ONLINE, SPIEGEL ONLINE, stern.de, ZEIT ONLINE, Tagesschau.de}. The articles are dated from June 1, 2017 to March 1, 2018. I first extract all online articles using the Webhose.io API.\footnote{For more information see https://docs.webhose.io/v1.0/docs/getting-started. The scraping code was written in Python and can be made available on request.} Overall, the selected news providers are among the top ten German online news providers - in terms of site visits\footnote{The term visit is used to describe the call to a website by a visitor. The visit begins as soon as a user generates a page impression (PI) within an offer and each additional PI, which the user generates within the offer, belongs to this visit.} - in the period under review, with only Tagesschau.de belonging to the public media. The reason for this is that the content structure of Tagesschau.de is most similar to that of the private providers. Other public media offers provide their content in video (ZDF.de) or audio (Deutschlandfunk (DLF))) format, which make them difficult to compare. In order to limit the analysis to articles on domestic politics, all articles which mention at least one of the major parties\footnote{The exact search terms were "CDU, CSU, Union", "SPD", "FDP", "Grüne", "Linke", "AfD".} have been filtered out. 
 
  Figure \ref{fig_distr1} shows the distribution of the number of articles by date. There is a high peak around the federal elections on September, 24th and another one shortly after the failure of the Jamaica coalition talks on November, 19th (indicated by the red dotted lines). Figure \ref{fig_distr2} shows that DIE WELT published the most articles on domestic policy, followed by stern.de and FOCUS ONLINE.  
 
 \begin{figure}[H]
 	\caption{Article distribution...}
 	\begin{center}
-		\begin{subfigure}[normla]{0.49\textwidth}
-			\includegraphics[width=\textwidth]{figs/timeline.png}
+		\begin{subfigure}[normla]{0.59\textwidth}
+			\includegraphics[width=\textwidth]{../figs/article_timeline.png}
 			\caption{...by date}
 			\label{fig_distr1}
 		\end{subfigure}
-		\begin{subfigure}[normla]{0.49\textwidth}
-			\includegraphics[width=\textwidth]{figs/bar.png}
+		\begin{subfigure}[normla]{0.4\textwidth}
+			\includegraphics[width=\textwidth]{../figs/visits.png}
 			\caption{... by news provider}
 			\label{fig_distr2}
 		\end{subfigure}
 	\end{center}
 \end{figure}
 
-Table \ref{t_textlength} gives an overview of the article length of the news pages. Most of the articles have a word length between 120 and 1000 words (articles with less than 121 words were filtered out in advance, as these were mostly reader comments). ZEIT ONLINE has the highest median (459 Words), followed by Tagessschau.de and Bild.de. 
+\section{Methodology}
 
-\input{tables/wordcount}\label{t_textlength}
+In unbiased media reporting all political sides should be equally represented according to some kind of benchmark for balance or neutrality \citep{hopmann_political_2012}. Bias is then defined as the extent to which media reporting deviates from this benchmark. In this section the measurement methodology for each of the three types of bias defined in the literature \citet{junque_de_fortuny_media_2012, eberl_one_2017} is described. To ensure comparability between the bias metrics, they are standardized to range from −1 to 1, where a party would have a bias of 0 (neutral), when its visibility or tonality is equal to the mean visibility or tonality across all parties in that media outlet \citep{eberl_one_2017}.
 
-To summarize the content of the texts, wordclouds help to get a first impression, as they represent the frequency of words by their size. Intuitively the term frequency (tf) of a word is a measure of how important that word may be for the understanding of the text. The word cloud in Figure \ref{fig_wordcloud1} is derived from all articles within the dataset. As can be seen, problems arise with words that are highly frequent. For example "die", or "der (eng. "the"), "und" (eng. "and"), and "ist" (eng. "is") are extremely common but unrelated to the quantity of interest. These terms, often called stop words \citep{gentzkow_text_2017}, are important to the grammatical structure of a text, but typically don't add any additional meaning and can therefore be neglected. A common strategy to reduce the number of language elements is to pre-process the text by imposing some preliminary restrictions (e.g. stop-word removal and stemming) based on the nature of the data (twitter text, newspaper articles, speeches, etc.) \citep{gentzkow_text_2017}. In fact, in order to use text as data and reduce the dimensionality to avoid unnecessary computational complexity and overfitting, pre-processsing the text is a central task in text mining \citep{bholat_text_2015}.  
+\subsection{Visibility Bias}
+
+
+The overall visibility for each party $p$ in a news provider $n$ is defined as the number of news articles published by the news provider on that party, normalised on the total amount of articles by that news provider in the corpus. Next, to distinguish between balanced and biased reporting the average visibility of all other parties in a news outlet is used as a key benchmark similar to \citet{eberl_one_2017}.\footnote{In another setting \citet{junque_de_fortuny_media_2012} uses the popularity in terms of votes as the a priori fair distribution. The visibility bias of a media source is the difference between the real distribution and the fair distribution.} The results displayed in Figure \ref{fig_visibility_bias} do not show clear evidence for a difference between the news: They are positively biased towards "Union"  Visibility bias of "Union" is highest for all news provider within the time period of the analysis and low. with "SPD" gaining coverage in the last month. Reporting on "FDP" and "Grüne" have a peak during the time span of coalition talks (Sep-Nov), reporting on "AfD" is rather high right before the election (Aug) and the visibility of "Linke" is rather stable during the whole time.
 
 \begin{figure}[H]
-	\caption{Wordcloud (before pre-processing)}
+	\caption{Visibility Bias}
 	\begin{center}
-		\includegraphics[width=0.7\textwidth]{figs/wordcloud.png}
-		\label{fig_wordcloud1}
+		\includegraphics[width=0.8\textwidth]{../figs/visibility_bias.png}
+		\label{fig_visibility_bias}
 	\end{center}
 \end{figure}
 
-Stemming is a process by which different morphological variants of a word are traced back to their common root. For example, "voting" and "vote" would be treated as two instances of the same token after the stemming process. There are many different techniques for the stemming process. I apply the widely used Porter-Stemmer algorithm, which is based on a set of shortening rules that are applied to a word until it has a minimum number of syllables.\footnote{https://tartarus.org/martin/PorterStemmer/} To remove distorting words, the pre-defined stop word list from the Snowball project\footnote{http://snowball.tartarus.org/algorithms/german/stop.txt} is used together with a customized list of stop-words. Additionally punctuation character (e.g. ., ,, !, ?, etc.) and all numbers are removed from the data. After completing these steps we were left with 68,576 unique terms in our vocabulary. The following wordclouds represent the most frequent words of the pre-processed articles for Bild.de and Tagesschau.de.\footnote{The wordclouds of the other parties can be found in the appendix \ref{apx_wordclouds}} It becomes evident that these are texts discussing domestic policy issues. The SPD in particular seems to be highly frequent. However, at first glance, there are no obvious differences between the news providers.  
+% -------------
+% sentiment bias 
+% --------------
 
-\begin{figure}[H]
-	\caption{Wordclouds (after pre-processing)}
+\subsection{Sentiment Analysis}
+
+To conduct such an analysis, a list of words (dictionary) associated with a given emotion, such as negativity is pre-defined. The document is then deconstructed into individual words and each word is assigned a sentiment value according to the dictionary, where the sum of all values results in the emotional score for the given document. 
+
+A dictionary-based method is then applied to measure the tone (or sentiment) of a document. The idea of a sentiment analysis is to determine the attitude of a writer toward the overall tonality of a document. To conduct such an analysis, a lists of words (dictionary) associated with a given emotion, such as negativity is pre-defined by the analyst. The document is then deconstructed into individual words and the frequencies of words contained in a given dictionary are calculated. 
+
+Such lexical or "bag-of-words" approaches are widely presented in the finance literature to determine the effect of central banks' monetary policy communications on asset prices and real variables (\citet{nyman_news_2018} \citet{tetlock_giving_2007}, \citet{tetlock_more_2008}). \citet{hansen_shocking_2016} use a similar approach to measure "the two Ts" (Topic and tone). They explore the effects of FOMC (Federal Open Market Committee) statements on both market and real economic variables. To understand the latent topic of a statement, they apply LDA on a corpus of 142 FOMC decision statements split into sentences. They then measure how the central bank is talking about that topic, using a dictionary approach. To calculate their score, they subtract the negative words from the positive words und divide this by the number of total words of the statement. A similar score is used by \citet{nyman_news_2018}, who measure the effect of narratives and sentiment of financial market text-based data on developments in the financial system. They count the number of occurrences of excitement words and anxiety words and then scale these numbers by the total text size as measured by the number of characters.
+
+The present paper uses a dictionary that lists words associated with positive and negative polarity weighted within the interval of $[-1; 1]$. SentimentWortschatz\footnote{SentiWS for short. available here: http://wortschatz.uni-leipzig.de/de/download}, is a publicly available German-language resource for sentiment analysis, opinion mining, etc.. The current version of SentiWS (v1.8b) contains 1,650 positive and 1,818 negative words, which sum up to 15,649 positive and 15,632 negative words including their inflections, respectively. Table \ref{t_sentdict} shows ten examples entries of the dictionary.
+
+\input{tables/sent_dict}
+
+The sentiment score for each document $d$ is calculated  based on the weighted polarity values for a word, defined on an interval between -1 and 1. The score is then calculated from the sum of the words in a document (which can be assigned to a word from the dictionary) divided by the total number of words in that document:
+ 
+\begin{equation}
+	\text{SentScore}_d = \frac{|\text{positive polarity score}_d| - |\text{negative polarity score}_d|}{|\text{TotalWords}_d|}
+\end{equation}
+
+ 
+
+% ---------------------
+% Agenda bias
+% ----------------------
+\subsection{Agenda Bias}\label{ch_agendabias}
+
+To allow for an operationalization of agenda bias, parties' press releases are used as an approximation of the potential universe of news stories \citep{eberl_one_2017}. The press releases wer scraped from the website of each party\footnote{https://www.afd.de/presse, https://www.spdfraktion.de, https://www.die-linke.de/start/presse/aus-dem-bundestag, https://www.fdp.de, https://www.gruene-bundestag.de/, https://www.presseportal.de/nr/7846} to compare the topics addressed with the policy issues in the news articles. To use text as data for statistical analysis, different pre-processing steps have to be conducted. Intuitively the term frequency (tf) of a word is a measure of how important that word may be for the understanding of the text. As can be seen in Figure \ref{fig_wordcloud1}, problems arise with words that are highly frequent. For example "die", or "der (eng. "the"), "und" (eng. "and"), and "ist" (eng. "is") are extremely common but unrelated to the quantity of interest. These terms, often called stop words \citep{gentzkow_text_2017}, are important to the grammatical structure of a text, but typically don't add any additional meaning and can therefore be neglected. A common strategy to reduce the number of language elements is to pre-process the text by imposing some preliminary restrictions (e.g. stop-word removal and stemming) based on the nature of the data (twitter text, newspaper articles, speeches, etc.) \citep{gentzkow_text_2017}. In fact, in order to use text as data and reduce the dimensionality to avoid unnecessary computational complexity and overfitting, pre-processsing the text is a central task in text mining \citep{bholat_text_2015}.  
+
+\begin{figure}[H]\label{fig_wordcloud1}
+	\begin{center}
+		\begin{subfigure}[normla]{0.7\textwidth}
+			\includegraphics[width=\textwidth]{../figs/wordcloud.png}
+			\caption{Wordcloud (before pre-processing)}
+		\end{subfigure}
+	\end{center}
+\end{figure}
+
+Stemming is a process by which different morphological variants of a word are traced back to their common root. For example, "voting" and "vote" would be treated as two instances of the same token after the stemming process. There are many different techniques for the stemming process. I apply the widely used Porter-Stemmer algorithm, which is based on a set of shortening rules that are applied to a word until it has a minimum number of syllables.\footnote{https://tartarus.org/martin/PorterStemmer/} To remove distorting words, the pre-defined stop word list from the Snowball project\footnote{http://snowball.tartarus.org/algorithms/german/stop.txt} is used together with a customized list of stop-words. Additionally punctuation character (e.g. ., ,, !, ?, etc.) and all numbers are removed from the data. After completing these steps we were left with 68,576 unique terms in our vocabulary. The word clouds in Figure \ref{fig_wordcloud2} represent the most frequent words of the pre-processed articles for Bild.de and Tagesschau.de.\footnote{The wordclouds of the other parties can be found in the appendix \ref{apx_wordclouds}} It becomes evident that these are texts discussing domestic policy issues. The SPD in particular seems to be highly frequent. However, at first glance, there are no obvious differences between the news providers.  
+
+\begin{figure}[H]\label{fig_wordcloud2}
+	\caption{Wordclouds}
 	\begin{center}
 		\begin{subfigure}[normla]{0.48\textwidth}
-			\includegraphics[width=\textwidth]{figs/wordcloud_Bild.png}
-			\caption{Bild.de}
+			\includegraphics[width=\textwidth]{../figs/wordclouds/Bild.de.png}
+			\caption{Bild.de (after pre-processing)}
 		\end{subfigure}
 		\begin{subfigure}[normla]{0.48\textwidth}
-			\includegraphics[width=\textwidth]{figs/wordcloud_Tagesschau.png}
-			\caption{Tagesschau.de}
+			\includegraphics[width=\textwidth]{../figs/wordclouds/tagesschau.de.png}
+			\caption{Tagesschau.de (after pre-processing)}
 		\end{subfigure}
 	\end{center}
 \end{figure}
@@ -257,34 +237,6 @@ Stemming is a process by which different morphological variants of a word are tr
 % Document-term-matrix
 % --------------------
 To use text as data for statistical analysis, the next step is to divide the entire dataset into individual documents and to represent these documents as a finite list of unique terms. In this setting, each news article represents a document $d$, whereby each of these documents can be assigned to a news website. The sum of all documents forms what is called the corpus. For each document $d \in \lbrace 1,...,D \rbrace$ the number of occurrences of term $v$ in document $d$ is computed, in order to obtain the count $x_{d,v}$, where each unique term in the corpus is indexed by some $v \in \lbrace 1,...,V \rbrace$ and where $V$ is the number of unique terms. The $D$ x $V$ matrix $\boldsymbol{X}$ of all such counts is called the document-term matrix. Each row in this matrix represents a document, where each entry in this row counts the occurrences of a unique term in that document. This representation is often referred to as the bag of words model \citep{gentzkow_text_2017}, since the order in which words are used within a document is disregarded.
- 
-
-\section{Methodology}
-
-Understand bias through its opposite (objectivity). In terms of news reporting this quality cirterion consists of many different aspects: (1) accuracy and realism, (2) separation of fact and opinion, (3) avoidance of slant (McQuail, 1992). 
-
-In order to arrive at a better operational definition, some scholars argue that the opposite of bias is not necessarily objectivity but neutrality or balance \citep{hopmann_political_2012}. An unbiased news report is a neutral or balanced report, thus one that is not strongly slanted in favor of or against any political side. All sides should be equally represented according to some kind of benchmark for balance or neutrality. Conversely, in this view, bias is the extent to which media reporting deviates from this benchmark. The literature describes three types of media biases that may affect voters' party preferences: visibility bias, tonality bias, and agenda bias. In the next section, we describe each type of bias in turn and explain why each type is important for under- standing voter attitudes or behavior.
-
-
-
-To ensure comparability between the bias metrics, they are standardized to range from −1 to 1, where a party would have a bias of 0 (neutral), when its visibility or tonality is equal to the mean visibility or tonality across all parties in that media outlet.
-
-\subsection{Visibility Bias}
-
-To determine visibility bias, we first need to measure visibility per se. We treat a party as visible in an article if the party itself is mentioned in an article. The overall visibility for each party is then defined by the relative amount of articles in which the party is present.
-% Which benchmark ?
-The next step is to define an appropriate reference point to distinguish between balanced/neutral and biased reporting. 
-% list different approchase (D’Alessio & Allen, 2000, Hopmann et al. (2011b))
-In another setting \citet{junque_de_fortuny_media_2012} uses the popularity in terms of votes as the a priori fair distribution. The visibility bias of a media source is the difference between the real distribution and the fair distribution.
-
-To consider differences between parties as well as media outlets, the average visibility of all parties in each media outlet during the period of analysis is a key benchmark \citep{eberl_one_2017}. Our bias measure therefore captures whether party visibility is biased in comparison to what is typical for that outlet. Visibility bias is then computed as the deviation of each party’s specific visibility from the average visibility of all other parties in that outlet.
-
- 
-
-% ----------------------
-% Structural topic Model
-% ----------------------
-\subsection{The structural topic model}\label{ch_model}
 
 To find out the latent structure of each document, a structural topic model (STM) is estimated. In general, topic models formalize the idea that documents are formed by hidden variables (topics) that generate correlations among observed terms. They belong to the group of unsupervised generative models, meaning that the true attributes (topics) cannot be observed. One crucial assumption to be made for such models is the number of topics ($K$) that occur over the entire corpus. 
 
@@ -313,21 +265,6 @@ Inference of mixed-membership models, such as the one applied in this paper, has
 
 This process revealed that a model with 55 topics best reflects the structure in the corpus. Furthermore, the source (news website or party) of a document is used as covariate in the topic prevalence. In other words, the corresponding news website or party of an article or press release influences the probability distribution of topics for that document. Additionally I assume that the topical content differs between news articles and press releases. 
 
-\subsection{Sentiment Analysis}
-
-A dictionary-based method is then applied to measure the tone (or sentiment) of a document. The idea of a sentiment analysis is to determine the attitude of a writer toward the overall tonality of a document. To conduct such an analysis, a lists of words (dictionary) associated with a given emotion, such as negativity is pre-defined by the analyst. The document is then deconstructed into individual words and the frequencies of words contained in a given dictionary are calculated. 
-
-Such lexical or "bag-of-words" approaches are widely presented in the finance literature to determine the effect of central banks' monetary policy communications on asset prices and real variables (\citet{nyman_news_2018} \citet{tetlock_giving_2007}, \citet{tetlock_more_2008}). \citet{hansen_shocking_2016} use a similar approach to measure "the two Ts" (Topic and tone). They explore the effects of FOMC (Federal Open Market Committee) statements on both market and real economic variables. To understand the latent topic of a statement, they apply LDA on a corpus of 142 FOMC decision statements split into sentences. They then measure how the central bank is talking about that topic, using a dictionary approach. To calculate their score, they subtract the negative words from the positive words und divide this by the number of total words of the statement. A similar score is used by \citet{nyman_news_2018}, who measure the effect of narratives and sentiment of financial market text-based data on developments in the financial system. They count the number of occurrences of excitement words and anxiety words and then scale these numbers by the total text size as measured by the number of characters.
-
-The present paper uses a dictionary that lists words associated with positive and negative polarity weighted within the interval of $[-1; 1]$. SentimentWortschatz\footnote{SentiWS for short. available here: http://wortschatz.uni-leipzig.de/de/download}, is a publicly available German-language resource for sentiment analysis, opinion mining, etc.. The current version of SentiWS (v1.8b) contains 1,650 positive and 1,818 negative words, which sum up to 15,649 positive and 15,632 negative words including their inflections, respectively. Table \ref{t_sentdict} shows ten examples entries of the dictionary.
-
-\input{tables/sent_dict}
-
-The sentiment score for each document $d$ is calculated  based on the weighted polarity values for a word, defined on an interval between -1 and 1. The score is then calculated from the sum of the words in a document (which can be assigned to a word from the dictionary) divided by the total number of words in that document:
- 
-\begin{equation}
-	\text{SentScore}_d = \frac{|\text{positive polarity score}_d| - |\text{negative polarity score}_d|}{|\text{TotalWords}_d|}
-\end{equation}
 
 % ----------------------
 % Model Results
@@ -530,7 +467,7 @@ This process generates two posterior distribution parameters:
 \begin{figure}[H]
 	\begin{center}
 		\begin{subfigure}[normla]{0.43\textwidth}
-			\includegraphics[width=\textwidth]{figs/wordcloud_DIEWELT.png}
+			\includegraphics[width=\textwidth]{figs/wordcloud/DIEWELT.png}
 			\caption{DIE WELT}
 		\end{subfigure}
 		\begin{subfigure}[normla]{0.43\textwidth}
