@@ -2,14 +2,14 @@
 \BOOKMARK [1][-]{section.2}{Literature}{}% 2
 \BOOKMARK [1][-]{section.3}{Background on the federal election in Germany \(2017\)}{}% 3
 \BOOKMARK [1][-]{section.4}{Data}{}% 4
-\BOOKMARK [1][-]{section.5}{Methodology}{}% 5
+\BOOKMARK [1][-]{section.5}{Estimate bias}{}% 5
 \BOOKMARK [2][-]{subsection.5.1}{Visibility Bias}{section.5}% 6
 \BOOKMARK [2][-]{subsection.5.2}{Sentiment Analysis}{section.5}% 7
 \BOOKMARK [2][-]{subsection.5.3}{Agenda Bias}{section.5}% 8
-\BOOKMARK [1][-]{section.6}{Empirical Evaluation}{}% 9
-\BOOKMARK [2][-]{subsection.6.1}{Topic}{section.6}% 10
-\BOOKMARK [2][-]{subsection.6.2}{Tone}{section.6}% 11
-\BOOKMARK [2][-]{subsection.6.3}{News sentiment and poll data}{section.6}% 12
+\BOOKMARK [3][-]{subsubsection.5.3.1}{Data preparation}{subsection.5.3}% 9
+\BOOKMARK [3][-]{subsubsection.5.3.2}{Structural topic model}{subsection.5.3}% 10
+\BOOKMARK [3][-]{subsubsection.5.3.3}{Results}{subsection.5.3}% 11
+\BOOKMARK [1][-]{section.6}{Fixed effects regression}{}% 12
 \BOOKMARK [1][-]{section.7}{Conclusion}{}% 13
 \BOOKMARK [1][-]{appendix.A}{Appendices}{}% 14
 \BOOKMARK [2][-]{subsection.A.1}{Generative Process of STM}{appendix.A}% 15

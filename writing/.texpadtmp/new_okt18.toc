@@ -5,40 +5,40 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {2}Literature}{3}{section.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3}Background on the federal election in Germany (2017)}{5}{section.3}
+\contentsline {section}{\numberline {3}Background on the federal election in Germany (2017)}{6}{section.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4}Data}{6}{section.4}
+\contentsline {section}{\numberline {4}Data}{7}{section.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5}Methodology}{7}{section.5}
+\contentsline {section}{\numberline {5}Estimate bias}{8}{section.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.1}Visibility Bias}{7}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.1}Visibility Bias}{8}{subsection.5.1}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {5.2}Sentiment Analysis}{9}{subsection.5.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.3}Agenda Bias}{10}{subsection.5.3}
+\contentsline {subsection}{\numberline {5.3}Agenda Bias}{11}{subsection.5.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6}Empirical Evaluation}{14}{section.6}
+\contentsline {subsubsection}{\numberline {5.3.1}Data preparation}{11}{subsubsection.5.3.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {6.1}Topic}{14}{subsection.6.1}
+\contentsline {subsubsection}{\numberline {5.3.2}Structural topic model}{13}{subsubsection.5.3.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {6.2}Tone}{17}{subsection.6.2}
+\contentsline {subsubsection}{\numberline {5.3.3}Results}{14}{subsubsection.5.3.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {6.3}News sentiment and poll data}{21}{subsection.6.3}
+\contentsline {section}{\numberline {6}Fixed effects regression}{14}{section.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {7}Conclusion}{26}{section.7}
+\contentsline {section}{\numberline {7}Conclusion}{19}{section.7}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {A}Appendices}{30}{appendix.A}
+\contentsline {section}{\numberline {A}Appendices}{23}{appendix.A}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {A.1}Generative Process of STM}{30}{subsection.A.1}
+\contentsline {subsection}{\numberline {A.1}Generative Process of STM}{23}{subsection.A.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {A.2}Wordclouds}{32}{subsection.A.2}
+\contentsline {subsection}{\numberline {A.2}Wordclouds}{25}{subsection.A.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {A.3}Most frequent words}{33}{subsection.A.3}
+\contentsline {subsection}{\numberline {A.3}Most frequent words}{26}{subsection.A.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {A.4}Regression Results}{36}{subsection.A.4}
+\contentsline {subsection}{\numberline {A.4}Regression Results}{29}{subsection.A.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {A.5}Sentiment Values (monthly aggregated)}{36}{subsection.A.5}
+\contentsline {subsection}{\numberline {A.5}Sentiment Values (monthly aggregated)}{29}{subsection.A.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {A.6}Sentiment Values (aggregated by news website)}{37}{subsection.A.6}
+\contentsline {subsection}{\numberline {A.6}Sentiment Values (aggregated by news website)}{30}{subsection.A.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {A.7}Cross Correlation Coefficient (lag 0)}{37}{subsection.A.7}
+\contentsline {subsection}{\numberline {A.7}Cross Correlation Coefficient (lag 0)}{30}{subsection.A.7}

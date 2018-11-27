@@ -1,6 +1,6 @@
 ---
-title: "Different types of media bias - compare with polls"
-subtitle: "Comparing bias measures"
+title: "Different types of media bias"
+subtitle: "Fixed effect regression analysis"
 author: "Franziska Löw"
 date: "`r format(Sys.Date())`"
 output: github_document
@@ -10,7 +10,7 @@ output: github_document
 We use the data from the "Sonntagsumfrage" (Sunday survey) from [infratest dimap](https://www.infratest-dimap.de/umfragen-analysen/bundesweit/sonntagsfrage/). The institution regularly asks at least 1000 German citizens the question: "Which party would you choose if federal elections take place next Sunday?" The survey thus measures the current election tendencies and therefore reflects an intermediate state in the opinion-forming process of the electoral population.
 
 ```{r include=FALSE}
-knitr::opts_chunk$set(eval=FALSE, include=FALSE)
+knitr::opts_chunk$set(include=FALSE)
 ```
 
 ```{r}
@@ -127,21 +127,44 @@ cor %>%
 
 # Data Modelling
 
-$$
-Y = \beta_0 + \beta_1x_{\text{visibility bias}}+\beta_2x_{\text{tonality bias}}+\beta_3x_{\text{agenda bias}} + \beta_4D_{\text{AfD}}+\beta_5D_{\text{FDP}}+\beta_6D_{\text{Grüne}}+\beta_7D_{\text{Linke}}+\beta_8D_{\text{SPD}}+\beta_9D_{\text{Union}}
-$$
-where ...
+```{r}
+biasDF_grouped <- biasDF %>% 
+  group_by(date,party) %>%
+  summarise(agenda_bias_norm = mean(agenda_bias_norm),
+            vis_bias_norm = mean(vis_bias_norm),
+            sent_bias_norm = mean(sent_bias_norm),
+            polls_norm = mean(polls_norm)
+            ) %>%
+  ungroup() %>%
+  mutate(party = as.factor(party))
 
-  - $Y$ = average monthly poll value of parties
+biasDF_grouped_long <- biasDF_grouped %>% 
+  gather(metric, value, agenda_bias_norm:polls_norm)
+```
+
+```{r}
+biasDF_grouped_long %>%
+  ggplot(aes(date, value, color = metric)) +
+  geom_line(alpha=0.8) +
+  theme_hc() +
+  scale_color_hc(name=NULL,
+                   breaks=c("vis_bias_norm", "sent_bias_norm", "agenda_bias_norm","polls_norm"),
+                   labels=c("Visibility bias", "Tonality bias", "Agenda bias", "Poll value")) +
+  facet_wrap(~party) +
+  labs(x = NULL, y = NULL) +
+  theme(axis.text = element_text(size = 7),
+        axis.title = element_text(size = 7)
+        )
+```
+
+
 
 
 ## medium-specific Fixed Effects using Dummy Variables (LSDV Model)
 
 ```{r}
-biasDF$party <- factor(biasDF$party)
-  
 fixed.dum <-lm(polls_norm ~ vis_bias_norm + sent_bias_norm + agenda_bias_norm + party, 
-               data = biasDF)
+               data = biasDF_grouped)
 summary(fixed.dum)
 ```
 
@@ -174,18 +197,8 @@ Where...
 ```{r}
 library(plm)
 
-biasDF_plm <- biasDF %>% 
-  group_by(date, party) %>%
-  summarise(agenda_bias_norm = mean(agenda_bias_norm),
-            vis_bias_norm = mean(vis_bias_norm),
-            sent_bias_norm = mean(sent_bias_norm),
-            polls_norm = mean(polls_norm)
-            ) %>%
-  ungroup() %>%
-  mutate(party = as.factor(party))
-
 fixed <- plm(polls_norm ~ vis_bias_norm + sent_bias_norm + agenda_bias_norm ,
-             data = biasDF_plm, index = c("party","date"), model = "within")
+             data = biasDF_grouped, index = c("party","date"), model = "within")
 
 summary(fixed)
 ```

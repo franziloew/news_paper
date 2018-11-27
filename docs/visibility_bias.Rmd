@@ -42,7 +42,6 @@ btw <- btw %>%
 ```{r Apply function to all parties}
 parties <- c("SPD",paste("CDU","CSU","Union",sep = "|"),"FDP","Grüne","AfD","Linke")
 
-
 rm(vis)
 for (party in parties) {
   
@@ -75,12 +74,12 @@ vis <- vis %>%
 
 ```{r Plot visibility}
 vis %>%
-  ggplot(aes(date, visibility_p_s)) +
-  geom_col(show.legend = FALSE, alpha = 0.7) +
+  ggplot(aes(date, visibility_p_s, fill=party)) +
+  geom_col(show.legend = FALSE, alpha = 0.9) +
   theme_hc() +
-  #scale_fill_gdocs(name=NULL) +
+  scale_fill_hc(name=NULL) +
   facet_grid(party~medium) +
-  labs(x = NULL, y = "visibility", title = "") +
+  labs(x = NULL, y = "", title = "Visiblity") +
   theme(axis.text = element_text(size = 5),
         strip.text = element_text(size = 6),
         title = element_text(size = 7)
@@ -131,7 +130,6 @@ visBias %>%
   ggplot(aes(date, visibility_bias)) +
   geom_col(show.legend = FALSE, alpha = 0.7) +
   theme_hc() +
-  #scale_fill_gdocs(name=NULL) +
   facet_grid(party~medium) +
   labs(x = NULL, y = "visibility bias", title = NULL,
        subtitle = ""
@@ -142,6 +140,26 @@ visBias %>%
         )
 
 ggsave("../figs/visibility_bias.png", width = 7, height = 5)
+```
+
+```{r Plot bias}
+visBias %>%
+  mutate(date = as.Date(paste0(year,"/",month,"/1"))) %>%
+  mutate(visibility_bias = normalize_data2(visibility_bias)) %>%
+  ggplot(aes(date, visibility_bias, fill=party)) +
+  geom_col(show.legend = FALSE, alpha = 0.9) +
+  theme_hc() +
+  scale_fill_hc(name=NULL) +
+  facet_grid(party~medium) +
+  labs(x = NULL, y = "", title = "Visibility bias",
+       subtitle = "Normalizzed between -1 and 1"
+       ) +
+  theme(axis.text = element_text(size = 5),
+        strip.text = element_text(size = 6),
+        title = element_text(size = 7)
+        )
+
+ggsave("../figs/visibility_bias_color.png", width = 7, height = 5)
 ```
 
 ![](../figs/visibility_bias.png)

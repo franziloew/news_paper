@@ -165,14 +165,20 @@ pressReleases$text_cleaned1 <- stem_text(pressReleases$text_cleaned)
 save(pressReleases, file = "../output/pressReleases.Rda")
 ```
 
+# Inspect Data
+
+```{r}
+library(tidyverse)
+library(tidytext)
+load("../output/pressReleases.Rda")
+```
+
 ```{r}
 pressReleases %>%
   sample_n(1) %>%
   select(text_cleaned, text_cleaned1) %>%
   htmlTable::htmlTable()
 ```
-
-# Inspect Data
 
 ```{r}
 library(tidytext)

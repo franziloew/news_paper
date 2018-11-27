@@ -46,7 +46,7 @@ sent <- c(
   res <- strsplit(x, "\t", fixed = TRUE)[[1]]
   return(data.frame(words = res[1], value = res[2],
                     stringsAsFactors = FALSE))
-  }) %>%
+  }) %>% 
   
   bind_rows %>%
   mutate(word = gsub("\\|.*", "", words) %>% 
@@ -63,11 +63,12 @@ sent <- c(
   # welcome to hell (g20)
   filter(!grepl('hell',word,ignore.case = T)) %>%
   # filter values that that score between -0.1 and +0.1 
-  filter(!between(value, -0.1,0.1))
+  filter(!dplyr::between(value, -0.1,0.1))
 
 sent %>% 
   sample_n(10) %>%
   htmlTable::htmlTable(align="l")
+
 ```
 
 ```{r, message=FALSE, warning=FALSE, include=FALSE}
@@ -89,6 +90,7 @@ sentence <- sentence %>%
 ```
 
 ```{r}
+parties <- c("SPD","Union","FDP","Grüne","AfD","Linke")
 sentDF <- data.frame() 
 
 for (x in btw$doc_index) {
@@ -117,21 +119,31 @@ for (x in btw$doc_index) {
   
     token %>%
       filter(sentence_index %in% tempdf$sentence) %>%
-      summarise(mean_value = mean(value, na.rm = T),
-                sum_value = sum(value, na.rm = T)) -> sentiment
+      mutate(value = ifelse(is.na(value),0,value)) %>%
+      summarise(mean_value = mean(value),
+                sum_value = sum(value)) -> sentiment
     
     tempdf2 <- cbind(x,i,sentiment) 
     sentDF <- rbind(sentDF,tempdf2)
   } 
 }
+```
 
-sentDF %>%
+```{r}
+sentDF <- sentDF %>%
   transmute(doc_index = x,
             party = as.character(i),
             sentiment_mean = mean_value,
             sentiment_sum = sum_value
             ) %>%
-  left_join(.,btw %>% select(doc_index, medium, text), by="doc_index") -> sentDF
+  left_join(.,btw %>% select(doc_index,date, medium, text), by="doc_index") %>%
+  mutate(
+    year = lubridate::year(date),
+    month = lubridate::month(date),
+    date = as.Date(paste0(year,"/",month,"/1")),
+    party = ifelse(grepl("Cdu",party, ignore.case = T),"Union",party),
+    party = ifelse(grepl("Linke",party, ignore.case = T),"Linke",party)
+    )
 
 save(sentDF, file = "../output/sentiment.Rda")
 ```
@@ -140,34 +152,6 @@ As with visibility bias, we then take the average party tonality in each outlet,
 
 ```{r}
 load("../output/sentiment.Rda")
-
-sentDF <- sentDF %>%
-  left_join(., btw %>% select(date, doc_index), by="doc_index") %>%
-  mutate(
-    year = lubridate::year(date),
-    month = lubridate::month(date),
-    date = as.Date(paste0(year,"/",month,"/1")),
-    party = ifelse(grepl("Cdu",party, ignore.case = T),"Union",party),
-    party = ifelse(grepl("Linke",party, ignore.case = T),"Linke",party)
-    )
-```
-
-```{r}
-sentDF %>%
-  group_by(medium, party, date) %>%
-  dplyr::summarise(sentiment = mean(sentiment_mean, na.rm = T)) %>%
-  ggplot(aes(date, sentiment)) +
-  geom_col(show.legend = FALSE, alpha = 0.7) +
-  theme_hc() +
-  #scale_fill_gdocs(name=NULL) +
-  facet_grid(party~medium) +
-  labs(x = NULL, y = NULL, title = "Sentiment") +
-  theme(axis.text = element_text(size = 5),
-        strip.text = element_text(size = 6),
-        title = element_text(size = 7)
-        )
-
-ggsave("../figs/sentiment.png", width = 7, height = 4)
 ```
 
 ```{r}
@@ -175,6 +159,23 @@ sent <- sentDF %>%
   group_by(medium, party, year, month) %>%
   dplyr::summarise(avg_sent_p_s = mean(sentiment_mean, na.rm = T)) %>%
   ungroup()
+```
+
+```{r Plot sentiment}
+sent %>%
+  mutate(date = as.Date(paste0(year,"/",month,"/1"))) %>%
+  ggplot(aes(date, avg_sent_p_s, fill=party)) +
+  geom_col(show.legend = FALSE, alpha = 0.9) +
+  theme_hc() +
+  scale_fill_hc(name=NULL) +
+  facet_grid(party~medium) +
+  labs(x = NULL, y = "", title = "Sentiment score") +
+  theme(axis.text = element_text(size = 5),
+        strip.text = element_text(size = 6),
+        title = element_text(size = 7)
+        )
+
+ggsave("../figs/sentiment.png", width = 7, height = 5)
 ```
 
 ```{r Estimate Bias}
@@ -200,6 +201,24 @@ for (i in parties) {
       sentBias <- tempdf
     }
 }
+```
+```{r}
+sentBias %>%
+  mutate(date = as.Date(paste0(year,"/",month,"/1"))) %>%
+  ggplot(aes(date, sent_bias, fill = party)) +
+  geom_col(show.legend = FALSE, alpha = 0.7) +
+  theme_hc() +
+  scale_fill_hc(name=NULL) +
+  facet_grid(party~medium) +
+  labs(x = NULL, y = NULL, title = "Sentiment bias",
+       subtitle = "Normalized between -1 and 1"
+       ) +
+  theme(axis.text = element_text(size = 5),
+        strip.text = element_text(size = 6),
+        title = element_text(size = 7)
+        )
+
+ggsave("../figs/sent_bias_color.png", width = 7, height = 5)
 ```
 
 ```{r}
