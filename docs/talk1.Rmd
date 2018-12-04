@@ -4,13 +4,15 @@ author: Franziska Löw
 date: December 04, 2018
 output: 
   revealjs::revealjs_presentation:
-    theme: serif
-    highlight: haddock
-    center: true
-    transition: slide
+    theme: simple
     css: style.css
+    highlight: haddock
+    transition: slide
     self_contained: true
     incremental: true
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
 ---
 
 ```{r include=FALSE}
@@ -25,15 +27,15 @@ rm(list=ls())
 
 ## Agenda
 
-  1. Introduction
+###1. Introduction
 
-  2. Literature
+###2. Literature
 
-  3. Data
+###3. Data
 
-  4. Methodology
+###4. Methodology
 
-  5. Results
+###5. Results
 
 # Introduction
 

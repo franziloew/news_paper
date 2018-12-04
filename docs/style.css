@@ -52,9 +52,14 @@ Date: 3/25/2016
 }
 
 .reveal h3 {
-		color: #92a8d1
+	color: #92a8d1
     text-align: left;
     padding-bottom: 10px;
+}
+
+.reveal p {
+	font-size: smaller;
+    text-align: left;
 }
 
 .col2 {

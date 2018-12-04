@@ -31,7 +31,7 @@ The sentiment score for each party in an article is calculated from each word th
 
 The score is then calculated from the sum of the words in a document (which can be assigned to a word from the dictionary) divided by the total number of words in that document.
 
-```{r eval=TRUE, include=TRUE, echo=FALSE}
+```{r include=FALSE}
 sent <- c(
   # positive Wörter
   readLines("dict/SentiWS_v1.8c_Negative.txt",
@@ -64,12 +64,14 @@ sent <- c(
   filter(!grepl('hell',word,ignore.case = T)) %>%
   # filter values that that score between -0.1 and +0.1 
   filter(!dplyr::between(value, -0.1,0.1))
+```
 
+```{r echo=FALSE}
 sent %>% 
   sample_n(10) %>%
   htmlTable::htmlTable(align="l")
-
 ```
+
 
 ```{r, message=FALSE, warning=FALSE, include=FALSE}
 library(tidytext)
@@ -79,6 +81,7 @@ sentence <- btw %>%
   select(doc_index, text) %>%
   unnest_tokens(sentence, text, token = "sentences") 
   
+# check if a party is mentioned in a sentence
 sentence <- sentence %>%
   mutate(party = ifelse(grepl("SPD",sentence, ignore.case = T),"SPD",NA),
          party = ifelse(grepl("AfD",sentence, ignore.case = T),"AfD",party),
@@ -90,14 +93,28 @@ sentence <- sentence %>%
 ```
 
 ```{r}
+token <- sentence %>%
+    # Filter one article (doc_index)
+    filter(doc_index == 10005) %>%
+    mutate(sentence_index = as.numeric(rownames(.))) %>%
+    # and tokenize into words
+    unnest_tokens(word, sentence) %>%
+    # Combine second word with sentiment values
+    left_join(., sent, by = "word") 
+```
+
+
+```{r}
 parties <- c("SPD","Union","FDP","Grüne","AfD","Linke")
 sentDF <- data.frame() 
 
 for (x in btw$doc_index) {
   
   token <- sentence %>%
+    # Filter one article (doc_index)
     filter(doc_index == x) %>%
     mutate(sentence_index = as.numeric(rownames(.))) %>%
+    # and tokenize into words
     unnest_tokens(word, sentence) %>%
     # Combine second word with sentiment values
     left_join(., sent, by = "word") 
@@ -105,26 +122,32 @@ for (x in btw$doc_index) {
   for (i in parties) {
     
     token %>% 
-      filter(party == i) %>% 
       # get all sentences where the party is mentioned
+      filter(party == i) %>% 
       distinct(sentence_index) %>%
       # get the 2-sentence range
-      mutate(lower = sentence_index - 2,
-             upper = sentence_index + 2
-             ) %>% 
+      mutate(lower1 = sentence_index - 1,
+             # lower2 = sentence_index - 2,
+             upper1 = sentence_index + 1
+             # upper2 = sentence_index + 2
+             )  %>%
       gather(index, sentence) %>% 
       distinct(sentence) %>%
       filter(sentence > 0) %>%
       select(sentence) -> tempdf
   
     token %>%
-      filter(sentence_index %in% tempdf$sentence) %>%
-      mutate(value = ifelse(is.na(value),0,value)) %>%
-      summarise(mean_value = mean(value),
-                sum_value = sum(value)) -> sentiment
+      filter(sentence_index %in% tempdf$sentence) -> tempdf2
     
-    tempdf2 <- cbind(x,i,sentiment) 
-    sentDF <- rbind(sentDF,tempdf2)
+    tempdf2 %>%
+      mutate(value = ifelse(is.na(value),0,value)) %>%
+      summarise(sum_value = sum(value)) -> sum
+    
+    # normalize the sentiment value by the number of words in the document
+    sentiment <- sum/nrow(tempdf2)
+    
+    tempdf3 <- cbind(x,i,sentiment) 
+    sentDF <- rbind(sentDF,tempdf3)
   } 
 }
 ```
@@ -133,7 +156,6 @@ for (x in btw$doc_index) {
 sentDF <- sentDF %>%
   transmute(doc_index = x,
             party = as.character(i),
-            sentiment_mean = mean_value,
             sentiment_sum = sum_value
             ) %>%
   left_join(.,btw %>% select(doc_index,date, medium, text), by="doc_index") %>%
@@ -157,7 +179,7 @@ load("../output/sentiment.Rda")
 ```{r}
 sent <- sentDF %>% 
   group_by(medium, party, year, month) %>%
-  dplyr::summarise(avg_sent_p_s = mean(sentiment_mean, na.rm = T)) %>%
+  dplyr::summarise(avg_sent_p_s = mean(sentiment_sum, na.rm = T)) %>%
   ungroup()
 ```
 
@@ -190,7 +212,7 @@ for (i in parties) {
   df2 <- sentDF %>% 
     filter(party != i) %>%
     group_by(medium, year, month) %>%
-    dplyr::summarise(avg_sent = mean(sentiment_mean, na.rm = T)) 
+    dplyr::summarise(avg_sent = mean(sentiment_sum, na.rm = T)) 
   
   left_join(df1,df2, by=c("medium","year","month")) %>%
     mutate(sent_bias = avg_sent_p_s-avg_sent) -> tempdf
@@ -202,6 +224,7 @@ for (i in parties) {
     }
 }
 ```
+
 ```{r}
 sentBias %>%
   mutate(date = as.Date(paste0(year,"/",month,"/1"))) %>%

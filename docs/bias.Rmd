@@ -158,8 +158,6 @@ biasDF_grouped_long %>%
 ```
 
 
-
-
 ## medium-specific Fixed Effects using Dummy Variables (LSDV Model)
 
 ```{r}
