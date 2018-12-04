@@ -860,14 +860,14 @@ Das Structural Topic Model (STM, Roberts et. al., 2016) erlaubt es, Kovariablen 
 
 --
 
-##Annahmen:
+###Annahmen:
 
   - **Themen Verteilung** hängt von der Quelle ab (Bild.de, FOCUS ONLINE, FDP, ...) 
   - **Themen Inhalt** hängt von der Art der Quelle ab (Pressemitteilung oder Nachrichtenartikel)
 
 ---
 
-# Ergebnisse (STM) - Wortverteilung
+### Ergebnisse - Wortverteilung
 
 ```{r include=FALSE}
 library(stm)
@@ -905,7 +905,7 @@ as.data.frame(sagelabs$marginal$prob[1:10,1:5]) %>%
 
 ---
 
-# Ergebnisse (STM) - Themen-Label
+### Ergebnisse - Themen-Label
 
 Die Themen werden auf Grundlage der wahrscheinlichsten Wörter benannt:
 
@@ -933,7 +933,7 @@ topics.df %>%
 
 ---
 
-# Ergebnisse (STM) - Themen-Verteilung 
+### Ergebnisse - Themen-Verteilung 
 
 ```{r include=FALSE}
 theta <- as.data.frame(stmOut$theta) %>% # get all theta values for each document
@@ -962,7 +962,7 @@ title <- model_df$title[which(model_df$doc_index == sample_doc)]
 source <- model_df$source[which(model_df$doc_index == sample_doc)]
 ```
 
-```{r echo=FALSE, fig.height=5, fig.width=8, fig.align='center', dev='svg'}
+```{r echo=FALSE, fig.height=6, fig.width=8, fig.align='center', dev='svg'}
 theta %>%
   filter(doc_index == sample_doc) %>%
   select(doc_index, topic_name_news, theta) %>%
@@ -971,15 +971,15 @@ theta %>%
   ylim(c(0,1)) +
   coord_flip() +
   theme_hc() +
-  labs(title = paste("Themen Verteilung von Dokument",sample_doc),
-       subtitle = paste0("Source: ",source,"\nTitle: ", title),
+  labs(title = paste("Themen Verteilung von Dokument",sample_doc,"(",source,")"),
+       subtitle = paste0("Title: ", title),
        x = NULL, y = NULL
        ) 
 ```
 
 ---
 
-# Ergebnisse (STM) - Themen-Häufigkeit
+### Ergebnisse - Themen-Häufigkeit
 
 ```{r Plot expected frequency, echo=FALSE, fig.height=7, fig.width=11, fig.align='center', dev='svg'}
 overall_freq <- as.data.frame(colMeans(stmOut$theta)) %>%
@@ -1289,8 +1289,6 @@ $\epsilon_{it}$ is the error term
 
 ---
 
-###Fixed effects 
-
 ```{r echo=FALSE}
 fixed <- plm(polls_norm ~ vis_bias_norm + sent_bias_norm + agenda_bias_norm ,
              data = biasDF_grouped, 
@@ -1300,8 +1298,6 @@ summary(fixed)
 ```
 
 ---
-
-###Random effects
 
 ```{r echo=FALSE}
 random <- plm(polls_norm ~ vis_bias_norm + sent_bias_norm + agenda_bias_norm,
