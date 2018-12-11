@@ -1,0 +1,144 @@
+---
+title: "Political orientation"
+author: "Franziska Löw"
+date: "9 12 2018"
+output: html_document
+---
+
+## Reuters 2018 - Germany
+
+Information about the Data: 
+
+All figures, unless otherwise stated, are from YouGov Plc. Total sample size was 2,038 adults who access news once a month or more. Fieldwork was undertaken between 19th - 22nd January 2018.  The survey was carried out online. The figures have been weighted and are representative of all German adults (aged 18+).
+
+```{r include=FALSE}
+library(tidyverse)
+library(ggthemes)
+library(patchwork)
+rm(list=ls())
+```
+
+        
+```{r include=FALSE}
+reutersDF <- readxl::read_excel("../data/reuters_clean.xlsx")
+
+reutersDF.long <- reutersDF %>%
+  select(medium:`Very rightwing`) %>%
+  gather(partisan, count, `Very leftwing`:`Very rightwing`) %>%
+  mutate(partisan.f = as.factor(partisan)) %>%
+  mutate(
+    partisan_scale = ifelse(partisan == "Very leftwing", -3,NA),
+         partisan_scale = ifelse(partisan == "Fairly leftwing", -2, partisan_scale),
+         partisan_scale = ifelse(partisan == "Slightly leftofcentre", -1,partisan_scale),
+         partisan_scale = ifelse(partisan == "Centre", 0, partisan_scale),
+         partisan_scale = ifelse(partisan == "Slightly rightofcentre", 1, partisan_scale),
+         partisan_scale = ifelse(partisan == "Fairly rightwing",2, partisan_scale),
+         partisan_scale = ifelse(partisan == "Very rightwing", 3, partisan_scale)
+  ) %>%
+  filter(medium != "None of these")
+```
+
+```{r include=FALSE}
+reutersDF.long <- reutersDF.long %>%
+  
+  # group by partisan 
+  group_by(partisan.f) %>%
+  mutate(count_sum_p = sum(count)) %>%
+  ungroup() %>%
+  
+  # group by medium
+  group_by(medium) %>%
+  mutate(count_sum_m = sum(count)) %>%
+  ungroup() %>%
+  
+  # calulate relative counts by partisan and medium
+  mutate(count_relative_p = count/count_sum_p,
+         count_relative_m = count/count_sum_m)
+  
+```
+
+```{r include=FALSE}
+unique(reutersDF.long$medium)
+
+keeps <- c("Bild.de", "Bild Plus", "Spiegel Online","Spiegel Magazin digital oder Spiegel Plus","Welt Online","Focus Online", "Stern.de","ZEIT Online","Tagesschau.de")
+```
+
+```{r echo=FALSE, fig.height=6, fig.width=6}
+reutersDF.long %>%
+  filter(medium %in% keeps) %>%
+  ggplot(aes(reorder(partisan.f, partisan_scale), medium, fill = count)) +
+  geom_tile() +
+  geom_text(aes(label=count), size = 3) +
+  scale_fill_gradient(low =  "#00AFBB", high = "#FC4E07") +
+  theme_calc() +
+  labs(x = "", y = "", title = "Absolute values") + 
+  scale_x_discrete(expand = c(0, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  theme(legend.position = "none",
+       axis.text.x = element_text(angle = 90))
+```
+
+```{r echo=FALSE, fig.height=6, fig.width=8}
+p1 <- reutersDF.long %>%
+  filter(medium %in% keeps) %>%
+  ggplot(aes(reorder(partisan.f, partisan_scale), medium, fill = count_relative_m)) +
+  geom_tile() +
+  geom_text(aes(label=round((count_relative_m*100), digits = 1) ), size = 3) +
+  scale_fill_gradient(low =  "#00AFBB", high = "#FC4E07") +
+  theme_calc() +
+  labs(x = "", y = "", title = "Relative values I",
+       subtitle = "Absolute values/sum by medium") + 
+  scale_x_discrete(expand = c(0, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  theme(legend.position = "none",
+       axis.text.x = element_text(angle = 90))
+
+p2 <- reutersDF.long %>%
+  filter(medium %in% keeps) %>%
+  group_by(medium) %>%
+  summarise(count_sum = sum(count)) %>%
+  ggplot(aes(medium,count_sum)) +
+  geom_col(fill = "#00AFBB", alpha = 0.8) +
+  geom_text(aes(label=count_sum), hjust = 1, size = 3) +
+  coord_flip() +
+  theme_calc() +
+  labs(y = NULL, x = NULL) +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank()
+        )
+
+p1 + p2 + plot_layout(widths = c(2,1))
+```
+
+```{r echo=FALSE, fig.height=8, fig.width=6}
+p1 <- reutersDF.long %>%
+  filter(medium %in% keeps) %>%
+  ggplot(aes(reorder(partisan.f, partisan_scale),medium, fill = count_relative_p)) +
+  geom_tile() +
+  geom_text(aes(label=round((count_relative_p*100), digits = 1) ), size = 3) +
+  scale_fill_gradient(low =  "#00AFBB", high = "#FC4E07") +
+  theme_calc() +
+  labs(x = "", y = "") + 
+  scale_x_discrete(expand = c(0, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  theme(legend.position = "none",
+       axis.text.x = element_text(angle = 90))
+
+p2 <- reutersDF.long %>%
+  filter(medium %in% keeps) %>%
+  group_by(partisan.f, partisan_scale) %>%
+  summarise(count_sum = sum(count)) %>%
+  ggplot(aes(reorder(partisan.f, partisan_scale), count_sum)) +
+  geom_col(fill = "#00AFBB", alpha = 0.8) +
+  geom_text(aes(label=count_sum), vjust = 1, size = 3) +
+  theme_calc() +
+  labs(y = NULL, x = NULL, title = "Relative values II",
+       subtitle = "Absolute values/sum by political orientation") +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank()
+        )
+
+p2 + p1 + plot_layout(ncol = 1, heights = c(1,2))
+```
+
+

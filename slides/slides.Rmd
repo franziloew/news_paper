@@ -1343,3 +1343,14 @@ plmtest(pool, type=c("bp"))
 ```
 
 - reject the null and conclude that random effects is appropriate. 
+
+---
+
+# OLS Dummy Regression
+
+```{r}
+fixed.dum <-lm(polls_norm ~ vis_bias_norm + sent_bias_norm + agenda_bias_norm + party, 
+               data = biasDF)
+summary(fixed.dum)
+```
+
