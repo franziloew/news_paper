@@ -1,38 +1,102 @@
 ---
 title: "Different types of media bias"
-subtitle: "Fixed effect regression analysis"
 author: "Franziska Löw"
 date: "`r format(Sys.Date())`"
-output: github_document
+output: html_document
 ---
 
 
-We use the data from the "Sonntagsumfrage" (Sunday survey) from [infratest dimap](https://www.infratest-dimap.de/umfragen-analysen/bundesweit/sonntagsfrage/). The institution regularly asks at least 1000 German citizens the question: "Which party would you choose if federal elections take place next Sunday?" The survey thus measures the current election tendencies and therefore reflects an intermediate state in the opinion-forming process of the electoral population.
-
 ```{r include=FALSE}
-knitr::opts_chunk$set(include=FALSE)
-```
-
-```{r}
 rm(list = ls())
 library(tidyverse)
 library(ggthemes)
 library(lubridate)
 library(scales)
-
-source("func/functions.R")
 ```
 
-```{r}
-# import bias dataframes
-load("../output/agendabias.Rda")
-load("../output/sentbias.Rda")
-load("../output/visbias.Rda")
+```{r Normalize Data Function, include=FALSE}
+normalize_data <- function(x) {
+  # normalize data between -1,1
+  if (is.numeric(x)) {
+    y <- 2*((x - min(x, na.rm = T)) / (max(x, na.rm = T) - min(x, na.rm = T)))-1
+    return(y)
+  } else {
+    return(x)
+  }
 
-agendaBias %>%
-  left_join(., visBias, by = c("medium","party","year", "month")) %>%
-  left_join(., sentBias, by = c("medium","party","year", "month")) %>% ungroup() -> bias
+}
+```
 
+```{r Load Data, include=FALSE}
+load("../output/agenda.Rda")
+load("../output/sentiment.Rda")
+load("../output/visibility.Rda")
+
+# combine dfs
+df <- left_join(agenda %>% select(-date),
+                sent, by = c("month","year","medium","party")) %>%
+  left_join(.,vis %>% select(medium, month, year, party, vis),
+            by = c("month","year","medium","party")) %>%
+  # normalize data
+  mutate(
+    vis_norm = normalize_data(vis),
+    sent_norm = normalize_data(sent),
+    cor_norm = normalize_data(cor),
+    date =as.Date(paste("01",month,year, sep = "-"), format="%d-%m-%Y")
+  )
+```
+
+# Inspect data
+
+### Visibility 
+
+```{r echo=FALSE}
+df %>%
+  ggplot(aes(date, vis_norm, color = medium, group = medium)) +
+  geom_line() +
+  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
+  facet_wrap(~party) +
+  labs(y = "visibility", x =NULL) +
+  guides(colour = guide_legend(nrow = 1)) +
+  theme(legend.position = "bottom",
+        legend.title = element_blank())
+```
+
+### Sentiment 
+
+```{r echo=FALSE}
+df %>%
+  ggplot(aes(date, sent_norm, color = medium, group = medium)) +
+  geom_line() +
+  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
+  facet_wrap(~party) +
+  labs(y = "sentiment", x =NULL) +
+  guides(colour = guide_legend(nrow = 1)) +
+  theme(legend.position = "bottom",
+        legend.title = element_blank())
+```
+
+### Agenda correlation
+
+```{r echo=FALSE}
+df %>%
+  ggplot(aes(date, cor_norm, color = medium, group = medium)) +
+  geom_line() +
+  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
+  facet_wrap(~party) +
+  labs(y = "agenda correlation", x =NULL) +
+  guides(colour = guide_legend(nrow = 1)) +
+  theme(legend.position = "bottom",
+        legend.title = element_blank())
+```
+
+# Bias 
+
+## Standing in polls
+
+We use the data from the "Sonntagsumfrage" (Sunday survey) from [infratest dimap](https://www.infratest-dimap.de/umfragen-analysen/bundesweit/sonntagsfrage/). The institution regularly asks at least 1000 German citizens the question: "Which party would you choose if federal elections take place next Sunday?" The survey thus measures the current election tendencies and therefore reflects an intermediate state in the opinion-forming process of the electoral population.
+
+```{r include=FALSE}
 # Import and prepare survey data
 load("../output/polls.Rda")
 
@@ -42,175 +106,236 @@ polls <- table_long %>%
     month = lubridate::month(Datum),
     date = as.Date(paste0(year,"/",month,"/1"))
     ) %>%
-  filter(Datum > as.Date("2017-05-01")) %>%
+  filter(Datum > as.Date("2017-05-31")) %>%
   filter(Datum < as.Date("2018-03-01")) %>%
   filter(!party %in% c("Piraten", "Sonstige")) %>%
   group_by(year,month,date, party) %>%
   dplyr::summarise(poll_value = mean(value, na.rm=T)) %>%
   ungroup() %>%
-  mutate(poll_normalized = normalize_data2(poll_value))
+  mutate(poll_norm = normalize_data(poll_value))
 ```
 
-```{r}
+```{r echo=FALSE}
 polls %>%
-  ggplot(aes(date, poll_value, 
-             group = factor(party),
-             color = factor(party))) +
+  ggplot(aes(date, poll_norm)) +
   geom_line() +
-  theme_hc() +
-  scale_color_manual(values =  c("deepskyblue", "gold", "limegreen", "deeppink", "red", "black")) +
-  scale_x_date(breaks = date_breaks("1 month"), 
-               labels=date_format("%b\n%y", tz="CET")) +
-    geom_vline(xintercept = as.Date("2017-09-24"), 
-             linetype = 2, color = 'black') +
-  labs(x="", y="", color="",
-       title = "",
-       caption = "source: infratest dimap") +
-    guides(color = guide_legend(nrow = 1,
-                                label.theme = element_text(size = 10,
-                                                           angle=0))) +
-  theme(axis.text = element_text(size=10),
-        legend.position = "bottom")
-
-ggsave(filename = "../figs/polls.png", width = 6, height = 4, dpi = 600)
-```
-
-To ensure comparability between different metrics, all have been standardized to range from −1 to 1.
-
-```{r}
-biasDF <- left_join(bias, polls, by = c('party','month','year')) %>%
-  mutate(agenda_bias_norm = normalize_data2(agenda_bias),
-         sent_bias_norm = normalize_data2(sent_bias),
-         vis_bias_norm = normalize_data2(visibility_bias),
-         polls_norm = normalize_data2(poll_value)
-         ) %>%
-    select(year,month,date, medium, party, agenda_bias_norm, vis_bias_norm, sent_bias_norm, polls_norm)
-  
-biasDF_long <- biasDF %>%
-  gather(metric, value, agenda_bias_norm:polls_norm) 
-```
-
-```{r}
-biasDF_long %>%
-  ggplot(aes(date, value, color = metric)) +
-  geom_line(alpha=0.8) +
-  #geom_text(aes(y = 0), size = 3) +
-  theme_hc() +
-  scale_color_gdocs(name=NULL,
-                   breaks=c("vis_bias_norm", "sent_bias_norm", "agenda_bias_norm","polls_norm"),
-                   labels=c("Visibility bias", "Tonality bias", "Agenda bias", "Poll value")) +
-  facet_grid(party~medium) +
-  labs(x = NULL, y = NULL) +
-  theme(axis.text = element_text(size = 7),
-        axis.title = element_text(size = 7)
-        )
-
-ggsave("../figs/bias.png", width = 9, height = 6)
-```
-
-```{r eval=FALSE, include=FALSE}
-biasDF %>%
-  group_by(party) %>%
-  do(data.frame(Cor=t(cor(.[,c("agenda_bias_norm","vis_bias_norm","sent_bias_norm")], .[,"polls_norm"])))) %>%
-    gather(bias, cor, 2:4) %>%
-    mutate(bias = gsub("Cor.","",bias)) %>%
-  ungroup() -> cor
-
-cor %>%
-  ggplot(aes(bias,party,fill=cor, 
-             label= round(cor,digits = 1))) +
-  geom_tile() +
-  geom_text(color = "white") +
-  #facet_wrap(~bias) +
-  theme(axis.title = element_blank())
-```
-
-# Data Modelling
-
-```{r}
-biasDF_grouped <- biasDF %>% 
-  group_by(date,party) %>%
-  summarise(agenda_bias_norm = mean(agenda_bias_norm),
-            vis_bias_norm = mean(vis_bias_norm),
-            sent_bias_norm = mean(sent_bias_norm),
-            polls_norm = mean(polls_norm)
-            ) %>%
-  ungroup() %>%
-  mutate(party = as.factor(party))
-
-biasDF_grouped_long <- biasDF_grouped %>% 
-  gather(metric, value, agenda_bias_norm:polls_norm)
-```
-
-```{r}
-biasDF_grouped_long %>%
-  ggplot(aes(date, value, color = metric)) +
-  geom_line(alpha=0.8) +
-  theme_hc() +
-  scale_color_hc(name=NULL,
-                   breaks=c("vis_bias_norm", "sent_bias_norm", "agenda_bias_norm","polls_norm"),
-                   labels=c("Visibility bias", "Tonality bias", "Agenda bias", "Poll value")) +
+  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
   facet_wrap(~party) +
-  labs(x = NULL, y = NULL) +
-  theme(axis.text = element_text(size = 7),
-        axis.title = element_text(size = 7)
-        )
+  labs(y = "poll value", x =NULL) +
+  guides(colour = guide_legend(nrow = 1)) +
+  theme(legend.position = "bottom",
+        legend.title = element_blank())
 ```
 
+```{r estimate bias, include=FALSE}
+biasDF <- left_join(df, polls %>% select(-date), 
+                    by = c('party','month','year')) %>%
+  # estimate deviation from the poll value
+  mutate(agenda_bias1 = cor_norm - poll_norm,
+            sent_bias1 = sent_norm - poll_norm,
+            vis_bias1 = vis_norm - poll_norm,
+            month = month,
+            year = year,
+            medium = medium,
+            party = party,
+            date = date
+            ) 
+```
 
-## medium-specific Fixed Effects using Dummy Variables (LSDV Model)
+### Visibility 
+
+```{r echo=FALSE}
+biasDF %>%
+  ggplot(aes(date, vis_bias1, color = medium, group = medium)) +
+  geom_line() +
+  scale_y_continuous(limits = c(-1,1.5)) +
+  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
+  facet_wrap(~party) +
+  labs(y = "visibility bias", x =NULL) +
+  guides(colour = guide_legend(nrow = 1)) +
+  theme(legend.position = "bottom",
+        legend.title = element_blank())
+```
+
+### Sentiment 
+
+```{r echo=FALSE}
+biasDF %>%
+  ggplot(aes(date, sent_bias1, color = medium, group = medium)) +
+  geom_line() +
+  #scale_y_continuous(limits = c(-1,1.5)) +
+  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
+  facet_wrap(~party) +
+  labs(y = "sentiment bias", x =NULL) +
+  guides(colour = guide_legend(nrow = 1)) +
+  theme(legend.position = "bottom",
+        legend.title = element_blank())
+```
+
+### Agenda correlation
+
+```{r echo=FALSE}
+biasDF %>%
+  ggplot(aes(date, agenda_bias1, color = medium, group = medium)) +
+  geom_line() +
+    geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
+  facet_wrap(~party) +
+  labs(y = "agenda bias", x =NULL) +
+  guides(colour = guide_legend(nrow = 1)) +
+  theme(legend.position = "bottom",
+        legend.title = element_blank())
+```
+
+## compare with other parties
+
+```{r include=FALSE}
+parties <- unique(df$party)
+
+rm(biasDF2)
+for (i in parties) {
+  
+  # create a df that only contains the party
+  df1 <- df %>% filter(party == i) 
+  
+  # create a df that only contains all the other parties as reference
+  df2 <- df %>% 
+    filter(party != i) %>%
+    group_by(medium, year, month) %>%
+    # estimate the average value of all other parties 
+    summarize(avg_sent = mean(sent_norm, na.rm = T),
+              avg_vis = mean(vis_norm, na.rm = T),
+              avg_cor = mean(cor_norm, na.rm = T)) %>%
+    ungroup()
+  
+  # combine df1 and df2
+  tempdf <- left_join(df1,df2, 
+                      by=c("medium","year","month")) %>%
+    # estimate the difference between the party value and its reference value
+    transmute(sent_bias2 = sent_norm-avg_sent,
+           vis_bias2 = vis_norm-avg_vis,
+           agenda_bias2 = cor_norm-avg_cor,
+           medium = medium,
+           year = year,
+           month = month,
+           party = party
+           )
+  
+  if (exists('biasDF2')) {
+    biasDF2 <- bind_rows(biasDF2, tempdf) 
+    } else {
+      biasDF2 <- tempdf
+      }
+  
+  
+}
+
+# leftjoin with existing bias df
+biasDF <- left_join(biasDF, biasDF2, by=c("medium","year","month","party"))
+```
+
+### Visibility 
+
+```{r echo=FALSE}
+biasDF %>%
+  ggplot(aes(date, vis_bias2, color = medium, group = medium)) +
+  geom_line() +
+  #scale_y_continuous(limits = c(-1.5,1.5)) +
+  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
+  facet_wrap(~party) +
+  labs(y = "visibility bias", x =NULL) +
+  guides(colour = guide_legend(nrow = 1)) +
+  theme(legend.position = "bottom",
+        legend.title = element_blank())
+```
+
+### Sentiment 
+
+```{r echo=FALSE}
+biasDF %>%
+  ggplot(aes(date, sent_bias2, color = medium, group = medium)) +
+  geom_line() +
+  #scale_y_continuous(limits = c(-1,1.5)) +
+  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
+  facet_wrap(~party) +
+  labs(y = "sentiment bias", x =NULL) +
+  guides(colour = guide_legend(nrow = 1)) +
+  theme(legend.position = "bottom",
+        legend.title = element_blank())
+```
+
+### Agenda correlation
+
+```{r echo=FALSE}
+biasDF %>%
+  ggplot(aes(date, agenda_bias2, color = medium, group = medium)) +
+  geom_line() +
+  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
+  facet_wrap(~party) +
+  labs(y = "agenda bias", x =NULL) +
+  guides(colour = guide_legend(nrow = 1)) +
+  theme(legend.position = "bottom",
+        legend.title = element_blank())
+```
+
+## Radar charts 
+
+To compare both bias metrics, the average value of a party in a medium is estimated.
 
 ```{r}
-fixed.dum <-lm(polls_norm ~ vis_bias_norm + sent_bias_norm + agenda_bias_norm + party, 
-               data = biasDF_grouped)
-summary(fixed.dum)
+biasDF.grouped <- biasDF %>%
+  group_by(medium,party) %>%
+  summarize(vis_bias1 = mean(vis_bias1, na.rm = T),
+            vis_bias2 = mean(vis_bias2, na.rm = T),
+            sent_bias1 = mean(sent_bias1, na.rm = T),
+            sent_bias2 = mean(sent_bias2, na.rm = T),
+            agenda_bias1 = mean(agenda_bias1, na.rm = T),
+            agenda_bias2 = mean(agenda_bias2, na.rm = T)
+            ) %>%
+  ungroup()
 ```
 
-### Fixed effects
+### Visibility 
 
-I use fixed-effects (FE) as I am only interested in analyzing the impact of the different biases that vary over time.
-
-FE explore the relationship between predictor and outcome variables within an entity, in this case party. Each party has its own individual characteristics that may or may not influence the predictor variables; e.g. the communication practices of a party may influence its poll value.
-
-When using FE I assume that something within the party may impact the outcome variables (poll value) that need to be controled for. This is the rationale behind the assumption of the correlation between entity's error term and predictor variables. FE remove the effect of those time-invariant characteristics so I can assess the net effect of the predictors on the outcome variable.
-
-Another important assumption of the FE model is that those time-invariant characteristics are unique to the party and should not be correlated with other party characteristics. Each party is different therefore the party's error term and the constant (which captures individual characteristics) should not be correlated with the others. If the error terms are correlated, then FE is no suitable since inferences may not be correct and you need to model that relationship (probably using random-effects), this is the main rationale for the Hausman test.
-
-*"The key insight is that if the unobserved variable does not change over time, then any changes in the dependent variable must be due to influences other than these fixed characteristics."* (Stock and Watson, 2003, p.289-290)
-
-*"In the case of time-series cross-sectional data the interpretation of the beta coefficients would be "...for a given country, as $X$ varies across time by one unit, $Y$ increases or decreases by $\beta$ units"* (Bartels, Brandom, “Beyond “Fixed Versus Random Effects”: A framework for improving substantive and statistical analysis of panel, time-series cross-sectional, and multilevel data”, Stony Brook University, working paper, 2008).
-
-$$
-Y_{it}=\beta_0 + \beta_1X_{1it} + \beta_2X_{2it} + \beta_3X_{3it} + \alpha_i + \epsilon_{it}
-$$
-
-Where...
-
-  - $\alpha_i$ ($i=1,...,n$) is the unknown intercept for each party (7 party-specific intercepts).
-  – $Y_{it}$ is the poll value where $i$ = party and $t$ = month.
-  – $X_{jit}$ represents the independent variables (IV) visibility bias ($j=1$), tonality bias ($j=2$) and agenda bias ($j=3$)
-  – $\beta_{j}$ is the coefficient for that IV,
-  – $\epsilon_{it}$ is the error term 
-
-```{r}
-library(plm)
-
-fixed <- plm(polls_norm ~ vis_bias_norm + sent_bias_norm + agenda_bias_norm ,
-             data = biasDF_grouped, index = c("party","date"), model = "within")
-
-summary(fixed)
+```{r echo=FALSE}
+biasDF.grouped %>%
+  select(medium, party, vis_bias1, vis_bias2) %>%
+  gather(key = biastype, value = biasvalue, vis_bias1:vis_bias2) %>%
+  spread(key = party, value = biasvalue) %>%
+  ggiraphExtra::ggRadar(aes(color = medium, facet = biastype),
+                        interactive = T,
+                        alpha = 0,
+                        rescale = F,
+                        legend.position = "bottom") 
 ```
 
-```{r}
-random <- plm(polls_norm ~ vis_bias_norm + sent_bias_norm + agenda_bias_norm,
-             data = biasDF_plm, index = c("party","date"), model = "random")
+### Sentiment 
 
-summary(random)
+```{r echo=FALSE}
+biasDF %>%
+  group_by(medium,party) %>%
+  summarize(bias1 = mean(sent_bias1, na.rm = T),
+            bias2 = mean(sent_bias2, na.rm = T)) %>%
+  gather(key = biastype, value = biasvalue, bias1:bias2) %>%
+  spread(key = party, value = biasvalue) %>%
+  ggiraphExtra::ggRadar(aes(color = medium, facet = biastype),
+                        interactive = T,
+                        alpha = 0,
+                        rescale = F,
+                        legend.position = "bottom")  
 ```
 
-How do we know when to use fixed or random effects? We can use the Hausman Test, where the null hypothesis is that the model is random effects and the alternative is that fixed effects are better fit. In this example, the p-value is below .05 so a fixed effects model is the better fit for this data.
+### Agenda correlation
 
-```{r}
-phtest(random, fixed)
+```{r echo=FALSE}
+biasDF %>%
+  group_by(medium,party) %>%
+  summarize(bias1 = mean(agenda_bias1, na.rm = T),
+            bias2 = mean(agenda_bias2, na.rm = T)) %>%
+  gather(key = biastype, value = biasvalue, bias1:bias2) %>%
+  spread(key = party, value = biasvalue) %>%
+  ggiraphExtra::ggRadar(aes(color = medium, facet = biastype),
+                        interactive = T,
+                        alpha = 0,
+                        rescale = F,
+                        legend.position = "bottom")  
 ```
-

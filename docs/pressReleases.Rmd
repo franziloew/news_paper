@@ -1,76 +1,45 @@
 ---
 title: "Press Releases"
-output: html_notebook
+output: html_document
 ---
 
-```{r}
-knitr::opts_chunk$set(warning = FALSE, message = FALSE)
-```
-
-
-```{r message=FALSE, warning=FALSE}
+```{r include=FALSE}
 library(tidyverse)
+library(lubridate)
+
 rm(list = ls())
 ```
 
-```{r}
-fdp <- read.csv("../scrapedata/fdp.csv", stringsAsFactors=FALSE)
+- Unterschied zw. Partei und Fraktion: Parteien werden über Mitgliedsbeiträge, Spenden, Wahlkampfkostenerstattung finanziert, Fraktion über staatl. Mittel. Staatl. alimentierten Fraktionen dürfen Parteien nicht aus ihrern Mitteln unterstützen (Parteigesetzt §25 (2)). (sonst würden Parteien, die nicht im Bundestag sind praktisch benachteiligt.)
 
-# get the first sentence of the "gastbeitrag" releases
-text <- unlist(strsplit(fdp$body, '\\:|\\.'))
-ignore <- text[!grep(pattern = "Gastbeitrag", text, ignore.case = T)]
+- Trotzdem greifen die relativ gut ausgestatteten Fraktionen mit ihren Pressemitteilungen in den Wahlkampf ein. Grenzlinie zwischen Fraktionstätigkeit und Wahlkampfhilfe ist schwer zu ziehen.
 
-fdp <- fdp %>%
-  filter(!grepl("interview",title,ignore.case = T)) %>%
-  transmute(text = gsub(paste(ignore, sep = "|", collapse = "|"),"", body),
-            date = as.Date(date, format = "%d.%m.%Y"),
-            title = gsub('(.+?):','',title, perl = T),
-            title_text = paste(title, text),
-            source = party
-         ) 
-```
+## Load Data
 
-```{r}
-linke <- read.csv("../scrapedata/linke.csv", stringsAsFactors=FALSE)
+### CDU
 
-linke <- linke %>%
-  transmute(text = body,
-            title = title,
-            title_text = paste(title, text),
-            date = gsub("\n","",date, perl = T),
-            date = as.Date(date, format = "%d. %B %Y"),
-            source = party)
-```
+- Partei (https://www.cdu.de)
+- Fraktion / Union (https://www.presseportal.de)
 
-```{r}
-gruene <- read.csv("../scrapedata/gruene.csv", stringsAsFactors=FALSE)
+```{r include=FALSE}
+# Partei
+load("../data/pressReleases/cdu.Rda")
+cdu.p <- cdu %>% mutate(type = "party") %>% select(-scrape_time, -source)
 
-gruene <- gruene %>%
-  transmute(text = gsub('Die Fraktionspressestelle auf Twitter: @GruenSprecher','',body),
-            title = title,
-            title_text = paste(title, text),
-            date = as.Date(date, format = "%d.%m.%Y"),
-            source = party
-         )
-```
+# Fraktion
+cdu.f <- read.csv("../data/pressReleases/python/cdu.csv", stringsAsFactors=FALSE)
+cdu.f <- cdu.f %>% mutate(type = "fraction") %>% select(-link)
 
-```{r}
-spd <- read.csv("../scrapedata/spd.csv", stringsAsFactors=FALSE)
-
-spd <- spd %>%
-  transmute(text = gsub('(.+?):','', body, perl = TRUE, ignore.case = TRUE),
-            title = title,
-            title_text = paste(title, text),
-            date = as.Date(gsub('\\|.*','',date, perl = T), format = "%d.%m.%Y"),
-            source = "spd"
-         )
-```
-
-```{r}
-cdu <- read.csv("../scrapedata/cdu.csv", stringsAsFactors=FALSE)
-
-cdu <- cdu %>%
-  transmute(text = gsub('Berlin','',body, ignore.case = TRUE, perl = TRUE),
+# combine both
+cdu <- rbind(cdu.p,cdu.f) %>% 
+  # date format
+  mutate(date = as.Date(date, format="%d.%m.%Y")) %>% 
+  # filter time perion
+  filter(date >= as.Date("2017-06-01")) %>%
+  filter(date < as.Date("2018-03-01")) %>%
+  
+  # clean text
+  mutate(text = gsub('Berlin','',body, ignore.case = TRUE, perl = TRUE),
          text = gsub('ots','',text, ignore.case = TRUE, perl = TRUE),
          text = gsub('Presse.*','', text, perl = TRUE, ignore.case = TRUE),
          text = gsub('Telefon.*','', text, perl = TRUE, ignore.case = TRUE),
@@ -79,45 +48,222 @@ cdu <- cdu %>%
          text = gsub('Email.*','', text, perl = TRUE, ignore.case = TRUE),
          title = gsub('(.+?):','',title, perl = T),
          title_text = paste(title, text),
-         date = as.Date(gsub('\\-.*','',date, perl = T), format = "%d.%m.%Y"),
-         source = "union"
-         ) 
+         party = "CDU"
+         ) %>%
+  distinct(title, .keep_all = T) %>%
+  # remove text about inner-party votes
+  filter(!grepl("wahl ",title,ignore.case = T)) %>%
+  # keep variables 
+  select(title_text, party, type, date)
+
+rm(cdu.f, cdu.p)
 ```
 
+### SPD
 
-```{r}
-afd <- read.csv("../scrapedata/afd.csv", stringsAsFactors=FALSE)
+- Partei (https://www.spd.de)
+- Fraktion (https://www.spdfraktion.de)
 
-afd <- afd %>%
-  filter(!grepl("interview",title,ignore.case = T)) %>%
-  transmute(text = gsub('Berlin[^n\\.]*','',body, ignore.case = TRUE, perl = TRUE),
-         text = gsub('Drucken','',text, ignore.case = TRUE, perl = TRUE),
-         title = gsub('(.+?):','',title, perl = T),
+```{r include=FALSE}
+# Partei
+load("../data/pressReleases/spd.Rda")
+spd.p <- spd %>% mutate(type = "party",
+                        date = as.Date(date, format="%d.%m.%Y")
+                        ) %>% select(-scrape_time, -source)
+
+# Fraktion
+spd.f <- read.csv("../data/pressReleases/python/spd.csv", stringsAsFactors=FALSE)
+spd.f <- spd.f %>% mutate(type = "fraction",
+                          date = as.Date(gsub('\\|.*','',date, perl = T), format = "%d.%m.%Y")
+                          ) %>% select(-link) 
+
+# combine both
+spd <- rbind(spd.p,spd.f) %>%
+  # filter time perion
+  filter(date >= as.Date("2017-06-01")) %>%
+  filter(date < as.Date("2018-03-01")) %>%
+  
+  # clean text
+  mutate(text = gsub('(.+?):','', body, perl = TRUE, ignore.case = TRUE),
+         title = title,
          title_text = paste(title, text),
-         source = "afd",
-         date = gsub('Mrz',"März",date),
-         date = as.Date(date, format = "%d%b %Y")
-         ) 
+         party = "SPD"
+         ) %>%
+  distinct(title, .keep_all = T) %>%
+  # remove text about inner-party votes
+  filter(!grepl("wahl ",title,ignore.case = T)) %>%
+  # keep variables 
+  select(title_text, party, type, date)
+  
+rm(spd.f, spd.p)
 ```
 
-```{r}
+### FDP
+
+- Partei (https://www.fdp.de)
+- Fraktion (https://www.fdpbt.de)
+
+```{r include=FALSE}
+fdp.p <- read.csv("../data/pressReleases/python/fdp.csv", stringsAsFactors=FALSE)
+
+fdp.p <- fdp.p %>%
+  mutate(
+    date = as.Date(date, format = "%d.%m.%Y"),
+    title = gsub('\n','',title, perl = T),
+    type = "party") 
+
+fdp.f <- read.csv("../data/pressReleases/python/fdpbt.csv", stringsAsFactors=FALSE)
+
+fdp.f <- fdp.f %>% 
+  mutate(
+        date = as.Date(date, format="%d.%m.%Y"),
+        title = gsub('\n','', title, perl = T),
+        title = gsub('\t','', title, perl = T),
+        type = "fraction")
+
+# combine both
+fdp <- rbind(fdp.p,fdp.f) %>%
+  
+  filter(!grepl("Gastbeitrag",title)) %>%
+  filter(!grepl("Interview",title)) %>%
+  
+  # clean text
+  mutate(title = gsub('(.+?):','', title, perl = TRUE, ignore.case = TRUE),
+         title_text = paste(title, body),
+         party = "FDP"
+         ) %>%
+  distinct(title, .keep_all = T) %>%
+  # remove text about inner-party votes
+  filter(!grepl("wahl ",title,ignore.case = T)) %>%
+  # keep variables 
+  select(title_text, party, type, date)
+  
+rm(fdp.f, fdp.p)
+```
+
+### B90 / Die Grünen
+
+- Partei (https://www.gruene.de)
+- Fraktion (https://www.gruene-bundestag.de/)
+
+```{r include=FALSE}
+# Partei 
+load("../data/pressReleases/gruene.Rda")
+gruene.p <- gruene %>% mutate(type = "party",
+                              date = as.Date(date, format="%d.%m.%Y")
+                              ) %>% select(-scrape_time, -source)
+
+# Fraktion
+gruene.f <- read.csv("../data/pressReleases/python/gruene.csv", stringsAsFactors=FALSE)
+gruene.f <- gruene.f %>% mutate(type = "fraction",
+                                date = as.Date(date, format="%d.%m.%Y")) %>% select(-link, -party) 
+
+# combine both
+gruene <- rbind(gruene.p,gruene.f) %>%
+  # clean text
+  mutate(text = gsub('Die Fraktionspressestelle auf Twitter: @GruenSprecher','',body),
+         title = title,
+         title_text = paste(title, text),
+         party = "B90/GRÜNE"
+         ) %>%
+  distinct(title, .keep_all = T) %>%
+  # remove text about inner-party votes
+  filter(!grepl("wahl ",title,ignore.case = T)) %>%
+  # keep variables 
+  select(title_text, party, type, date)
+
+rm(gruene.f, gruene.p)
+```
+
+### DIE LINKE
+
+- Partei (https://www.die-linke.de)
+- Fraktion (https://www.die-linke.de/start/presse/aus-dem-bundestag/)
+
+```{r include=FALSE}
+# Partei 
+load("../data/pressReleases/linke.Rda")
+linke.p <- linke %>% mutate(type = "party",
+                            date = as.Date(date, format="%d.%m.%Y")
+                            ) %>% select(-scrape_time, -source)
+
+# Fraktion
+linke.f <- read.csv("../data/pressReleases/python/linke.csv", stringsAsFactors=FALSE)
+linke.f <- linke.f %>% mutate(type = "fraction",
+                              date = gsub("\n","", date, perl = T),
+                              date = as.Date(date, format="%d. %b %Y")) %>% select(-link, -party) 
+
+# combine both
+linke <- rbind(linke.p,linke.f) %>%
+  # filter time perion
+  filter(date >= as.Date("2017-06-01")) %>%
+  filter(date < as.Date("2018-03-01")) %>%
+  
+  # clean text
+  mutate(text = body,
+         title = title,
+         title_text = paste(title, text),
+         party = "DIE LINKE"
+         ) %>%
+  distinct(title, .keep_all = T) %>%
+  # keep variables 
+  select(title_text, party, type, date)
+
+rm(linke.f, linke.p)
+```
+
+### AfD
+
+- Partei (https://www.afd.de)
+- Fraktion (https://www.afdbundestag.de)
+
+```{r include=FALSE}
+load("../data/pressReleases/afd.Rda")
+load("../data/pressReleases/afdf.Rda")
+
+afd <- rbind(afd, afd.f %>% mutate(source = "AfD")) %>%
+  mutate( date = str_extract(body, "(?<=,\\s)(\\d{1,2}.\\s\\w{1,}\\s\\d{4})"),
+          date = as.Date(date, format = "%d. %B %Y"),
+          text = gsub('Berlin[^n\\.]*','',body, ignore.case = TRUE, perl = TRUE),
+          text = gsub(".fusion-button[^\n]*",'',text, ignore.case = TRUE, perl = TRUE),
+          title_text = paste(title, body),
+          type = "party",
+          party = "AfD"
+          ) %>%
+  distinct(title, .keep_all = T) %>%
+  select(title_text, party, type, date)
+
+rm(afd.f)
+```
+
+```{r include=FALSE}
+filter <- paste("wahl","wählt","personalentscheidung","gremien","rufbereitschaft","erreichbarkeit", sep = "|")
+  
 pressReleases <- bind_rows(cdu, spd, afd, gruene, linke, fdp) %>%
   filter(date >= as.Date("2017-06-01")) %>%
   filter(date < as.Date("2018-03-01")) %>%
-  mutate(type = "press")
+  mutate(type = "press",
+         text_length = sapply(gregexpr("\\S+", title_text), length)) %>%
+  # remove text about inner-party votes
+  filter(!grepl(filter,title_text,ignore.case = T)) %>%
+  filter(text_length > 50) %>%
+  filter(text_length < 2000)
 ```
 
-```{r}
+```{r echo=FALSE}
 pressReleases %>%
-  ggplot(aes(source, fill=source)) +
-  geom_bar(show.legend = F) +
+  group_by(party) %>%
+  tally() %>%
+  ggplot(aes(reorder(party, n),n)) +
+  geom_col(fill="blue", alpha=0.6) +
+  coord_flip() +
   ggthemes::theme_hc() +
-  ggthemes::scale_fill_hc() +
   labs(y = NULL, x = NULL, title = "Number of press releases (June 2017 - March 2018)")
 ```
 
-# Clean Data
-```{r}
+## Clean Data
+
+```{r eval=FALSE, include=FALSE}
 pressReleases$text_cleaned <- gsub("[[:punct:]]", " ", pressReleases$title_text)
 pressReleases$text_cleaned <- gsub("[[:cntrl:]]", " ", pressReleases$text_cleaned)
 pressReleases$text_cleaned <- gsub("[[:digit:]]", " ", pressReleases$text_cleaned)
@@ -131,8 +277,8 @@ german_stopwords_full <- read.table("dict/german_stopwords_full.txt", stringsAsF
 german_stopwords_full <- german_stopwords_full$V1
 
 # 2
-mystopwords <- c("januar","feburar","märz","april","mai","juni","juli",
-                 "august","september","oktober","november","dezember",
+mystopwords <- c("januar","feburar","märz","april","mai","juni","juli","drucken","bundestagsfraktion",
+                 "august","september","oktober","november","dezember","button",
                  "linke","cdu","csu","union","spd","afd","grüne","fdp"
                  )
 stopwords <- c(german_stopwords_full, mystopwords)
@@ -161,33 +307,35 @@ stem_text<- function(text, language = "porter", mc.cores = 1) {
 pressReleases$text_cleaned1 <- stem_text(pressReleases$text_cleaned)
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 save(pressReleases, file = "../output/pressReleases.Rda")
 ```
 
-# Inspect Data
-
-```{r}
+```{r include=FALSE}
 library(tidyverse)
 library(tidytext)
+
+rm(list = ls())
 load("../output/pressReleases.Rda")
 ```
 
-```{r}
+```{r echo=FALSE}
 pressReleases %>%
   sample_n(1) %>%
-  select(text_cleaned, text_cleaned1) %>%
+  select(title_text, text_cleaned) %>%
   htmlTable::htmlTable()
 ```
 
-```{r}
-library(tidytext)
+## Inspect Data
 
+```{r include=FALSE}
 tokens <- pressReleases %>% unnest_tokens(word, text_cleaned)
 bigrams <- pressReleases %>% unnest_tokens(bigrams, text_cleaned, token="ngrams", n=2)
 ```
 
-```{r}
+### Tokens
+
+```{r echo=FALSE, fig.height=10, fig.width=10, message=FALSE, warning=FALSE}
 tokens2 <- tokens %>%
   count(party, word, sort = TRUE) %>%
   ungroup() %>%
@@ -206,7 +354,8 @@ tokens2 %>%
   coord_flip()
 ```
 
-```{r}
+### Bigrams
+```{r echo=FALSE, fig.height=10, fig.width=10, message=FALSE, warning=FALSE}
 bigrams2 <- bigrams %>%
   count(party, bigrams, sort = TRUE) %>%
   ungroup() %>%
@@ -216,7 +365,7 @@ bigrams2 %>%
     arrange(desc(tf_idf)) %>%
   mutate(word = factor(bigrams, levels = rev(unique(bigrams)))) %>% 
   group_by(party) %>% 
-  top_n(10) 
+  top_n(10) %>%
   ungroup %>%
   ggplot(aes(bigrams, tf_idf, fill = party)) +
   geom_col(show.legend = FALSE) +
