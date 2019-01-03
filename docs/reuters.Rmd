@@ -32,9 +32,6 @@ reutersDF2 <- readxl::read_excel("../data/reuters_clean.xlsx", sheet = "orientat
 
 ## Political orientation
 
-
-
-
 Der Großteil der Befragten ordnet sich selbst weitgehend der politischen Mitte zu. Knapp 71 Prozent geben an, sich auf einer 7‐stufigen Skala genau in der Mitte oder leicht rechts bzw. leicht links wiederzufinden. Am rechten Rand sehen sich im Jahr 2018 6 Prozent der Befragten und 8 Prozent ordnen sich dem linken Rand zu. 
 
 ### Large Scale
@@ -69,6 +66,8 @@ reutersDF2 %>%
 ```{r include=FALSE}
 reutersDF.long <- reutersDF1 %>%
   select(medium:`Very rightwing`) %>%
+    mutate(order = Centre) %>%
+
   gather(partisan, count, `Very leftwing`:`Very rightwing`) %>%
   mutate(partisan.f = as.factor(partisan)) %>%
   mutate(
@@ -98,7 +97,9 @@ reutersDF.long <- reutersDF.long %>%
   
   # calulate relative counts by partisan and medium
   mutate(count_relative_p = count/count_sum_p,
-         count_relative_m = count/count_sum_m
+         count_relative_m = count/count_sum_m,
+         order_relative_p = order/count_sum_p,
+         order_relative_m = order/count_sum_m
          )
   
 ```
@@ -113,7 +114,7 @@ keeps <- c("Bild.de", "Bild Plus", "Spiegel Online","Spiegel Magazin digital ode
 reutersDF.long %>%
     filter(!grepl("know",medium)) %>%
   #filter(medium %in% keeps) %>%
-  ggplot(aes(reorder(partisan.f, partisan_scale), medium, fill = count)) +
+  ggplot(aes(reorder(partisan.f, partisan_scale),reorder(medium, order), fill = count)) +
   geom_tile() +
   geom_text(aes(label= count), size = 3) +
   scale_fill_gradient(low =  "#00AFBB", high = "#FC4E07") +
@@ -126,21 +127,21 @@ reutersDF.long %>%
   scale_y_discrete(expand = c(0, 0)) +
   theme(legend.position = "none",
        axis.text.x = element_text(angle = 90))
-
-ggsave("../figs/reuters.png")
 ```
 
 ```{r echo=FALSE, fig.height=8, fig.width=10}
 p1 <- reutersDF.long %>%
   filter(!grepl("know",medium)) %>%
   #filter(medium %in% keeps) %>%
-  ggplot(aes(reorder(partisan.f, partisan_scale), medium, fill = count_relative_m)) +
+  ggplot(aes(reorder(partisan.f, partisan_scale),reorder(medium, order_relative_m), fill = count_relative_m)) +
   geom_tile() +
   geom_text(aes(label=round((count_relative_m*100), digits = 1) ), size = 3) +
   scale_fill_gradient(low =  "#00AFBB", high = "#FC4E07") +
   theme_calc() +
-  labs(x = "", y = "", title = "Relative values I",
-       subtitle = "Absolute values/sum by medium") + 
+  labs(title = "Reuters Institute Digital News Report 2018",
+       subtitle = "Political orientation and media consumption",
+       caption = "Results for Germany / Hans-Bredow-Institut",
+       x = NULL, y = NULL) + 
   scale_x_discrete(expand = c(0, 0)) +
   scale_y_discrete(expand = c(0, 0)) +
   theme(legend.position = "none",
@@ -150,8 +151,9 @@ p2 <- reutersDF.long %>%
   filter(!grepl("know",medium)) %>%
   #filter(medium %in% keeps) %>%
   group_by(medium) %>%
-  summarise(count_sum = sum(count)) %>%
-  ggplot(aes(medium,count_sum)) +
+  summarise(count_sum = sum(count),
+            order_relative_m = sum(order_relative_m)) %>%
+  ggplot(aes(reorder(medium,order_relative_m), count_sum)) +
   geom_col(fill = "#00AFBB", alpha = 0.8) +
   geom_text(aes(label=count_sum), hjust = 1, size = 3) +
   coord_flip() +
@@ -162,6 +164,8 @@ p2 <- reutersDF.long %>%
         )
 
 p1 + p2 + plot_layout(widths = c(2,1))
+
+ggsave("../figs/reuters.png")
 ```
 
 ```{r echo=FALSE, fig.height=10, fig.width=8}

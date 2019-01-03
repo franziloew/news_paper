@@ -177,7 +177,7 @@ biasDF.grouped <- biasDF %>%
 
 #### Visibility 
 
-```{r echo=FALSE, fig.height=8, fig.width=12}
+```{r echo=FALSE, fig.height=8, fig.width=12, message=FALSE, warning=FALSE}
 p1 <- biasDF %>%
   ggplot(aes(date, vis_bias1_norm, color = medium, group = medium)) +
   geom_line() +
@@ -203,6 +203,8 @@ p2 <- biasDF %>%
 
 
 p1 + p2
+
+ggsave("../figs/vis_bias.png")
 ```
 
 ```{r echo=FALSE}
@@ -219,7 +221,7 @@ biasDF.grouped %>%
 
 #### Sentiment 
 
-```{r echo=FALSE, fig.height=8, fig.width=12}
+```{r echo=FALSE, fig.height=8, fig.width=12, message=FALSE, warning=FALSE}
 p1 <- biasDF %>%
   ggplot(aes(date, sent_bias1_norm, color = medium, group = medium)) +
   geom_line() +
@@ -244,6 +246,8 @@ p2 <- biasDF %>%
         axis.ticks.y = element_blank())
 
 p1 + p2
+
+ggsave("../figs/sent_bias.png")
 ```
 
 ```{r echo=FALSE}
@@ -260,7 +264,7 @@ biasDF.grouped %>%
 
 #### Agenda correlation
 
-```{r echo=FALSE, fig.height=8, fig.width=12}
+```{r echo=FALSE, fig.height=8, fig.width=12, message=FALSE, warning=FALSE}
 p1 <- biasDF %>%
   ggplot(aes(date, agenda_bias1_norm, color = medium, group = medium)) +
   geom_line() +
@@ -286,6 +290,8 @@ p2 <- biasDF %>%
         axis.ticks.y = element_blank())
 
 p1 + p2
+
+ggsave("../figs/agenda_bias.png")
 ```
 
 ```{r echo=FALSE}
