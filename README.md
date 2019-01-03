@@ -1,7 +1,5 @@
 # Comparing different types of media bias in online news
 
-![](/figs/bias.png)
-
 The importance of the internet as a source of information for political topics has grown strongly in recent years. Even though television remains the most widely used source of news in Germany (2018: 74%), numbers watching continue to decline while use of the internet for news has grown significantly in the last year (+5%, 2018: 65%) [Reuters, 2018](http://www.digitalnewsreport.org/survey/2018/germany-2018/). The expansion of the internet as a new method of communication provides a potential challenge to the primacy of the traditional media and political parties as formers of public opinion.
 
 However, the influence of media reporting on voter preferences has not only been studied in the literature since the growing importance of the internet. The general hypothesis is that reporting in political news may have a profound influence on voter opinions and preferences. It can therefore be argued, that one central responsibility of the media is to supply voters with balanced and objective information on relevant political issues and actors.
@@ -16,6 +14,6 @@ The data analyzed in this study contains nearly 12.000 online news articles from
 
 ![](/figs/article_timeline.png)
 
-## [Bias measure](https://franziloew.github.io/news_paper/bias.html)
+### [Bias measure](https://franziloew.github.io/news_paper/bias.html)
 
 Anonther interesting question is, if the reporting of media corresponds to the political tendencies of its consumers. Since 2012, the [Reuters Institute Digital News Survey](http://www.digitalnewsreport.org/about-us-2018/) has been investigating the media use of digital content. Among others, the following questions are investigated: What types of news are of interest? Which devices and media are used to find them? A graphical analysis of a fraction of this data can be found [here](https://franziloew.github.io/news_paper/reuters.html). The [The Hans Bredow Institute](https://www.hans-bredow-institut.de/de/projekte/reuters-institute-digital-news-survey) has been responsible for the German part of the study.
