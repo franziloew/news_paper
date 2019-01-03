@@ -12,6 +12,7 @@ library(tidyverse)
 library(ggthemes)
 library(lubridate)
 library(scales)
+library(patchwork)
 ```
 
 ```{r Normalize Data Function, include=FALSE}
@@ -19,6 +20,17 @@ normalize_data <- function(x) {
   # normalize data between -1,1
   if (is.numeric(x)) {
     y <- 2*((x - min(x, na.rm = T)) / (max(x, na.rm = T) - min(x, na.rm = T)))-1
+    return(y)
+  } else {
+    return(x)
+  }
+
+}
+
+norm_data <- function(x) {
+  # normalize data between 0,1
+  if (is.numeric(x)) {
+    y <- (x - min(x, na.rm = T)) / (max(x, na.rm = T) - min(x, na.rm = T))
     return(y)
   } else {
     return(x)
@@ -39,60 +51,20 @@ df <- left_join(agenda %>% select(-date),
             by = c("month","year","medium","party")) %>%
   # normalize data
   mutate(
-    vis_norm = normalize_data(vis),
-    sent_norm = normalize_data(sent),
-    cor_norm = normalize_data(cor),
+    vis_norm = norm_data(vis),
+    sent_norm = norm_data(sent),
+    cor_norm = norm_data(cor),
     date =as.Date(paste("01",month,year, sep = "-"), format="%d-%m-%Y")
   )
 ```
 
-# Inspect data
+## Different reference points
 
-### Visibility 
+After estimating the value for each party for visibility, tonality and agenda setting at a monthly level for the different news providers, the deviation from a reference point is calculated. I use two different reference points and compare them. Depending on the choice if the reference point, the interpretation of the bias metric also differs.
 
-```{r echo=FALSE}
-df %>%
-  ggplot(aes(date, vis_norm, color = medium, group = medium)) +
-  geom_line() +
-  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
-  facet_wrap(~party) +
-  labs(y = "visibility", x =NULL) +
-  guides(colour = guide_legend(nrow = 1)) +
-  theme(legend.position = "bottom",
-        legend.title = element_blank())
-```
+To ensure comparability between the different metrics, they are standardized to range from −1 to 1.
 
-### Sentiment 
-
-```{r echo=FALSE}
-df %>%
-  ggplot(aes(date, sent_norm, color = medium, group = medium)) +
-  geom_line() +
-  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
-  facet_wrap(~party) +
-  labs(y = "sentiment", x =NULL) +
-  guides(colour = guide_legend(nrow = 1)) +
-  theme(legend.position = "bottom",
-        legend.title = element_blank())
-```
-
-### Agenda correlation
-
-```{r echo=FALSE}
-df %>%
-  ggplot(aes(date, cor_norm, color = medium, group = medium)) +
-  geom_line() +
-  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
-  facet_wrap(~party) +
-  labs(y = "agenda correlation", x =NULL) +
-  guides(colour = guide_legend(nrow = 1)) +
-  theme(legend.position = "bottom",
-        legend.title = element_blank())
-```
-
-# Bias 
-
-## Standing in polls
+#### 1. Standing in polls
 
 We use the data from the "Sonntagsumfrage" (Sunday survey) from [infratest dimap](https://www.infratest-dimap.de/umfragen-analysen/bundesweit/sonntagsfrage/). The institution regularly asks at least 1000 German citizens the question: "Which party would you choose if federal elections take place next Sunday?" The survey thus measures the current election tendencies and therefore reflects an intermediate state in the opinion-forming process of the electoral population.
 
@@ -112,81 +84,32 @@ polls <- table_long %>%
   group_by(year,month,date, party) %>%
   dplyr::summarise(poll_value = mean(value, na.rm=T)) %>%
   ungroup() %>%
-  mutate(poll_norm = normalize_data(poll_value))
-```
+  mutate(poll_norm = norm_data(poll_value))
 
-```{r echo=FALSE}
-polls %>%
-  ggplot(aes(date, poll_norm)) +
-  geom_line() +
-  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
-  facet_wrap(~party) +
-  labs(y = "poll value", x =NULL) +
-  guides(colour = guide_legend(nrow = 1)) +
-  theme(legend.position = "bottom",
-        legend.title = element_blank())
-```
-
-```{r estimate bias, include=FALSE}
 biasDF <- left_join(df, polls %>% select(-date), 
                     by = c('party','month','year')) %>%
-  # estimate deviation from the poll value
-  mutate(agenda_bias1 = cor_norm - poll_norm,
-            sent_bias1 = sent_norm - poll_norm,
-            vis_bias1 = vis_norm - poll_norm,
-            month = month,
-            year = year,
-            medium = medium,
-            party = party,
-            date = date
-            ) 
+  transmute(
+    # estimate deviation from the poll value
+    agenda_bias1 = cor_norm - poll_norm,
+    sent_bias1 = sent_norm - poll_norm,
+    vis_bias1 = vis_norm - poll_norm,
+    
+    # normalize bias between -1 and 1
+    agenda_bias1_norm = normalize_data(agenda_bias1),
+    sent_bias1_norm = normalize_data(sent_bias1),
+    vis_bias1_norm = normalize_data(vis_bias1),
+    
+    month = month,
+    year = year,
+    medium = medium,
+    party = party,
+    date = date
+    ) 
 ```
 
-### Visibility 
+#### 2. Compare with other parties
 
-```{r echo=FALSE}
-biasDF %>%
-  ggplot(aes(date, vis_bias1, color = medium, group = medium)) +
-  geom_line() +
-  scale_y_continuous(limits = c(-1,1.5)) +
-  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
-  facet_wrap(~party) +
-  labs(y = "visibility bias", x =NULL) +
-  guides(colour = guide_legend(nrow = 1)) +
-  theme(legend.position = "bottom",
-        legend.title = element_blank())
-```
-
-### Sentiment 
-
-```{r echo=FALSE}
-biasDF %>%
-  ggplot(aes(date, sent_bias1, color = medium, group = medium)) +
-  geom_line() +
-  #scale_y_continuous(limits = c(-1,1.5)) +
-  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
-  facet_wrap(~party) +
-  labs(y = "sentiment bias", x =NULL) +
-  guides(colour = guide_legend(nrow = 1)) +
-  theme(legend.position = "bottom",
-        legend.title = element_blank())
-```
-
-### Agenda correlation
-
-```{r echo=FALSE}
-biasDF %>%
-  ggplot(aes(date, agenda_bias1, color = medium, group = medium)) +
-  geom_line() +
-    geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
-  facet_wrap(~party) +
-  labs(y = "agenda bias", x =NULL) +
-  guides(colour = guide_legend(nrow = 1)) +
-  theme(legend.position = "bottom",
-        legend.title = element_blank())
-```
-
-## compare with other parties
+In this case the average value of all other parties in the month and the medium serves as the reference value to calculate the bias. 
 
 ```{r include=FALSE}
 parties <- unique(df$party)
@@ -202,23 +125,29 @@ for (i in parties) {
     filter(party != i) %>%
     group_by(medium, year, month) %>%
     # estimate the average value of all other parties 
-    summarize(avg_sent = mean(sent_norm, na.rm = T),
-              avg_vis = mean(vis_norm, na.rm = T),
-              avg_cor = mean(cor_norm, na.rm = T)) %>%
+    summarize(avg_sent = mean(sent, na.rm = T),
+              avg_vis = mean(vis, na.rm = T),
+              avg_cor = mean(cor, na.rm = T)) %>%
     ungroup()
   
   # combine df1 and df2
   tempdf <- left_join(df1,df2, 
                       by=c("medium","year","month")) %>%
-    # estimate the difference between the party value and its reference value
-    transmute(sent_bias2 = sent_norm-avg_sent,
-           vis_bias2 = vis_norm-avg_vis,
-           agenda_bias2 = cor_norm-avg_cor,
-           medium = medium,
-           year = year,
-           month = month,
-           party = party
-           )
+    transmute(
+      # estimate the difference between the party value and its reference value
+      sent_bias2 = sent-avg_sent,
+      vis_bias2 = vis-avg_vis,
+      agenda_bias2 = cor-avg_cor,
+           
+      sent_bias2_norm = normalize_data(sent_bias2),
+      vis_bias2_norm = normalize_data(vis_bias2),
+      agenda_bias2_norm = normalize_data(agenda_bias2),
+           
+      medium = medium,
+      year = year,
+      month = month,
+      party = party
+      )
   
   if (exists('biasDF2')) {
     biasDF2 <- bind_rows(biasDF2, tempdf) 
@@ -233,68 +162,48 @@ for (i in parties) {
 biasDF <- left_join(biasDF, biasDF2, by=c("medium","year","month","party"))
 ```
 
-### Visibility 
-
-```{r echo=FALSE}
-biasDF %>%
-  ggplot(aes(date, vis_bias2, color = medium, group = medium)) +
-  geom_line() +
-  #scale_y_continuous(limits = c(-1.5,1.5)) +
-  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
-  facet_wrap(~party) +
-  labs(y = "visibility bias", x =NULL) +
-  guides(colour = guide_legend(nrow = 1)) +
-  theme(legend.position = "bottom",
-        legend.title = element_blank())
-```
-
-### Sentiment 
-
-```{r echo=FALSE}
-biasDF %>%
-  ggplot(aes(date, sent_bias2, color = medium, group = medium)) +
-  geom_line() +
-  #scale_y_continuous(limits = c(-1,1.5)) +
-  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
-  facet_wrap(~party) +
-  labs(y = "sentiment bias", x =NULL) +
-  guides(colour = guide_legend(nrow = 1)) +
-  theme(legend.position = "bottom",
-        legend.title = element_blank())
-```
-
-### Agenda correlation
-
-```{r echo=FALSE}
-biasDF %>%
-  ggplot(aes(date, agenda_bias2, color = medium, group = medium)) +
-  geom_line() +
-  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
-  facet_wrap(~party) +
-  labs(y = "agenda bias", x =NULL) +
-  guides(colour = guide_legend(nrow = 1)) +
-  theme(legend.position = "bottom",
-        legend.title = element_blank())
-```
-
-## Radar charts 
-
-To compare both bias metrics, the average value of a party in a medium is estimated.
-
-```{r}
+```{r include=FALSE}
 biasDF.grouped <- biasDF %>%
   group_by(medium,party) %>%
-  summarize(vis_bias1 = mean(vis_bias1, na.rm = T),
-            vis_bias2 = mean(vis_bias2, na.rm = T),
-            sent_bias1 = mean(sent_bias1, na.rm = T),
-            sent_bias2 = mean(sent_bias2, na.rm = T),
-            agenda_bias1 = mean(agenda_bias1, na.rm = T),
-            agenda_bias2 = mean(agenda_bias2, na.rm = T)
+  summarize(vis_bias1 = mean(vis_bias1_norm, na.rm = T),
+            vis_bias2 = mean(vis_bias2_norm, na.rm = T),
+            sent_bias1 = mean(sent_bias1_norm, na.rm = T),
+            sent_bias2 = mean(sent_bias2_norm, na.rm = T),
+            agenda_bias1 = mean(agenda_bias1_norm, na.rm = T),
+            agenda_bias2 = mean(agenda_bias2_norm, na.rm = T)
             ) %>%
   ungroup()
 ```
 
-### Visibility 
+#### Visibility 
+
+```{r echo=FALSE, fig.height=8, fig.width=12}
+p1 <- biasDF %>%
+  ggplot(aes(date, vis_bias1_norm, color = medium, group = medium)) +
+  geom_line() +
+  scale_y_continuous(limits = c(-1,1)) +
+  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
+  facet_wrap(~party, ncol = 2) +
+  labs(y = "visibility bias", x =NULL, title = "Bias measure 1",
+       subtitle = "compared to polls") +
+  guides(colour = guide_legend(ncol = 1)) +
+  theme(legend.position = "right",
+        legend.title = element_blank())
+
+p2 <- biasDF %>%
+  ggplot(aes(date, vis_bias2_norm, color = medium, group = medium)) +
+  geom_line(show.legend = F) +
+  scale_y_continuous(limits = c(-1,1)) +
+  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
+  facet_wrap(~party, ncol = 2) +
+  labs(y = "", x =NULL, title = "Bias measure 2",
+       subtitle = "compared to other parties") +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
+
+
+p1 + p2
+```
 
 ```{r echo=FALSE}
 biasDF.grouped %>%
@@ -308,14 +217,39 @@ biasDF.grouped %>%
                         legend.position = "bottom") 
 ```
 
-### Sentiment 
+#### Sentiment 
+
+```{r echo=FALSE, fig.height=8, fig.width=12}
+p1 <- biasDF %>%
+  ggplot(aes(date, sent_bias1_norm, color = medium, group = medium)) +
+  geom_line() +
+  scale_y_continuous(limits = c(-1,1)) +
+  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
+  facet_wrap(~party, ncol = 2) +
+  labs(y = "sentiment bias", x =NULL, title = "Bias measure 1",
+       subtitle = "compared to polls") +
+  guides(colour = guide_legend(ncol = 1)) +
+  theme(legend.position = "right",
+        legend.title = element_blank())
+
+p2 <- biasDF %>%
+  ggplot(aes(date, sent_bias2_norm, color = medium, group = medium)) +
+  geom_line(show.legend = F) +
+  scale_y_continuous(limits = c(-1,1)) +
+  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
+  facet_wrap(~party, ncol = 2) +
+  labs(y = "", x =NULL, title = "Bias measure 2",
+       subtitle = "compared to other parties") +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
+
+p1 + p2
+```
 
 ```{r echo=FALSE}
-biasDF %>%
-  group_by(medium,party) %>%
-  summarize(bias1 = mean(sent_bias1, na.rm = T),
-            bias2 = mean(sent_bias2, na.rm = T)) %>%
-  gather(key = biastype, value = biasvalue, bias1:bias2) %>%
+biasDF.grouped %>%
+  select(medium, party, sent_bias1, sent_bias2) %>%
+  gather(key = biastype, value = biasvalue, sent_bias1:sent_bias2) %>%
   spread(key = party, value = biasvalue) %>%
   ggiraphExtra::ggRadar(aes(color = medium, facet = biastype),
                         interactive = T,
@@ -324,14 +258,40 @@ biasDF %>%
                         legend.position = "bottom")  
 ```
 
-### Agenda correlation
+#### Agenda correlation
+
+```{r echo=FALSE, fig.height=8, fig.width=12}
+p1 <- biasDF %>%
+  ggplot(aes(date, agenda_bias1_norm, color = medium, group = medium)) +
+  geom_line() +
+  scale_y_continuous(limits = c(-1,1)) +
+  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
+  facet_wrap(~party, ncol = 2) +
+  labs(y = "agenda bias", x =NULL, title = "Bias measure 1",
+       subtitle = "compared to polls") +
+  guides(colour = guide_legend(ncol = 1)) +
+  theme(legend.position = "right",
+        legend.title = element_blank())
+
+p2 <- biasDF %>%
+  ggplot(aes(date, agenda_bias2_norm, color = medium, group = medium)) +
+  geom_line(show.legend = F) +
+  scale_y_continuous(limits = c(-1,1)) +
+  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
+  facet_wrap(~party, ncol = 2) +
+  labs(y = "", x =NULL, title = "Bias measure 2",
+       subtitle = "compared to other parties") +
+  guides(colour = guide_legend(nrow = 1)) +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
+
+p1 + p2
+```
 
 ```{r echo=FALSE}
-biasDF %>%
-  group_by(medium,party) %>%
-  summarize(bias1 = mean(agenda_bias1, na.rm = T),
-            bias2 = mean(agenda_bias2, na.rm = T)) %>%
-  gather(key = biastype, value = biasvalue, bias1:bias2) %>%
+biasDF.grouped %>%
+  select(medium, party, agenda_bias1, agenda_bias2) %>%
+  gather(key = biastype, value = biasvalue, agenda_bias1:agenda_bias2) %>%
   spread(key = party, value = biasvalue) %>%
   ggiraphExtra::ggRadar(aes(color = medium, facet = biastype),
                         interactive = T,

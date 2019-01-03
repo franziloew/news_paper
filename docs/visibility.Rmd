@@ -15,6 +15,19 @@ library(lubridate)
 load("../output/data_step2.Rda")
 ```
 
+```{r Normalize Data Function, include=FALSE}
+normalize_data <- function(x) {
+  # normalize data between -1,1
+  if (is.numeric(x)) {
+    y <- 2*((x - min(x, na.rm = T)) / (max(x, na.rm = T) - min(x, na.rm = T)))-1
+    return(y)
+  } else {
+    return(x)
+  }
+
+}
+```
+
 The visibility of a party or a candidate is important as the visibility of political actors in media coverage will increase their accessibility to audiences, influencing subsequent political judgments. Studies combining media content data with voter surveys have indeed found that voters tend to infer a party's political importance from its media salience.
 
 To determine visibility bias, we first need to measure visibility per se. A party is treated as visible in an article if the party itself is mentioned in an article (if an article contains the word "SPD", "CDU"/"CSU/Union","FDP","Grüne","AfD" or "Linke") ( [Eberl, 2017](https://journals.sagepub.com/doi/abs/10.1177/0093650215614364) )
@@ -68,20 +81,21 @@ for (party in parties) {
 vis <- vis %>% mutate(party = ifelse(grepl("CDU",party), "Union",party))
 ```
 
-```{r echo=FALSE}
+```{r echo=FALSE, fig.height=8, fig.width=10}
 vis %>%
-  group_by(medium,party) %>%
-  summarize(visibility_p_s = mean(visibility_p_s, na.rm = T)) %>%
-  select(medium, party, visibility_p_s) %>%
-  spread(key = party, value = visibility_p_s) %>%
-  ggiraphExtra::ggRadar(aes(color = medium),
-                        interactive = T,
-                        alpha = 0,
-                        rescale = F,
-                        legend.position = "right") 
+  mutate(
+    vis_norm = normalize_data(vis),
+    date =as.Date(paste("01",month,year, sep = "-"), format="%d-%m-%Y")
+  ) %>%
+  ggplot(aes(date, vis_norm, color = medium, group = medium)) +
+  geom_line() +
+  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
+  facet_wrap(~party) +
+  labs(y = "visibility", x =NULL) +
+  guides(colour = guide_legend(nrow = 1)) +
+  theme(legend.position = "bottom",
+        legend.title = element_blank())
 ```
-
-
 
 ```{r eval=FALSE, include=FALSE}
 save(vis, file = "../output/visibility.Rda")

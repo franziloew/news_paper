@@ -12,6 +12,17 @@ library(tidyverse)
 library(ggthemes)
 source("func/functions.R")
 
+normalize_data <- function(x) {
+  # normalize data between -1,1
+  if (is.numeric(x)) {
+    y <- 2*((x - min(x, na.rm = T)) / (max(x, na.rm = T) - min(x, na.rm = T)))-1
+    return(y)
+  } else {
+    return(x)
+  }
+
+}
+
 load("../output/data_step2.Rda")
 
 parties <- c("SPD",paste("CDU","CSU",sep = "|"),"FDP","Grüne","AfD","Linke")
@@ -170,27 +181,29 @@ save(sentDF, file = "../output/sentiment.Rda")
 load("../output/sentiment.Rda")
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 sent <- sentDF %>% 
   group_by(medium, party, year, month) %>%
   dplyr::summarise(sent = mean(sentiment_sum, na.rm = T)) %>%
   ungroup()
 ```
 
-```{r echo=FALSE}
+```{r echo=FALSE, fig.height=8, fig.width=10}
 sent %>%
-  group_by(medium,party) %>%
-  summarize(avg_sent_p_s = mean(avg_sent_p_s, na.rm = T)) %>%
-  mutate(avg_sent_p_s = normalize_data2(avg_sent_p_s)) %>%
-  select(medium, party, avg_sent_p_s) %>%
-  spread(key = party, value = avg_sent_p_s) %>%
-  ggiraphExtra::ggRadar(aes(color = medium),
-                        interactive = T,
-                        alpha = 0,
-                        rescale = F,
-                        legend.position = "right") 
+  mutate(
+    sent_norm = normalize_data(sent),
+    date =as.Date(paste("01",month,year, sep = "-"), format="%d-%m-%Y")
+  ) %>%
+  ggplot(aes(date, sent_norm, color = medium, group = medium)) +
+  geom_line() +
+  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
+  facet_wrap(~party) +
+  labs(y = "sentiment", x =NULL) +
+  guides(colour = guide_legend(nrow = 1)) +
+  theme(legend.position = "bottom",
+        legend.title = element_blank()) 
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 save(sent, file = "../output/sentiment.Rda")
 ```

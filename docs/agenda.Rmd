@@ -140,8 +140,6 @@ model_df %>%
 ggsave(file="../figs/data.png", width = 6, height = 3)
 ```
 
-![](../figs/data.png)
-
 ### Label topics
 
 To explore the words associated with each topic we use the words with the highest probability in each topic. As we included the source type (press release or news paper) as a control for the topical content (the word distribution of each topic), we have two different labels for each topic.
@@ -200,7 +198,7 @@ title <- model_df$title[which(model_df$doc_index == sample_doc)]
 source <- model_df$source[which(model_df$doc_index == sample_doc)]
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r echo=FALSE, fig.height=10, fig.width=12}
 theta %>%
   filter(doc_index == sample_doc) %>%
   select(doc_index, topic_name_news, theta) %>%
@@ -213,12 +211,8 @@ theta %>%
        subtitle = paste0("Source: ",source,"\nTitle: ", title),
        x = NULL, y = NULL
        ) +
-  theme(axis.text.x = element_text(size = 6))
-
-ggsave("../figs/example_distr.png", height = 8, width = 8)
+  theme(axis.text = element_text(size = 10))
 ```
-
-![](../figs/example_distr.png)
 
 What is the document acutally about? 
 
@@ -357,6 +351,35 @@ agenda <- corrDF %>%
                 medium = ifelse(medium == "FOCUS.Online", "FOCUS Online", medium),
                 medium = ifelse(medium == "SPIEGEL.ONLINE", "SPIEGEL ONLINE", medium)
   )
+```
+
+```{r Normalize Data Function, include=FALSE}
+normalize_data <- function(x) {
+  # normalize data between -1,1
+  if (is.numeric(x)) {
+    y <- 2*((x - min(x, na.rm = T)) / (max(x, na.rm = T) - min(x, na.rm = T)))-1
+    return(y)
+  } else {
+    return(x)
+  }
+
+}
+```
+
+```{r echo=FALSE, fig.height=8, fig.width=10}
+agenda %>%
+  mutate(
+    cor_norm = normalize_data(cor),
+    date =as.Date(paste("01",month,year, sep = "-"), format="%d-%m-%Y")
+  ) %>%
+  ggplot(aes(date, cor_norm, color = medium, group = medium)) +
+  geom_line() +
+  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
+  facet_wrap(~party) +
+  labs(y = "agenda correlation", x =NULL) +
+  guides(colour = guide_legend(nrow = 1)) +
+  theme(legend.position = "bottom",
+        legend.title = element_blank())
 ```
 
 ```{r eval=FALSE, include=FALSE}
