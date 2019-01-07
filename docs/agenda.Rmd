@@ -45,7 +45,8 @@ btw %>%
          type = "news",
          source = medium 
          ) %>%
-  bind_rows(.,pressReleases) -> model_df
+  bind_rows(.,pressReleases %>% 
+              mutate(source = party)) -> model_df
 ```
 
 ## Build Corpus
