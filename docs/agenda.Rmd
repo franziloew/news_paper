@@ -109,7 +109,7 @@ library(tidyverse)
 library(ggthemes)
 
 rm(list = ls())
-load("../output/models/finalmodel_50.RDa")
+load("../output/models/finalmodel_50_nocontet.RDa")
 
 model_df <- model_df %>%
   dplyr::mutate(doc_index = as.numeric(rownames(.)),
@@ -147,6 +147,10 @@ To explore the words associated with each topic we use the words with the highes
 
 ```{r include=FALSE}
 sagelabs <- sageLabels(stmOut)
+```
+
+#### With Content Covariate
+```{r}
 
 newsLabels <- as.data.frame(sagelabs$cov.betas[[1]]$problabels) %>% 
   transmute(topic = as.numeric(rownames(.)),
@@ -160,11 +164,21 @@ pressLabels <- as.data.frame(sagelabs$cov.betas[[2]]$problabels) %>%
 
 topics.df <- left_join(newsLabels, pressLabels, by="topic") %>%
   mutate(joint_label = paste("Topic",topic,":",topic_name_news_short, topic_name_press_short))
-```
 
-```{r echo=FALSE}
 topics.df %>% select(joint_label, topic_name_news, topic_name_press) %>% 
   htmlTable::htmlTable(align="l", header = c("Joint label", "News articles","Press releases"),
+                       rnames = F)
+```
+
+#### Without Content Covariate
+```{r}
+## Without Content Covariate ##
+topics.df <- as.data.frame(sagelabs$cov.betas[[1]]$problabels) %>% 
+  transmute(topic = as.numeric(rownames(.)),
+            joint_label = paste( "Topic",topic, ":", V1,V2,V3,V4))
+
+topics.df %>% select(joint_label) %>% 
+  htmlTable::htmlTable(align="l", header = c("Topic Label"),
                        rnames = F)
 ```
 
@@ -188,7 +202,7 @@ theta <- as.data.frame(stmOut$theta) %>% # get all theta values for each documen
 
 For each document, we have a distribution over all topics, e.g.:
 
-```{r include=FALSE}
+```{r echo=FALSE, fig.height=10, fig.width=12}
 sample_doc <- sample(nrow(model_df),1)
 
 # uncomment this to only select docs from press releases
@@ -197,13 +211,11 @@ sample_doc <- sample(nrow(model_df),1)
 
 title <- model_df$title[which(model_df$doc_index == sample_doc)]
 source <- model_df$source[which(model_df$doc_index == sample_doc)]
-```
 
-```{r echo=FALSE, fig.height=10, fig.width=12}
 theta %>%
   filter(doc_index == sample_doc) %>%
-  select(doc_index, topic_name_news, theta) %>%
-  ggplot(aes(topic_name_news, theta)) +
+  select(doc_index, joint_label, theta) %>%
+  ggplot(aes(joint_label, theta)) +
   geom_col(fill="#0099c6", alpha = 0.8) +
   ylim(c(0,1)) +
   coord_flip() +
@@ -303,6 +315,7 @@ ggsave("../figs/topic_proportion_news.png", width = 11, height =8)
 
 ```{r eval=FALSE, include=FALSE}
 topicmean_press %>%
+  filter(topic != 14) %>%
   ggplot(aes(reorder(joint_label,desc(topic)),topicmean)) +
   geom_col(alpha=0.8) +
   coord_flip() +
@@ -317,6 +330,18 @@ ggsave("../figs/topic_proportion_press.png", width = 11, height =8)
 ```
 
 ![](../figs/topic_proportion_press.png)
+
+```{r}
+theta %>%
+  filter(type == "press") %>%
+  filter(topic == 14) %>%
+  arrange(desc(theta)) %>%
+  select(source, theta, title_text) 
+```
+
+```{r}
+sagelabs$marginal$prob[14,]
+```
 
 ### Correlation of topic prevalence
 
@@ -370,10 +395,9 @@ normalize_data <- function(x) {
 ```{r echo=FALSE, fig.height=8, fig.width=10}
 agenda %>%
   mutate(
-    cor_norm = normalize_data(cor),
     date =as.Date(paste("01",month,year, sep = "-"), format="%d-%m-%Y")
   ) %>%
-  ggplot(aes(date, cor_norm, color = medium, group = medium)) +
+  ggplot(aes(date, cor, color = medium, group = medium)) +
   geom_line() +
   geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
   facet_wrap(~party) +
@@ -381,6 +405,18 @@ agenda %>%
   guides(colour = guide_legend(nrow = 1)) +
   theme(legend.position = "bottom",
         legend.title = element_blank())
+```
+
+```{r}
+agenda %>%
+  group_by(party, medium) %>%
+  summarize(cor = mean(cor, na.rm = T)) %>%
+  spread(key = party, value = cor) %>%
+  ggiraphExtra::ggRadar(aes(color = medium),
+                        interactive = T,
+                        alpha = 0,
+                        rescale = F,
+                        legend.position = "bottom") 
 ```
 
 ```{r eval=FALSE, include=FALSE}

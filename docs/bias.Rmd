@@ -68,6 +68,36 @@ To ensure comparability between the different metrics, they are standardized to 
 
 We use the data from the "Sonntagsumfrage" (Sunday survey) from [infratest dimap](https://www.infratest-dimap.de/umfragen-analysen/bundesweit/sonntagsfrage/). The institution regularly asks at least 1000 German citizens the question: "Which party would you choose if federal elections take place next Sunday?" The survey thus measures the current election tendencies and therefore reflects an intermediate state in the opinion-forming process of the electoral population.
 
+```{r}
+# load data
+wahlumfragen <- read.csv("../data/wahlumfragen.csv", sep=";", stringsAsFactors=FALSE)
+
+# get Mittelwert variables
+keeps <- grep("Mittelwert", colnames(wahlumfragen))
+
+# reduce df
+polls <- wahlumfragen[,keeps]
+
+# rename cols
+names <- stringr::str_replace_all(colnames(wahlumfragen[,keeps]),pattern = ".Gleitender.Mittelwert","")
+names(polls) <- c(names)
+
+# add date variables
+polls <- polls %>%
+  mutate(date = as.Date(wahlumfragen$Datum,format = "%d.%m.%y"))
+```
+
+```{r}
+color = c("#1298d3","#2e1b40","#fbca5b","#4fa041","#bd3075","#d11f2f")
+
+polls %>%
+  gather("party", "value", AfD:SPD) %>%
+  ggplot(aes(date,value,color=party)) +
+  geom_point() +
+  labs(x="",y="")
+```
+
+
 ```{r include=FALSE}
 # Import and prepare survey data
 load("../output/polls.Rda")
