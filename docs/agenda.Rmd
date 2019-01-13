@@ -2,8 +2,14 @@
 title: "Agenda bias"
 author: "Franziska Löw"
 date: "`r format(Sys.Date())`"
-output: html_document
+output: 
+  html_document:
+    code_folding: hide
 ---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(message=FALSE, warning=FALSE)
+```
 
 Wie ist die Medienresonanz von Pressemittelungen politischer Parteien?
 
@@ -53,8 +59,8 @@ btw %>%
 ```{r eval=FALSE, include=FALSE}
 library(stm)
 
-processed <- textProcessor(model_df$text_cleaned, 
-                           metadata = model_df[,c("source","type","text_cleaned")],
+processed <- textProcessor(model_df$text_cleaned1, 
+                           metadata = model_df[,c("source","text_cleaned1")],
                            wordLengths = c(2,Inf),
                            lowercase = F,
                            removestopwords = F,
@@ -80,36 +86,35 @@ storage <- stm(documents = out$documents, vocab = out$vocab,
               K = k, prevalence =~ source, content = ~type, data = out$meta)
 ```
 
-```{r message=FALSE, warning=FALSE}
+```{r eval=FALSE, include=FALSE}
 library(stm)
 
 load("../output/models/selectK_content2.RData")
 plot(storage)
 ```
 
-
 ## Run Model
 ```{r eval=FALSE, include=FALSE}
-k=50
+k=80
 
 stmOut <- stm(documents = out$documents, vocab = out$vocab,
-              K = k, prevalence =~ source, content = ~type,
+              K = k, prevalence =~ source,
               max.em.its = 75, data = out$meta,
               init.type = "Spectral")
 
-save(model_df, out, stmOut, file = "../output/models/finalmodel_50.Rda")
+save(model_df, out, stmOut, file = "../output/models/finalmodel_80_nocontet.RDa")
 ```
 
-I included the document source as a control for the topical topical prevalence and the type (press release or news article) as a control for topical content. Thus, I assume that the distribution of topics depends on the source and the word distribution within each topic differes between party press releases and news articles. The number of topics is set to 50.
+I included the document source as a control for the topical topical prevalence, assuming that the distribution of topics depends on the sources. The number of topics is set to 80.
 
 ## Results
-```{r include=FALSE}
+```{r}
 library(stm)
 library(tidyverse)
 library(ggthemes)
 
 rm(list = ls())
-load("../output/models/finalmodel_50_nocontet.RDa")
+load("../output/models/finalmodel_80_nocontet.RDa")
 
 model_df <- model_df %>%
   dplyr::mutate(doc_index = as.numeric(rownames(.)),
@@ -128,7 +133,7 @@ model_df <- model_df %>%
          )
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r fig.align="center"}
 model_df %>%
   ggplot(aes(source, fill=type)) +
   geom_bar(show.legend = F, alpha = 0.8) +
@@ -137,21 +142,17 @@ model_df %>%
   theme_hc() +
   scale_fill_hc() +
   labs(title = "Document distribution", y=NULL, x = NULL)
-
-ggsave(file="../figs/data.png", width = 6, height = 3)
 ```
 
 ### Label topics
 
 To explore the words associated with each topic we use the words with the highest probability in each topic. As we included the source type (press release or news paper) as a control for the topical content (the word distribution of each topic), we have two different labels for each topic.
 
-```{r include=FALSE}
+```{r}
 sagelabs <- sageLabels(stmOut)
 ```
 
-#### With Content Covariate
-```{r}
-
+```{r labels, if content covariables included, eval=FALSE, include=FALSE}
 newsLabels <- as.data.frame(sagelabs$cov.betas[[1]]$problabels) %>% 
   transmute(topic = as.numeric(rownames(.)),
             topic_name_news_short = paste(V1,V2),
@@ -170,7 +171,6 @@ topics.df %>% select(joint_label, topic_name_news, topic_name_press) %>%
                        rnames = F)
 ```
 
-#### Without Content Covariate
 ```{r}
 ## Without Content Covariate ##
 topics.df <- as.data.frame(sagelabs$cov.betas[[1]]$problabels) %>% 
@@ -182,12 +182,12 @@ topics.df %>% select(joint_label) %>%
                        rnames = F)
 ```
 
-```{r include=FALSE}
+```{r}
 theta <- as.data.frame(stmOut$theta) %>% # get all theta values for each document
   
   mutate(doc_index = as.numeric(rownames(.))) %>%
   # convert to long format
-  gather(topic, theta, V1:V50) %>%
+  gather(topic, theta, V1:V80) %>%
   mutate(topic = as.numeric(gsub("V","",topic))) %>%
   
   # join with topic df
@@ -202,7 +202,7 @@ theta <- as.data.frame(stmOut$theta) %>% # get all theta values for each documen
 
 For each document, we have a distribution over all topics, e.g.:
 
-```{r echo=FALSE, fig.height=10, fig.width=12}
+```{r fig.height=10, fig.width=12}
 sample_doc <- sample(nrow(model_df),1)
 
 # uncomment this to only select docs from press releases
@@ -229,7 +229,7 @@ theta %>%
 
 What is the document acutally about? 
 
-```{r echo=FALSE}
+```{r}
 model_df %>%
   filter(doc_index == sample_doc) %>%
   select(source, title_text) %>%
@@ -240,7 +240,7 @@ model_df %>%
 
 The expected proportion of the corpus that belongs to each topic is used to get an initial overview of the results. The figure below displays the topics ordered by their expected frequency across the corpus. The four most frequent words in each topic are used as a label for that topic. 
 
-```{r include=FALSE}
+```{r}
 overall_freq <- as.data.frame(colMeans(stmOut$theta)) %>%
   transmute(
     topic = as.numeric(rownames(.)),
@@ -251,25 +251,22 @@ overall_freq <- as.data.frame(colMeans(stmOut$theta)) %>%
   mutate(order = row_number())
 ```
 
-```{r Plot expected frequency, eval=FALSE, include=FALSE}
+```{r Plot expected frequency, fig.height=10, fig.width=8, fig.align="center"}
 overall_freq %>%
   ggplot(aes(reorder(joint_label, -order), frequency)) +
   geom_col(alpha = 0.8) +
   coord_flip() +
   theme_hc() +
-  labs(x=NULL, y=NULL) +
-  theme(axis.text = element_text(size = 5))
+  labs(x=NULL, y=NULL) 
 
-ggsave("../figs/topic_proportion.png", height = 6, width = 5)
+ggsave("../figs/topic_proportion.png", height = 6, width = 4)
 ```
-
-![](../figs/topic_proportion.png)
 
 # Measure Agendas
 
-Agendas were measured in terms of percentage distributions across the 50 topics. For each source the average distribution of each topic is calculated for each month. The following pictures show the overall topic distribution.
+Agendas were measured in terms of percentage distributions across the 80 topics. For each source the average distribution of each topic is calculated for each month. The following pictures show the overall topic distribution.
 
-```{r include=FALSE}
+```{r}
 # calculate topic mean by source and month
 topicmean <- theta %>%
   mutate(
@@ -283,7 +280,7 @@ topicmean <- theta %>%
   filter(month != 3)
 ```
 
-```{r include=FALSE}
+```{r}
 topicmean_news <- theta %>%
   filter(type == "news") %>%
   group_by(topic,joint_label, source) %>%
@@ -297,7 +294,7 @@ topicmean_press <- theta %>%
   ungroup()
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r fig.height=11, fig.width=11, fig.align="center"}
 topicmean_news %>%
   ggplot(aes(reorder(joint_label,desc(topic)),topicmean)) +
   geom_col(fill="#0099c6", alpha = 0.8) +
@@ -308,16 +305,14 @@ topicmean_news %>%
        subtitle = "Online news") +
   theme(axis.text.x = element_text(size = 6))
 
-ggsave("../figs/topic_proportion_news.png", width = 11, height =8)
+ggsave("../figs/topic_proportion_news.png", width = 11, height =10)
 ```
 
-![](../figs/topic_proportion_news.png)
-
-```{r eval=FALSE, include=FALSE}
+```{r fig.height=11, fig.width=11, fig.align="center"}
 topicmean_press %>%
   filter(topic != 14) %>%
   ggplot(aes(reorder(joint_label,desc(topic)),topicmean)) +
-  geom_col(alpha=0.8) +
+  geom_col(fill="#0099c6",alpha=0.8) +
   coord_flip() +
     theme_hc() +
   facet_grid(~source) +
@@ -326,28 +321,15 @@ topicmean_press %>%
        ) +
   theme(axis.text.x = element_text(size = 6))
 
-ggsave("../figs/topic_proportion_press.png", width = 11, height =8)
+ggsave("../figs/topic_proportion_press.png", width = 11, height =10)
 ```
 
-![](../figs/topic_proportion_press.png)
-
-```{r}
-theta %>%
-  filter(type == "press") %>%
-  filter(topic == 14) %>%
-  arrange(desc(theta)) %>%
-  select(source, theta, title_text) 
-```
-
-```{r}
-sagelabs$marginal$prob[14,]
-```
 
 ### Correlation of topic prevalence
 
 Then, we estimated bivariate correlations between party agendas and the mediated party agendas in the online news. These correlations represent the agenda selectivity each party experiences in each media outlet. The higher the correlation, the more congruent both agendas are. 
 
-```{r include=FALSE}
+```{r}
 media <- unique(model_df %>% filter(type == "news") %>% select(source))
 parties <- unique(model_df %>% filter(type == "press") %>% select(source))
   
@@ -379,7 +361,7 @@ agenda <- corrDF %>%
   )
 ```
 
-```{r Normalize Data Function, include=FALSE}
+```{r Normalize Data Function}
 normalize_data <- function(x) {
   # normalize data between -1,1
   if (is.numeric(x)) {
@@ -392,7 +374,7 @@ normalize_data <- function(x) {
 }
 ```
 
-```{r echo=FALSE, fig.height=8, fig.width=10}
+```{r fig.height=6, fig.width=8, fig.align="center"}
 agenda %>%
   mutate(
     date =as.Date(paste("01",month,year, sep = "-"), format="%d-%m-%Y")
@@ -401,7 +383,7 @@ agenda %>%
   geom_line() +
   geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
   facet_wrap(~party) +
-  labs(y = "agenda correlation", x =NULL) +
+  labs(title = "Correlation of topics",y=NULL, x =NULL) +
   guides(colour = guide_legend(nrow = 1)) +
   theme(legend.position = "bottom",
         legend.title = element_blank())
