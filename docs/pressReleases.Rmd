@@ -8,6 +8,13 @@ output:
     code_folding: hide
 ---
 
+```{r include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+
+This is part of my current [paper](https://github.com/franziloew/news_paper) about political reporting in German online news. 
+
 To measure the ideological content of several major online news services, I compare the topics discussed in these media with the press releases of the Bundestag parties using a [structural topic model](https://www.structuraltopicmodel.com/).
 
 The following is an analysis of the content of the press releases scraped from the public websites of the political parties and political groups. A big part of this analysis is inspired from the work of Julia Silge and David Robinson ([Text Mining with R - A Tidy Approach](https://www.tidytextmining.com/)).
@@ -376,6 +383,20 @@ tokens.count <- tokens %>%
   bind_tf_idf(word,party,n)
 ```
 
+```{r fig.height=8, fig.width=10}
+tokens.count %>% 
+  arrange(desc(tf)) %>%
+  mutate(word = factor(word, levels = rev(unique(word)))) %>% 
+  group_by(party) %>% 
+  top_n(15) %>% 
+  ungroup %>%
+  ggplot(aes(word, tf, fill = party)) +
+  geom_col(show.legend = FALSE, fill = "darkslategray4", alpha = 0.9) +
+  labs(x = NULL, y = "Term Frequency") +
+  facet_wrap(~party, ncol = 3, scales = "free") +
+  coord_flip()
+```
+
 Compare the word frequency for the different parties.
 
 - an empty space at low frequency indicates less similarity between two parties. 
@@ -391,7 +412,7 @@ frequency <- tokens.count %>%
 ```
 
 #### CDU
-```{r eval=FALSE, include=FALSE}
+```{r fig.height=8, fig.width=12}
 frequency %>% 
   gather(party, proportion, -word, -CDU) %>%
   ggplot(aes(x = proportion, y = `CDU`, color = abs(`CDU` - proportion))) +
@@ -405,13 +426,11 @@ frequency %>%
   theme(legend.position="none") +
   labs(y = "CDU", x = NULL)
 
-ggsave("../figs/word_freq_CDU.png", width = 15, height = 10)
+#ggsave("../figs/word_freq_CDU.png", width = 15, height = 10)
 ```
 
-![](../figs/word_freq_CDU.png)
-
 #### SPD
-```{r eval=FALSE, include=FALSE}
+```{r fig.height=8, fig.width=12}
 frequency %>% 
   gather(party, proportion, -word, -SPD) %>%
   ggplot(aes(x = proportion, y = `SPD`, color = abs(`SPD` - proportion))) +
@@ -425,13 +444,11 @@ frequency %>%
   theme(legend.position="none") +
   labs(y = "SPD", x = NULL)
 
-ggsave("../figs/word_freq_SPD.png", width = 15, height = 10)
+#ggsave("../figs/word_freq_SPD.png", width = 15, height = 10)
 ```
 
-![](../figs/word_freq_SPD.png)
-
 #### FDP
-```{r eval=FALSE, include=FALSE}
+```{r fig.height=8, fig.width=12}
 frequency %>% 
   gather(party, proportion, -word, -FDP) %>%
   ggplot(aes(x = proportion, y = `FDP`, color = abs(`FDP` - proportion))) +
@@ -445,13 +462,11 @@ frequency %>%
   theme(legend.position="none") +
   labs(y = "FDP", x = NULL)
 
-ggsave("../figs/word_freq_FDP.png", width = 15, height = 10)
+#ggsave("../figs/word_freq_FDP.png", width = 15, height = 10)
 ```
 
-![](../figs/word_freq_FDP.png)
-
 #### B90/GRÜNE
-```{r eval=FALSE, include=FALSE}
+```{r fig.height=8, fig.width=12}
 frequency %>% 
   gather(party, proportion, -word, -`B90/GRÜNE`) %>%
   ggplot(aes(x = proportion, y = `B90/GRÜNE`, color = abs(`B90/GRÜNE` - proportion))) +
@@ -465,13 +480,11 @@ frequency %>%
   theme(legend.position="none") +
   labs(y = "B90/GRÜNE", x = NULL)
 
-ggsave("../figs/word_freq_GRUENE.png", width = 15, height = 10)
+#ggsave("../figs/word_freq_GRUENE.png", width = 15, height = 10)
 ```
 
-![](../figs/word_freq_GRUENE.png)
-
 #### DIE LINKE
-```{r eval=FALSE, include=FALSE}
+```{r fig.height=8, fig.width=12}
 frequency %>% 
   gather(party, proportion, -word, -`DIE LINKE`) %>%
   ggplot(aes(x = proportion, y = `DIE LINKE`, color = abs(`DIE LINKE` - proportion))) +
@@ -485,13 +498,11 @@ frequency %>%
   theme(legend.position="none") +
   labs(y = "DIE LINKE", x = NULL)
 
-ggsave("../figs/word_freq_LINKE.png", width = 15, height = 10)
+#ggsave("../figs/word_freq_LINKE.png", width = 15, height = 10)
 ```
 
-![](../figs/word_freq_LINKE.png)
-
 #### AfD
-```{r eval=FALSE, include=FALSE}
+```{r fig.height=8, fig.width=12}
 frequency %>% 
   gather(party, proportion, -word, -`AfD`) %>%
   ggplot(aes(x = proportion, y = `AfD`, color = abs(`AfD` - proportion))) +
@@ -505,10 +516,8 @@ frequency %>%
   theme(legend.position="none") +
   labs(y = "AfD", x = NULL)
 
-ggsave("../figs/word_freq_AfD.png", width = 15, height = 10)
+#ggsave("../figs/word_freq_AfD.png", width = 15, height = 10)
 ```
-
-![](../figs/word_freq_AfD.png)
 
 #### TF-IDF
 
@@ -540,23 +549,21 @@ tokens.count %>%
   arrange(desc(tf_idf))
 ```
 
-```{r include=FALSE}
+```{r fig.height=8, fig.width=10}
 tokens.count %>% 
-  arrange(desc(tf)) %>%
+  arrange(desc(tf_idf)) %>%
   mutate(word = factor(word, levels = rev(unique(word)))) %>% 
   group_by(party) %>% 
   top_n(15) %>% 
   ungroup %>%
-  ggplot(aes(word, tf, fill = party)) +
+  ggplot(aes(word, tf_idf, fill = party)) +
   geom_col(show.legend = FALSE, fill = "darkslategray4", alpha = 0.9) +
   labs(x = NULL, y = "tf-idf") +
   facet_wrap(~party, ncol = 3, scales = "free") +
   coord_flip()
 
-ggsave("../figs/tf-idf.png", width = 11, height = 6)
+#ggsave("../figs/tf-idf.png", width = 11, height = 6)
 ```
-
-![](../figs/tf-idf.png)
 
 ### N-Grams
 
@@ -573,7 +580,7 @@ bigrams.count <- bigrams %>%
   bind_tf_idf(bigram,party,n)
 ```
 
-```{r include=FALSE}
+```{r fig.height=8, fig.width=10}
 bigrams.count %>% 
   arrange(desc(tf_idf)) %>%
   mutate(word = factor(bigram, levels = rev(unique(bigram)))) %>% 
@@ -587,14 +594,12 @@ bigrams.count %>%
   facet_wrap(~party, ncol = 3, scales = "free") +
   coord_flip()
 
-ggsave("../figs/tf-idf_bigram.png", width = 11, height = 6)
+#ggsave("../figs/tf-idf_bigram.png", width = 11, height = 6)
 ```
-
-![](../figs/tf-idf_bigram.png)
 
 #### Trigrams
 
-```{r include=FALSE}
+```{r}
 trigrams <- pressReleases %>% unnest_tokens(trigram, text_cleaned1, token="ngrams", n=3)
 
 trigrams.count <- trigrams %>%
@@ -603,7 +608,7 @@ trigrams.count <- trigrams %>%
   bind_tf_idf(trigram,party,n)
 ```
 
-```{r include=FALSE}
+```{r fig.height=8, fig.width=10}
 trigrams.count %>% 
   arrange(desc(tf_idf)) %>%
   mutate(word = factor(trigram, levels = rev(unique(trigram)))) %>% 
@@ -617,7 +622,5 @@ trigrams.count %>%
   facet_wrap(~party, ncol = 3, scales = "free") +
   coord_flip()
 
-ggsave("../figs/tf-idf_trigram.png", width = 12, height = 6)
+#ggsave("../figs/tf-idf_trigram.png", width = 12, height = 6)
 ```
-
-![](../figs/tf-idf_trigram.png)
