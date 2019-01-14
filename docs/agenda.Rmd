@@ -114,7 +114,7 @@ library(tidyverse)
 library(ggthemes)
 
 rm(list = ls())
-load("../output/models/finalmodel_80_nocontet.RDa")
+load("../output/models/finalmodel_60_nocontet.RDa")
 
 model_df <- model_df %>%
   dplyr::mutate(doc_index = as.numeric(rownames(.)),
@@ -187,7 +187,7 @@ theta <- as.data.frame(stmOut$theta) %>% # get all theta values for each documen
   
   mutate(doc_index = as.numeric(rownames(.))) %>%
   # convert to long format
-  gather(topic, theta, V1:V80) %>%
+  gather(topic, theta, -doc_index) %>%
   mutate(topic = as.numeric(gsub("V","",topic))) %>%
   
   # join with topic df
@@ -374,20 +374,24 @@ normalize_data <- function(x) {
 }
 ```
 
-```{r fig.height=6, fig.width=8, fig.align="center"}
-agenda %>%
+```{r fig.height=6, fig.width=10, fig.align="center"}
+p <- agenda %>%
   mutate(
     date =as.Date(paste("01",month,year, sep = "-"), format="%d-%m-%Y")
   ) %>%
   ggplot(aes(date, cor, color = medium, group = medium)) +
-  geom_line() +
+  geom_line(show.legend = F) +
   geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
   facet_wrap(~party) +
-  labs(title = "Correlation of topics",y=NULL, x =NULL) +
-  guides(colour = guide_legend(nrow = 1)) +
-  theme(legend.position = "bottom",
-        legend.title = element_blank())
+  labs(y=NULL, x =NULL) 
+  # guides(colour = guide_legend(nrow = 1)) +
+  # theme(legend.position = "bottom",
+  #       legend.title = element_blank())
+
+plotly::ggplotly(p)
 ```
+
+#### Correlation of topic prevalence  - grouped by party & medium
 
 ```{r}
 agenda %>%
