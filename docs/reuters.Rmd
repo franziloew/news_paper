@@ -176,7 +176,7 @@ p1 <- reutersDF.long %>%
   scale_fill_gradient(low =  "#00AFBB", high = "#FC4E07") +
   theme_calc() +
   labs(title = "Reuters Institute Digital News Report 2018",
-       caption = "Results for Germany / Hans-Bredow-Institut",
+       subtitle = "Absolute values / row sum",
        x = NULL, y = NULL) + 
   scale_x_discrete(expand = c(0, 0)) +
   scale_y_discrete(expand = c(0, 0)) +
@@ -195,7 +195,7 @@ p2 <- reutersDF.long %>%
   coord_flip() +
   theme_calc() +
   labs(y = NULL, x = NULL,
-       subtitle = "Political orientation and media consumption") +
+       caption = "Results for Germany / Hans-Bredow-Institut") +
   theme(axis.text.y = element_blank(),
         axis.ticks.y = element_blank()
         )
