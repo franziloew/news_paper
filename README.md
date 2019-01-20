@@ -24,13 +24,10 @@ Regarding (2):
 I use a dataset of nearly 12.000 online news articles from seven major news provider dated from June 1, 2017 to March 1, 2018 to measure visibility, sentiment and agenda of the six major parties in the German Bundestag (Union (CDU/CSU), SPD, B90/Die Grünen, FDP, DIE LINKE, AfD). To measure the agenda correlation between online media and party communication, use [parties' campaign communication](https://franziloew.github.io/news_paper/pressReleases.html) ([Eberl, 2017](https://journals.sagepub.com/doi/abs/10.1177/0093650215614364)). I use machine learning techniques to identify the underlying topics in the text corpus applying a structural topic model ([Roberts et al.](https://www.structuraltopicmodel.com/)). Furthermore, I use text-mining techniques to measure visibility and sentiment. However, I refrained from interpreting the results on a political level as much as possible, yet I demonstrate how text-mining techniques allow an efficient and objective analysis of today's on-line media landscape. 
 
 1. [Visibility](https://franziloew.github.io/news_paper/visibility.html)
-![](/figs/vis_bias.png)
 
 2. [Sentiment](https://franziloew.github.io/news_paper/sentiment.html)
-![](/figs/sent_bias.png)
 
 3. [Agenda correlation](https://franziloew.github.io/news_paper/agenda.html)
-![](/figs/agenda_bias.png)
 
 After measuring the values for visibility, sentiment and agenda, I apply different reference points to estimate the potential [bias](https://franziloew.github.io/news_paper/bias.html)
 
