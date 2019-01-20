@@ -1,0 +1,137 @@
+#Literature review
+
+Media bias has been a field of study in different research disciplines (communication, politics, economics)
+
+1. What are the central concerns of scholars in my discipline? What are the major lines of research in my discipline?
+
+- Is media biased towards political orientation?
+
+	- Larcinese (2011): agenda-setting political behavior of a large sample of U.S. newspapers during the 1996–2005 period with the purpose is to examine the intensity of coverage of economic issues as a function of the underlying economic conditions and the political affiliation of the incumbent president.
+
+- How to measure slant / media bias?
+
+	- Puglisi (2008), Larcinese, Puglisi and Snyder (2007), Gentzkow, Glaeser, and Goldin (2006)
+
+	- Frequency with which newspapers use "language" that would tend to sway readers to the right or to the left on political issures.
+
+		- In Gentzkow & Shapiro (2010): "Language" = Set of all phrases used by members of Congress in the 2005 Congressional Record, and identify those that are used much more frequently by one party than by another. 
+
+		- In Groseclose and Milyo (2005): "Language" = Count the times that particular media outlet cites various think tanks and policy groups, and then compare this with the times that members of Congress cite the same groups.
+
+	- Lott and Hassett (2004): record whether the headlines of various economic news stories are positive or negative. They control for the actual economic figures reported by the Department of Commerce, and include an independent variable that indicates the political party of the president.
+
+	- What the above studies haven in commin is that to define unbiased, they construct a baseline that can vary with exogenous factors (. In contrast, some studies define unbiased simply as some sort of version of "presenting both sides of the story."
+
+- What drives editorial slant / ideological content / media bias ? 
+
+	... on the supply side?
+		- In principle, media bias can come from the supply side, and reflect the preferences of journalists(Baron, 2006), editors, or owners (Besley and Prat, 2004).
+
+		Besley and Prat (2006): 
+		- Theoretical framework to discuss how and when government captures media and what affect this has on political outcomes. 
+		- Voters use available information to decide whether to keep the current party in power or replace it with the opposition. The innovation of the present model is that information is provided endogenously by the media industry.
+		- Each media outlet faces two possible sources of profit: 
+			(1) commercial profits: Audience driven, sales, subscriptions, or advertising. Audiences increase if the media outlet reports interesting information
+			(2) profits from collusion with government. direct monetary payments (bribes), or more subtle and indirect form of influence, such as an administrative decision or a legislative intervention that benefits a firm controlled by the media owner.
+
+		Baron (2006)): 
+		- A theory of media bias that originates with private information obtained by journalists through their investigations and persists despite profit-maximizing news organizations and rivalry from other news organizations. 
+		- This bias has two effects on the demand for news:
+			(1) Lower quality (= more biased) news commands a lower price: rational individuals are more skeptical of potentially biased news and thus rely less on it in their decision-making. This skepticism reduces demand and leads the news organization to set a lower price for its publication the greater is the bias it tolerates.
+			(2) Certain stories are more likely than others. Given their private information, journalists may bias their stories if their career prospects can be advanced by being published on the front page. 
+
+		Balan, De- Graba, and Wickelgren (2009):
+
+	... on the demand side? 
+	- Alternatively, media bias can come from the demand side, and reflect the news providers' profit-maximizing choice to cater to the preferences of the consumers.
+
+		Mullainathan and Shleifer (2005): 
+		- theoretically examine the determinants of media accuracy in a demand-side model, focusing specifically on the effects of reader beliefs, reader heterogeneity, and competition on media bias.
+
+		- two conceptions of what the consumers want and what the media deliver:
+			(1) a rational reader, that preferes unbiased news
+			(2) a biased reader, that has prior beliefs and prefers biased media (that meet his beliefs)
+
+		- investigate the market for news under two assumptions: 
+			(1) readers hold beliefs which they like to see confirmed
+			(2) newspapers can slant stories toward these beliefs. 
+		- On the topics where readers share common beliefs: competition results in lower prices, but common slanting toward reader biases. 
+		- On topics where reader beliefs diverge, newspapers segment the market and slant toward extreme positions. 
+		- Yet in the aggregate, a reader with access to all news sources could get an unbiased perspective. Generally speaking, reader heterogeneity is more important for accuracy in media than competition per se.
+
+		Gentzkow and Shapiro (2006): 
+		- uses variation across markets in the timing of television’s introduction to identify its impact on voter turnout.
+
+		Suen (2004)): 
+		- To overcome strong prior beliefs, strong evidence to the contrary is needed. If a person is predisposed to choosing a certain action, the advice from an advisor who sets a low threshold for recommending the alternative action is not of much use. The preference for like-minded advisors who supply coarse information implies that the advice a person receives is likely to reinforce his existing priors. This effect can lead to polarisation of opinion and the emergence of self-serving beliefs. 
+
+
+	
+	- Gentzkow & Shapiro (2010) estimate the effect of readers preferences on slant.
+
+----------
+
+2. What major turns or discoveries have marked literature in my discipline or sub-discipline or on my topic area?
+
+- Is media biased?
+
+	- Liberal bias in major US media outlets except for Fox News' Special Report and Washington Times (Groseclose and Milyo, 2005))
+
+	- Lott and Hassett (2004): Of the ten major newspapers that they examine, they find that nine are more likely to report a negative headline if the president is Republican.
+
+	- Puglisi (2011): During a presidential campaign, The New York Times gives more emphasis to topics on which the Democratic party is perceived as more competent (civil rights, health care, labor and social welfare) when the incumbent president is a Republican.
+
+	- Larcinese (2011): find evidence that newspapers with pro-Democratic endorsement pattern systematically give more coverage to high unemployment when the incumbent president is a Republican than when the president is Democratic, compared to newspapers with pro-Republican endorsement pattern. 
+
+
+- What drives editorial slant / ideological content / media bias ? 
+
+	- Gentzkow & Shapiro (2010) readers preferences account for ca. 20% of the variation in the measured slant.
+
+---------
+
+3. Within my research area, what is considered to be well-accepted knowledge?
+
+- Baron, 2006: The news media plays an essential role in society, but surveys indicate that the public views the media as biased. 
+
+- Hamilton (2004): News is a product shaped by forces of supply and demand. / "The market" is a likely explanation for media outcomes
+
+- News content can have significant effects on political attitudes and outcomes. Documentet emprically: Strömberg (2004), Gentzkow and Shapiro (2004), Gentzkow (2006), Gerber, Karlan, and Bergan (2009), DellaVigna and Kaplan (2007)
+
+4. Within my research area, what are the main findings or approaches to the topic area?
+
+- Media is more biased towards the left (in US). (Groseclose and Milyo, 2005))
+
+
+5. What are the implications of existing findings or approaches for related practice, policy, methodology or theory? What do scholars in my field advocate in the way of solutions to the problems, controversies or conundrums the discipline is concerned with?
+
+----------
+
+6. What underlying conceptual assumptions underpin research and scholarship in my research area?
+
+- How to measure bias?
+
+	- agenda-setting hypothesis: 
+		- The theory of agenda setting is built around the idea that mass media can influence the importance attached to different issues by readers and viewers (For more detailed surveys about the literature on agenda-setting effects, see McCombs (2002)).
+		- The idea is that editors and journalists have a large degree of freedom in deciding what is newsworthy and what is not, and these choices influence the perception of citizens about which issues are relevant and to what extent (Larcinese, 2011). 
+		- Cohen [1963] the press “may not be successful much of the time in telling people what to think, but it is stunningly successful in telling its readers what to think about.” 
+
+- What drives editorial slant / ideological content / media bias ? 
+
+	- In the traditional conception of the demand for news, consumers read, watch, and listen to the news in order to get information. The quality of this information is its accuracy. The more accurate the news, the more valuable is its source to the consumer. Pressure from audiences and rivals forces news outlets to seek and deliver more accurate information (Mullainathan and Shleifer, 2005)).
+
+	- Spatial models of firm location (Hotelling, 1929; Mullainatahn and Shleifer, 2003) give theoretical reasons why the media would slant the news exactly as consumers desire. The idea is that if the media did not, then an entrepre- neur could form a new outlet that does, and he or she could earn greater-than-equilibrium profits, possibly even driving the other outlets out of business. 
+
+	- As newspaper are two-sided markets (and therefore advertiser are also consumers), some scholars claim that news outlets cater to the desires of advertisers.   
+
+	- Gentzkow & Shapiro (2010): use their slant measure to estimate a model of newspaper demand, in which a consumer’s utility from reading a newspaper depends on the match between the newspaper’s slant and the consumer’s own ideology (Mullainathan and Shleifer (2005), Gentzkow and Shapiro (2006)).
+
+---------
+
+7. Within my research area, are there any divergences in how problems and research foci are understood, in their conceptual underpinnings, or in the implications drawn from findings?
+
+8. Do underpinning conceptual assumptions, ways of understanding the solution or approach to the problem, or methodological approaches adopted produce limitations in our knowledge of the subject? If so, how do existing approaches shape and delimit what we understand in my area?
+
+9. What remains unclear or questionable about my research focus within my discipline?
+
+10. What research question, aim, objective or hypothesis grows out of this 'gap' in knowledge? What will I contribute that will be of interest to other scholars writing within my discipline?

@@ -1,7 +1,7 @@
 ---
-title: "Political orientation"
+title: "Political orientation and consumption of online news"
 author: "Franziska Löw"
-date: "9 12 2018"
+date: "sys.Date()"
 output: html_document
 ---
 
@@ -9,7 +9,7 @@ Since 2012, the [Reuters Institute Digital News Survey](http://www.digitalnewsre
 
 The study is being conducted simultaneously in 37 countries under the coordination of the Reuters Institute for the Study of Journalism, based in Oxford (UK). [The Hans Bredow Institute](https://www.hans-bredow-institut.de/de/projekte/reuters-institute-digital-news-survey) has been responsible for the German part of the study as a cooperation partner since 2013. Fieldwork was undertaken between 19th - 22nd January 2018 conducting an online survey. Total sample size for Germany was 2,038 adults (aged 18+) who access news once a month or more. 
 
-**Net sample**:
+**Net sample Germany**:
 
   - n=2.038
   - male 49 % / female 51 %
@@ -30,11 +30,34 @@ reutersDF1 <- readxl::read_excel("../data/reuters_clean.xlsx")
 reutersDF2 <- readxl::read_excel("../data/reuters_clean.xlsx", sheet = "orientation")
 ```
 
-## Political orientation
+## Isolated results
 
-Der Großteil der Befragten ordnet sich selbst weitgehend der politischen Mitte zu. Knapp 71 Prozent geben an, sich auf einer 7‐stufigen Skala genau in der Mitte oder leicht rechts bzw. leicht links wiederzufinden. Am rechten Rand sehen sich im Jahr 2018 6 Prozent der Befragten und 8 Prozent ordnen sich dem linken Rand zu. 
+### News websites
 
-### Large Scale
+Q5b. Which of the following brands have you used to access news online in the last week (via websites, apps, social media, and other forms of Internet access)? Please select all that apply.
+
+```{r include=FALSE}
+keeps <- c("Bild.de", "Spiegel Online","Welt Online","Focus Online", "Stern.de","ZEIT Online","Tagesschau.de")
+```
+
+```{r echo=FALSE, fig.align="centre", fig.height=6}
+reutersDF1 %>%
+  gather(key = "orientation", value = "count", -medium) %>%
+  group_by(medium) %>%
+  summarise(count = sum(count)) %>%
+  mutate(insample = ifelse(medium %in% keeps, TRUE, FALSE)) -> reutersDF1.grouped
+
+reutersDF1.grouped %>%
+  ggplot(aes(reorder(medium,count),count,
+             fill = insample)) +
+  geom_col(show.legend = F) +
+  coord_flip() +
+  labs(x = NULL, y = NULL, title = "Use of online news (in the last week)",
+       subtitle = paste("n=", sum(reutersDF1.grouped$count)),
+       caption = "Reuters Institute Digital News Report 2018")
+```
+
+### Political orientation
 
 Q1F. Some people talk about 'left', 'right' and 'centre' to describe parties and politicians. (Generally socialist parties would be considered ‘left wing’ whilst conservative parties would be considered ‘right wing’). With this in mind, where would you place yourself on the following scale?
 
@@ -53,8 +76,8 @@ reutersDF2 %>%
              label = paste(round(count_rel, digits = 1),"%"))) +
   geom_col(fill = "#00AFBB", alpha = 0.9) +
   geom_text(vjust = 1) +
-  labs(title = "Political orientation GER 2018",
-       subtitle = "Reuters Institute Digital News Report 2018",
+  labs(title = "Where would you place yourself on the following scale?",
+       subtitle = "n= 2038",
        caption = "Results for Germany / Hans-Bredow-Institut"
        ) +
   theme(axis.title = element_blank(),
@@ -63,10 +86,14 @@ reutersDF2 %>%
         axis.ticks.y = element_blank())
 ```
 
+## Combined results
+
+### 7-point Scale
+
 ```{r include=FALSE}
 reutersDF.long <- reutersDF1 %>%
   select(medium:`Very rightwing`) %>%
-    mutate(order = Centre) %>%
+  mutate(order = Centre) %>%
 
   gather(partisan, count, `Very leftwing`:`Very rightwing`) %>%
   mutate(partisan.f = as.factor(partisan)) %>%
@@ -78,8 +105,7 @@ reutersDF.long <- reutersDF1 %>%
          partisan_scale = ifelse(partisan == "Slightly rightofcentre", 1, partisan_scale),
          partisan_scale = ifelse(partisan == "Fairly rightwing",2, partisan_scale),
          partisan_scale = ifelse(partisan == "Very rightwing", 3, partisan_scale)
-  ) %>%
-  filter(medium != "None of these")
+  ) 
 ```
 
 ```{r include=FALSE}
@@ -104,15 +130,9 @@ reutersDF.long <- reutersDF.long %>%
   
 ```
 
-```{r include=FALSE}
-unique(reutersDF.long$medium)
-
-keeps <- c("Bild.de", "Bild Plus", "Spiegel Online","Spiegel Magazin digital oder Spiegel Plus","Welt Online","Focus Online", "Stern.de","ZEIT Online","Tagesschau.de")
-```
-
 ```{r echo=FALSE, fig.height=8, fig.width=8}
 reutersDF.long %>%
-    filter(!grepl("know",medium)) %>%
+  filter(!grepl("know",medium)) %>%
   #filter(medium %in% keeps) %>%
   ggplot(aes(reorder(partisan.f, partisan_scale),reorder(medium, order), fill = count)) +
   geom_tile() +
@@ -133,7 +153,9 @@ reutersDF.long %>%
 p1 <- reutersDF.long %>%
   filter(!grepl("know",medium)) %>%
   #filter(medium %in% keeps) %>%
-  ggplot(aes(reorder(partisan.f, partisan_scale),reorder(medium, order_relative_m), fill = count_relative_m)) +
+  ggplot(aes(reorder(partisan.f, partisan_scale),
+             reorder(medium, order_relative_m), 
+             fill = count_relative_m)) +
   geom_tile() +
   geom_text(aes(label=round((count_relative_m*100), digits = 1) ), size = 3) +
   scale_fill_gradient(low =  "#00AFBB", high = "#FC4E07") +
@@ -165,10 +187,49 @@ p2 <- reutersDF.long %>%
 
 p1 + p2 + plot_layout(widths = c(2,1))
 
-ggsave("../figs/reuters.png")
+#ggsave("../figs/reuters.png")
 ```
 
-```{r echo=FALSE, fig.height=10, fig.width=8}
+#### News websites included in the model
+
+```{r echo=FALSE, fig.height=6, fig.width=8, fig.align="centre"}
+p1 <- reutersDF.long %>%
+  filter(medium %in% keeps) %>%
+  ggplot(aes(reorder(partisan.f, partisan_scale),
+             reorder(medium, order_relative_m), 
+             fill = count_relative_m)) +
+  geom_tile() +
+  geom_text(aes(label=round((count_relative_m*100), digits = 1) ), size = 3) +
+  scale_fill_gradient(low =  "#00AFBB", high = "#FC4E07") +
+  theme_calc() +
+  labs(title = "Reuters Institute Digital News Report 2018",
+       subtitle = "Political orientation and media consumption",
+       x = NULL, y = NULL) + 
+  scale_x_discrete(expand = c(0, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  theme(legend.position = "none",
+       axis.text.x = element_text(angle = 90))
+
+p2 <- reutersDF.long %>%
+  filter(medium %in% keeps) %>%
+  group_by(medium) %>%
+  summarise(count_sum = sum(count),
+            order_relative_m = sum(order_relative_m)) %>%
+  ggplot(aes(reorder(medium,order_relative_m), count_sum)) +
+  geom_col(fill = "#00AFBB", alpha = 0.8) +
+  geom_text(aes(label=count_sum), hjust = 1, size = 3) +
+  coord_flip() +
+  theme_calc() +
+  labs(y = NULL, x = NULL,
+       caption = "Results for Germany / Hans-Bredow-Institut") +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank()
+        )
+
+p1 + p2 + plot_layout(widths = c(2,1))
+```
+
+```{r eval=FALSE, fig.height=10, fig.width=8, include=FALSE}
 p1 <- reutersDF.long %>%
     filter(!grepl("know",medium)) %>%
   #filter(medium %in% keeps) %>%
@@ -201,19 +262,20 @@ p2 <- reutersDF.long %>%
 p2 + p1 + plot_layout(ncol = 1, heights = c(1,2))
 ```
 
-### Small scale
+### 3-point scale
 
 ```{r include=FALSE}
 reutersDF.long <- reutersDF1 %>%
   select(medium, `Left`:`Right`) %>%
+  mutate(order = Centre__1) %>%
+
   gather(partisan, count, `Left`:`Right`) %>%
   mutate(partisan.f = as.factor(partisan)) %>%
   mutate(
          partisan_scale = ifelse(partisan == "Left", -1, 0),
          partisan_scale = ifelse(partisan == "Centre__1",0, partisan_scale),
          partisan_scale = ifelse(partisan == "Right", 1, partisan_scale)
-  )  %>%
-  filter(medium != "None of these")
+  )
 ```
 
 ```{r include=FALSE}
@@ -230,26 +292,21 @@ reutersDF.long <- reutersDF.long %>%
   ungroup() %>%
   
   # calulate relative counts by partisan and medium
-  mutate(
-    # by all n
-    count_relative = count/2038,
-    # by political orientation
-    count_relative_p = count/count_sum_p,
-    # by medium
-         count_relative_m = count/count_sum_m)
-```
-
-```{r include=FALSE}
-unique(reutersDF.long$medium)
-
-keeps <- c("Bild.de", "Bild Plus", "Spiegel Online","Spiegel Magazin digital oder Spiegel Plus","Welt Online","Focus Online", "Stern.de","ZEIT Online","Tagesschau.de")
+  mutate(count_relative_p = count/count_sum_p,
+         count_relative_m = count/count_sum_m,
+         
+         order_relative_p = order/count_sum_p,
+         order_relative_m = order/count_sum_m
+         )
+  
 ```
 
 ```{r echo=FALSE, fig.height=8, fig.width=8}
 reutersDF.long %>%
-      #filter(!grepl("know",medium)) %>%
-  filter(medium %in% keeps) %>%
-  ggplot(aes(reorder(partisan.f, partisan_scale), medium, fill = count)) +
+  filter(!grepl(paste("know","none",sep = "|"), medium, ignore.case = T)) %>%
+  #filter(medium %in% keeps) %>%
+  ggplot(aes(reorder(partisan.f, partisan_scale), 
+             reorder(medium, order), fill = count)) +
   geom_tile() +
   geom_text(aes(label=count), size = 3) +
   scale_fill_gradient(low =  "#00AFBB", high = "#FC4E07") +
@@ -264,7 +321,9 @@ reutersDF.long %>%
 ```{r echo=FALSE, fig.height=8, fig.width=10}
 p1 <- reutersDF.long %>%
   #filter(medium %in% keeps) %>%
-  ggplot(aes(reorder(partisan.f, partisan_scale), medium, fill = count_relative_m)) +
+  ggplot(aes(reorder(partisan.f, partisan_scale),
+             reorder(medium, order_relative_m), 
+             fill = count_relative_m)) +
   geom_tile() +
   geom_text(aes(label=round((count_relative_m*100), digits = 1) ), size = 3) +
   scale_fill_gradient(low =  "#00AFBB", high = "#FC4E07") +
@@ -279,8 +338,9 @@ p1 <- reutersDF.long %>%
 p2 <- reutersDF.long %>%
   #filter(medium %in% keeps) %>%
   group_by(medium) %>%
-  summarise(count_sum = sum(count)) %>%
-  ggplot(aes(medium,count_sum)) +
+  summarise(count_sum = sum(count),
+            order_relative_m = sum(order_relative_m)) %>%
+  ggplot(aes(reorder(medium, order_relative_m) ,count_sum)) +
   geom_col(fill = "#00AFBB", alpha = 0.8) +
   geom_text(aes(label=count_sum), hjust = 1, size = 3) +
   coord_flip() +
@@ -293,7 +353,44 @@ p2 <- reutersDF.long %>%
 p1 + p2 + plot_layout(widths = c(2,1))
 ```
 
-```{r echo=FALSE, fig.height=10, fig.width=8}
+#### News websites included in the model
+
+```{r echo=FALSE, fig.height=6, fig.width=8, fig.align="centre"}
+p1 <- reutersDF.long %>%
+  filter(medium %in% keeps) %>%
+  ggplot(aes(reorder(partisan.f, partisan_scale),
+             reorder(medium, order_relative_m), 
+             fill = count_relative_m)) +
+  geom_tile() +
+  geom_text(aes(label=round((count_relative_m*100), digits = 1) ), size = 3) +
+  scale_fill_gradient(low =  "#00AFBB", high = "#FC4E07") +
+  theme_calc() +
+  labs(x = "", y = "", title = "Relative values I",
+       subtitle = "Absolute values/sum by medium") + 
+  scale_x_discrete(expand = c(0, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  theme(legend.position = "none",
+       axis.text.x = element_text(angle = 90))
+
+p2 <- reutersDF.long %>%
+  filter(medium %in% keeps) %>%
+  group_by(medium) %>%
+  summarise(count_sum = sum(count),
+            order_relative_m = sum(order_relative_m)) %>%
+  ggplot(aes(reorder(medium, order_relative_m) ,count_sum)) +
+  geom_col(fill = "#00AFBB", alpha = 0.8) +
+  geom_text(aes(label=count_sum), hjust = 1, size = 3) +
+  coord_flip() +
+  theme_calc() +
+  labs(y = NULL, x = NULL) +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank()
+        )
+
+p1 + p2 + plot_layout(widths = c(2,1))
+```
+
+```{r eval=FALSE, fig.height=10, fig.width=8, include=FALSE}
 p1 <- reutersDF.long %>%
   #filter(medium %in% keeps) %>%
   ggplot(aes(reorder(partisan.f, partisan_scale),medium, fill = count_relative_p)) +

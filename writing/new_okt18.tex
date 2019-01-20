@@ -73,29 +73,42 @@
 
 \section{Introduction}
 
-What drives media slant?
-\citet{gentzkow_what_2010} : Readers have an economically significant preference for like-minded news. Firms respond strongly to consumer preferences, which account for roughly 20 percent of the variation in measured slant in our sample.
-- To measure news slant, they examine the set of all phrases used by members of Congress in the 2005 Congressional Record, and identify those that are used much more frequently by one party than by another. We then index newspapers by the extent to which the use of politically charged phrases in their news coverage resembles the use of the same phrases in the speech of a congressional Democrat or Republican.
+% --- Increasing importance of digital news --- %
+The importance of the internet as a source of information for political topics has grown strongly in recent years. Even though television remains the most widely used source of news in Germany (2018: 74\%), numbers watching continue to decline while use of the internet for news has grown significantly in the last year (+5\%, 2018: 65\%) \citep{holig_reuters_2018}. 
 
-News content has a powerful impact on politics, with ideologically diverse content producing socially desirable outcomes.
+% --- Changing dynamics on the market for news --- %
+- The Internet as a source of information is changing the market for media content in various ways, especially as neither supply nor demand is tied to specific times and can adapt to events in real time. Users can consume their preferred news sources at any time and providers can adapt their offerings to events in real time without waiting for the next issue or TV show.
 
-- news content can have significant effects on political attitudes and outcomes. documented empirically by \citet{stromberg_radios_2004, gentzkow_media_2004, gentzkow_television_2006, gerber_does_2009, dellavigna_fox_2007}, and others.
+% --- New challenges and opptortunities for politics --- %
+- These two developments - the importance of digital content for information retrieval and the development of market dynamics - create new opportunities and risks for the political world. 
 
-- what are the incentives for ideological content? why do media report more on on party, than on others?
 
-\citet{groseclose_measure_2005} made an important contribution, proposing a new measure of ideological content based on counts of think-tank citations. However, their index was calculated only for a small number of outlets, and has not been used to analyze the determinants of slant.
+- the consumption of news is time and 
+- Internet as a source of political news provides new opportunities for political parties to communicate their positions. 
 
-\citet{gentzkow_what_2010} compute their slant index for a large sample of U.S. daily newspapers. They use their measure to estimate a model of newspaper demand, in which a consumer's utility from reading a newspaper depends on the match between the newspaper's slant and the consumer's own ideology.
+However, the discussion about media bias has not only been studied since the growing importance of the internet. Different research disciplines investigate the concept of media bias, albeit with different focus. Regardless of the discipline, media bias research can be roughly divided into three research questions: (1) What types of bias exist, (2) how and why does it emerge and (3) what influence does it have on the political outcomes. While 1 and 3 are dealt with in economic, political and communication research, question 2 is mainly addressed in economic literature. It investigates which forces on the supply and demand side drives to media bias.  
 
-The importance of the internet as a source of information for political topics has grown strongly in recent years. Even though television remains the most widely used source of news in Germany (2018: 74\%), numbers watching continue to decline while use of the internet for news has grown significantly in the last year (+5\%, 2018: 65\%) \citep{holig_reuters_2018}. The expansion of the internet as a new method of communication provides a potential challenge to the primacy of the traditional media and political parties as formers of public opinion \citep{savigny_public_2002}.
+ While economic research investigates the market dynamics that lead to media bias, communication science is more concerned with the question of what different types of bias exist. According to a \citet{dalessio_media_2000} the concept of media bias actually encompasses different subtypes: (1) Coverage bias, (2) tonality bias und (3) agenda bias. These three concepts measure how often political actors appear in the media (coverage bias), how they are evaluated (tonality bias) and whether they are able to present their own political positions and talk about their issues in the media (agenda bias).
 
-However, the discussion about the influence of media on the political opinion-forming process has not only been studied in the literature since the growing importance of the internet. The general hypothesis is that the media reporting about political news may have a profound influence on voter opinions and preferences \citep{ferree_four_2002, mccombs_look_2005, eberl_one_2017}. It can therefore be argued, that one central responsibility of the media is to supply voters with balanced and objective information on relevant political issues and actors \citep{stromback_four_2008, eberl_one_2017}. 
+The general hypothesis within economic literature is that (1) different media outlets tend to report "biased" or "slanted" \citep{groseclose_measure_2005, lott_is_2014} and (2) that media reporting about political news may have a profound influence on political outcomes \citep{gentzkow_media_2004, stromberg_radios_2004, dellavigna_fox_2006, snyder_press_2010, gentzkow_television_2006}. 
 
-When is media biased? ...
+In the economic literature the market dynamics that lead to a possible bias are analysed. In principle, media bias can come from the supply side, and reflect the preferences of journalists \citep{baron_persistent_2006}, editors, or owners (Besley and Prat, 2004). Alternatively, media bias can come from the demand side, and reflect the news providers' profit-maximizing choice to cater to the preferences of the consumers. 
 
-Several authors have attempted to measure media bias statistically. \citet{dalessio_media_2000} review studies on media bias in the communications literature, finding little robust evidence of aggregate bias.
+In the communications literature a crucial research question is what kind of distortion exists.  
 
-According to \citet{dalessio_media_2000} the concept of media bias actually encompasses different subtypes in the communications literature: (1) Coverage bias, (2) tonality bias und (3) agenda bias. These three concepts measure how often political actors appear in the media (coverage bias), how they are evaluated (tonality bias) and whether they are able to present their own political positions and talk about their issues in the media (agenda bias). Most of the literature on media bias focuses on one type of bias and most research tends to disregard agenda bias as the operationalization is more challenging \citet{eberl_one_2017}. In order to know which news stories have been held out by the media, one would have to know the universe of news stories at a given point in time \citep{dalessio_media_2000}. 
+
+
+- In economic literature: what drives media to be biased? (demand and supply side)
+- Important step to answer these questions is the definition of media bias. 
+- recent developments in NLP techniques allow to analyse a large text corpus. 
+- most research on US media market
+
+Contribution:
+
+- combine ideas from economic and communication literature to define a measure of media bias
+- use state of the art NLP techniques
+
+
 
 % --- Choosing a reference point is crucial ...
 
@@ -104,15 +117,8 @@ According to \citet{dalessio_media_2000} the concept of media bias actually enco
 
 2. Exogenous reference point (poll value, language used by politicans (most frequent phrases), economics indicators,...)
 
-\citet{lott_is_2014}
 
-Lott-Hassett To define unbiased, it constructs a baseline that can vary with exogenous factors (the state if the economy). In contrast, some studies define unbiased simply as some sort of version of "presenting both sides of the story.". Depending on the context, this can be misleading: To see why the latter notion is inappropriate, suppose that a newspaper devoted just as many stories describing the economy under President Clinton as good as it did describing the economy as bad. By the latter notion this newspaper is unbiased. However, by Lott and Hassett's notion the newspaper is unbiased only if the economy under Clinton was average. If instead it was better than average, then Lott and Hassett (as many would recognize as appropriate, including us) would judge the newspaper to have a conservative bias. 
-
-\citet{groseclose_measure_2005} notion of bias also varies with exogenous factors. They measure media bias by estimating ideological scores for several major media outlets. To compute this, we count the times that a particular media outlet cites various think tanks and policy groups, and then compare this with the times that members of Congress cite the same groups. (The Quarterly Journal of Economics)
-
-\citet{gentzkow_what_2010} use the most frequent phrases used by members of Congress to estimate newspaper slant / compare newspapers to one another, though not to a benchmark of "true" or "unbiased" reporting.  The slant index measures the frequency with which 429 different newspapers between 2000-2005 use 2 or 3-word phrases used by members of Congress in the 2005 Congressional Record (and identify those that are used much more frequently by one party than by another). They then index newspapers by the extent to which the use of politically charged phrases in their news coverage resembles the use of the same phrases in the speech of a congressional Democrat or Republican.
-
-I adopt the approach used in \citet{eberl_one_2017}, in using parties' campaign communication as an approximation of the potential universe of news stories. To identify the underlying topics in the text corpus a structural topic model is applied. To measure coverage and tonality bias computational text-mining approaches are applied. 
+In this paper I use parties' campaign communication as an approximation of the potential universe of news stories. To identify the underlying topics in the text corpus a structural topic model is applied. To measure coverage and tonality bias computational text-mining approaches are applied. 
 
 The data analyzed in this study contains nearly 12.000 online news articles from seven major news provider dated from June 1, 2017 to March 1, 2018 as well as over 1.900 press releases of the parties in the german "Bundestag". As the German federal elections took place on 24th of September 2017 and the formation of the government has taken up a period of about five months, the articles considered inform their readers about both the election promises of the parties (before the election) and the coalition talks (after the election). 
 
@@ -134,13 +140,17 @@ The remaining course of the paper is as follows: The following section provides 
 
 \section{Literature}
 
-The general hypothesis of the literature on the influence of media bias on on the political opinion-forming process is that a biased media reporting in political news may have a profound influence on voter opinions and preferences \citep{ferree_four_2002, mccombs_look_2005, eberl_one_2017}. In the literature on the influence of media bias on the political opinion-forming process usually encompasses different subtypes of media bias \citep{eberl_one_2017, dalessio_media_2000}: (1) Visibility bias, (2) tonality bias and (3) agenda bias. These three concepts measure how often political actors appear in the media (visibility bias), how they are evaluated (tonality bias) and whether they are able to present their own political positions and talk about their issues in the media (agenda bias).
-  
 % ---- visibility bias ----
-There is visibility bias when a party is the subject of an undue amount of coverage compared to the benchmark of that party at a given point in time. Media that reports biased in that sense influences voters behaviour in such way, that voters tend to prefer parties that are more visible in their media repertoire \citep{eberl_one_2017}. Studies combining media content data with voter surveys have indeed found that the mere visibility of parties and candidates is an important factor influencing vote choice (Oegema & Kleinnijenhuis, 2000). The amount of a parties campaign communication or their standing in polls are commonly used as a reference point \citep{junque_de_fortuny_media_2012, hopmann_political_2012}. However, these benchmarks do not allow for a comparison between media outlets. \citet{eberl_one_2017} use the average visibility of all parties in each media outlet during the period of their analysis as a key benchmark to capture whether party visibility is biased in comparison to what is typical for that outlet and are therefore able to compare party visibility between outlets. Applying a similar logic to tonality and agenda bias, they measure the effect of the different bias on user voting behaviour using an online panel survey from the Austrian parliamentary election campaign of 2013. Other empirical studies that measure the influence of media visibility on the electoral behaviour of voters are usually based on regional differences in the reach of certain media \citep{enikolopov_media_2011, dellavigna_fox_2006, snyder_press_2010}. \citet{dewenter_can_2018} use human-coded data from leading media in Germany together with the German Politbarometer survey to investigate how media coverage affects short- and long-term political preferences between February 1998 and December 2012. They find a positive correlation between the media coverage and the short-term voting intention for a political party. In the long-term, however, voting preferences are stable. However, in \citet{eberl_one_2017} the coverage bias effect can not be confirmed, as the effect of visibility bias is positive but not statistically significant.
+There is visibility bias when a party is the subject of an undue amount of coverage compared to the benchmark of that party at a given point in time. Media that reports biased in that sense influences voters behaviour in such way, that voters tend to prefer parties that are more visible in their media repertoire \citep{eberl_one_2017}. Studies combining media content data with voter surveys have indeed found that the mere visibility of parties and candidates is an important factor influencing vote choice (Oegema & Kleinnijenhuis, 2000). The amount of a parties campaign communication or their standing in polls are commonly used as a reference point \citep{junque_de_fortuny_media_2012, hopmann_political_2012}. 
+
+\citet{eberl_one_2017} use the average visibility of all parties in each media outlet during the period of their analysis as a key benchmark to capture whether party visibility is biased in comparison to what is typical for that outlet and are therefore able to compare party visibility between outlets. Applying a similar logic to tonality and agenda bias, they measure the effect of the different bias on user voting behaviour using an online panel survey from the Austrian parliamentary election campaign of 2013. 
+
 
 % ---- tonality bias ----
-In addition to visibility, the tonality of the reporting is also important, as it provides consumers with a certain understanding of politics. For example, \citet{druckman_impact_2005} argue that the audience's conclusions about parties are automatically drawn from positive or negative descriptions in texts about the parties. Similarly, valence framing suggests that public awareness of parties is affected depending on whether they are highlighted with positive or negative aspects in the media \citep{de_vreese_valenced_2006, hurtikova_importance_2017}.  
+
+- \citet{druckman_impact_2005} argue that the audience's conclusions about parties are automatically drawn from positive or negative descriptions in texts about the parties. 
+
+- Similarly, valence framing suggests that public awareness of parties is affected depending on whether they are highlighted with positive or negative aspects in the media \citep{de_vreese_valenced_2006, hurtikova_importance_2017}.  
 
 To measure tonality in a text, studies differ between manually coded data (e.g. \citet{eberl_one_2017}) and dictionary-based analysis ( e.g. \citep{junque_de_fortuny_media_2012}). The latter approach is widely used outside the area of media content analysis. To conduct such an analysis, a lists of words (dictionary) associated with a given emotion, such as negativity is pre-defined by the analyst. The document is then deconstructed into individual words and the frequencies of words contained in a given dictionary are calculated. Such lexical or "bag-of-words" approaches are widely presented in the finance literature to determine the effect of central banks' monetary policy communications on asset prices and real variables (\citet{nyman_news_2018} \citet{tetlock_giving_2007}, \citet{tetlock_more_2008}). \citet{hansen_shocking_2016} use a similar approach to explore the effects of FOMC (Federal Open Market Committee) statements on both market and real economic variables. To calculate their score, they subtract the negative words from the positive words und divide this by the number of total words of the statement. A similar score is used by \citet{nyman_news_2018}, who measure the effect of narratives and sentiment of financial market text-based data on developments in the financial system. 
 
@@ -148,6 +158,9 @@ In the domain of media content analysis \citet{junque_de_fortuny_media_2012} cou
 
 % ---- agenda bias ----
 Overall, most research tends to disregard agenda bias as the operationalization is more challenging. In order to know which news stories have been held out by journalists, the true universe of news stories at a given point in time has to be known \citet{dalessio_media_2000}. However, a greater dissemination of a party's political content may have a positive impact on attitudes towards that party \citep{benewick_floating_1969, eberl_one_2017}. \citet{brandenburg_party_2006} measure partisan tendencies in reporting in terms of all three biases. Utilizing content analysis data from the 2005 General Election campaign they show that increasingly ambiguous endorsements translate into an absence of open support for political parties. Similarly, \citet{eberl_one_2017} find that voters evaluate parties more favorably if those parties addressed their own favored topics more prominently in media coverage. In their analysis media content was analyzed using manual content analysis of political claims on a sentence level.
+
+What drives media bias?
+In principle, media bias can come from the supply side, and reflect the preferences of journalists \citep{baron_persistent_2006}, editors, or owners (Besley and Prat, 2004). Alternatively, media bias can come from the demand side, and reflect the news providers' profit-maximizing choice to cater to the preferences of the consumers.
 
 % -----  STM --------
 The STM developed by \citet{roberts_model_2016} is a recent extension of the standard topic modelling technique, labeled as latent Dirichlet allocation (LDA), which refers to the Bayesian model in \citet{blei_latent_2003} that treats each word in a topic and each topic in a document as generated from a Dirichlet - distributed prior.\footnote{See also \citet{griffiths_probabilistic_2002}, \citet{griffiths_finding_2004} and \citet{hofmann_probabilistic_1999}. \citet{pritchard_inference_2000} introduced the same model in genetics for factorizing gene expression as a function of latent populations.} Since its introduction into text analysis, LDA has become hugely popular and especially useful in political science.\footnote{see \citet{blei_probabilistic_2012}, \citet{grimmer_text_2013} and \citet{wiedmann_text_2016} for an overview in social science and \citet{gentzkow_text_2017} give an overview of text mining applications in economics.} \citet{wiedmann_text_2016} uses topic model methods on large amounts of news articles from two german newspapers published between 1959 and 2011, to reveal how democratic demarcation was performed in Germany over the past six decades. \citet{paul_cross-collection_2009} compares editorial differences between media sources, using cross-collection latent Dirichlet allocation (ccLDA), an LDA-based approach that incorporates differences in document metadata. They use a dataset of 623 news articles from August 2008 from two American media outlets - msnbc.com and foxnews.com - to compare how they discuss topics. Reviewing the top words of the word-topic distribution, they find some content differences between the two media sources under review. 
@@ -185,6 +198,7 @@ Figure \ref{fig_polls} shows that support for the two major popular parties has 
 % Data
 % -----
 \section{Data}\label{ch_data}
+\todo{show NEWS SOURCES LAST WEEK from reuters data}
 
 \input{tables/data_summary}
 

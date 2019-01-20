@@ -114,7 +114,7 @@ library(tidyverse)
 library(ggthemes)
 
 rm(list = ls())
-load("../output/models/finalmodel_60_nocontet.RDa")
+load("../output/models/finalmodel_80_nocontet.RDa")
 
 model_df <- model_df %>%
   dplyr::mutate(doc_index = as.numeric(rownames(.)),
@@ -408,4 +408,5 @@ agenda %>%
 ```{r eval=FALSE, include=FALSE}
 save(agenda, file = "../output/agenda.Rda")
 ```
+
 
