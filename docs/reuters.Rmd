@@ -7,11 +7,11 @@ output: html_document
 
 Since 2012, the [Reuters Institute Digital News Survey](http://www.digitalnewsreport.org/about-us-2018/) has been investigating the media use of digital content. Among others, the following questions are investigated: What websites do you visit to access news online? What is your political orientation?
 
-The study is being conducted simultaneously in 37 countries under the coordination of the Reuters Institute for the Study of Journalism, based in Oxford (UK). [The Hans Bredow Institute](https://www.hans-bredow-institut.de/de/projekte/reuters-institute-digital-news-survey) has been responsible for the German part of the study as a cooperation partner since 2013. Fieldwork was undertaken between 19th - 22nd January 2018 conducting an online survey. Total sample size for Germany was 2,038 adults (aged 18+) who access news once a month or more. 
+The study is being conducted simultaneously in 37 countries under the coordination of the Reuters Institute for the Study of Journalism, based in Oxford (UK). [The Hans Bredow Institute](https://www.hans-bredow-institut.de/de/projekte/reuters-institute-digital-news-survey) has been responsible for the German part of the study as a cooperation partner since 2013. Fieldwork was undertaken between 19th - 22nd January 2018 conducting an online survey. Total sample size for Germany was 2038 adults (aged 18+) who access news once a month or more. 
 
 **Net sample Germany**:
 
-  - n=2.038
+  - n = 2038
   - male 49 % / female 51 %
   - 18 - 24: 9 %
   - 25 - 34: 15 %
