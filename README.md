@@ -4,7 +4,7 @@ The importance of the internet as a source of information for political topics h
 
 However, the content of mass media and its influence on voter preferences has not only been studied in the literature since the growing importance of the internet. The general hypothesis in different research disciplines is, that there is some kind of "bias" or "slant" in media and that this bias has an influence on voter opinions and preferences. The research questions that examined in the corresponding studies can be roughly divided into three main topics: (1) Is media biased?; (2) Does media bias have an effect on political outomes (e.g. elections)?; (3) What drives media bias?  
 
-###1) Is media biased?
+1. Is media biased?
 
 In order to investiage these topics, it should first be determined how reporting can be quantified. In other words, how ideological or political content is measured ("slant-index", "ideological scores", ...). 
 
@@ -14,17 +14,17 @@ Other studies use the "language used" as metric for political content: To estima
 
 Once the ("slant-")index has been calculated, the next step is to determine the reference point against which a possible bias is measured. 
 
-1. Endogenous reference point (compared to other parties) as in [Eberl, 2017](https://journals.sagepub.com/doi/abs/10.1177/0093650215614364)
+	1. Endogenous reference point (compared to other parties) as in [Eberl, 2017](https://journals.sagepub.com/doi/abs/10.1177/0093650215614364)
 
-2. Exogenous reference point: 
+	2. Exogenous reference point: 
 	- Survey values: [Junqué de Fortuny et al., 2000](https://www.sciencedirect.com/science/article/pii/S0957417412006100)
 	- economic indicators: [Lott Jr. & Hassett](https://link.springer.com/article/10.1007/s11127-014-0171-5)
 
-###2) Does media bias have an effect on political outomes (e.g. elections) 
+2. Does media bias have an effect on political outomes (e.g. elections) 
 
 To measure an effect of one variable (media bias) on another variable (e.g. election results), there must exist a variation within the data set - for example, spatially or temporally.  
 	
-###3) What drives media bias? 
+3. What drives media bias? 
 
 On the demand side or on supply side.
 
