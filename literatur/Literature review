@@ -20,9 +20,11 @@ Media bias has been a field of study in different research disciplines (communic
 
 	- Lott and Hassett (2004): record whether the headlines of various economic news stories are positive or negative. They control for the actual economic figures reported by the Department of Commerce, and include an independent variable that indicates the political party of the president.
 
-	- What the above studies haven in commin is that to define unbiased, they construct a baseline that can vary with exogenous factors (. In contrast, some studies define unbiased simply as some sort of version of "presenting both sides of the story."
+	- What the above studies haven in common is that to define unbiased, they construct a baseline that can vary with exogenous factors (. In contrast, some studies define unbiased simply as some sort of version of "presenting both sides of the story."
 
 - What drives editorial slant / ideological content / media bias ? 
+
+	- what are the incentives for ideological content? why do media report more on on party than on others?
 
 	... on the supply side?
 		- In principle, media bias can come from the supply side, and reflect the preferences of journalists(Baron, 2006), editors, or owners (Besley and Prat, 2004).
@@ -65,15 +67,16 @@ Media bias has been a field of study in different research disciplines (communic
 		Suen (2004)): 
 		- To overcome strong prior beliefs, strong evidence to the contrary is needed. If a person is predisposed to choosing a certain action, the advice from an advisor who sets a low threshold for recommending the alternative action is not of much use. The preference for like-minded advisors who supply coarse information implies that the advice a person receives is likely to reinforce his existing priors. This effect can lead to polarisation of opinion and the emergence of self-serving beliefs. 
 
-
-	
-	- Gentzkow & Shapiro (2010) estimate the effect of readers preferences on slant.
+	- Gentzkow & Shapiro (2010) estimate the effect of readers preferences on slant (assuming that readers have an economically significant preference for like-minded news). They use their slant measure to estimate a model of newspaper demand, in which a consumer's utility from reading a newspaper depends on the match between the newspaper's slant and the consumer's own ideology. 	
+	- [Gentzkow & Shapiro, 2010](https://onlinelibrary.wiley.com/doi/abs/10.3982/ECTA7195) distinguish between "slant", which indicates how coverage is skewed toward a particular political agenda, and "bias", which indicates how a given newspaper's slant differs from its profit-maximizing slant. They show how slanted reporting can be interpreted as profit- maximizing behavior rather than bias per se. Significantly, Gentzkow and Shapiro find that although the median bias in US newspapers is near zero, there is a large amount of variance in the bias as well, so that individual papers show significant bias in one direction or another.
 
 ----------
 
 2. What major turns or discoveries have marked literature in my discipline or sub-discipline or on my topic area?
 
 - Is media biased?
+
+	- \citet{dalessio_media_2000} review studies on media bias in the communications literature, finding little robust evidence of aggregate bias.
 
 	- Liberal bias in major US media outlets except for Fox News' Special Report and Washington Times (Groseclose and Milyo, 2005))
 
@@ -83,10 +86,14 @@ Media bias has been a field of study in different research disciplines (communic
 
 	- Larcinese (2011): find evidence that newspapers with pro-Democratic endorsement pattern systematically give more coverage to high unemployment when the incumbent president is a Republican than when the president is Democratic, compared to newspapers with pro-Republican endorsement pattern. 
 
+	- \citet{dewenter_can_2018} use human-coded data from leading media in Germany together with the German Politbarometer survey to investigate how media coverage affects short- and long-term political preferences between February 1998 and December 2012. They find a positive correlation between the media coverage and the short-term voting intention for a political party. In the long-term, however, voting preferences are stable. 
+
+	- In \citet{eberl_one_2017} the coverage bias effect can not be confirmed, as the effect of visibility bias is positive but not statistically significant.
+
 
 - What drives editorial slant / ideological content / media bias ? 
 
-	- Gentzkow & Shapiro (2010) readers preferences account for ca. 20% of the variation in the measured slant.
+	- Gentzkow & Shapiro (2010): Firms respond strongly to consumer preferences: readers preferences account for ca. 20% of the variation in the measured slant.
 
 ---------
 
@@ -108,6 +115,8 @@ Media bias has been a field of study in different research disciplines (communic
 ----------
 
 6. What underlying conceptual assumptions underpin research and scholarship in my research area?
+
+- According to a metastudy in the communications literature the concept of media bias actually encompasses different subtypes \citet{dalessio_media_2000}: (1) Coverage bias, (2) tonality bias und (3) agenda bias. These three concepts measure how often political actors appear in the media (coverage bias), how they are evaluated (tonality bias) and whether they are able to present their own political positions and talk about their issues in the media (agenda bias). Most of the literature on media bias focuses on one type of bias and most research tends to disregard agenda bias as the operationalization is more challenging \citet{eberl_one_2017}. In order to know which news stories have been held out by the media, one would have to know the universe of news stories at a given point in time \citep{dalessio_media_2000}. 
 
 - How to measure bias?
 
@@ -133,5 +142,7 @@ Media bias has been a field of study in different research disciplines (communic
 8. Do underpinning conceptual assumptions, ways of understanding the solution or approach to the problem, or methodological approaches adopted produce limitations in our knowledge of the subject? If so, how do existing approaches shape and delimit what we understand in my area?
 
 9. What remains unclear or questionable about my research focus within my discipline?
+
+- much research has been done on offline newspaper, does the same apply for online articles?
 
 10. What research question, aim, objective or hypothesis grows out of this 'gap' in knowledge? What will I contribute that will be of interest to other scholars writing within my discipline?
