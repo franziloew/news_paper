@@ -105,7 +105,7 @@ stmOut <- stm(documents = out$documents, vocab = out$vocab,
 save(model_df, out, stmOut, file = "../output/models/finalmodel_80_nocontet.RDa")
 ```
 
-I included the document source as a control for the topical topical prevalence, assuming that the distribution of topics depends on the sources. The number of topics is set to 80.
+I included the document source as a control for the topical topical prevalence, assuming that the distribution of topics depends on the sources. The number of topics is set to 60.
 
 ## Results
 ```{r}
@@ -439,7 +439,7 @@ plotly::ggplotly(p, tooltip=c("cor","medium"))
 #### Correlation of topic prevalence  - grouped by party & medium
 
 ```{r}
-agenda %>%
+p <- agenda %>%
   group_by(party, medium) %>%
   summarize(cor = mean(cor, na.rm = T)) %>%
   spread(key = party, value = cor) %>%
@@ -448,6 +448,24 @@ agenda %>%
                         alpha = 0,
                         rescale = F,
                         legend.position = "bottom") 
+
+htmlwidgets::saveWidget(p, "../figs/radarchart.html")
+
+p
+```
+
+```{r}
+p <- agenda %>%
+  group_by(party, medium) %>%
+  summarize(cor = mean(cor, na.rm = T)) %>%
+  spread(key = party, value = cor) %>%
+  ggiraphExtra::ggRadar(aes(color = medium),
+                        interactive = F,
+                        alpha = 0,
+                        rescale = F,
+                        legend.position = "bottom") 
+
+ggsave(filename = "../figs/radarchart.png", p)
 ```
 
 ```{r eval=FALSE, include=FALSE}
