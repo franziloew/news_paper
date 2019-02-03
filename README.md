@@ -37,13 +37,11 @@ The data analyzed in this study contains nearly 12.000 online news articles from
 
 ## 6. Empirical results
 
-- Agenda correlation
-
-[Agenda correlation](https://franziloew.github.io/news_paper/agenda.html)
+- [Agenda correlation](https://franziloew.github.io/news_paper/agenda.html)
 
 ![](/figs/radarchart.png)
-
-- Political orientation
+[
+- Political orientation](https://franziloew.github.io/news_paper/reuters.html)
 
 Since 2012, the [Reuters Institute Digital News Survey](http://www.digitalnewsreport.org/about-us-2018/) has been investigating the media use of digital content. Among others, the following questions are investigated: What types of news are of interest? Which devices and media are used to find them? A graphical analysis of a fraction of this data can be found [here](https://franziloew.github.io/news_paper/reuters.html). The [The Hans Bredow Institute](https://www.hans-bredow-institut.de/de/projekte/reuters-institute-digital-news-survey) has been responsible for the German part of the study.
 
