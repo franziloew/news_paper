@@ -1,8 +1,32 @@
-#Literature review
+# Literature review
+
+1. Is media biased?
+
+According to a meta-analysis from the communication literature visibility, tonality and ag [D'Alessio & Allen, 2006](https://academic.oup.com/joc/article/50/4/133/4110147)) found three main metrics used to study media bias: a) Visibility, b) tonality/sentiment and c) agenda (see also [Eberl, 2017](https://journals.sagepub.com/doi/abs/10.1177/0093650215614364)). Other studies use the "language used" as metric for political content: To estimate "ideological scores" [Groseclose & Milyo, 2005](https://www.jstor.org/stable/25098770?seq=1#metadata_info_tab_contents) count the times that a particular media outlet cites various think tanks and policy groups, and then compare this with the times that members of Congress cite the same groups. Following the same path, [Gentzkow & Shapiro, 2010](https://onlinelibrary.wiley.com/doi/abs/10.3982/ECTA7195) compare a newspaper's word choices to the word choices of Republican and Democratic members of Congress.
+
+Once the ("slant-")index has been calculated, the next step is to determine the reference point against which a possible bias is measured. 
+
+In order to arrive at a better operational definition of bias, some scholars argue that an objective news report is a neutral or balanced report, thus one where all sides are equally represented according to some kind of benchmark for balance or neutrality ([Eberl, 2017](https://journals.sagepub.com/doi/abs/10.1177/0093650215614364)). This reference point can either be external - for example, the current survey values of a party or internal - for example, the average value of other media. The interpretation of the resulting bias would be significantly different in both cases. 
+
+	1. Endogenous reference point (compared to other parties) as in [Eberl, 2017](https://journals.sagepub.com/doi/abs/10.1177/0093650215614364)
+
+	2. Exogenous reference point: 
+	- Survey values: [Junqué de Fortuny et al., 2000](https://www.sciencedirect.com/science/article/pii/S0957417412006100)
+	- economic indicators: [Lott Jr. & Hassett](https://link.springer.com/article/10.1007/s11127-014-0171-5)
+
+2. Does media bias have an effect on political outomes (e.g. elections) 
+
+To measure an effect of one variable (media bias) on another variable (e.g. election results), there must exist a variation within the data set - for example, spatially or temporally.  
+	
+3. What drives media bias? 
+
+On the demand side or on supply side.
+
+-----------------------------------------------
 
 Media bias has been a field of study in different research disciplines (communication, politics, economics)
 
-1. What are the central concerns of scholars in my discipline? What are the major lines of research in my discipline?
+##1. What are the central concerns of scholars in my discipline? What are the major lines of research in my discipline?
 
 - Is media biased towards political orientation?
 
