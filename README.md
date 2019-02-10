@@ -16,9 +16,7 @@ The remaining course of the paper is as follows: The following section provides 
 
 ## 2. Literature review
 
-## 3. Background on the federal election in Germany (2017)
-
-- [Text](file:///Users/franzi/Projects/news_paper/docs/scrape_polls.html)
+## 3. [Background on the federal election in Germany (2017)](https://franziloew.github.io/news_paper/scrape_polls.html)
 
 ![](/figs/polldata.png)
 
