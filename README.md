@@ -19,16 +19,22 @@ The remaining course of the paper is as follows: The following section provides 
 3. Background on the federal election in Germany (2017)
 
 4. Data 
-	- [Press releases](https://franziloew.github.io/news_paper/03b_pressReleases.html)
-	- [Online newspaper articles]()
+
+![](/figs/data.png)
+
+- [Online newspaper articles](https://franziloew.github.io/news_paper/03a_newsData.html)
+
+- [Press releases](https://franziloew.github.io/news_paper/03b_pressReleases.html)
 
 5. Measuring Slant (Structural topic model)
 
 6. Emprical results
-	- [Agenda correlation](https://franziloew.github.io/news_paper/agenda.html)
+
+- [Agenda correlation](https://franziloew.github.io/news_paper/agenda.html)
 
 ![](/figs/radarchart.png)
 
-	- [Political orientation](https://franziloew.github.io/news_paper/reuters.html)
+
+- [Political orientation](https://franziloew.github.io/news_paper/reuters.html)
 
 ![](/figs/reuters.png)
