@@ -1,0 +1,248 @@
+---
+title: "Background on the federal election in Germany (2017)"
+author: "Franziska Löw"
+date: "`r format(Sys.Date())`"
+output: 
+  html_document:
+    code_folding: hide
+---
+
+```{r include=FALSE}
+library(rvest)
+library(stringr)  
+library(stringi)
+library(rebus)     
+library(lubridate)
+library(tidyverse)
+library(zoo)
+library(plotly)
+
+rm(list=ls())
+```
+
+The articles analyzed in this paper cover a period from June 1, 2017 to March 1, 2018 and thus cover both the most important election campaign topics for the Bundestag elections on September 24, 2017 and the process of forming a government that lasted until February 2018. After four years in a grand coalition with the Social Democrats (SPD), German Chancellor Angela Merkel, member of the conservative party CDU/CSU (also known as Union), ran for re-election. The SPD nominated Martin Schulz as their candidate. 
+
+On the right side of the political spectrum, AfD (alternative for Germany) managed to be elected to the German Bundestag for the first time in 2017. The political debate about the high refugee numbers of the past years brought a political upswing to the AfD, which used the dissatisfaction of parts of the population to raise its own profile. In the course of the reporting on the federal elections, leading party members of the AfD as well as party supporters repeatedly accused the mass media of reporting unilaterally and intentionally presenting the AfD badly.
+
+After the election, the formation of a government was difficult due to the large number of parties elected to the Bundestag and the considerable loss of votes by the major parties CDU/CSU and SPD. Since all parties rejected a coalition with the AfD, numerically only two coalitions with an absolute parliamentary majority were possible: a grand coalition ("GroKo" - from the German word Große Koalition) of CDU/CSU and SPD, and a Jamaica coalition (coalition of CDU/CSU, FDP (economic liberal party) and B90/Die Grünen (Bündnis 90/Die Grünen, green party)). The grand coalition was initially rejected by the SPD. The four-week exploratory talks on the possible formation of a Jamaica coalition officially failed on November 19, 2017 after the FDP announced its withdrawal from the negotiations. FDP party leader Christian Lindner said that there had been no trust between the parties during the negotiations. The main points of contention were climate and refugee policy. CDU and CSU regretted this result, while B90/Die Grünen sharply criticized the liberals' withdrawal. The then Green leader Cem Özdemir accused the FDP of lacking the will to reach an agreement.
+
+After the failure of the Jamaica coalition talks, a possible re-election or a minority government as alternatives were discussed in the media before the SPD decided to hold coalition talks with the CDU/CSU. This led to great resistance from the party base, which called for a party-internal referendum on a grand coalition. After the party members voted in favor of the grand coalition, a government was formed 171 days after the federal elections. 
+
+The figure below shows that support for the two major popular parties has been declining in recent months since August 2017, with the CDU/CSU again showing positive survey results since November 2017. However, the poll results of the SPD have been falling since March 2017. At the same time, the AfD in particular has been recording increasingly positive survey results since June 2017. 
+
+## Evaluation of Sunday surveys
+
+For each party I take the survey results of all institutes at the same time. To calculate a smooth line for each party on each day, I take the moving average within 15 days (7 before the day, 7 after the day, and the day itself). 
+
+Since the institutions do not all publish new values on the same days, the overall temporal accuracy is higher than the weekly accuracy. The data source is [wahlrecht.de](https://www.wahlrecht.de/).
+
+```{r}
+get_institute_data <- function(institute) {
+  
+  url <- paste0(baseurl,institute,".htm")
+  
+  scrape <- read_html(url)
+  
+  ## Get colnames ##
+  scrape %>% 
+    html_node("table.wilko") %>%
+    html_node("thead") %>%
+    html_text() -> colnames
+  
+  colnames <- strsplit(colnames,'\\n+')[[1]]
+  
+  ## Get table rows ##
+  scrape %>% 
+    html_node("table.wilko") %>%
+    html_node("tbody") %>%
+    html_nodes("tr") %>%
+    html_text() -> rows
+  
+  out = NULL
+  for (row in rows) {
+    new_row <- strsplit(row,'\\n+')[[1]]
+    out <- rbind(out,new_row)
+    }
+  
+  df <- as.tibble(out)
+  names(df) <- colnames 
+  df$institute <- institute
+  return(df)
+}
+```
+
+```{r eval=FALSE, include=FALSE}
+baseurl <- "https://www.wahlrecht.de/umfragen/"
+colnames <- c("Date","CDU/CSU","SPD","GRÜNE","FDP","LINKE","AfD","Sonstige","Befragte","Zeitraum")
+
+institutes <- c("allensbach","insa","emnid","forsa","politbarometer","gms","dimap")
+
+df1 <- get_institute_data(institutes[1])
+
+df1 <- df1[c(1,3,4,5,6,7,8,9,13)]
+
+df1 <- df1 %>% 
+  gather(key = "party", value = pollvalue, ` CDU/CSU`:` Sonstige`) %>%
+  transmute(
+    date = as.Date(` `, format = "%d.%m.%Y"),
+    party = gsub("\\s","",party),
+    pollvalue1 = gsub(" %","",pollvalue),
+    pollvalue = as.numeric(gsub(",",".",pollvalue1)),
+    institute = institute
+  ) %>%
+  select(-pollvalue1)
+
+df2 <- get_institute_data(institutes[2])
+
+df2 <- df2[c(1,3,4,5,6,7,8,9,10,11,15)]
+
+df2 <- df2 %>% 
+  gather(key = "party", value = pollvalue, ` CDU/CSU`:` Sonstige`) %>%
+  transmute(
+    date = as.Date(Datum, format = "%d.%m.%Y"),
+    party = gsub("\\s","",party),
+    pollvalue1 = gsub(" %","",pollvalue),
+    pollvalue = as.numeric(gsub(",",".",pollvalue1)),
+    institute = institute
+  ) %>%
+  select(-pollvalue1)
+
+df <- bind_rows(df1, df2)
+
+df3 <- get_institute_data(institutes[3])
+
+df3 <- df3[c(1,3,4,5,6,7,8,9,13)]
+
+df3 <- df3 %>% 
+  gather(key = "party", value = pollvalue, ` CDU/CSU`:` Sonstige`) %>%
+  transmute(
+    date = as.Date(` `, format = "%d.%m.%Y"),
+    party = gsub("\\s","",party),
+    pollvalue1 = gsub(" %","",pollvalue),
+    pollvalue = as.numeric(gsub(",",".",pollvalue1)),
+    institute = institute
+  ) %>%
+  select(-pollvalue1)
+
+df <- bind_rows(df, df3)
+
+df4 <- get_institute_data(institutes[4])
+
+df4 <- df4[c(1,3,4,5,6,7,8,9,14)]
+
+df4 <- df4 %>% 
+  gather(key = "party", value = pollvalue, ` CDU/CSU`:` Sonstige`) %>%
+  transmute(
+    date = as.Date(` `, format = "%d.%m.%Y"),
+    party = gsub("\\s","",party),
+    pollvalue1 = gsub(" %","",pollvalue),
+    pollvalue = as.numeric(gsub(",",".",pollvalue1)),
+    institute = institute
+  ) %>%
+  select(-pollvalue1)
+
+df <- bind_rows(df, df4)
+
+df5 <- get_institute_data(institutes[5])
+
+df5 <- df5[c(1,3,4,5,6,7,8,9,13)]
+
+df5 <- df5 %>% 
+  gather(key = "party", value = pollvalue, ` CDU/CSU`:` Sonstige`) %>%
+  transmute(
+    date = as.Date(` `, format = "%d.%m.%Y"),
+    party = gsub("\\s","",party),
+    pollvalue1 = gsub(" %","",pollvalue),
+    pollvalue = as.numeric(gsub(",",".",pollvalue1)),
+    institute = institute
+  ) %>%
+  select(-pollvalue1)
+
+df <- bind_rows(df, df5)
+
+df6 <- get_institute_data(institutes[6])
+
+df6 <- df6[c(1,3,4,5,6,7,8,9,10,11,15)]
+
+df6 <- df6 %>% 
+  gather(key = "party", value = pollvalue, ` CDU/CSU`:` Sonstige`) %>%
+  transmute(
+    date = as.Date(` `, format = "%d.%m.%Y"),
+    party = gsub("\\s","",party),
+    pollvalue1 = gsub(" %","",pollvalue),
+    pollvalue = as.numeric(gsub(",",".",pollvalue1)),
+    institute = institute
+  ) %>%
+  select(-pollvalue1)
+
+df <- bind_rows(df, df6)
+
+df7 <- get_institute_data(institutes[7])
+
+df7 <- df7[c(1,3,4,5,6,7,8,9,13)]
+
+df7 <- df7 %>% 
+  gather(key = "party", value = pollvalue, ` CDU/CSU`:` Sonstige`) %>%
+  transmute(
+    date = as.Date(` `, format = "%d.%m.%Y"),
+    party = gsub("\\s","",party),
+    pollvalue1 = gsub(" %","",pollvalue),
+    pollvalue = as.numeric(gsub(",",".",pollvalue1)),
+    institute = institute
+  ) %>%
+  select(-pollvalue1)
+
+df <- bind_rows(df, df7)
+
+rm(df1,df2,df3,df4,df5,df6,df7)
+```
+
+```{r}
+fnrollmean <- function (x) {
+  if (length(x) < 7) {
+    rep(NA,length(x)) 
+  } else {
+    rollmean(x,7,align="center",na.pad=TRUE)
+  }
+}
+```
+
+```{r eval=FALSE, include=FALSE}
+drop <- c("FW","PIRATEN","Sonstige")
+
+df.small <- df %>%
+  filter(!party %in% drop) %>%
+  group_by(date, party) %>%
+  mutate(poll_mean = mean(pollvalue, na.rm = TRUE)) %>%
+  ungroup() %>%
+  arrange(party,date) %>%
+  mutate(ma=rollapply(poll_mean,15,mean,align='center',fill=NA))
+
+save(df, df.small, file="../output/polldats.Rda")
+```
+
+```{r fig.height=6, fig.width=10, message=FALSE, warning=FALSE}
+load("../output/polldats.Rda")
+
+df.small %>%
+  filter(date > as.Date("2017-01-01")) %>%
+  filter(date < as.Date("2018-06-30")) -> df.plot
+
+p <- ggplot(df.plot) +
+  geom_point(aes(date, pollvalue, 
+                         text = paste("institute:", institute),
+                         color = party),
+             alpha = 0.6, size = 0.8) +
+  geom_line(aes(date, ma, color = party), size = 1) +
+  geom_vline(xintercept = as.Date("2017-09-24"), linetype=2) +
+  
+  geom_vline(xintercept = as.Date("2017-06-01"), linetype=2) +
+  geom_vline(xintercept = as.Date("2018-03-01"), linetype=2) +
+  
+  labs(x=NULL,y=NULL,color=NULL)
+
+ggsave(filename = "../figs/polldata.png", width = 7, height = 4)
+
+ggplotly(p)
+```
+
