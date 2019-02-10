@@ -73,66 +73,19 @@
 
 \section{Introduction}
 
-% --- Increasing importance of digital news --- %
-The importance of the internet as a source of information for political topics has grown strongly in recent years. Even though television remains the most widely used source of news in Germany (2018: 74\%), numbers watching continue to decline while use of the internet for news has grown significantly in the last year (+5\%, 2018: 65\%) \citep{holig_reuters_2018}. 
+In recent years, the media and their role in the perception and decision of individuals in the political context have been increasingly subject to criticism. Terms such as "fake news" or "quality journalism" are currently part of almost every debate regarding the role of the media. Critics accuse the media of reporting biased on certain parties or political events and thus influencing the political consciousness of voters. This raises the unavoidable question of what biased reporting actually means or, on the contrary, what objective reporting is and if this is even possible. A journalist who writes an article about a certain topic puts rough facts (e.g. figures on economic indicators) into a context, such that each article is shaped by the subjectivity of this journalist. Similarly, an editor of a media outlet has to select the topics to be discussed in the medium from a large pool of reports. Thus, to a certain extent, media is always filtered by journalists' perceptions and editorial decisions. 
 
-% --- Changing dynamics on the market for news --- %
-- The Internet as a source of information is changing the market for media content in various ways, especially as neither supply nor demand is tied to specific times and can adapt to events in real time. Users can consume their preferred news sources at any time and providers can adapt their offerings to events in real time without waiting for the next issue or TV show.
+A legitimate question, however, could be which factors or incentives lead to the selection or deselection of certain topics. On the one hand, one could assume that editors select the topics and articles that correspond to their own political views. A profit-maximizing editor, on the other hand, would tend to adapt the selection to readers' preferences. (Some populist voices would even claim that - at least the so called "mainstream media" - is controlled by the government.) 
 
-% --- New challenges and opptortunities for politics --- %
-- These two developments - the importance of digital content for information retrieval and the development of market dynamics - create new opportunities and risks for the political world. 
+In order to answer these and other media-related questions in the political context, quantifying the content of media is essential. In other words, what features can be used to measure the content of, for example, an online article? The literature of communication science, for example, often uses visibility (how often political actors appear in the media) or tonality (how they are evaluated) in this regard. In addition to these actor-based approaches, there are also more issue-based approaches to be found in communication science as well as in other disciplines. In this case, the contents or the language used by media are compared with the contents or the language used by political actors in order to identify whether political actors are able to place their own policy positions in the media using their own language. Leading studies from economic literature, for example, examine how often a newspaper quotes the same think tanks \citep{groseclose_measure_2005, lott_is_2014} or uses the same language \citep{gentzkow_media_2004} as members of Congress. 
 
+In the present paper the slant-index (or ideological score) of an online newspaper is calculated by comparing the topics discussed in such newspapers with the topics discussed in parties press releases similar to \citet{eberl_one_2017}. However, in contrast to \citet{eberl_one_2017} a machine learning approach is used to analyze a text dataset containing nearly 12.000 online news articles from seven major news provider dated from June 1, 2017 to March 1, 2018 as well as over 1.900 press releases of the parties in the german "Bundestag". As the German federal elections took place on 24th of September 2017 and the formation of the government has taken up a period of about five months, the articles considered inform their readers about both the election promises of the parties (before the election) and the coalition talks (after the election). To discover the latent topics in the corpus of text data, the structural topic model (STM) developed by \citet{roberts_model_2016} is applied. The STM is an unsupervised machine learning approach that models topics as multinomial distributions of words and documents (as a synonym for news articles) as multinomial distributions of topics, allowing the incorporation of external variables that affect both, topical content and topical prevalence. The results of the generative process of the STM are two posterior distributions: One for the topic prevalence in a document (what is the article or press release about?) and one for the content of a topic (what is the topic about?). In the next step the topics addressed in campaign communication (i.e., the party agenda) are compared with the topics the parties address in media coverage (i.e., the mediated party agenda). The results of this analysis are then compared with data on the political orientation of consumers in order to evaluate whether there may be a link between consumer preferences and the slant-index of a medium. 
 
-- the consumption of news is time and 
-- Internet as a source of political news provides new opportunities for political parties to communicate their positions. 
+The use of online news as data input accurately reflects the changed conditions in the news market as the importance of the internet as a source of information for political topics has grown strongly in recent years.\footnote{Even though television remains the most widely used source of news in Germany (2018: 74\%), numbers watching continue to decline while use of the internet for news has grown significantly in the last year (+5\%, 2018: 65\%) \citep{holig_reuters_2018}.} This trend has as strong effect on the market for media content as neither supply nor demand is tied to specific times and can adapt to events in real time. Users can consume their preferred news sources at any time and providers can adapt their offerings to events in real time without waiting for the next issue or TV show.
 
-However, the discussion about media bias has not only been studied since the growing importance of the internet. Different research disciplines investigate the concept of media bias, albeit with different focus. Regardless of the discipline, media bias research can be roughly divided into three research questions: (1) What types of bias exist, (2) how and why does it emerge and (3) what influence does it have on the political outcomes. While 1 and 3 are dealt with in economic, political and communication research, question 2 is mainly addressed in economic literature. It investigates which forces on the supply and demand side drives to media bias.  
+The research contribution of this paper is twofold: First, a new method for the calculation of the slant-index is presented that allows an extensive content analyses of newspaper coverage and party press releases and at the same time reduces human induced bias and makes research more traceable and comparable. In addition, a new dataset of online news is used, which has a significant relation to the current discussion of the media in the political context. 
 
- While economic research investigates the market dynamics that lead to media bias, communication science is more concerned with the question of what different types of bias exist. According to a \citet{dalessio_media_2000} the concept of media bias actually encompasses different subtypes: (1) Coverage bias, (2) tonality bias und (3) agenda bias. These three concepts measure how often political actors appear in the media (coverage bias), how they are evaluated (tonality bias) and whether they are able to present their own political positions and talk about their issues in the media (agenda bias).
-
-The general hypothesis within economic literature is that (1) different media outlets tend to report "biased" or "slanted" \citep{groseclose_measure_2005, lott_is_2014} and (2) that media reporting about political news may have a profound influence on political outcomes \citep{gentzkow_media_2004, stromberg_radios_2004, dellavigna_fox_2006, snyder_press_2010, gentzkow_television_2006}. 
-
-In the economic literature the market dynamics that lead to a possible bias are analysed. In principle, media bias can come from the supply side, and reflect the preferences of journalists \citep{baron_persistent_2006}, editors, or owners (Besley and Prat, 2004). Alternatively, media bias can come from the demand side, and reflect the news providers' profit-maximizing choice to cater to the preferences of the consumers. 
-
-In the communications literature a crucial research question is what kind of distortion exists.  
-
-
-
-- In economic literature: what drives media to be biased? (demand and supply side)
-- Important step to answer these questions is the definition of media bias. 
-- recent developments in NLP techniques allow to analyse a large text corpus. 
-- most research on US media market
-
-Contribution:
-
-- combine ideas from economic and communication literature to define a measure of media bias
-- use state of the art NLP techniques
-
-
-
-% --- Choosing a reference point is crucial ...
-
-
-1. Endogenous reference point (compared to other parties)
-
-2. Exogenous reference point (poll value, language used by politicans (most frequent phrases), economics indicators,...)
-
-
-In this paper I use parties' campaign communication as an approximation of the potential universe of news stories. To identify the underlying topics in the text corpus a structural topic model is applied. To measure coverage and tonality bias computational text-mining approaches are applied. 
-
-The data analyzed in this study contains nearly 12.000 online news articles from seven major news provider dated from June 1, 2017 to March 1, 2018 as well as over 1.900 press releases of the parties in the german "Bundestag". As the German federal elections took place on 24th of September 2017 and the formation of the government has taken up a period of about five months, the articles considered inform their readers about both the election promises of the parties (before the election) and the coalition talks (after the election). 
-
-While coverage and tonality can be calculated using simple counting methods, estimating the agenda requires more sophisticated approaches, since the topics covered have to be identified.
-
-To discover the latent topics in the corpus of text data, the structural topic model (STM) developed by \citet{roberts_model_2016} is applied. The STM is an unsupervised machine learning approach that models topics as multinomial distributions of words and documents (as a synonym for news articles) as multinomial distributions of topics, allowing the incorporation of external variables that affect both, topical content and topical prevalence. The results of the generative process of the STM are two posterior distributions: One for the topic prevalence in a document (what is the article or press release about?) and one for the content of a topic (what is the topic about?). In the next step the topics addressed in campaign communication (i.e., the party agenda) are compared with the topics the parties address in media coverage (i.e., the mediated party agenda).
-
-% --- key contributions --- %
-
-this study makes two key contributions. (1) I use a combination of different text-mining techniques to analyze a large text corpus that allows an extensive content analyses of newspaper coverage and party press releases and at the same time reduces human induced bias and makes research more traceable and comparable. (2) I present a new approach to measure agenda bias by combining approaches from political and communication sciences with current text analysis techniques.    
-
-% --- remaining course of the paper... --- %
-
-The remaining course of the paper is as follows: The following section provides an overview of the related literature. Section \ref{ch_elections} gives a introduction to the political trends in the past six month (June 2017 to March 2018). The data used to conduct the model is described in section \ref{ch_data}. Section \ref{ch_model} explains the generative process of the structural topic model as well as the selected parameters to run the model. The empirical analysis is conducted in section \ref{ch_empirical}. 
+The remaining course of the paper is as follows: The following section provides an overview of the related literature. Section \ref{ch_elections} gives an introduction to the political trends within the considered time (June 2017 to March 2018). The data used to conduct the model is described in section \ref{ch_data}. Section \ref{ch_generativeProcess} explains the generative process of the structural topic model as well as the selected parameters to run the model. The empirical analysis is conducted in section \ref{ch_regression}. 
 
 %-------------------------------------------------------%
 %----------------- Literature Review -------------------%
@@ -140,6 +93,17 @@ The remaining course of the paper is as follows: The following section provides 
 
 \section{Literature}
 
+However, the discussion about media bias has not only been studied since the growing importance of the internet. Different research disciplines investigate the concept of media bias, albeit with different focus. Regardless of the discipline, media bias research can be roughly divided into three research questions: (1) What types of bias exist, (2) how and why does it emerge and (3) what influence does it have on the political outcomes. While 1 and 3 are dealt with in economic, political and communication research, question 2 is mainly addressed in economic literature. It investigates which forces on the supply and demand side drives to media bias.  
+
+%---- economic literature --- %
+The general hypothesis within economic literature is that (1) different media outlets tend to report "biased" or "slanted" \citep{groseclose_measure_2005, lott_is_2014} and (2) that media reporting about political news may have a profound influence on political outcomes \citep{gentzkow_media_2004, stromberg_radios_2004, dellavigna_fox_2006, snyder_press_2010, gentzkow_television_2006}. 
+
+In the economic literature the market dynamics that lead to a possible bias are analysed. In principle, media bias can come from the supply side, and reflect the preferences of journalists \citep{baron_persistent_2006}, editors, or owners (Besley and Prat, 2004). Alternatively, media bias can come from the demand side, and reflect the news providers' profit-maximizing choice to cater to the preferences of the consumers. 
+
+%---- communication research ---%
+
+ While economic research investigates the market dynamics that lead to media bias, communication science is more concerned with the question of what different types of bias exist. According to a \citet{dalessio_media_2000} the concept of media bias actually encompasses different subtypes: (1) Coverage bias, (2) tonality bias und (3) agenda bias. These three concepts measure how often political actors appear in the media (coverage bias), how they are evaluated (tonality bias) and whether they are able to present their own political positions and talk about their issues in the media (agenda bias).
+ 
 % ---- visibility bias ----
 There is visibility bias when a party is the subject of an undue amount of coverage compared to the benchmark of that party at a given point in time. Media that reports biased in that sense influences voters behaviour in such way, that voters tend to prefer parties that are more visible in their media repertoire \citep{eberl_one_2017}. Studies combining media content data with voter surveys have indeed found that the mere visibility of parties and candidates is an important factor influencing vote choice (Oegema & Kleinnijenhuis, 2000). The amount of a parties campaign communication or their standing in polls are commonly used as a reference point \citep{junque_de_fortuny_media_2012, hopmann_political_2012}. 
 
@@ -198,7 +162,10 @@ Figure \ref{fig_polls} shows that support for the two major popular parties has 
 % Data
 % -----
 \section{Data}\label{ch_data}
-\todo{show NEWS SOURCES LAST WEEK from reuters data}
+
+\subsection{Press releases}
+
+\subsection{News articles}
 
 \input{tables/data_summary}
 
@@ -346,7 +313,7 @@ It becomes apparent that topic 4 about the coalition talks between CDU/CSU and S
 \end{figure}
 
 
-\section{Fixed effects regression}\label{ch_regression}
+\section{Fixed effects regression}\label{ch_results}
 
 This section seeks to examine the association between sentiment reflected in online news content and phone poll results in Germany. Specifically, it aims to find the extent to which online sentiment and phone survey results correlate given a number of lags. I use the data from the "Sonntagsumfrage" (Sunday survey) from infratest dimap.\footnote{https://www.infratest-dimap.de/umfragen-analysen/bundesweit/sonntagsfrage/} The institution regularly asks at least 1000 German citizens the question: "Which party would you choose if federal elections were to take place next Sunday?" The survey thus measures the current election tendencies and therefore reflects an intermediate state in the opinion-forming process of the electoral population.
 
