@@ -14,11 +14,11 @@ The research contribution of this paper is twofold: First, a new method for the 
 
 The remaining course of the paper is as follows: The following section provides an overview of the related literature. Section 3 gives an introduction to the political trends within the analyzed time span (June 2017 to March 2018). The data used to conduct the model is described in section 4. Section 5 explains the generative process of the structural topic model as well as the selected parameters to run the model. The empirical analysis is conducted in section 6. 
 
-##2. Literature review
+## 2. Literature review
 
-##3. Background on the federal election in Germany (2017)
+## 3. Background on the federal election in Germany (2017)
 
-##4. Data 
+## 4. Data 
 
 ![](/figs/data.png)
 
@@ -26,9 +26,9 @@ The remaining course of the paper is as follows: The following section provides 
 
 - [Press releases](https://franziloew.github.io/news_paper/03b_pressReleases.html)
 
-##5. Measuring Slant (Structural topic model)
+## 5. Measuring Slant (Structural topic model)
 
-##6. Emprical results
+## 6. Emprical results
 
 - [Agenda correlation](https://franziloew.github.io/news_paper/agenda.html)
 
