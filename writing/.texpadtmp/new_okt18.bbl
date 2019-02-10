@@ -111,6 +111,58 @@
       \endverb
       \keyw{Computer Science - Computation and Language,H.3.1,H.3.3,I.2.7,J.4}
     \endentry
+    \entry{baron_persistent_2006}{article}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,uniquepart=base,hash=474f5f7685aaec4295c87128509af31c}{%
+           family={Baron},
+           familyi={B\bibinitperiod},
+           given={David\bibnamedelima P.},
+           giveni={D\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{474f5f7685aaec4295c87128509af31c}
+      \strng{fullhash}{474f5f7685aaec4295c87128509af31c}
+      \strng{bibnamehash}{474f5f7685aaec4295c87128509af31c}
+      \strng{authorbibnamehash}{474f5f7685aaec4295c87128509af31c}
+      \strng{authornamehash}{474f5f7685aaec4295c87128509af31c}
+      \strng{authorfullhash}{474f5f7685aaec4295c87128509af31c}
+      \field{sortinit}{B}
+      \field{sortinithash}{276475738cc058478c1677046f857703}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{The news media plays an essential role in society, but surveys indicate that the public views the media as biased. This paper presents a theory of media bias that originates with private information obtained by journalists through their investigations and persists despite profit-maximizing news organizations and rivalry from other news organizations. Bias has two effects on the demand for news. First, rational individuals are more skeptical of potentially biased news and thus rely less on it in their decision-making. This skepticism reduces demand and leads the news organization to set a lower price for its publication the greater is the bias it tolerates. Lower quality news thus commands a lower price. Second, bias makes certain stories more likely than others. Given their private information, journalists may bias their stories if their career prospects can be advanced by being published on the front page. News organizations can control bias by restricting the discretion allowed to journalists, but granting discretion and tolerating bias can increase profits if it allows journalists to be hired at a lower wage. Bias is not driven from the market by a rival news organization nor by a news organization with an opposing bias, and the profits of a high-bias news organization can be higher than the profits of a low bias one. Moreover, bias can be greater with competition than with a monopoly news organization. If individuals collectively choose regulation in place of their individual decision-making, bias increases the expected stringency of regulation.}
+      \field{day}{1}
+      \field{issn}{0047-2727}
+      \field{journaltitle}{Journal of Public Economics}
+      \field{month}{1}
+      \field{number}{1}
+      \field{shortjournal}{Journal of Public Economics}
+      \field{title}{Persistent media bias}
+      \field{urlday}{19}
+      \field{urlmonth}{1}
+      \field{urlyear}{2019}
+      \field{volume}{90}
+      \field{year}{2006}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{1\bibrangedash 36}
+      \range{pages}{36}
+      \verb{doi}
+      \verb 10.1016/j.jpubeco.2004.10.006
+      \endverb
+      \verb{file}
+      \verb ScienceDirect Snapshot:/Users/franzi/Zotero/storage/ESVNXLRG/S0047272705000216.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb http://www.sciencedirect.com/science/article/pii/S0047272705000216
+      \endverb
+      \verb{url}
+      \verb http://www.sciencedirect.com/science/article/pii/S0047272705000216
+      \endverb
+      \keyw{Bias,Media,News organizations}
+    \endentry
     \entry{baturo_what_2017}{article}{}
       \name{author}{3}{}{%
         {{uniquename=0,uniquepart=base,hash=70c1ec991aa14a790bc80151caff3e6c}{%
@@ -820,61 +872,6 @@
       \verb https://doi.org/10.1177/0093650215614364
       \endverb
     \endentry
-    \entry{enikolopov_media_2011}{article}{}
-      \name{author}{3}{}{%
-        {{uniquename=0,uniquepart=base,hash=1fab50255c2560d8760c7740fa9ee93e}{%
-           family={Enikolopov},
-           familyi={E\bibinitperiod},
-           given={Ruben},
-           giveni={R\bibinitperiod},
-           givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=bed44fb5c02190b7a6abe4c11f6c17f7}{%
-           family={Petrova},
-           familyi={P\bibinitperiod},
-           given={Maria},
-           giveni={M\bibinitperiod},
-           givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=2e85e146cd92d7bc3b52b23d751ae9a6}{%
-           family={Zhuravskaya},
-           familyi={Z\bibinitperiod},
-           given={Ekaterina},
-           giveni={E\bibinitperiod},
-           givenun=0}}%
-      }
-      \strng{namehash}{6476e4af52334ffbe4e646382a393309}
-      \strng{fullhash}{38be9e390159ec4836e35a6afab370df}
-      \strng{bibnamehash}{38be9e390159ec4836e35a6afab370df}
-      \strng{authorbibnamehash}{38be9e390159ec4836e35a6afab370df}
-      \strng{authornamehash}{6476e4af52334ffbe4e646382a393309}
-      \strng{authorfullhash}{38be9e390159ec4836e35a6afab370df}
-      \field{sortinit}{E}
-      \field{sortinithash}{f615fb9c6fba11c6f962fb3fd599810e}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{shorttitle}
-      \field{abstract}{This paper compares electoral outcomes of 1999 parliamentary elections in Russia among geographical areas with differential access to the only national {TV} channel independent from the government It was available to three-quarters of Russia's population and its signal availability was idiosyncratic, conditional on observables. Independent {TV} decreased aggregate vote for the government party by 8.9 percentage points, increased the combined vote for major opposition parties by 6.3 percentage points, and decreased turnout by 3.8 percentage points. The probability of voting for opposition parties increased for individuals who watched independent {TV} even controlling for voting intentions measured one month before elections.}
-      \field{issn}{0002-8282}
-      \field{journaltitle}{The American Economic Review}
-      \field{number}{7}
-      \field{shorttitle}{Media and Political Persuasion}
-      \field{title}{Media and Political Persuasion: Evidence from Russia}
-      \field{urlday}{22}
-      \field{urlmonth}{8}
-      \field{urlyear}{2018}
-      \field{volume}{101}
-      \field{year}{2011}
-      \field{dateera}{ce}
-      \field{urldateera}{ce}
-      \field{pages}{3253\bibrangedash 3285}
-      \range{pages}{33}
-      \verb{urlraw}
-      \verb https://www.jstor.org/stable/41408737
-      \endverb
-      \verb{url}
-      \verb https://www.jstor.org/stable/41408737
-      \endverb
-    \endentry
     \entry{erosheva_mixed-membership_2004}{article}{}
       \name{author}{3}{}{%
         {{uniquename=0,uniquepart=base,hash=9ab2f429b3fa892e63ea518d4517a630}{%
@@ -909,12 +906,12 @@
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{abstract}{{PNAS} is one of world's most cited multidisciplinary scientific journals. The {PNAS} official classification structure of subjects is reflected in topic labels submitted by the authors of articles, largely related to traditionally established disciplines. These include broad field classifications into physical sciences, biological sciences, social sciences, and further subtopic classifications within the fields. Focusing on biological sciences, we explore an internal soft-classification structure of articles based only on semantic decompositions of abstracts and bibliographies and compare it with the formal discipline classifications. Our model assumes that there is a fixed number of internal categories, each characterized by multinomial distributions over words (in abstracts) and references (in bibliographies). Soft classification for each article is based on proportions of the article's content coming from each category. We discuss the appropriateness of the model for the {PNAS} database as well as other features of the data relevant to soft classification.}
-      \field{day}{4}
+      \field{day}{6}
       \field{issn}{0027-8424, 1091-6490}
       \field{issue}{suppl 1}
       \field{journaltitle}{Proceedings of the National Academy of Sciences}
       \field{langid}{english}
-      \field{month}{6}
+      \field{month}{4}
       \field{shortjournal}{{PNAS}}
       \field{title}{Mixed-membership models of scientific publications}
       \field{urlday}{19}
@@ -961,11 +958,11 @@
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{abstract}{Drawing on large-scale computational data and methods, this research demonstrates how polarization efforts are influenced by a patterned network of political and financial actors. These dynamics, which have been notoriously difficult to quantify, are illustrated here with a computational analysis of climate change politics in the United States. The comprehensive data include all individual and organizational actors in the climate change countermovement (164 organizations), as well as all written and verbal texts produced by this network between 1993–2013 (40,785 texts, more than 39 million words). Two main findings emerge. First, that organizations with corporate funding were more likely to have written and disseminated texts meant to polarize the climate change issue. Second, and more importantly, that corporate funding influences the actual thematic content of these polarization efforts, and the discursive prevalence of that thematic content over time. These findings provide new, and comprehensive, confirmation of dynamics long thought to be at the root of climate change politics and discourse. Beyond the specifics of climate change, this paper has important implications for understanding ideological polarization more generally, and the increasing role of private funding in determining why certain polarizing themes are created and amplified. Lastly, the paper suggests that future studies build on the novel approach taken here that integrates large-scale textual analysis with social networks.}
-      \field{day}{1}
+      \field{day}{5}
       \field{issn}{0027-8424, 1091-6490}
       \field{journaltitle}{Proceedings of the National Academy of Sciences}
       \field{langid}{english}
-      \field{month}{5}
+      \field{month}{1}
       \field{number}{1}
       \field{shortjournal}{{PNAS}}
       \field{title}{Corporate funding and ideological polarization about climate change}
@@ -991,65 +988,6 @@
       \verb http://www.pnas.org/content/113/1/92
       \endverb
       \keyw{climate change,computational social science,funding,polarization,politics}
-    \endentry
-    \entry{ferree_four_2002}{article}{}
-      \name{author}{4}{}{%
-        {{uniquename=0,uniquepart=base,hash=3e2e02ec6fbb50922d19e6326ba6a2e8}{%
-           family={Ferree},
-           familyi={F\bibinitperiod},
-           given={Myra\bibnamedelima Marx},
-           giveni={M\bibinitperiod\bibinitdelim M\bibinitperiod},
-           givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=2130884bf960936d36ca827d1a99a1d5}{%
-           family={Gamson},
-           familyi={G\bibinitperiod},
-           given={William\bibnamedelima A.},
-           giveni={W\bibinitperiod\bibinitdelim A\bibinitperiod},
-           givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=1d41a69ab0bdadf68151da7d61a9feed}{%
-           family={Gerhards},
-           familyi={G\bibinitperiod},
-           given={Jürgen},
-           giveni={J\bibinitperiod},
-           givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=effc3643119401bacb0a54f57ba50a7a}{%
-           family={Rucht},
-           familyi={R\bibinitperiod},
-           given={Dieter},
-           giveni={D\bibinitperiod},
-           givenun=0}}%
-      }
-      \strng{namehash}{e853a3ff305c9f377d26bd8268d18207}
-      \strng{fullhash}{a2b175fd1287a022ba61081cd3f6d09d}
-      \strng{bibnamehash}{e853a3ff305c9f377d26bd8268d18207}
-      \strng{authorbibnamehash}{e853a3ff305c9f377d26bd8268d18207}
-      \strng{authornamehash}{e853a3ff305c9f377d26bd8268d18207}
-      \strng{authorfullhash}{a2b175fd1287a022ba61081cd3f6d09d}
-      \field{sortinit}{F}
-      \field{sortinithash}{669c706c6f1fbf3b5a83d26f1d9e9e72}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{issn}{0304-2421}
-      \field{journaltitle}{Theory and Society}
-      \field{number}{3}
-      \field{title}{Four Models of the Public Sphere in Modern Democracies}
-      \field{urlday}{20}
-      \field{urlmonth}{10}
-      \field{urlyear}{2018}
-      \field{volume}{31}
-      \field{year}{2002}
-      \field{dateera}{ce}
-      \field{urldateera}{ce}
-      \field{pages}{289\bibrangedash 324}
-      \range{pages}{36}
-      \verb{urlraw}
-      \verb https://www.jstor.org/stable/658129
-      \endverb
-      \verb{url}
-      \verb https://www.jstor.org/stable/658129
-      \endverb
     \endentry
     \entry{fu_analyzing_2013}{article}{}
       \name{author}{2}{}{%
@@ -1107,14 +1045,122 @@
       \verb http://online.liebertpub.com/doi/abs/10.1089/cyber.2012.0375
       \endverb
     \endentry
-    \entry{gentzkow_text_2017}{report}{}
-      \name{author}{3}{}{%
-        {{uniquename=0,uniquepart=base,hash=7f632dc67b8bd2566eae625ec44fafd0}{%
+    \entry{gentzkow_television_2006}{article}{}
+      \name{author}{1}{}{%
+        {{uniquename=1,uniquepart=given,hash=7f632dc67b8bd2566eae625ec44fafd0}{%
            family={Gentzkow},
            familyi={G\bibinitperiod},
            given={Matthew},
            giveni={M\bibinitperiod},
+           givenun=1}}%
+      }
+      \strng{namehash}{7f632dc67b8bd2566eae625ec44fafd0}
+      \strng{fullhash}{7f632dc67b8bd2566eae625ec44fafd0}
+      \strng{bibnamehash}{7f632dc67b8bd2566eae625ec44fafd0}
+      \strng{authorbibnamehash}{7f632dc67b8bd2566eae625ec44fafd0}
+      \strng{authornamehash}{7f632dc67b8bd2566eae625ec44fafd0}
+      \strng{authorfullhash}{7f632dc67b8bd2566eae625ec44fafd0}
+      \field{sortinit}{G}
+      \field{sortinithash}{5e8d2bf9d38de41b1528bd307546008f}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Abstract. I use variation across markets in the timing of television's introduction to identify its impact on voter turnout. The estimated effect is significan}
+      \field{day}{1}
+      \field{issn}{0033-5533}
+      \field{journaltitle}{The Quarterly Journal of Economics}
+      \field{langid}{english}
+      \field{month}{8}
+      \field{number}{3}
+      \field{shortjournal}{Q J Econ}
+      \field{title}{Television and Voter Turnout}
+      \field{urlday}{19}
+      \field{urlmonth}{1}
+      \field{urlyear}{2019}
+      \field{volume}{121}
+      \field{year}{2006}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{931\bibrangedash 972}
+      \range{pages}{42}
+      \verb{doi}
+      \verb 10.1162/qjec.121.3.931
+      \endverb
+      \verb{file}
+      \verb Snapshot:/Users/franzi/Zotero/storage/RH435L8T/1917885.html:text/html;Submitted Version:/Users/franzi/Zotero/storage/JK7HZM2M/Gentzkow - 2006 - Television and Voter Turnout.pdf:application/pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://academic.oup.com/qje/article/121/3/931/1917885
+      \endverb
+      \verb{url}
+      \verb https://academic.oup.com/qje/article/121/3/931/1917885
+      \endverb
+    \endentry
+    \entry{gentzkow_media_2004}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=1,uniquepart=given,hash=f93327d1e4e17f7e9e89a76a7dccbcc7}{%
+           family={Gentzkow},
+           familyi={G\bibinitperiod},
+           given={Matthew\bibnamedelima A.},
+           giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=1}}%
+        {{uniquename=0,uniquepart=base,hash=0f546f6b883c5e8d4fcec9d24b940555}{%
+           family={Shapiro},
+           familyi={S\bibinitperiod},
+           given={Jesse\bibnamedelima M.},
+           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod},
            givenun=0}}%
+      }
+      \strng{namehash}{4bb0777d5e604eb5fd3f5a0d734e27cd}
+      \strng{fullhash}{4bb0777d5e604eb5fd3f5a0d734e27cd}
+      \strng{bibnamehash}{4bb0777d5e604eb5fd3f5a0d734e27cd}
+      \strng{authorbibnamehash}{4bb0777d5e604eb5fd3f5a0d734e27cd}
+      \strng{authornamehash}{4bb0777d5e604eb5fd3f5a0d734e27cd}
+      \strng{authorfullhash}{4bb0777d5e604eb5fd3f5a0d734e27cd}
+      \field{sortinit}{G}
+      \field{sortinithash}{5e8d2bf9d38de41b1528bd307546008f}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Recent surveys in the United States and the Muslim world show widespread misinformation about the events of September 11, 2001. Using data from 9 predominantly Muslim countries, we study how such beliefs depend on exposure to news media and levels of education. Standard economic theory would predict that increased access to information should cause beliefs to converge. More recent models of biased belief formation suggest that this result might hinge critically on who is providing the information. Consistent with the latter, we find that overall intensity of media use and level of education have at best a weak correlation with beliefs, while particular information sources have strong and divergent effects. Compared to those with little media exposure or schooling, individuals watching Arab news channels or educated in schools with little Western influence are less likely to agree that the September 11 attacks were carried out by Arab terrorists. Those exposed to media or education from Western sources are more likely to agree. Belief that the attacks were morally justified and general attitudes toward the {US} are also strongly correlated with source of information. These findings survive controls for demographic characteristics and are robust to identifying media effects using cross-country variation in language.}
+      \field{issn}{0895-3309}
+      \field{journaltitle}{Journal of Economic Perspectives}
+      \field{langid}{english}
+      \field{month}{9}
+      \field{number}{3}
+      \field{title}{Media, Education and Anti-Americanism in the Muslim World}
+      \field{urlday}{11}
+      \field{urlmonth}{1}
+      \field{urlyear}{2019}
+      \field{volume}{18}
+      \field{year}{2004}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{117\bibrangedash 133}
+      \range{pages}{17}
+      \verb{doi}
+      \verb 10.1257/0895330042162313
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:/Users/franzi/Zotero/storage/DBBKM6N8/Gentzkow and Shapiro - 2004 - Media, Education and Anti-Americanism in the Musli.pdf:application/pdf;Snapshot:/Users/franzi/Zotero/storage/5N7JWXRT/articles.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://www.aeaweb.org/articles?id=10.1257/0895330042162313
+      \endverb
+      \verb{url}
+      \verb https://www.aeaweb.org/articles?id=10.1257/0895330042162313
+      \endverb
+    \endentry
+    \entry{gentzkow_text_2017}{report}{}
+      \name{author}{3}{uniquelist=1}{%
+        {{uniquename=1,uniquepart=given,hash=7f632dc67b8bd2566eae625ec44fafd0}{%
+           family={Gentzkow},
+           familyi={G\bibinitperiod},
+           given={Matthew},
+           giveni={M\bibinitperiod},
+           givenun=1}}%
         {{uniquename=0,uniquepart=base,hash=b0cef7b583dff0feaaebb56771961aa3}{%
            family={Kelly},
            familyi={K\bibinitperiod},
@@ -1237,12 +1283,12 @@
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{abstract}{A first step in identifying the content of a document is determining which topics that document addresses. We describe a generative model for documents, introduced by Blei, Ng, and Jordan [Blei, D. M., Ng, A. Y. \& Jordan, M. I. (2003) J. Machine Learn. Res. 3, 993-1022], in which each document is generated by choosing a distribution over topics and then choosing each word in the document from a topic selected according to this distribution. We then present a Markov chain Monte Carlo algorithm for inference in this model. We use this algorithm to analyze abstracts from {PNAS} by using Bayesian model selection to establish the number of topics. We show that the extracted topics capture meaningful structure in the data, consistent with the class designations provided by the authors of the articles, and outline further applications of this analysis, including identifying “hot topics” by examining temporal dynamics and tagging abstracts to illustrate semantic content.}
-      \field{day}{4}
+      \field{day}{6}
       \field{issn}{0027-8424, 1091-6490}
       \field{issue}{suppl 1}
       \field{journaltitle}{Proceedings of the National Academy of Sciences}
       \field{langid}{english}
-      \field{month}{6}
+      \field{month}{4}
       \field{shortjournal}{{PNAS}}
       \field{title}{Finding scientific topics}
       \field{urlday}{12}
@@ -1304,6 +1350,54 @@
       \range{pages}{31}
       \verb{file}
       \verb Text as Data\: The Promise and Pitfalls of Automatic Content Analysis Methods for Political Texts | Brandon Stewart:/Users/franzi/Zotero/storage/FF9QRDJ4/text-data-promise-and-pitfalls-automatic-content-analysis-methods-political.html:text/html
+      \endverb
+    \endentry
+    \entry{groseclose_measure_2005}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,uniquepart=base,hash=8fe97a62d026fb85304219ff5cd3c5c4}{%
+           family={Groseclose},
+           familyi={G\bibinitperiod},
+           given={Tim},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=5138cd5f827f23bb380acc55818908bb}{%
+           family={Milyo},
+           familyi={M\bibinitperiod},
+           given={Jeffrey},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{e091d220e735813b07be4b1e36c44a56}
+      \strng{fullhash}{e091d220e735813b07be4b1e36c44a56}
+      \strng{bibnamehash}{e091d220e735813b07be4b1e36c44a56}
+      \strng{authorbibnamehash}{e091d220e735813b07be4b1e36c44a56}
+      \strng{authornamehash}{e091d220e735813b07be4b1e36c44a56}
+      \strng{authorfullhash}{e091d220e735813b07be4b1e36c44a56}
+      \field{sortinit}{G}
+      \field{sortinithash}{5e8d2bf9d38de41b1528bd307546008f}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{[We measure media bias by estimating ideological scores for several major media outlets. To compute this, we count the times that a particular media outlet cites various think tanks and policy groups, and then compare this with the times that members of Congress cite the same groups. Our results show a strong liberal bias: all of the news outlets we examine, except Fox News' Special Report and the Washington Times, received scores to the left of the average member of Congress. Consistent with claims made by conservative critics, {CBS} Evening News and the New York Times received scores far to the left of center. The most centrist media outlets were {PBS} {NewsHour}, {CNN}'s Newsnight, and {ABC}'s Good Morning America; among print outlets, {USA} Today was closest to the center. All of our findings refer strictly to news content; that is, we exclude editorials, letters, and the like.]}
+      \field{issn}{0033-5533}
+      \field{journaltitle}{The Quarterly Journal of Economics}
+      \field{number}{4}
+      \field{title}{A Measure of Media Bias}
+      \field{urlday}{7}
+      \field{urlmonth}{1}
+      \field{urlyear}{2019}
+      \field{volume}{120}
+      \field{year}{2005}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{1191\bibrangedash 1237}
+      \range{pages}{47}
+      \verb{urlraw}
+      \verb https://www.jstor.org/stable/25098770
+      \endverb
+      \verb{url}
+      \verb https://www.jstor.org/stable/25098770
       \endverb
     \endentry
     \entry{hansen_shocking_2016}{article}{}
@@ -1622,55 +1716,64 @@
       \endverb
       \keyw{Coverage,Data mining,Opinion mining,Politics,Sentiment mining}
     \endentry
-    \entry{mccombs_look_2005}{article}{}
-      \name{author}{1}{}{%
-        {{uniquename=0,uniquepart=base,hash=5f50905dd6fa9a468fd3965154e5c72b}{%
-           family={{McCombs}},
-           familyi={M\bibinitperiod},
-           given={Maxwell},
-           giveni={M\bibinitperiod},
+    \entry{lott_is_2014}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,uniquepart=base,hash=1fe71f6270cfca80c7989f1ffa2dc6a0}{%
+           family={Lott},
+           familyi={L\bibinitperiod},
+           given={John\bibnamedelima R.},
+           giveni={J\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=4beba4f2df474d76579446dc77927427}{%
+           family={Hassett},
+           familyi={H\bibinitperiod},
+           given={Kevin\bibnamedelima A.},
+           giveni={K\bibinitperiod\bibinitdelim A\bibinitperiod},
            givenun=0}}%
       }
-      \strng{namehash}{5f50905dd6fa9a468fd3965154e5c72b}
-      \strng{fullhash}{5f50905dd6fa9a468fd3965154e5c72b}
-      \strng{bibnamehash}{5f50905dd6fa9a468fd3965154e5c72b}
-      \strng{authorbibnamehash}{5f50905dd6fa9a468fd3965154e5c72b}
-      \strng{authornamehash}{5f50905dd6fa9a468fd3965154e5c72b}
-      \strng{authorfullhash}{5f50905dd6fa9a468fd3965154e5c72b}
-      \field{sortinit}{M}
-      \field{sortinithash}{cfd219b90152c06204fab207bc6c7cab}
+      \strng{namehash}{0c52a025235bca378e69a7ca4db3f113}
+      \strng{fullhash}{0c52a025235bca378e69a7ca4db3f113}
+      \strng{bibnamehash}{0c52a025235bca378e69a7ca4db3f113}
+      \strng{authorbibnamehash}{0c52a025235bca378e69a7ca4db3f113}
+      \strng{authornamehash}{0c52a025235bca378e69a7ca4db3f113}
+      \strng{authorfullhash}{0c52a025235bca378e69a7ca4db3f113}
+      \field{sortinit}{L}
+      \field{sortinithash}{2c7981aaabc885868aba60f0c09ee20f}
       \field{extradatescope}{labelyear}
       \field{labeldatesource}{}
       \field{labelnamesource}{author}
-      \field{labeltitlesource}{shorttitle}
+      \field{labeltitlesource}{title}
+      \field{abstract}{This paper develops an econometric technique to test for political bias in news reports that controls for the underlying character of the news reported. Because of the changing availability of the number of newspapers in Nexis/Lexis, two sets of time are examined: from January 1991 to May 2004 and from January 1985 to May 2004. Our results suggest that American newspapers tend to give more positive coverage to the same economic news when Democrats are in the White House than when Republicans are; a similar though smaller effect is found for Democratic control of Congress. Our results reject the claim that “reader diversity is a powerful force toward accuracy.” When all types of news are pooled into a single analysis, our results are significant. However, the results vary greatly depending upon which types of economic data are being reported. When newspapers are examined individually the only support that Republicans appear to obtain is from the president’s home state newspapers during his term. This is true for the Houston Chronicle under both Bushes and the Los Angeles Times during the Reagan administration. Contrary to rational expectations, media coverage affects people’s perceptions of the economy.}
       \field{day}{1}
-      \field{issn}{1461-670X}
-      \field{journaltitle}{Journalism Studies}
-      \field{month}{11}
-      \field{number}{4}
-      \field{shorttitle}{A Look at Agenda-setting}
-      \field{title}{A Look at Agenda-setting: past, present and future}
-      \field{urlday}{20}
-      \field{urlmonth}{10}
-      \field{urlyear}{2018}
-      \field{volume}{6}
-      \field{year}{2005}
+      \field{issn}{1573-7101}
+      \field{journaltitle}{Public Choice}
+      \field{langid}{english}
+      \field{month}{7}
+      \field{number}{1}
+      \field{shortjournal}{Public Choice}
+      \field{title}{Is newspaper coverage of economic events politically biased?}
+      \field{urlday}{7}
+      \field{urlmonth}{1}
+      \field{urlyear}{2019}
+      \field{volume}{160}
+      \field{year}{2014}
       \field{dateera}{ce}
       \field{urldateera}{ce}
-      \field{pages}{543\bibrangedash 557}
-      \range{pages}{15}
+      \field{pages}{65\bibrangedash 108}
+      \range{pages}{44}
       \verb{doi}
-      \verb 10.1080/14616700500250438
+      \verb 10.1007/s11127-014-0171-5
       \endverb
       \verb{file}
-      \verb Snapshot:/Users/franzi/Zotero/storage/ZHVLE86I/14616700500250438.html:text/html
+      \verb Springer Full Text PDF:/Users/franzi/Zotero/storage/EDJFMSP7/Lott and Hassett - 2014 - Is newspaper coverage of economic events political.pdf:application/pdf
       \endverb
       \verb{urlraw}
-      \verb https://doi.org/10.1080/14616700500250438
+      \verb https://doi.org/10.1007/s11127-014-0171-5
       \endverb
       \verb{url}
-      \verb https://doi.org/10.1080/14616700500250438
+      \verb https://doi.org/10.1007/s11127-014-0171-5
       \endverb
+      \keyw{Media bias,Campaigns,Voting}
     \endentry
     \entry{mimno_optimizing_2011}{inproceedings}{}
       \name{author}{5}{}{%
@@ -1928,9 +2031,9 @@
       \field{labeldatesource}{}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{day}{5}
+      \field{day}{1}
       \field{journaltitle}{Bank of England Working Paper}
-      \field{month}{1}
+      \field{month}{5}
       \field{title}{News and narratives in financial systems: exploiting big data for systemic risk assessment {|} Bank of England}
       \field{urlday}{21}
       \field{urlmonth}{2}
@@ -2319,9 +2422,9 @@
       \field{labeldatesource}{}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{shorttitle}
-      \field{day}{12}
+      \field{day}{1}
       \field{journaltitle}{Journal of Statistical Software}
-      \field{month}{1}
+      \field{month}{12}
       \field{shorttitle}{stm}
       \field{title}{stm: R Package for Structural Topic Models}
       \field{volume}{forthcoming}
@@ -2378,57 +2481,6 @@
       \verb The Structural Topic Model and Applied Social Science | Brandon Stewart:/Users/franzi/Zotero/storage/69G2KU2F/structural-topic-model-and-applied-social-science.html:text/html
       \endverb
     \endentry
-    \entry{savigny_public_2002}{article}{}
-      \name{author}{1}{}{%
-        {{uniquename=0,uniquepart=base,hash=f38d60d099162e00f94faffa57fba46c}{%
-           family={Savigny},
-           familyi={S\bibinitperiod},
-           given={Heather},
-           giveni={H\bibinitperiod},
-           givenun=0}}%
-      }
-      \strng{namehash}{f38d60d099162e00f94faffa57fba46c}
-      \strng{fullhash}{f38d60d099162e00f94faffa57fba46c}
-      \strng{bibnamehash}{f38d60d099162e00f94faffa57fba46c}
-      \strng{authorbibnamehash}{f38d60d099162e00f94faffa57fba46c}
-      \strng{authornamehash}{f38d60d099162e00f94faffa57fba46c}
-      \strng{authorfullhash}{f38d60d099162e00f94faffa57fba46c}
-      \field{sortinit}{S}
-      \field{sortinithash}{322b1d5276f2f6c1bccdcd15920dbee6}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{abstract}{In contemporary society public opinion is generally mediated by the mass media, which has come to encompass the Habermasian ‘public sphere’. This arena is now characterised by the conflict between market and democratic principles, by competing interests of politicians and the media. The presentation of information for debate becomes distorted. The opinion of the ‘public’ is no longer created through deliberation, but is constructed through systems of communication, in conflict with political actors, who seek to retain control of the dissemination of information. The expansion of the internet as a new method of communication provides a potential challenge to the primacy of the traditional media and political parties as formers of public opinion.}
-      \field{day}{1}
-      \field{issn}{1467-9256}
-      \field{journaltitle}{Politics}
-      \field{langid}{english}
-      \field{month}{2}
-      \field{number}{1}
-      \field{title}{Public Opinion, Political Communication and the Internet}
-      \field{urlday}{14}
-      \field{urlmonth}{8}
-      \field{urlyear}{2018}
-      \field{volume}{22}
-      \field{year}{2002}
-      \field{dateera}{ce}
-      \field{urldateera}{ce}
-      \field{pages}{1\bibrangedash 8}
-      \range{pages}{8}
-      \verb{doi}
-      \verb 10.1111/1467-9256.00152
-      \endverb
-      \verb{file}
-      \verb Full Text PDF:/Users/franzi/Zotero/storage/MFG6M57V/Savigny - 2002 - Public Opinion, Political Communication and the In.pdf:application/pdf;Snapshot:/Users/franzi/Zotero/storage/55HY587S/1467-9256.html:text/html
-      \endverb
-      \verb{urlraw}
-      \verb https://onlinelibrary.wiley.com/doi/abs/10.1111/1467-9256.00152
-      \endverb
-      \verb{url}
-      \verb https://onlinelibrary.wiley.com/doi/abs/10.1111/1467-9256.00152
-      \endverb
-    \endentry
     \entry{snyder_press_2010}{article}{}
       \name{author}{2}{}{%
         {{uniquename=0,uniquepart=base,hash=985b8071332db0f13e104e6e2e0f3b37}{%
@@ -2483,57 +2535,56 @@
       \verb https://www.jstor.org/stable/10.1086/652903
       \endverb
     \endentry
-    \entry{stromback_four_2008}{article}{}
+    \entry{stromberg_radios_2004}{article}{}
       \name{author}{1}{}{%
-        {{uniquename=0,uniquepart=base,hash=9e288059d00bb55a9410b08ffbc1ca40}{%
-           family={Strömbäck},
+        {{uniquename=0,uniquepart=base,hash=dca034eb9978f970ea5e85ffa83272fc}{%
+           family={Strömberg},
            familyi={S\bibinitperiod},
-           given={Jesper},
-           giveni={J\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod},
            givenun=0}}%
       }
-      \strng{namehash}{9e288059d00bb55a9410b08ffbc1ca40}
-      \strng{fullhash}{9e288059d00bb55a9410b08ffbc1ca40}
-      \strng{bibnamehash}{9e288059d00bb55a9410b08ffbc1ca40}
-      \strng{authorbibnamehash}{9e288059d00bb55a9410b08ffbc1ca40}
-      \strng{authornamehash}{9e288059d00bb55a9410b08ffbc1ca40}
-      \strng{authorfullhash}{9e288059d00bb55a9410b08ffbc1ca40}
+      \strng{namehash}{dca034eb9978f970ea5e85ffa83272fc}
+      \strng{fullhash}{dca034eb9978f970ea5e85ffa83272fc}
+      \strng{bibnamehash}{dca034eb9978f970ea5e85ffa83272fc}
+      \strng{authorbibnamehash}{dca034eb9978f970ea5e85ffa83272fc}
+      \strng{authornamehash}{dca034eb9978f970ea5e85ffa83272fc}
+      \strng{authorfullhash}{dca034eb9978f970ea5e85ffa83272fc}
       \field{sortinit}{S}
       \field{sortinithash}{322b1d5276f2f6c1bccdcd15920dbee6}
       \field{extradatescope}{labelyear}
       \field{labeldatesource}{}
       \field{labelnamesource}{author}
-      \field{labeltitlesource}{shorttitle}
-      \field{abstract}{Two concepts that have been used to describe the changes with regards to media and politics during the last fifty years are the concepts of mediation and mediatization . However, both these concepts are used more often than they are properly defined. Moreover, there is a lack of analysis of the process of mediatization, although the concept as such denotes a process.Thus the purpose of this article is to analyze the concepts of mediated and mediatized politics from a process-oriented perspective. The article argues that mediatization is a multidimensional and inherently process-oriented concept and that it is possible to make a distinction between four phases of mediatization. Each of these phases is analyzed.The conclusion is that as politics becomes increasingly mediatized, the important question no longer is related to the independence of the media from politics and society. The important question becomes the independence of politics and society from the media.}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Abstract. If informed voters receive favorable policies, then the invention of a new mass medium may affect government policies since it affects who is informe}
       \field{day}{1}
-      \field{issn}{1940-1612}
-      \field{journaltitle}{The International Journal of Press/Politics}
+      \field{issn}{0033-5533}
+      \field{journaltitle}{The Quarterly Journal of Economics}
       \field{langid}{english}
-      \field{month}{7}
-      \field{number}{3}
-      \field{shortjournal}{The International Journal of Press/Politics}
-      \field{shorttitle}{Four Phases of Mediatization}
-      \field{title}{Four Phases of Mediatization: An Analysis of the Mediatization of Politics}
-      \field{urlday}{20}
-      \field{urlmonth}{10}
-      \field{urlyear}{2018}
-      \field{volume}{13}
-      \field{year}{2008}
+      \field{month}{2}
+      \field{number}{1}
+      \field{shortjournal}{Q J Econ}
+      \field{title}{Radio's Impact on Public Spending}
+      \field{urlday}{11}
+      \field{urlmonth}{1}
+      \field{urlyear}{2019}
+      \field{volume}{119}
+      \field{year}{2004}
       \field{dateera}{ce}
       \field{urldateera}{ce}
-      \field{pages}{228\bibrangedash 246}
-      \range{pages}{19}
+      \field{pages}{189\bibrangedash 221}
+      \range{pages}{33}
       \verb{doi}
-      \verb 10.1177/1940161208319097
+      \verb 10.1162/003355304772839560
       \endverb
       \verb{file}
-      \verb SAGE PDF Full Text:/Users/franzi/Zotero/storage/IHSBRJN6/Strömbäck - 2008 - Four Phases of Mediatization An Analysis of the M.pdf:application/pdf
+      \verb Full Text PDF:/Users/franzi/Zotero/storage/NUNIULNN/Strömberg - 2004 - Radio's Impact on Public Spending.pdf:application/pdf;Snapshot:/Users/franzi/Zotero/storage/UAJ5MGAP/1876059.html:text/html
       \endverb
       \verb{urlraw}
-      \verb https://doi.org/10.1177/1940161208319097
+      \verb https://academic.oup.com/qje/article/119/1/189/1876059
       \endverb
       \verb{url}
-      \verb https://doi.org/10.1177/1940161208319097
+      \verb https://academic.oup.com/qje/article/119/1/189/1876059
       \endverb
     \endentry
     \entry{tetlock_giving_2007}{article}{}
@@ -2814,6 +2865,7 @@
       \endverb
     \endentry
   \enddatalist
+  \missing{kepplinger_einfluss_2004}
 \endrefsection
 \endinput
 

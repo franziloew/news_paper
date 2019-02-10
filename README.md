@@ -36,7 +36,6 @@ The remaining course of the paper is as follows: The following section provides 
 
 ![](/figs/radarchart.png)
 
-
 - [Political orientation](https://franziloew.github.io/news_paper/reuters.html)
 
 ![](/figs/reuters.png)

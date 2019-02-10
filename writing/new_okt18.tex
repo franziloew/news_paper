@@ -47,7 +47,7 @@
 \ExecuteBibliographyOptions{maxcitenames=2,mincitenames=1}
 \renewcommand*{\mkbibnamelast}[1]{\textsc{#1}}
 
-\title{Measuring different types of media bias in German online news articles.}
+\title{Matching agendas}
 \date{\today}
 
 \author{Franziska Löw
@@ -58,7 +58,8 @@
 \begin{titlepage}
 	\maketitle
 	\begin{abstract}
-	However, the concept of media bias actually encompasses different subtypes: Visibility bias is the salience of political actors, tonality bias the evaluation of these actors, and agenda bias the extent to which parties address preferred issues in media coverage. Most literature on media bias focuses on only one type of bias, mainly disregarding agenda bias, as the operationalization is somewhat challenging. Additionally, studies that analyse the effect of media content primarily employ manual content analysis and are therefore much more time-consuming and susceptible to errors. Using automated data mining tools this paper provides an approach that allows an efficient and objective analysis to measure the different types of media bias. In order to investigate whether the media landscape transmits a biased reality of the political landscape, online news articles are analysed together with party press releases.
+	To measure the political slant of german online newspaper the topics addressed in newspapers are compared with topics addressed in press releases of political parties. To find the latent topics in the corpus a structural topic model is conducted. 
+
 	\end{abstract}
 
 \end{titlepage}
@@ -79,7 +80,7 @@ A legitimate question, however, could be which factors or incentives lead to the
 
 In order to answer these and other media-related questions in the political context, quantifying the content of media is essential. In other words, what features can be used to measure the content of, for example, an online article? The literature of communication science, for example, often uses visibility (how often political actors appear in the media) or tonality (how they are evaluated) in this regard. In addition to these actor-based approaches, there are also more issue-based approaches to be found in communication science as well as in other disciplines. In this case, the contents or the language used by media are compared with the contents or the language used by political actors in order to identify whether political actors are able to place their own policy positions in the media using their own language. Leading studies from economic literature, for example, examine how often a newspaper quotes the same think tanks \citep{groseclose_measure_2005, lott_is_2014} or uses the same language \citep{gentzkow_media_2004} as members of Congress. 
 
-In the present paper the slant-index (or ideological score) of an online newspaper is calculated by comparing the topics discussed in such newspapers with the topics discussed in parties press releases similar to \citet{eberl_one_2017}. However, in contrast to \citet{eberl_one_2017} a machine learning approach is used to analyze a text dataset containing nearly 12.000 online news articles from seven major news provider dated from June 1, 2017 to March 1, 2018 as well as over 1.900 press releases of the parties in the german "Bundestag". As the German federal elections took place on 24th of September 2017 and the formation of the government has taken up a period of about five months, the articles considered inform their readers about both the election promises of the parties (before the election) and the coalition talks (after the election). To discover the latent topics in the corpus of text data, the structural topic model (STM) developed by \citet{roberts_model_2016} is applied. The STM is an unsupervised machine learning approach that models topics as multinomial distributions of words and documents (as a synonym for news articles) as multinomial distributions of topics, allowing the incorporation of external variables that affect both, topical content and topical prevalence. The results of the generative process of the STM are two posterior distributions: One for the topic prevalence in a document (what is the article or press release about?) and one for the content of a topic (what is the topic about?). In the next step the topics addressed in campaign communication (i.e., the party agenda) are compared with the topics the parties address in media coverage (i.e., the mediated party agenda). The results of this analysis are then compared with data on the political orientation of consumers in order to evaluate whether there may be a link between consumer preferences and the slant-index of a medium. 
+To measure the ideological content of several online news services in Germany, in the present paper I compare the topics discussed in these media with the press releases of the parties in the german "Bundestag" using a structural topic model (STM) developed by \citet{roberts_model_2016}. The dataset contains nearly 12.000 online news articles from seven major news provider dated from June 1, 2017 to March 1, 2018 as well as over 1.900 press releases of the parties in the german "Bundestag". As the German federal elections took place on 24th of September 2017 and the formation of the government has taken up a period of about five months, the articles considered inform their readers about both the election promises of the parties (before the election) and the coalition talks (after the election). To discover the latent topics in the corpus of text data, the structural topic model (STM) developed by \citet{roberts_model_2016} is applied. The STM is an unsupervised machine learning approach that models topics as multinomial distributions of words and documents (as a synonym for news articles) as multinomial distributions of topics, allowing the incorporation of external variables that affect both, topical content and topical prevalence. The results of the generative process of the STM are two posterior distributions: One for the topic prevalence in a document (what is the article or press release about?) and one for the content of a topic (what is the topic about?). In the next step the topics addressed in campaign communication (i.e., the party agenda) are compared with the topics the parties address in media coverage (i.e., the mediated party agenda). The results of this analysis are then compared with data on the political orientation of consumers in order to evaluate whether there may be a link between consumer preferences and the slant-index of a medium. 
 
 The use of online news as data input accurately reflects the changed conditions in the news market as the importance of the internet as a source of information for political topics has grown strongly in recent years.\footnote{Even though television remains the most widely used source of news in Germany (2018: 74\%), numbers watching continue to decline while use of the internet for news has grown significantly in the last year (+5\%, 2018: 65\%) \citep{holig_reuters_2018}.} This trend has as strong effect on the market for media content as neither supply nor demand is tied to specific times and can adapt to events in real time. Users can consume their preferred news sources at any time and providers can adapt their offerings to events in real time without waiting for the next issue or TV show.
 
@@ -92,6 +93,8 @@ The remaining course of the paper is as follows: The following section provides 
 %-------------------------------------------------------%
 
 \section{Literature}
+
+In unbiased media reporting all political sides should be equally represented according to some kind of benchmark for balance or neutrality \citep{hopmann_political_2012}. Bias is then defined as the extent to which media reporting deviates from this benchmark.
 
 However, the discussion about media bias has not only been studied since the growing importance of the internet. Different research disciplines investigate the concept of media bias, albeit with different focus. Regardless of the discipline, media bias research can be roughly divided into three research questions: (1) What types of bias exist, (2) how and why does it emerge and (3) what influence does it have on the political outcomes. While 1 and 3 are dealt with in economic, political and communication research, question 2 is mainly addressed in economic literature. It investigates which forces on the supply and demand side drives to media bias.  
 
@@ -134,6 +137,18 @@ The difference between the widely used LDA and the STM approaches lies in how $\
 The model has been applied to multiple academic fields: \citet{roberts_structural_2014} uses STM to analyze open-ended responses from surveys and experiments, \citet{farrell_corporate_2016} applies the model to scientific texts on climate change, revealing links between corporate funding and the framing of scientific studies. \citet{mishler_using_2015} show that "STM can be used to detect significant events such as the downing of Malaysia Air Flight 17" when applied to twitter data. Another study shows how STM can be used to explore the main international development topics of countries' annual statements in the UN General Debate and examine the country-specific drivers of international development rhetoric \citep{baturo_what_2017}. \citet{mueller_reading_2016} use newspaper text to predict armed conflicts in different regions. They use the estimated topic shares in linear fixed effects regression to forecast conflict out-of-sample. \citet{roberts_navigating_2016} use STM to examine the role of partisanship in topical coverage using a corpus of 13,246 posts that were written for 6 political blogs during the course of the 2008 U.S. presidential election. With the aim of revealing the effect of partisan membership on topic prevalence, each blog is assigned to be either liberal or conservative. To explore the differences between the two, they look at the expected proportion of topics and examine the posts most associated with a respective topic. This approach is similar to \citet{roberts_model_2016}. 
 
 The present analysis differs from earlier approaches to measure agenda bias in that a machine learning technique is used to identify the underlying topics in the text corpus applying a structural topic model \citep{roberts_model_2016}. Furthermore, I use text-mining techniques to measure coverage and tonality bias. However, I shall refrain as far as possible from interpreting the results at political level. Rather, it is my goal to show how text mining techniques enable an efficient and objective analysis of today's online media landscape and simultaneously allow the analysis to be reproduced. 
+
+% ---------------------
+% Backup from FE regression
+% ----------------------
+
+Much of the research on online content and political trends have focused on traditional weblogs and social media websites, such as Twitter, Facebook, MySpace, and YouTube. These studies have shown that social media is used to spread political opinions and that these considerations reflect the political landscape of the offline world. \citet{tumasjan_predicting_2010} investigate Tweets between August 13th and September 19th, 2009, prior to the German national elections to examine whether Twitter messages reflect the current offline political sentiment and whether it can be used to predict the popularity of parties or coalitions in the real world. With regard to the later question, they compare the share of attention the political parties receive on Twitter with the election result to examine whether the activity on Twitter can serve as a predictor of the election outcome. They found that the number of tweets reflects the election result and even comes close to traditional election polls.
+
+\citet{fu_analyzing_2013} use a corpus of online posts from discussion forums and blogs to examine the extent to which online sentiment reflected in social media content can predict phone survey results in Hong Kong. They build a sentiment classifier conducting a support vector machine analysis on a training set of 2,000 manually labeled posts. In order to evaluate the temporal relationship between the time series of the online sentiment score and the results of the telephone survey, a cross correlation analysis was conducted, using the Box and Jenkins autoregressive integrated moving average (ARIMA) method \citep{box_time_2008}. Estimating the cross-correlation functions of the residuals, they find that online sentiment scores can lead phone survey results by about 8â15 days. 
+
+In a more recent conference paper, \citet{padmaja_evaluating_2014} identify the scope of negation in news articles for two political parties in India (BJP and UPA) to analyze how the choice of certain words used in these texts influence the sentiments of public in polls. Comparing three different sentiment analysis methods (two machine learning and one dictionary method), they observe that the choice of certain words used in political text was influencing the sentiments in favor of BJP. They conclude that this sentiment bias might be one of the causes for the election results in 2014.
+
+\citet{dewenter_can_2018} use human-coded data from leading media in Germany together with the German Politbarometer survey to investigate how media coverage affects short- and long-term political preferences between February 1998 and December 2012. They find a positive correlation between the media coverage and the short-term voting intention for a political party. In the long-term, however, voting preferences are stable. 
  
 % -------------------------
 % Background Bundestagswahl
@@ -148,24 +163,55 @@ After the election, the formation of a government was difficult due to the large
 
 After the failure of the Jamaica coalition talks, a possible re-election or a minority government as alternatives were discussed in the media before the SPD decided to hold coalition talks with the CDU/CSU. This led to great resistance from the party base, which called for a party-internal referendum on a grand coalition. After the party members voted in favor of the grand coalition, a government was formed 171 days after the federal elections. 
 
-Figure \ref{fig_polls} shows that support for the two major popular parties has been declining in recent months since August 2017, with the CDU/CSU again showing positive survey results since November 2017. However, the poll results of the SPD have been falling since March 2017. At the same time, the AfD in particular has been recording increasingly positive survey results since June 2017.  
+Figure \ref{fig_polls} shows that support for the two major popular parties has been declining in recent months since August 2017, with the CDU/CSU again showing positive survey results since November 2017.\footnote{For each party the survey results of the seven major institutes are considered. To calculate a smooth line for each party on each day, the moving average within 15 days (7 before the day, 7 after the day, and the day itself) is estimated. The data source is [wahlrecht.de](https://www.wahlrecht.de/).} However, the poll results of the SPD have been falling since March 2017. At the same time, the AfD in particular has been recording increasingly positive survey results since June 2017.  
 
 \begin{figure}[H]
 \begin{center}
 	\caption{Election Polls}
-	\includegraphics[width=0.6\textwidth]{../figs/polldata}
+	\includegraphics[width=0.9\textwidth]{../figs/polldata}
 	\label{fig_polls}
 	\end{center}
 \end{figure}
 
+% -------
+% Method
+% -------
+\section{Measuring slant-index}\label{ch_method}
+ 
+My approach to measuring the slant of a newspaper is to compare the topics in the newspaper with topics in parties' press releases to identify which parties the topics in the newspaper are most similar to. Parties want the media agenda to be congruent with their own agenda to define the issue-based criteria on which they will be evaluated by voters \citep{eberl_one_2017}. Thus, parties instrumentalize their press releases in order to highlight issues that they are perceived to be competent on, that they "own" and that are important to their voters \citep{kepplinger_einfluss_2004}. Editors can select from this universe and decide which topics will be discussed in the news. In that sense the ideological content of a newspaper refers to the extent to which the topics promoted by the parties correlate with the topics discussed in the news articles.
+
+To discover the latent topics in the corpus of press releases (1.942) and news articles (11.880), a structural topic modeling (STM) developed by \citet{roberts_model_2016} is applied. The STM is an unsupervised machine learning approach that models topics as multinomial distributions of words and documents as multinomial distributions of topics, allowing to incorporate external variables that effect both, topical content and topical prevalence. The results of the generative process of the STM are two posterior distributions: One for the topic prevalence in a document (what is the article or press release about?) and one for the content of a topic (what is the topic about?). Subsequently the bivariate correlations between party agendas and the mediated party agendas in the online news are estimated. These correlations represent the agenda selectivity each party experiences in each media outlet. The higher the correlation, the more congruent both agendas are. 
+
+This section first describes the data on news articles and press releases and how they have processed in order to use them as input for the model.
+
 % -----
 % Data
 % -----
-\section{Data}\label{ch_data}
+\subsection{Data}\label{ch_data}
 
-\subsection{Press releases}
+\subsubsection{Press releases}
 
-\subsection{News articles}
+Press releases published by parties and those published by the parliamentary groups (or factions) in the Bundestag should be considered in different ways as parties are financed by membership dues, donations and campaign expenses, while factions are financed by state funds. According to Parteigesetzt §25 (2) state funded factions may not support partie, as there would be a disadvantaged for parties that are not in the Bundestag. However, since it is difficult to draw the line between faction activity and election campaign assistance, I assume that factions intervene in the public perception of this party with their press releases, which is why I include both the press releases of the federal party and the federal faction \citep{kepplinger_einfluss_2004}.
+
+\begin{figure}[H]
+\begin{center}
+	\caption{Press releases}
+	\includegraphics[width=0.7\textwidth]{../figs/press_releases}
+	\label{fig_press}
+	\end{center}
+\end{figure}
+
+After pre-processing
+
+\begin{figure}[H]
+\begin{center}
+	\caption{Term-frequency}
+	\includegraphics[width=\textwidth]{../figs/tokens}
+	\label{fig_press}
+	\end{center}
+\end{figure}
+
+\subsubsection{News articles}
 
 \input{tables/data_summary}
 
@@ -189,82 +235,15 @@ I conduct the estimation on a sample of 11,880 online news articles from seven G
 	\end{center}
 \end{figure}
 
-\section{Estimate bias}
-
-1. Estimate different bias types 
-2. Estimate a fixed effect regression, to analyze the impact of the different biases that vary over time.
-
-In unbiased media reporting all political sides should be equally represented according to some kind of benchmark for balance or neutrality \citep{hopmann_political_2012}. Bias is then defined as the extent to which media reporting deviates from this benchmark. In this section the measurement methodology for each of the three types of bias defined in the literature (visibility bias, tonality bias and agenda bias \citet{junque_de_fortuny_media_2012, eberl_one_2017}) is described. The strategy for calculating the bias follows the same pattern in all three cases: First, the value for which the bias will be determined is calculated for each party (i.e. visibility, tonality and agenda setting). This is done at a monthly level of the different news providers. The average value of all other parties in the month and the medium serves as the reference value to calculate the bias. To ensure comparability between the different bias metrics, they are standardized to range from −1 to 1, where a party would have a bias of 0 (neutral), when its visibility, tonality or agenda is equal to the mean visibility, tonality or agenda across all parties (in that media outlet) \citep{eberl_one_2017}.
-
-\subsection{Visibility Bias}
- 
-The overall visibility for each party in a news provider is defined as the number of news articles in which a party is named at least once, normalised on the total amount of articles by that news provider in the corpus. Next, to distinguish between balanced and biased reporting the average visibility of all other parties in a news outlet is used as a key benchmark.\footnote{In another setting \citet{junque_de_fortuny_media_2012} uses the popularity in terms of votes as the a priori fair distribution. The visibility bias of a media source is the difference between the real distribution and the fair distribution.} The results displayed in Figure \ref{fig_visibility_bias} do not show clear evidence for a difference between the different news provider: Overall, they are positively biased towards "Union" and "SPD" and more negatively biased towards the other parties, with "DIE LINKE" having the most negative bias overall. The SPD has the greatest differences over time: The party has a negative bias during the Jamaica negotiations (Sep-Nov), turning positive following the failure of the Jamaica negotiations and the start of the coalition talks on the "GroKo". The opposite is true for "FDP" and "Grüne": Both show a rather positive or neutral bias during these month and a negative bias for the rest of the rime. Visibility of "AfD" is biased negatively during the time of analysis, showing less negativity during the election month (Sep).
-
-\begin{figure}[H]
-	\caption{Visibility Bias}
-	\begin{center}
-		\includegraphics[width=0.8\textwidth]{../figs/visibility_bias.png}
-		\label{fig_visibility_bias}
-	\end{center}
-\end{figure}
-
-% -------------
-% sentiment bias 
-% --------------
-
-\subsection{Sentiment Analysis}
+To allow for an operationalization of agenda bias, parties' press releases are used as an approximation of the potential universe of news stories \citep{eberl_one_2017}. The press releases were scraped from the website of each party\footnote{afd.de, spd.de, die-linke.de, fdp.de, gruene.de, cdu.de} and each faction\footnote{afdbundestag.de, spdfraktion.de, die-linke.de/start/presse/aus-dem-bundestag, fdpbt.de, gruene-bundestag.de/, presseportal.de/nr/7846} to compare the topics addressed with the policy issues in the news articles. 
 
 
-To measure the tone (or sentiment) of an article a dictionary-based method is applied. To conduct such an analysis, a list of words (dictionary) associated with a given emotion, such as negativity is pre-defined. The document is then deconstructed into individual words and each word is assigned a sentiment value according to the dictionary, where the sum of all values results in the emotional score for the given document. Such lexical or "bag-of-words" approaches are widely presented in the finance literature to determine the effect of central banks' monetary policy communications on asset prices and real variables (\citet{nyman_news_2018} \citet{tetlock_giving_2007}, \citet{tetlock_more_2008}). \citet{hansen_shocking_2016} use a similar approach to measure "the two Ts" (Topic and tone). They explore the effects of FOMC (Federal Open Market Committee) statements on both market and real economic variables. To calculate their score, they subtract the negative words from the positive words und divide this by the number of total words of the statement. A similar score is used by \citet{nyman_news_2018}, who measure the effect of narratives and sentiment of financial market text-based data on developments in the financial system. They count the number of occurrences of excitement words and anxiety words and then scale these numbers by the total text size as measured by the number of characters.
-
-The present paper uses a dictionary that lists words associated with positive and negative polarity weighted within the interval of $[-1; 1]$. SentimentWortschatz\footnote{SentiWS for short. available here: http://wortschatz.uni-leipzig.de/de/download}, is a publicly available German-language resource for sentiment analysis, opinion mining, etc.. The current version of SentiWS (v1.8b) contains 1,650 positive and 1,818 negative words, which sum up to 15,649 positive and 15,632 negative words including their inflections, respectively. Table \ref{t_sentdict} shows ten examples entries of the dictionary. To obtain a more reliable correlation between the "target" (a political party) and the word's polarity score, sentiment words are counted in a window of two sentences before and after the mention of a political party \citep{junque_de_fortuny_media_2012}. The tonality score of an article is then calculated from the sum of the these words divided by the total number of words in that article. Again, the tonality bias for is then computed as the deviation of each party's specific tonality from the average tonality of all other parties in that outlet and standardized to range from −1 to 1.
-
-\input{tables/sent_dict}
- 
-\begin{figure}[H]
-	\caption{Tonality Bias}
-	\begin{center}
-		\includegraphics[width=0.8\textwidth]{../figs/tonality_bias.png}
-		\label{fig_tonality_bias}
-	\end{center}
-\end{figure}
-
-
-% ---------------------
-% Agenda bias
-% ----------------------
-\subsection{Agenda Bias}\label{ch_agendabias}
-
-To allow for an operationalization of agenda bias, parties' press releases are used as an approximation of the potential universe of news stories \citep{eberl_one_2017}. The press releases were scraped from the website of each party\footnote{https://www.afd.de/presse, https://www.spdfraktion.de, https://www.die-linke.de/start/presse/aus-dem-bundestag, https://www.fdp.de, https://www.gruene-bundestag.de/, https://www.presseportal.de/nr/7846} to compare the topics addressed with the policy issues in the news articles. 
 
 \subsubsection{Data preparation}
 
 To use text as data for statistical analysis, different pre-processing steps have to be conducted. In fact, in order to use text as data and reduce the dimensionality to avoid unnecessary computational complexity and overfitting, pre-processsing the text is a central task in text mining \citep{bholat_text_2015}. Intuitively the term frequency (tf) of a word is a measure of how important that word may be for the understanding of the text. As can be seen in Figure \ref{fig_wordcloud1}, problems arise with words that are highly frequent. For example "die", or "der (eng. "the"), "und" (eng. "and"), and "ist" (eng. "is") are extremely common but unrelated to the quantity of interest. These terms, often called stop words \citep{gentzkow_text_2017}, are important to the grammatical structure of a text, but typically don't add any additional meaning and can therefore be neglected. A common strategy to reduce the number of language elements is to pre-process the text by imposing some preliminary restrictions (e.g. stop-word removal and stemming) based on the nature of the data (e.g. twitter text, newspaper articles, speeches, etc.) \citep{gentzkow_text_2017}. 
 
-\begin{figure}[H]\label{fig_wordcloud1}
-	\begin{center}
-		\begin{subfigure}[normla]{0.7\textwidth}
-			\includegraphics[width=\textwidth]{../figs/wordcloud.png}
-			\caption{Wordcloud (before pre-processing)}
-		\end{subfigure}
-	\end{center}
-\end{figure}
-
-To remove distorting words, the pre-defined stop word list from the Snowball project\footnote{http://snowball.tartarus.org/algorithms/german/stop.txt} is used together with a customized list of stop-words. Additionally punctuation character (e.g. ., ,, !, ?, etc.) and all numbers are removed from the data. A next step to reduce the dimensionality of text data is to apply an adequate stemming technique. Stemming is a process by which different morphological variants of a word are traced back to their common root. For example, "voting" and "vote" would be treated as two instances of the same token after the stemming process. There are many different techniques for the stemming process. I apply the widely used Porter-Stemmer algorithm, which is based on a set of shortening rules that are applied to a word until it has a minimum number of syllables.\footnote{https://tartarus.org/martin/PorterStemmer/} After completing these steps 68,576 \todo{check, if this is correct.} unique terms were left in the vocabulary. The word clouds in Figure \ref{fig_wordcloud2} represent the most frequent words of the pre-processed articles for Bild.de and Tagesschau.de.\footnote{The wordclouds of the other parties can be found in the appendix \ref{apx_wordclouds}} It becomes evident that these are texts discussing domestic policy issues. The SPD in particular seems to be highly frequent. However, at first glance, there are no obvious differences between the news providers.  
-
-\begin{figure}[H]\label{fig_wordcloud2}
-	\caption{Wordclouds}
-	\begin{center}
-		\begin{subfigure}[normla]{0.48\textwidth}
-			\includegraphics[width=\textwidth]{../figs/wordclouds/Bild.de.png}
-			\caption{Bild.de (after pre-processing)}
-		\end{subfigure}
-		\begin{subfigure}[normla]{0.48\textwidth}
-			\includegraphics[width=\textwidth]{../figs/wordclouds/tagesschau.de.png}
-			\caption{Tagesschau.de (after pre-processing)}
-		\end{subfigure}
-	\end{center}
-\end{figure}
+To remove distorting words, the pre-defined stop word list from the Snowball project\footnote{http://snowball.tartarus.org/algorithms/german/stop.txt} is used together with a customized list of stop-words. Additionally punctuation character (e.g. ., ,, !, ?, etc.) and all numbers are removed from the data. A next step to reduce the dimensionality of text data is to apply an adequate stemming technique. Stemming is a process by which different morphological variants of a word are traced back to their common root. For example, "voting" and "vote" would be treated as two instances of the same token after the stemming process. There are many different techniques for the stemming process. I apply the widely used Porter-Stemmer algorithm, which is based on a set of shortening rules that are applied to a word until it has a minimum number of syllables.\footnote{https://tartarus.org/martin/PorterStemmer/} After completing these steps 68,576 unique terms were left in the vocabulary. The word clouds in Figure \ref{fig_wordcloud2} represent the most frequent words of the pre-processed articles for Bild.de and Tagesschau.de. It becomes evident that these are texts discussing domestic policy issues. The SPD in particular seems to be highly frequent. However, at first glance, there are no obvious differences between the news providers.  
 
  % --------------------
 % Document-term-matrix
@@ -289,73 +268,71 @@ Each individual topic potentially contains all of the unique terms within the vo
 % ----------------------
 Inference of mixed-membership models, such as the one applied in this paper, has been a thread of research in applied statistics in the past few years (\citet{blei_latent_2003} \citet{erosheva_mixed-membership_2004} \citet{braun_variational_2010}). Topic models are usually imprecise as the function to be optimized has multiple modes, such that the model results can be sensitive to the starting values (e.g. the number of topics). Since an ex ante valuation of a model is hardly possible, I compute a variety of different models and compare their posterior probability. This enables me to check how results vary for different model solution \citep{roberts_navigating_2016}. I then cross-checked some subset of assigned topic distributions to evaluate whether the estimates align with the concept of interest \citep{gentzkow_text_2017}. These manual audits are applied together with numeric optimization based on the topic coherence measure suggested by \citet{mimno_optimizing_2011}. 
 
-\todo{describe model specifications}
-This process revealed that a model with 55 topics best reflects the structure in the corpus. Furthermore, the source (news website or party) of a document is used as covariate in the topic prevalence. In other words, the corresponding news website or party of an article or press release influences the probability distribution of topics for that document. Additionally I assume that the topical content differs between news articles and press releases. 
+This process revealed that a model with 60 topics best reflects the structure in the corpus. Furthermore, the source (news website or party) of a document is used as covariate in the topic prevalence. In other words, the corresponding news website or party of an article or press release influences the probability distribution of topics for that document. Additionally I assume that the topical content differs between news articles and press releases. 
 
-\subsubsection{Results}
-% ---- Results ---- %
-In order to get an initial overview of the results, Figure \ref{fig_expected_freq} displays the topics ordered by their expected frequency across the corpus. To assign a label to each topic, I looked at the most frequent words in that topic and the most representative articles \citep{roberts_model_2016}. 
+% ---------------------- 
+% ------- Results 
+% ---------------------- %
 
-It becomes apparent that topic 4 about the coalition talks between CDU/CSU and SPD - the "Grand coalition" or "GroKo" - is the topic with the highest expected frequency in the whole corpus, followed by the topic about the so-called Jamaica parties (CDU/CSU, FDP and B90/Die Grünen), which was the first alternative to be negotiated directly after the elections.  
+\section{Results}
 
-\begin{figure}[H]\label{fig_wordcloud2}
+\subsection{Topic distribution} 
+
+The generative process of the STM results in two posterior distributions: (1) a distribution over all topics for each document and (2) a distribution over all words for each topic. As we included the type of source (news article or press release) as a covariate in the model, we have two different posterior word-distributions for each topic. A combination of both is used to label the topics as listed in table \ref{t_labels}. 
+ 
+For each document, we have a distribution over all topics
+
+\begin{figure}[H]
+\begin{center}
+	\caption{Document-Topic distribution}
+	\includegraphics[width=\textwidth]{../figs/doc_topic_distr}
+	\label{fig_doc_topic_distr}
+	\end{center}
+\end{figure}
+
+The average of all documents gives the expected frequency of a topic in the whole corpus as shown in figure \ref{fig_expected_freq}
+
+\begin{figure}[H]
+\begin{center}
+	\caption{Document-Topic distribution}
+	\includegraphics[width=\textwidth]{../figs/topic_proportion}
+	\label{fig_expected_freq}
+	\end{center}
+\end{figure}
+
+It becomes apparent that topic 20 about the so-called Jamaica parties (CDU/CSU, FDP and B90/Die Grünen) is the topic with the highest expected frequency in the whole corpus, followed by topic 36 about the coalition talks between CDU/CSU and SPD - the "Grand coalition" or "GroKo". However, the model was calculated under the assumption that each document source has a different distribution across all topics. Looking at the expected frequency of a topic for each source separately, some differences become apparent.
+
+\begin{figure}[H]
 	\caption{Expected frequency}
 	\begin{center}
 		\begin{subfigure}[normla]{0.48\textwidth}
-			\includegraphics[width=\textwidth]{../figs/topic_proportion_news.png}
+			\includegraphics[width=\textwidth]{../figs/topic_proportion_press}
 			\caption{Online news}
 		\end{subfigure}
 		\begin{subfigure}[normla]{0.48\textwidth}
-			\includegraphics[width=\textwidth]{../figs/wordclouds/topic_proportion_press.png}
+			\includegraphics[width=\textwidth]{../figs/topic_proportion_news}
 			\caption{Press releases}
 		\end{subfigure}
 	\end{center}
 \end{figure}
 
+\subsection{Agenda correlation}
 
-\section{Fixed effects regression}\label{ch_results}
+Agendas were measured in terms of percentage distributions across the 80 topics. For each source the average distribution of each topic is calculated for each month. The following pictures show the overall topic distribution. Then, we estimated bivariate correlations between party agendas and the mediated party agendas in the online news. These correlations represent the agenda selectivity each party experiences in each media outlet. The higher the correlation, the more congruent both agendas are. 
 
-This section seeks to examine the association between sentiment reflected in online news content and phone poll results in Germany. Specifically, it aims to find the extent to which online sentiment and phone survey results correlate given a number of lags. I use the data from the "Sonntagsumfrage" (Sunday survey) from infratest dimap.\footnote{https://www.infratest-dimap.de/umfragen-analysen/bundesweit/sonntagsfrage/} The institution regularly asks at least 1000 German citizens the question: "Which party would you choose if federal elections were to take place next Sunday?" The survey thus measures the current election tendencies and therefore reflects an intermediate state in the opinion-forming process of the electoral population.
-
-Much of the research on online content and political trends have focused on traditional weblogs and social media websites, such as Twitter, Facebook, MySpace, and YouTube. These studies have shown that social media is used to spread political opinions and that these considerations reflect the political landscape of the offline world. \citet{tumasjan_predicting_2010} investigate Tweets between August 13th and September 19th, 2009, prior to the German national elections to examine whether Twitter messages reflect the current offline political sentiment and whether it can be used to predict the popularity of parties or coalitions in the real world. With regard to the later question, they compare the share of attention the political parties receive on Twitter with the election result to examine whether the activity on Twitter can serve as a predictor of the election outcome. They found that the number of tweets reflects the election result and even comes close to traditional election polls.
-
-\citet{fu_analyzing_2013} use a corpus of online posts from discussion forums and blogs to examine the extent to which online sentiment reflected in social media content can predict phone survey results in Hong Kong. They build a sentiment classifier conducting a support vector machine analysis on a training set of 2,000 manually labeled posts. In order to evaluate the temporal relationship between the time series of the online sentiment score and the results of the telephone survey, a cross correlation analysis was conducted, using the Box and Jenkins autoregressive integrated moving average (ARIMA) method \citep{box_time_2008}. Estimating the cross-correlation functions of the residuals, they find that online sentiment scores can lead phone survey results by about 8â15 days. 
-
-In a more recent conference paper, \citet{padmaja_evaluating_2014} identify the scope of negation in news articles for two political parties in India (BJP and UPA) to analyze how the choice of certain words used in these texts influence the sentiments of public in polls. Comparing three different sentiment analysis methods (two machine learning and one dictionary method), they observe that the choice of certain words used in political text was influencing the sentiments in favor of BJP. They conclude that this sentiment bias might be one of the causes for the election results in 2014.
-
-\citet{dewenter_can_2018} use human-coded data from leading media in Germany together with the German Politbarometer survey to investigate how media coverage affects short- and long-term political preferences between February 1998 and December 2012. They find a positive correlation between the media coverage and the short-term voting intention for a political party. In the long-term, however, voting preferences are stable. 
-
-In the present paper, the relationship between monthly average of both the sentiment value of individual topics ($x_t$) and the survey value of the parties ($y_t$) is estimated using the cross correlation function (CCF). Thus, the CCF between $x_{t+h}$ and $y_t$ for $h\pm 1$,$h \pm 2$,$h \pm 3$ is computed. A negative value for $h$ is a correlation between the topic sentiment value at a time before $t$ and the survey value at time $t$. The correlation value for $h=0$ indicates the contemporary correlation between the two time series.  Based on the coefficients of the cross correlation estimation shown in Figure \ref{fig_ccf}, the significant correlations between topic sentiment and survey value are evaluated for each party.\footnote{The value of the cross correlation coefficients for lag 0 are listed in the appendix \ref{apx_ccf}} It is important to note that no causal relationships are described below, but only the correlation between the two time series. 
-
-The survey results of the AfD correlate negatively with topics relating to the SPD (17, 22) at lag 0. Thus, if the SPD was more negatively reported, the poll value of the AfD increased in the same month (and vice versa). Another significant negative correlation exists between the reporting on the GroKo (4) and the survey value of AfD at lag -1 ($x_{t-1}$). So if the GroKo was more negatively reported in one month, the survey value of the AfD increased in the following month (and vice versa). For the FDP, too, only negative correlation coefficients can be detected, with the strongest negative correlation existing for the topic relating to the CSU (23). If the CSU got off worse in the online news, the poll value of the FDP went up. Another interesting observation is that the FDP's poll results correlate negatively with issues relating to the Jamaica coalition at lag 1 ($x_{t+1}$). So if the poll results for the FDP rose in one month, the following month the FDP was reported more negatively. The Green Party survey results show no negative correlation with any of the topics, except topic 30 at lag 1. It is striking that there seems to be a strong negative correlation between the SPD topics (1, 17, 22) and the poll results of the left party (DIE LINKE). This means that the poll value of the left party has climbed if the topics related to the SPD were discussed more negatively. Same applies to the reporting on the GroKo (30) for lag -1. Conversely, the SPD's survey results correlate strongly positively with these topics, and also with topic 30 with a delay of one month. For the CDU/CSU, too, only significant negative correlations are discernible: the survey results correlate negatively with the topic of the Schulz v Merkel debate (10) and negatively with topic 30 with a delay of one month ($x_{t+1}$). 
-
-\begin{landscape}
 \begin{figure}[H]
-	\caption{Cross-Correlation Coefficients}
-	\begin{center}
-			\includegraphics[width=1.3\textwidth,keepaspectratio]{figs/ccf2.png}
-			\label{fig_ccf}
+\begin{center}
+	\caption{Document-Topic distribution}
+	\includegraphics[width=\textwidth]{../figs/radarchart}
+	\label{fig_expected_freq}
 	\end{center}
-\end{figure} 
-\end{landscape}
-
-After the figures above have been analyzed, the following points can be summarized:
-
-\begin{enumerate}
-	\item Only the survey results of the SPD correlate positively with the emotional value of the topics. There seems to be a strong correlation between the way topics concerning the SPD are discussed in the online news and the poll results.  
-	\item The poll results of the Left Party, on the other hand, seem to correlate negatively with the reporting on the SPD. 
-	\item Similar tendencies can also be seen with regard to the AfD, since here too the survey results correlate significantly negatively with the topics about the SPD and the grand coalition. 
-\end{enumerate} 
-
-Summarizing the analyses from this and the previous section, it can be observed that the positive correlation between the emotional value of the reporting and the survey value of a party is particularly large if the reporting is conspicuously negative. 
+\end{figure}
 
 \section{Conclusion}
 
-The ongoing discussion about the influence of digital media on the political opinion-forming process addresses the question whether there are convergence tendencies within the mass media and whether the reporting in the media correlates with the voting preferences. To analyze this question, this paper examines (1) whether the political reporting of different media differs in terms of topic frequency and topic tonality and (2) whether the emotional value of the reporting correlates with poll results. 
+The ongoing discussion about the influence of digital media on the political opinion-forming process addresses the question whether there are convergence tendencies within the mass media and whether the reporting in the media correlates with the voting preferences. To analyze this question, this paper examines .... 
 
-Using text data of 14,937 online news articles from seven German news providers about domestic politics, I first estimate a Structural Topic Model to find the latent topics in the news articles in order to answer (1). After assigning a topic to each news article, the sentiment value of articles about contemporary political events is calculated using a dictionary-based method. In order to tackle (2), the results from the sentiment analysis are then compared to poll results.
-
-Regarding (1), the analysis revealed that there are differences between the media considered, both in terms of topic prevalence and the way in which these topics are discussed. Although the topics are discussed negatively on average, differences can still be observed, especially regarding topics that deal with the coalition negotiations. The smallest differences were observed for topics concerning the AfD. However, no evidence has been found that the media systematically report more negatively on the AfD than on other parties. With regard to (2), the analysis has shown that the tonality of topics discussed by the SPD shows a strong positive correlation to current survey results. Overall, there seems to be a link between reporting on political issues and electoral preferences. The results of this study show evidence that the content of media could have an influence on the opinion-forming process of the voters and therefore underline the responsibility of media in the political context.
+Using text data of 14,937 online news articles from seven German news providers about domestic politics, I first estimate a Structural Topic Model to find the latent topics in the news articles ...
 
 \pagebreak
 
@@ -401,145 +378,8 @@ This process generates two posterior distribution parameters:
 	\item $\theta$ is a $D$-by-$V$ matrix (where $D=$ number of documents and $V=$ vocabulary or unique terms) of the document-topic distributions, where the entry $\theta_{dk}$ can be interpreted as the proportion of words in document $d$ which arise from topic $k$, or rather as the probability that document $d$ deals about topic $k$. 
 \end{enumerate}
 
+\subsection{Topic labels}
 
-\subsection{Wordclouds}\label{apx_wordclouds}
-\begin{figure}[H]
-	\begin{center}
-		\begin{subfigure}[normla]{0.43\textwidth}
-			\includegraphics[width=\textwidth]{figs/wordcloud/DIEWELT.png}
-			\caption{DIE WELT}
-		\end{subfigure}
-		\begin{subfigure}[normla]{0.43\textwidth}
-			\includegraphics[width=\textwidth]{figs/wordcloud_FOCUSONLINE.png}
-			\caption{FOCUS ONLINE}
-		\end{subfigure}
-		\begin{subfigure}[normla]{0.43\textwidth}
-			\includegraphics[width=\textwidth]{figs/wordcloud_SPIEGELONLINE.png}
-			\caption{SPIEGEL ONLINE}
-		\end{subfigure}
-		\begin{subfigure}[normla]{0.43\textwidth}
-			\includegraphics[width=\textwidth]{figs/wordcloud_stern.png}
-			\caption{Stern.de}
-		\end{subfigure}
-		\begin{subfigure}[normla]{0.43\textwidth}
-			\includegraphics[width=\textwidth]{figs/wordcloud_ZEITONLINE.png}
-			\caption{ZEIT ONLINE}
-		\end{subfigure}
-	\end{center}
-\end{figure}
-
-\subsection{Most frequent words}\label{apx_tf}
-% 1, 2
-\begin{figure}[H]
-	\begin{center}
-		\begin{subfigure}[normla]{0.49\textwidth}
-			\includegraphics[width=\textwidth]{figs/plotquote1.png}
-		\end{subfigure}
-		\begin{subfigure}[normla]{0.49\textwidth}
-			\includegraphics[width=\textwidth]{figs/plotquote2.png}
-		\end{subfigure}
-	\end{center}
-\end{figure}
-	
-% 4, 10
-\begin{figure}[H]
-	\begin{center}
-		\begin{subfigure}[normla]{0.49\textwidth}
-			\includegraphics[width=\textwidth]{figs/plotquote4.png}
-		\end{subfigure}
-		\begin{subfigure}[normla]{0.49\textwidth}
-			\includegraphics[width=\textwidth]{figs/plotquote10.png}
-		\end{subfigure}
-	\end{center}
-\end{figure}
-
-% 13, 17
-\begin{figure}[H]
-	\begin{center}
-		\begin{subfigure}[normla]{0.49\textwidth}
-			\includegraphics[width=\textwidth]{figs/plotquote13.png}
-		\end{subfigure}
-		\begin{subfigure}[normla]{0.49\textwidth}
-			\includegraphics[width=\textwidth]{figs/plotquote17.png}
-		\end{subfigure}
-	\end{center}
-\end{figure}
-
-% 20, 23
-\begin{figure}[H]
-	\begin{center}
-		\begin{subfigure}[normla]{0.49\textwidth}
-			\includegraphics[width=\textwidth]{figs/plotquote20.png}
-		\end{subfigure}
-		\begin{subfigure}[normla]{0.49\textwidth}
-			\includegraphics[width=\textwidth]{figs/plotquote23.png}
-		\end{subfigure}
-	\end{center}
-\end{figure}
-
-% 26, 27
-\begin{figure}[H]
-	\begin{center}
-		\begin{subfigure}[normla]{0.49\textwidth}
-			\includegraphics[width=\textwidth]{figs/plotquote26.png}
-		\end{subfigure}
-		\begin{subfigure}[normla]{0.49\textwidth}
-			\includegraphics[width=\textwidth]{figs/plotquote27.png}
-		\end{subfigure}
-	\end{center}
-\end{figure}
-
-% 30, 32
-\begin{figure}[H]
-	\begin{center}
-		\begin{subfigure}[normla]{0.49\textwidth}
-			\includegraphics[width=\textwidth]{figs/plotquote30.png}
-		\end{subfigure}
-		\begin{subfigure}[normla]{0.49\textwidth}
-			\includegraphics[width=\textwidth]{figs/plotquote32.png}
-		\end{subfigure}
-	\end{center}
-\end{figure}
-
-% 37, 46
-\begin{figure}[H]
-	\begin{center}
-		\begin{subfigure}[normla]{0.49\textwidth}
-			\includegraphics[width=\textwidth]{figs/plotquote37.png}
-		\end{subfigure}
-		\begin{subfigure}[normla]{0.49\textwidth}
-			\includegraphics[width=\textwidth]{figs/plotquote46.png}
-		\end{subfigure}
-	\end{center}
-\end{figure}
-
-\subsection{Regression Results}\label{apx_coeff}
-\begin{minipage}[t]{0.49\textwidth}
-	\input{tables/coeff1}
-\end{minipage}
-\begin{minipage}[t]{0.49\textwidth}
-	\input{tables/coeff2}
-\end{minipage}
-
-\subsection{Sentiment Values (monthly aggregated)}\label{apx_sentscore_monthly}
-
-\begin{minipage}[t]{0.49\textwidth}
-	\input{tables/sentscore_monthly1}
-\end{minipage}
-\begin{minipage}[t]{0.49\textwidth}
-	\input{tables/sentscore_monthly2}
-\end{minipage}
-
-\subsection{Sentiment Values (aggregated by news website)}\label{apx_sentscore_site}
-
-\begin{minipage}[t]{0.49\textwidth}
-	\input{tables/sentscore_site1}
-\end{minipage}
-\begin{minipage}[t]{0.49\textwidth}
-	\input{tables/sentscore_site2}
-\end{minipage}
-
-\subsection{Cross Correlation Coefficient (lag 0)}\label{apx_ccf}
-\input{tables/corr}
+\include{tables/labels}\label{t_labels}
 
 \end{document}

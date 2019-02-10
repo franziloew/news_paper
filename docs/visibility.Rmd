@@ -5,6 +5,8 @@ date: "`r format(Sys.Date())`"
 output: html_document
 ---
 
+The overall visibility for each party in a news provider is defined as the number of news articles in which a party is named at least once, normalised on the total amount of articles by that news provider in the corpus. Next, to distinguish between balanced and biased reporting the average visibility of all other parties in a news outlet is used as a key benchmark.\footnote{In another setting \citet{junque_de_fortuny_media_2012} uses the popularity in terms of votes as the a priori fair distribution. The visibility bias of a media source is the difference between the real distribution and the fair distribution.} The results displayed in Figure \ref{fig_visibility_bias} do not show clear evidence for a difference between the different news provider: Overall, they are positively biased towards "Union" and "SPD" and more negatively biased towards the other parties, with "DIE LINKE" having the most negative bias overall. The SPD has the greatest differences over time: The party has a negative bias during the Jamaica negotiations (Sep-Nov), turning positive following the failure of the Jamaica negotiations and the start of the coalition talks on the "GroKo". The opposite is true for "FDP" and "Grüne": Both show a rather positive or neutral bias during these month and a negative bias for the rest of the rime. Visibility of "AfD" is biased negatively during the time of analysis, showing less negativity during the election month (Sep).
+
 ```{r include=FALSE}
 rm(list = ls())
 

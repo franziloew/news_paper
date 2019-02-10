@@ -18,10 +18,6 @@ To measure the ideological content of several major online news services, I comp
 
 The following is an analysis of the content of the press releases scraped from the public websites of the political parties and political groups. A big part of this analysis is inspired from the work of Julia Silge and David Robinson ([Text Mining with R - A Tidy Approach](https://www.tidytextmining.com/)).
 
-I assume that parties utilize their press releases to promote their issues and positions and thus also contribute to the election campaign. However, it should be noted that there is a difference between the press releases of the parties and the factions. Parties are financed by membership dues, donations and campaign expenses, while factions are financed by state funds. According to Parteigesetzt §25 (2) state funded factions may not support parties from their funds, because otherwise parties that are not in the Bundestag would be practically disadvantaged.
-
-Since it is difficult to draw the line between faction activity and election campaign assistance, I assume that factions intervene in the public perception of this party with their press releases, which is why I include both the press releases of the federal party and the federal faction.
-
 ```{r include=FALSE}
 library(tidyverse)
 library(lubridate)

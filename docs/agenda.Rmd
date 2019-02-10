@@ -1,5 +1,6 @@
 ---
-title: "Agenda bias"
+title: "Matching agenda"
+subtitle: To what extent do topics in online news and the press releases coincide?
 author: "Franziska Löw"
 date: "`r format(Sys.Date())`"
 output: 
@@ -11,24 +12,7 @@ output:
 knitr::opts_chunk$set(message=FALSE, warning=FALSE)
 ```
 
-Wie ist die Medienresonanz von Pressemittelungen politischer Parteien?
-
-Assumptions:
-
-  1. Parteien wollen "ihre" Themen in den Medien platzieren, d.h. die Themen, die den - meist programmatisch bestimmten - Kern ihrer Wahlaussage bilden.
-
-  2. Parteien wollen Probleme in der Vordergrund rücken, für die sie nach Ansicht der Bevölkerung insgesamt oder nach Ansicht des eigenen Anhangs die Lösungskompentenz besitzen. 
-
-  3. Parteien wollen Themen vermeiden, die aufgrund der aktuellen Sachlage gegen sie sprechen. Stattdessen wollen sie andere Themen (Sachthemen, Personal- und Stilfragen) in den Vordergrund rücken. Instrument hierfür sind Pressemitteilungen der Parteien und Fraktionen. 
-
-  4. Parteien möchten, dass ihre Sichtweisen möglichst ungekürzt und unverfälscht publiziert werden.
-
-- Pressemitteilungen bilden nur einen Weg in die Öffentlichkeit. Bei einer umfassenden Betrachtung müsste man im Kontext auch Interviews, Veranstaltungen, Hintergrundgespräche, etc. betrachten. -> zu umfangreich
-
-
-Parties and candidates not only want to be present in the media (coverage bias), or evaluated in a positive way (tonality bias). They also want the media agenda to be congruent with their own agenda to define the issue-based criteria on which they will be evaluated by voters. Thus, parties choose their issue agenda carefully, highlighting issues that they are perceived to be competent on, that they "own" and that are important to their voters. In that sense agenda bias refers to the extent to which political actors appear in the public domain in conjunction with the topics they wish to emphasize. 
-
-To allow for an operationalization of agenda bias, I use parties' campaign communication as an approximation of the potential universe of news stories (D’Alessio & Allen, 2000; Eberl, 2017). I compare the policy issues addressed in campaign communication (i.e., the party agenda) with the policy issues the parties address in media coverage (i.e., the mediated party agenda).
+Parties want the media agenda to be congruent with their own agenda to define the issue-based criteria on which they will be evaluated by voters ( [Eberl, 2017](https://journals.sagepub.com/doi/abs/10.1177/0093650215614364) ).Thus, parties instrumentalize their press releases in order to highlight issues that they are perceived to be competent on, that they "own" and that are important to their voters ( [Kepplinger & Maurer, 2004](https://link.springer.com/chapter/10.1007%2F978-3-322-83381-5_9) ). Editors can select from this universe and decide which of these topics will be discussed in the news. In that sense the ideological content of a newspaper refers to the extent to which the topics promoted by the parties correlate with the topics discussed in the news articles.
 
 To discover the latent topics in the corpus of press releases (1.942) and news articles (11.880), a structural topic modeling (STM) developed by [Roberts (2016)](https://scholar.princeton.edu/sites/default/files/bstewart/files/a_model_of_text_for_experimentation_in_the_social_sciences.pdf) is applied. The STM is an unsupervised machine learning approach that models topics as multinomial distributions of words and documents as multinomial distributions of topics, allowing to incorporate external variables that effect both, topical content and topical prevalence.
 
@@ -112,6 +96,7 @@ I included the document source as a control for the topical topical prevalence, 
 library(stm)
 library(tidyverse)
 library(ggthemes)
+library(xtable)
 
 rm(list = ls())
 load("../output/models/finalmodel_60.RDa")
@@ -151,7 +136,7 @@ sagelabs <- sageLabels(stmOut)
 ```
 
 ```{r labels, if content covariables included, eval=FALSE, include=FALSE}
-newsLabels <- as.data.frame(sagelabs$cov.betas[[1]]$problabels) %>% 
+newsLabels <- as.data.frame(sagelabs$cov.betas[[1]]$problabels) %>%  
   transmute(topic = as.numeric(rownames(.)),
             topic_name_news_short = paste(V1,V2),
             topic_name_news = paste(V1,V2,V3,V4))
@@ -164,9 +149,20 @@ pressLabels <- as.data.frame(sagelabs$cov.betas[[2]]$problabels) %>%
 topics.df <- left_join(newsLabels, pressLabels, by="topic") %>%
   mutate(joint_label = paste("Topic",topic,":",topic_name_news_short, topic_name_press_short))
 
-topics.df %>% select(joint_label, topic_name_news, topic_name_press) %>% 
+topics.df %>% 
+  select(joint_label, topic_name_news, topic_name_press) %>% 
   htmlTable::htmlTable(align="l", header = c("Joint label", "News articles","Press releases"),
                        rnames = F)
+```
+
+```{r eval=FALSE, include=FALSE}
+# Print out the dataframe to a latex table 
+xt <- xtable(topics.df %>% select(joint_label, topic_name_news, topic_name_press),
+             type="latex",
+             caption ="Most frequent words")
+
+names(xt) <- c("Joint label", "News articles","Press releases")
+print(xt, include.rownames = F, file="../writing/tables/labels.tex" )
 ```
 
 ```{r}
@@ -211,8 +207,7 @@ source <- model_df$source[which(model_df$doc_index == sample_doc)]
 
 theta %>%
   filter(doc_index == sample_doc) %>%
-  select(doc_index, joint_label, theta) %>%
-  ggplot(aes(joint_label, theta)) +
+  ggplot(aes(reorder(joint_label, desc(topic)), theta)) +
   geom_col(fill="#0099c6", alpha = 0.8) +
   ylim(c(0,1)) +
   coord_flip() +
@@ -222,6 +217,8 @@ theta %>%
        x = NULL, y = NULL
        ) +
   theme(axis.text = element_text(size = 10))
+
+ggsave("../figs/doc_topic_distr.png", height = 10, width = 10)
 ```
 
 What is the document acutally about? 
@@ -257,12 +254,12 @@ overall_freq %>%
   scale_fill_gradient(low = "#00AFBB", high = "#FC4E07") +
   labs(x=NULL, y=NULL) 
 
-#ggsave("../figs/topic_proportion.png", height = 6, width = 4)
+ggsave("../figs/topic_proportion.png", height = 10, width = 10)
 ```
 
 # Measure Agendas
 
-Agendas were measured in terms of percentage distributions across the 80 topics. For each source the average distribution of each topic is calculated for each month. The following pictures show the overall topic distribution.
+Agendas were measured in terms of percentage distributions across the 60 topics. For each source the average distribution of each topic is calculated for each month. The following pictures show the overall topic distribution.
 
 ```{r}
 topicmean_news <- theta %>%
@@ -285,9 +282,8 @@ topicmean_news %>%
   coord_flip() +
   theme_hc() +
   facet_grid(~source) +
-  labs(x=NULL, y=NULL, title="Average distribution of topics",
-       subtitle = "Online news") +
-  theme(axis.text.x = element_text(size = 6))
+  labs(x=NULL, y=NULL) +
+  theme(axis.text.y = element_blank())
 
 ggsave("../figs/topic_proportion_news.png", width = 11, height =10)
 ```
@@ -318,16 +314,12 @@ topicmean_news %>%
 
 ```{r eval=FALSE, fig.align="center", fig.height=11, fig.width=11, include=FALSE}
 topicmean_press %>%
-  filter(topic != 14) %>%
   ggplot(aes(reorder(joint_label,desc(topic)),topicmean)) +
-  geom_col(fill="#0099c6",alpha=0.8) +
+  geom_col(fill="#FC4E07",alpha=0.8) +
   coord_flip() +
     theme_hc() +
   facet_grid(~source) +
-  labs(x=NULL, y=NULL, title="Average distribution of topics",
-       subtitle = "Press releases"
-       ) +
-  theme(axis.text.x = element_text(size = 6))
+  labs(x=NULL, y=NULL) 
 
 ggsave("../figs/topic_proportion_press.png", width = 11, height =10)
 ```
