@@ -18,7 +18,7 @@ The remaining course of the paper is as follows: The following section provides 
 
 ## 3. Background on the federal election in Germany (2017)
 
-- [Analysis](file:///Users/franzi/Projects/news_paper/docs/scrape_polls.html)
+- [Text](file:///Users/franzi/Projects/news_paper/docs/scrape_polls.html)
 
 ![](/figs/polldata.png)
 
