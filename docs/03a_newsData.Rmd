@@ -1,15 +1,18 @@
 ---
-title: "Different types of media bias - data description"
+title: "Online News"
+subtitle: "Analysing online news from german media outlets"
 author: "Franziska Löw"
 date: "`r format(Sys.Date())`"
-output: github_document
+output: 
+  html_document:
+    code_folding: hide
 ---
 
 ```{r include=FALSE}
-knitr::opts_chunk$set(eval=FALSE, include=FALSE)
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE)
 ```
 
-```{r, include=FALSE}
+```{r include=FALSE}
 # load the packages
 libs <- c("readr","lubridate","tidyverse","data.table","stringr","scales","ggthemes","xtable")
 lapply(libs, library, character.only = TRUE)
@@ -37,10 +40,8 @@ visits %>%
   labs(x="", y="Visits in million",
        caption="Source: AGOF daily digital facts\nINFOnline (tagesschau.de)")
 
-ggsave(filename = "../figs/visits.png", width = 6, height = 5)
+#ggsave(filename = "../figs/visits.png", width = 6, height = 5)
 ```
-
-![](../figs/visits.png)
 
 # Articles
 
@@ -68,7 +69,7 @@ df_summary <- df %>%
   select(medium, total_articles,share, visits)
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 # Print out the summary dataframe to a latex table 
 print(xtable(df_summary, 
              type="latex",
@@ -97,33 +98,31 @@ btw %>%
   scale_color_hc(name = NULL) +
   labs(x="",y="")
 
-ggsave(filename = "../figs/article_timeline.png", width = 7, height = 4)
+#ggsave(filename = "../figs/article_timeline.png", width = 7, height = 4)
 ```
-
-![](../figs/article_timeline.png)
 
 ## Wordclouds 
 
 Before pre-processing:
 ```{r}
-png('wordcloud.png')
+#png('wordcloud.png')
   
 wordcloud::wordcloud(btw$title_text, max.words = 200)
   
-dev.off()
+#dev.off()
 ```
 
 Pre-processed Data:
 
 ```{r}
-png('wordcloud_cleaned.png')
+#png('wordcloud_cleaned.png')
   
 wordcloud::wordcloud(btw$text_cleaned1, max.words = 200)
   
-dev.off()
+#dev.off()
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 medium <- unique(btw$medium)
 
 for (i in medium) {

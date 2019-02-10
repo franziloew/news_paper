@@ -20,31 +20,15 @@ The remaining course of the paper is as follows: The following section provides 
 
 4. Data 
 	- [Press releases](https://franziloew.github.io/news_paper/03b_pressReleases.html)
-	- [Online newspaper articles]
+	- [Online newspaper articles]()
 
 5. Measuring Slant (Structural topic model)
 
 6. Emprical results
-	- Agenda correlation
-	- Political orientation
-
-
-## 4. Data
-
-The data analyzed in this study contains nearly 12.000 online news articles from seven major news provider dated from June 1, 2017 to March 1, 2018 as well as over [1.900 press releases]((https://franziloew.github.io/news_paper/03b_pressReleases.html)) of the parties in the german "Bundestag". As the German federal elections took place on 24th of September 2017 and the formation of the government has taken up a period of about five months, the articles considered inform their readers about both the election promises of the parties (before the election) and the coalition talks (after the election). 
-
-## 5. Measuring Slant
-
-- Structural topic model
-
-## 6. Empirical results
-
-- [Agenda correlation](https://franziloew.github.io/news_paper/agenda.html)
+	- [Agenda correlation](https://franziloew.github.io/news_paper/agenda.html)
 
 ![](/figs/radarchart.png)
 
-- [Political orientation](https://franziloew.github.io/news_paper/reuters.html)
-
-Since 2012, the [Reuters Institute Digital News Survey](http://www.digitalnewsreport.org/about-us-2018/) has been investigating the media use of digital content. Among others, the following questions are investigated: What types of news are of interest? Which devices and media are used to find them? A graphical analysis of a fraction of this data can be found [here](https://franziloew.github.io/news_paper/reuters.html). The [The Hans Bredow Institute](https://www.hans-bredow-institut.de/de/projekte/reuters-institute-digital-news-survey) has been responsible for the German part of the study.
+	- [Political orientation](https://franziloew.github.io/news_paper/reuters.html)
 
 ![](/figs/reuters.png)
