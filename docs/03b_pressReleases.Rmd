@@ -272,13 +272,8 @@ pressReleases %>%
   coord_flip() +
   ggthemes::theme_hc() +
   ggthemes::scale_fill_hc() +
-  labs(y = NULL, x = NULL, 
-       title = "Number of press releases (June 2017 - March 2018)",
-       fill = NULL)
-
-ggsave("../figs/press_releases.png", width = 6, height = 3)
+  labs(y = NULL, x = NULL, fill = NULL)
 ```
-![](../figs/press_releases.png)
 
 ## Clean Data
 
@@ -353,9 +348,54 @@ library(tidyverse)
 library(tidytext)
 library(scales)
 library(htmlTable)
+library(ggthemes)
+library(viridis)
+library(xtable)
+library(ggridges)
+theme_set(theme_ridges())
 
 rm(list = ls())
 load("../output/pressReleases.Rda")
+
+party_colors <- c("#009ee0", "#32302e","#ffed00","#46962b","#ec008c", "#E3000F")
+```
+
+```{r}
+pressReleases %>%
+  group_by(party, author) %>%
+  tally() %>%
+  ggplot(aes(reorder(party, n),n, fill = author)) +
+  geom_col() +
+  coord_flip() +
+  theme_hc() +
+  scale_fill_viridis_d(labels = c("Party","Parliamentary group")) +
+  labs(y = NULL, x = NULL, fill = NULL)
+
+ggsave("../figs/press_releases.png", width = 6, height = 4)
+```
+
+```{r}
+pressReleases %>%
+  filter(text_length < 1000) %>%
+  ggplot(aes(x=party, y=text_length)) +
+  geom_boxplot() +
+  theme_hc() +
+  stat_summary(fun.y=mean, geom="point", shape=20, size=5, color="#63b97b", fill="#63b97b") +
+  labs(x=NULL, y=NULL)
+
+ggsave("../figs/press_releases_textlength.png", width = 6, height = 4)
+```
+
+```{r}
+pressReleases %>%
+  group_by(party) %>%
+  summarize(total_articles = n()) %>%
+  left_join(., politics, by="medium") %>%
+  mutate(share = num_articles/total_articles) %>%
+  
+  # combine with visits df
+  left_join(., visits, by="medium") %>%
+  select(medium, total_articles,share, visits)
 ```
 
 ```{r echo=FALSE}
@@ -390,6 +430,8 @@ tokens.count %>%
   labs(x = NULL, y = "Term Frequency") +
   facet_wrap(~party, ncol = 3, scales = "free") +
   coord_flip()
+
+ggsave("../figs/tokens.png", width = 11, height = 7)
 ```
 
 Compare the word frequency for the different parties.
@@ -514,17 +556,15 @@ frequency %>%
 #ggsave("../figs/word_freq_AfD.png", width = 15, height = 10)
 ```
 
-#### TF-IDF
+### TF-IDF
 
-The statistic tf-idf (term frequency - inverse document frequency) is intended to measure how important a word is to a document in a collection (or corpus) of documents. In this case we measure how important a word is to a party (within all the press releases of that party) in the collection of all parties (and their press releases).
+The statistic tf-idf (term frequency - inverse document frequency) is intended to measure how important a word is to a document in a collection (or corpus) of documents. 
 
 The inverse document frequency for any given term is defined as 
 
 $$
 idf\text{(term)}=\frac{n_{\text{documents}}}{n_{\text{documents containing term}}}
 $$
-
-In this case, $n_{\text{documents}} = 6$ as we have 6 different parties.
 
 Terms with low tf-idf:
 

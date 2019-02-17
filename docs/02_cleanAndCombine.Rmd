@@ -146,9 +146,6 @@ df <- df %>%
                         ), by = "index")
 ```
 
-```{r}
-df_url %>% filter(is.na(ressort1))
-```
 
 ```{r}
 df %>% 

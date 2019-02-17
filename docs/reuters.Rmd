@@ -40,25 +40,27 @@ Q5b. Which of the following brands have you used to access news online in the la
 keeps <- c("Bild.de", "Spiegel Online","Welt Online","Focus Online", "Stern.de","ZEIT Online","Tagesschau.de")
 ```
 
+Which of the brands have you used to access news online in the last week?
+
 ```{r echo=FALSE, fig.align="centre", fig.height=6}
 reutersDF1 %>%
   gather(key = "orientation", value = "count", -medium) %>%
   group_by(medium) %>%
   summarise(count = sum(count)) %>%
-  mutate(insample = ifelse(medium %in% keeps, TRUE, FALSE)) -> reutersDF1.grouped
+  mutate(insample = ifelse(medium %in% keeps, "Yes", "No")) -> reutersDF1.grouped
 
 p <- reutersDF1.grouped %>%
-  ggplot(aes(reorder(medium,count),count
-             #fill = insample
+  ggplot(aes(reorder(medium,count),count,
+             fill = insample
              )) +
-  geom_col(fill = "#00AFBB", alpha = 0.9) +
+  geom_col() +
   coord_flip() +
-  labs(x = NULL, y = NULL, 
-       title = "Which of the brands have you used to access news online in the last week?",
-       subtitle = paste("n=", sum(reutersDF1.grouped$count)),
-       caption = "Reuters Institute Digital News Report 2018")
+  viridis::scale_fill_viridis(discrete=TRUE, name = "In sample") +
+  labs(x = NULL, y = NULL,title = NULL, caption = "Source: Hans-Bredow-Institut")
 
 plotly::ggplotly(p, tooltip="y")
+
+ggsave({p + theme_hc()}, filename = "../figs/reuters1.png", width = 8, height = 8)
 ```
 
 ### Political orientation
@@ -76,19 +78,17 @@ p<- reutersDF2 %>%
          partisan_scale = ifelse(partisan == "Fairly right-wing",2, partisan_scale),
          partisan_scale = ifelse(partisan == "Very right-wing", 3, partisan_scale)
   ) %>%
-  ggplot(aes(reorder(partisan, partisan_scale), count 
-            # label = paste(round(count_rel, digits = 1),"%")
+  ggplot(aes(reorder(partisan, partisan_scale), count_rel,
+             label = paste(round(count_rel, digits = 1),"%")
             )) +
-  geom_col(fill = "#00AFBB", alpha = 0.9) +
-  #geom_text(vjust = 1) +
-  labs(title = "Where would you place yourself on the following scale?",
-       subtitle = "n= 2038",
-       caption = "Results for Germany / Hans-Bredow-Institut"
-       ) +
-  theme(axis.title = element_blank(),
-        axis.text.y = element_blank(),
-        axis.text.x = element_text(angle = 90),
-        axis.ticks.y = element_blank())
+  geom_col(fill="#3b528b") +
+  geom_text(vjust = 1, color = "white", size =2) +
+  #coord_flip() +
+  labs(x = NULL, y = "%") +
+  theme(axis.text.x = element_text(angle = 90),
+        axis.text = element_text(size= 6))
+
+ggsave({p + theme_hc()}, filename = "../figs/reuters2.png", width = 4, height = 3)
 
 plotly::ggplotly(p, tooltip="y")
 ```
@@ -132,7 +132,8 @@ reutersDF.long <- reutersDF.long %>%
   mutate(count_relative_p = count/count_sum_p,
          count_relative_m = count/count_sum_m,
          order_relative_p = order/count_sum_p,
-         order_relative_m = order/count_sum_m
+         order_relative_m = order/count_sum_m,
+         insample = ifelse(medium %in% keeps, "Yes", "No")
          )
   
 ```
@@ -149,10 +150,7 @@ p<- reutersDF.long %>%
   geom_text(aes(label= count), size = 3) +
   scale_fill_gradient(low =  "#00AFBB", high = "#FC4E07") +
   theme_calc() +
-  labs(title = "Reuters Institute Digital News Report 2018",
-       subtitle = "Political orientation and media consumption",
-       caption = "Results for Germany / Hans-Bredow-Institut",
-       x = NULL, y = NULL)+ 
+  labs(x = NULL, y = NULL)+ 
   scale_x_discrete(expand = c(0, 0)) +
   scale_y_discrete(expand = c(0, 0)) +
   theme(legend.position = "none",
@@ -163,21 +161,66 @@ p
 
 #### Relative values
 
+```{r}
+p1 <- reutersDF.long %>%
+  filter(!grepl("know",medium)) %>%
+  filter(!grepl("None",medium)) %>%
+  filter(medium %in% keeps) %>%
+  mutate(
+    label = (count_relative_m*100),
+    label_color = ifelse(label > 18, "black", "white")
+  ) %>%
+  ggplot(aes(reorder(partisan.f, partisan_scale),
+             reorder(medium, order_relative_m), 
+             fill = count_relative_m)) +
+  geom_tile() +
+  geom_text(aes(label=round(label, digits = 1), 
+                color = label_color
+                ), size = 3) +
+  viridis::scale_fill_viridis() +
+  theme_hc() +
+  labs(x = NULL, y = NULL) + 
+  scale_x_discrete(expand = c(0, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  theme(legend.position = "none",
+        axis.text = element_text(size = 6),
+       axis.text.x = element_text(angle = 90))
+
+p2 <- reutersDF.long %>%
+  filter(!grepl("know",medium)) %>%
+  filter(medium %in% keeps) %>%
+  group_by(medium) %>%
+  summarise(count_sum = sum(count),
+            order_relative_m = sum(order_relative_m)) %>%
+  ggplot(aes(reorder(medium,order_relative_m), count_sum)) +
+  geom_col(fill = "#3b528b") +
+  geom_text(aes(label=count_sum), hjust = 1, size = 3, color = "white") +
+  coord_flip() +
+  theme_hc() +
+  labs(x = NULL, y = NULL) +
+  theme(axis.text.y = element_blank(),
+        axis.text = element_text(size = 6),
+        axis.ticks.y = element_blank()
+        )
+
+p1 + p2 + plot_layout(widths = c(2,1))
+
+ggsave("../figs/reuters3.png", width = 6, height = 4)
+```
+
 ```{r echo=FALSE, fig.height=8, fig.width=10, fig.align="centre"}
 p1 <- reutersDF.long %>%
   filter(!grepl("know",medium)) %>%
   filter(!grepl("None",medium)) %>%
-  #filter(medium %in% keeps) %>%
   ggplot(aes(reorder(partisan.f, partisan_scale),
              reorder(medium, order_relative_m), 
              fill = count_relative_m)) +
   geom_tile() +
   geom_text(aes(label=round((count_relative_m*100), digits = 1) ), size = 3) +
-  scale_fill_gradient(low =  "#00AFBB", high = "#FC4E07") +
+  viridis::scale_fill_viridis() +
+  #scale_fill_gradient(low =  "#00AFBB", high = "#FC4E07") +
   theme_calc() +
-  labs(title = "Reuters Institute Digital News Report 2018",
-       subtitle = "Absolute values / row sum",
-       x = NULL, y = NULL) + 
+  labs(x = NULL, y = NULL) + 
   scale_x_discrete(expand = c(0, 0)) +
   scale_y_discrete(expand = c(0, 0)) +
   theme(legend.position = "none",
@@ -185,24 +228,20 @@ p1 <- reutersDF.long %>%
 
 p2 <- reutersDF.long %>%
   filter(!grepl("know",medium)) %>%
-  #filter(medium %in% keeps) %>%
   group_by(medium) %>%
   summarise(count_sum = sum(count),
             order_relative_m = sum(order_relative_m)) %>%
   ggplot(aes(reorder(medium,order_relative_m), count_sum)) +
-  geom_col(fill = "#00AFBB", alpha = 0.8) +
+  geom_col(fill = "#5dc863") +
   geom_text(aes(label=count_sum), hjust = 1, size = 3) +
   coord_flip() +
   theme_calc() +
-  labs(y = NULL, x = NULL,
-       caption = "Results for Germany / Hans-Bredow-Institut") +
+  labs(y = NULL, x = NULL) +
   theme(axis.text.y = element_blank(),
         axis.ticks.y = element_blank()
         )
 
 p1 + p2 + plot_layout(widths = c(2,1))
-
-#ggsave("../figs/reuters.png", width = 12, height = 10)
 ```
 
 ```{r eval=FALSE, fig.align="centre", fig.height=6, fig.width=8, include=FALSE}

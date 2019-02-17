@@ -34,6 +34,7 @@
 \usepackage[autostyle]{csquotes}
 \usepackage[toc,page]{appendix}
 \usepackage{lscape}
+\usepackage{sidecap}
 \usepackage{todonotes}
 \usepackage{booktabs}
 \usepackage{multirow}
@@ -78,9 +79,9 @@ In recent years, the media and their role in the perception and decision of indi
 
 A legitimate question, however, could be which factors or incentives lead to the selection or deselection of certain topics. On the one hand, one could assume that editors select the topics and articles that correspond to their own political views. A profit-maximizing editor, on the other hand, would tend to adapt the selection to readers' preferences. (Some populist voices would even claim that - at least the so called "mainstream media" - is controlled by the government.) 
 
-In order to answer these and other media-related questions in the political context, quantifying the content of media is essential. In other words, what features can be used to measure the content of, for example, an online article? The literature of communication science, for example, often uses visibility (how often political actors appear in the media) or tonality (how they are evaluated) in this regard. In addition to these actor-based approaches, there are also more issue-based approaches to be found in communication science as well as in other disciplines. In this case, the contents or the language used by media are compared with the contents or the language used by political actors in order to identify whether political actors are able to place their own policy positions in the media using their own language. Leading studies from economic literature, for example, examine how often a newspaper quotes the same think tanks \citep{groseclose_measure_2005, lott_is_2014} or uses the same language \citep{gentzkow_media_2004} as members of Congress. 
+In order to answer these and other media-related questions in the political context, quantifying the content of media is essential. In other words, the key challenge is to determine the features that are used to describe text content. Studies that rely on quantifying media content for their analyses use, for example, visibility (how often political actors appear in the media) or tonality (how they are evaluated). In contrast to these actor-based approaches, issue-based methods exist where the topics discussed in the media are analyzed in order to identify whether political actors are able to place their own policy positions in the media. Leading studies from economic literature, for example, examine how often a newspaper quotes the same think tanks \citep{groseclose_measure_2005, lott_is_2014} or uses the same language \citep{gentzkow_media_2004} as members of Congress. 
 
-To measure the ideological content of several online news services in Germany, in the present paper I compare the topics discussed in these media with the press releases of the parties in the german "Bundestag" using a structural topic model (STM) developed by \citet{roberts_model_2016}. The dataset contains nearly 12.000 online news articles from seven major news provider dated from June 1, 2017 to March 1, 2018 as well as over 1.900 press releases of the parties in the german "Bundestag". As the German federal elections took place on 24th of September 2017 and the formation of the government has taken up a period of about five months, the articles considered inform their readers about both the election promises of the parties (before the election) and the coalition talks (after the election). To discover the latent topics in the corpus of text data, the structural topic model (STM) developed by \citet{roberts_model_2016} is applied. The STM is an unsupervised machine learning approach that models topics as multinomial distributions of words and documents (as a synonym for news articles) as multinomial distributions of topics, allowing the incorporation of external variables that affect both, topical content and topical prevalence. The results of the generative process of the STM are two posterior distributions: One for the topic prevalence in a document (what is the article or press release about?) and one for the content of a topic (what is the topic about?). In the next step the topics addressed in campaign communication (i.e., the party agenda) are compared with the topics the parties address in media coverage (i.e., the mediated party agenda). The results of this analysis are then compared with data on the political orientation of consumers in order to evaluate whether there may be a link between consumer preferences and the slant-index of a medium. 
+To measure the ideological content of several online news services in Germany, in the present paper the topics discussed in these media outlets are compared with the press releases of the parties in the german "Bundestag". The dataset contains nearly 12.000 online news articles from seven major news provider dated from June 1, 2017 to March 1, 2018 as well as over 1.900 press releases of the parties in the german "Bundestag". As the German federal elections took place on 24th of September 2017 and the formation of the government has taken up a period of about five months, the articles considered inform their readers about both the election promises of the parties (before the election) and the coalition talks (after the election). To discover the latent topics in the corpus of text data, the structural topic model (STM) developed by \citet{roberts_model_2016} is applied. The STM is an unsupervised machine learning approach that models topics as multinomial distributions of words and documents (as a synonym for news articles) as multinomial distributions of topics, allowing the incorporation of external variables that affect both, topical content and topical prevalence. The results of the generative process of the STM are two posterior distributions: One for the topic prevalence in a document (what is the article or press release about?) and one for the content of a topic (what is the topic about?). The topic prevalence is used to estimate a slant-index by comparing press releases (i.e., the party agenda) with the news articles (i.e., the mediated party agenda). The results of this analysis are then compared with data on the political orientation of consumers in order to evaluate whether there may be a link between consumer preferences and the slant-index of a medium. 
 
 The use of online news as data input accurately reflects the changed conditions in the news market as the importance of the internet as a source of information for political topics has grown strongly in recent years.\footnote{Even though television remains the most widely used source of news in Germany (2018: 74\%), numbers watching continue to decline while use of the internet for news has grown significantly in the last year (+5\%, 2018: 65\%) \citep{holig_reuters_2018}.} This trend has as strong effect on the market for media content as neither supply nor demand is tied to specific times and can adapt to events in real time. Users can consume their preferred news sources at any time and providers can adapt their offerings to events in real time without waiting for the next issue or TV show.
 
@@ -163,7 +164,7 @@ After the election, the formation of a government was difficult due to the large
 
 After the failure of the Jamaica coalition talks, a possible re-election or a minority government as alternatives were discussed in the media before the SPD decided to hold coalition talks with the CDU/CSU. This led to great resistance from the party base, which called for a party-internal referendum on a grand coalition. After the party members voted in favor of the grand coalition, a government was formed 171 days after the federal elections. 
 
-Figure \ref{fig_polls} shows that support for the two major popular parties has been declining in recent months since August 2017, with the CDU/CSU again showing positive survey results since November 2017.\footnote{For each party the survey results of the seven major institutes are considered. To calculate a smooth line for each party on each day, the moving average within 15 days (7 before the day, 7 after the day, and the day itself) is estimated. The data source is [wahlrecht.de](https://www.wahlrecht.de/).} However, the poll results of the SPD have been falling since March 2017. At the same time, the AfD in particular has been recording increasingly positive survey results since June 2017.  
+Figure \ref{fig_polls} shows that support for the two major popular parties has been declining in recent months since August 2017, with the CDU/CSU again showing positive survey results since November 2017.\footnote{For each party the survey results of the seven major institutes are considered. To calculate a smooth line for each party on each day, the moving average within 15 days (7 before the day, 7 after the day, and the day itself) is estimated. The data source is https://www.wahlrecht.de/.} However, the poll results of the SPD have been falling since March 2017. At the same time, the AfD in particular has been recording increasingly positive survey results since June 2017.  
 
 \begin{figure}[H]
 \begin{center}
@@ -178,81 +179,140 @@ Figure \ref{fig_polls} shows that support for the two major popular parties has 
 % -------
 \section{Measuring slant-index}\label{ch_method}
  
-My approach to measuring the slant of a newspaper is to compare the topics in the newspaper with topics in parties' press releases to identify which parties the topics in the newspaper are most similar to. Parties want the media agenda to be congruent with their own agenda to define the issue-based criteria on which they will be evaluated by voters \citep{eberl_one_2017}. Thus, parties instrumentalize their press releases in order to highlight issues that they are perceived to be competent on, that they "own" and that are important to their voters \citep{kepplinger_einfluss_2004}. Editors can select from this universe and decide which topics will be discussed in the news. In that sense the ideological content of a newspaper refers to the extent to which the topics promoted by the parties correlate with the topics discussed in the news articles.
+My approach to measuring the slant of a newspaper is to compare the topics in the newspaper with topics in parties' press releases to identify which parties the topics in the newspaper are most similar to. Parties want the media agenda to be congruent with their own agenda to define the issue-based criteria on which they will be evaluated by voters \citep{eberl_one_2017}. Thus, I assume that parties instrumentalize their press releases in order to highlight issues that they are perceived to be competent on, that they "own" and that are important to their voters \citep{kepplinger_einfluss_2004}. Editors can select from this universe and decide which topics will be discussed in the news. In that sense the ideological content of a newspaper refers to the extent to which the topics promoted by the parties correlate with the topics discussed in the news articles.
 
-To discover the latent topics in the corpus of press releases (1.942) and news articles (11.880), a structural topic modeling (STM) developed by \citet{roberts_model_2016} is applied. The STM is an unsupervised machine learning approach that models topics as multinomial distributions of words and documents as multinomial distributions of topics, allowing to incorporate external variables that effect both, topical content and topical prevalence. The results of the generative process of the STM are two posterior distributions: One for the topic prevalence in a document (what is the article or press release about?) and one for the content of a topic (what is the topic about?). Subsequently the bivariate correlations between party agendas and the mediated party agendas in the online news are estimated. These correlations represent the agenda selectivity each party experiences in each media outlet. The higher the correlation, the more congruent both agendas are. 
+To discover the latent topics in the corpus of press releases (1.942) and news articles (11.880), a structural topic model (STM) developed by \citet{roberts_model_2016} is applied. The STM is an unsupervised machine learning approach that models topics as multinomial distributions of words (topical content) and documents as multinomial distributions of topics (topical prevalence of a document), allowing to incorporate external variables that effect both, topical content and topical prevalence. I estimate a model in which the source\footnote{Bild.de, DIE WELT, FOCUS ONLINE, SPIEGEL ONLINE, stern.de, ZEIT ONLINE, Tagesschau.de, CDU/CSU, SPD, AfD, FDP, B90/Die Grünen, DIE LINKE} of the document is included as a control for the topical prevalence, e.g. I assume that the possibility that a topic appears in a document depends on the source. Additionally, the type of source\footnote{press release or news article} is included as a control for the topical content, e.g. I assume that words used to describe the same topics differ between press releases and news articles. The results of the generative process of the STM are two posterior distributions: One for the topic prevalence in a document (what is the article or press release about?) and one for the content of a topic (what is the topic about?). The topic prevalence is used to calculate the agenda of each source as the mean over all documents that belong to that source. Subsequently the bivariate correlations between party agendas and the mediated party agendas in the online news are estimated. These correlations represent the agenda selectivity each party experiences in each media outlet. The higher the correlation, the more congruent both agendas are. In the last step I compare the agenda selectivity of each medium with the user preferences expressed in the Reuters Institute Digital News Survey.
 
-This section first describes the data on news articles and press releases and how they have processed in order to use them as input for the model.
+The following describes the data on news articles and press releases and how they have processed in order to use them as input for the model. Section \ref{ch_stm} gives an overview over the STM and section \ref{ch_agendacorrl} describes how the agenda correlation is estimated.
 
 % -----
 % Data
 % -----
-\subsection{Data}\label{ch_data}
+\subsection{Data sources}\label{ch_data}
 
 \subsubsection{Press releases}
 
-Press releases published by parties and those published by the parliamentary groups (or factions) in the Bundestag should be considered in different ways as parties are financed by membership dues, donations and campaign expenses, while factions are financed by state funds. According to Parteigesetzt §25 (2) state funded factions may not support partie, as there would be a disadvantaged for parties that are not in the Bundestag. However, since it is difficult to draw the line between faction activity and election campaign assistance, I assume that factions intervene in the public perception of this party with their press releases, which is why I include both the press releases of the federal party and the federal faction \citep{kepplinger_einfluss_2004}.
+The press releases were scraped from the publicly accessible press portals of the parties\footnote{afd.de, spd.de, die-linke.de, fdp.de, gruene.de, cdu.de} and parliamentary groups\footnote{afdbundestag.de, spdfraktion.de, die-linke.de/start/presse/aus-dem-bundestag, fdpbt.de, gruene-bundestag.de/, presseportal.de/nr/7846}. 
+
+It should be noted that there is a legal distinction between press releases from political parties and parliamentary groups in the Bundestag, as parties are financed by membership dues, donations and campaign expenses, while parliamentary groups are financed by state funds. According to Parteigesetzt §25 (2) state funded parliamentary groups may not support parties, as there would be a disadvantaged for parties that are not in the Bundestag. However, since it is difficult to draw the line between the activity of parliamentary groups and election campaign assistance, I assume that parliamentary groups intervene in the public perception of this party with their press releases, which is why both the press releases of the federal party and the parliamentary groups are included \citep{kepplinger_einfluss_2004}.
+
+Cleaning: (1) remove articles about party internal votings; (2) remove articles that are interviews or guest commentary; (3) articles with a text length smaller than 50 and greater than 2000. 
+
+After cleaning: 1932 total press releases
+
+Figure \ref{fig_press} displays the number of press releases for each party and Figure \ref{fig_press_textlength} shows the text length of those articles.
 
 \begin{figure}[H]
-\begin{center}
+	\begin{center}
 	\caption{Press releases}
-	\includegraphics[width=0.7\textwidth]{../figs/press_releases}
-	\label{fig_press}
+		\begin{subfigure}[normla]{0.49\textwidth}
+			\caption{Count}
+			\includegraphics[width=\textwidth]{../figs/press_releases}
+			\label{fig_press}
+		\end{subfigure}
+		\begin{subfigure}[normla]{0.49\textwidth}
+			\caption{Text length}
+			\includegraphics[width=\textwidth]{../figs/press_releases_textlength}
+			\label{fig_press_textlength}
+		\end{subfigure}
 	\end{center}
 \end{figure}
 
-After pre-processing
-
-\begin{figure}[H]
-\begin{center}
-	\caption{Term-frequency}
-	\includegraphics[width=\textwidth]{../figs/tokens}
-	\label{fig_press}
-	\end{center}
-\end{figure}
 
 \subsubsection{News articles}
 
-\input{tables/data_summary}
+%\input{tables/data_summary}
 
-I conduct the estimation on a sample of 11,880 online news articles from seven German news providers about domestic politics\footnote{Bild.de, DIE WELT, FOCUS ONLINE, SPIEGEL ONLINE, stern.de, ZEIT ONLINE, Tagesschau.de}. The articles are dated from June 1, 2017 to March 1, 2018. I first extract all online articles using the Webhose.io API.\footnote{For more information see https://docs.webhose.io/v1.0/docs/getting-started. The scraping code was written in Python and can be made available on request.} Overall, the selected news providers are among the top ten German online news providers - in terms of site visits\footnote{The term visit is used to describe the call to a website by a visitor. The visit begins as soon as a user generates a page impression (PI) within an offer and each additional PI, which the user generates within the offer, belongs to this visit.} - in the period under review, with only Tagesschau.de belonging to the public media. The reason for this is that the content structure of Tagesschau.de is most similar to that of the private providers. Other public media offers provide their content in video (ZDF.de) or audio (Deutschlandfunk (DLF))) format, which make them difficult to compare. In order to limit the analysis to articles on domestic politics, all articles which mention at least one of the major parties\footnote{The exact search terms were "CDU, CSU, Union", "SPD", "FDP", "Grüne", "Linke", "AfD".} have been filtered out. 
-
- Figure \ref{fig_distr1} shows the distribution of the number of articles by date. There is a high peak around the federal elections on September, 24th and another one shortly after the failure of the Jamaica coalition talks on November, 19th (indicated by the red dotted lines). Figure \ref{fig_distr2} shows that DIE WELT published the most articles on domestic policy, followed by stern.de and FOCUS ONLINE.  
+I conduct the estimation on a sample of online news articles from seven German news providers about domestic politics\footnote{Bild.de, DIE WELT, FOCUS ONLINE, SPIEGEL ONLINE, stern.de, ZEIT ONLINE, Tagesschau.de}. The articles are dated from June 1, 2017 to March 1, 2018. I first extract all online articles using the Webhose.io API.\footnote{For more information see https://docs.webhose.io/v1.0/docs/getting-started. The scraping code was written in Python and can be made available on request.} In order to limit the analysis to articles on domestic politics, the articles are filtered using the url of the article. For example, the URL \textit{https://www.welt.de/politik/deutschland/article166629242/Tegel-ist-gefuehlt-das-Einzige-in-Berlin-was-funktioniert.html} indicates that this article belongs thematically to 'politics' and 'deutschland' (Germany). After further cleaning processes (e.g. articles that only contain video content) the total sample size was 11,880. As shown in Figure \ref{fig_news_count} most articles were published by "Die Welt" and "tagesschau.de" has the smallest number of articles.   
 
 \begin{figure}[H]
-	\caption{Article distribution...}
 	\begin{center}
-		\begin{subfigure}[normla]{0.59\textwidth}
-			\includegraphics[width=\textwidth]{../figs/article_timeline.png}
-			\caption{...by date}
-			\label{fig_distr1}
+	\caption{News articles}
+		\begin{subfigure}[normla]{0.3\textwidth}
+			\caption{Count}
+			\includegraphics[width=\textwidth]{../figs/article_sum.png}
+			\label{fig_news_count}
 		\end{subfigure}
-		\begin{subfigure}[normla]{0.4\textwidth}
-			\includegraphics[width=\textwidth]{../figs/visits.png}
-			\caption{... by news provider}
-			\label{fig_distr2}
+		\begin{subfigure}[normla]{0.69\textwidth}
+			\caption{Text length}
+			\includegraphics[width=\textwidth]{../figs/news_releases_textlength}
+			\label{fig_length}
 		\end{subfigure}
 	\end{center}
 \end{figure}
 
-To allow for an operationalization of agenda bias, parties' press releases are used as an approximation of the potential universe of news stories \citep{eberl_one_2017}. The press releases were scraped from the website of each party\footnote{afd.de, spd.de, die-linke.de, fdp.de, gruene.de, cdu.de} and each faction\footnote{afdbundestag.de, spdfraktion.de, die-linke.de/start/presse/aus-dem-bundestag, fdpbt.de, gruene-bundestag.de/, presseportal.de/nr/7846} to compare the topics addressed with the policy issues in the news articles. 
+As shown in Figure \ref{fig_visits}, the selected news providers are - in terms of site visits - among the top German online news providers in the period under review, with only Tagesschau.de belonging to the public media. The Figure displays the total visits of the top 30 websites in Germany in September 2017.\footnote{The term visit is used to describe the call to a website by a visitor. The visit begins as soon as a user generates a page impression (PI) within an offer and each additional PI, which the user generates within the offer, belongs to this visit.} Figure \ref{fig_reuters1} shows the results of a survey on digital news by the Reuters Institute \citep{newman_reuters_2018}. The online survey for German data was undertaken between 19th - 22nd January 2018 by the Hans Bredow Institute\footnote{https://www.hans-bredow-institut.de/de/projekte/reuters-institute-digital-news-survey}. Total sample size for Germany was 2038 adults (aged 18+) who access news once a month or more. Among other questions, participants were asked which news sources they use to access news online.\footnote{The exact question was: "Which of the following brands have you used to access news online in the last week (via websites, apps, social media, and other forms of Internet access)? Please select all that apply"} The results indicate that the media used for the analysis play a relevant role.
 
+\begin{figure}[H]
+	\begin{center}
+	\caption{Selected news brands}
+		\begin{subfigure}[normla]{0.49\textwidth}
+			\caption{Total visits in million (Jan 2018)}
+			\includegraphics[width=\textwidth]{../figs/visits}
+			\label{fig_visits}
+		\end{subfigure}
+		\begin{subfigure}[normla]{0.49\textwidth}
+			\caption{Use of a brand to access news online}
+			\includegraphics[width=\textwidth]{../figs/reuters1}
+			\label{fig_reuters1}
+		\end{subfigure}
+	\end{center}
+\end{figure}
 
+\subsubsection{Reader preferences}
 
-\subsubsection{Data preparation}
+In addition to media consumption, the participants were asked where they would rank themselves on a political scale defined by "left", "center" and "right".\footnote{The exact question was: Some people talk about 'left', 'right' and 'centre' to describe parties and politicians. (Generally socialist parties would be considered ‘left wing’ whilst conservative parties would be considered ‘right wing’). With this in mind, where would you place yourself on the following scale?} Figure \ref{fig_reuters2} shows that a large proportion of the respondents place themselves in the political centre (30\%) or slightly to the right (18.7\%) or the left (22.5\%) of the center. Only a small part would consider themself to be fairly or very right (6.1\%) or left (8.3\%) of the political spectrum.
 
-To use text as data for statistical analysis, different pre-processing steps have to be conducted. In fact, in order to use text as data and reduce the dimensionality to avoid unnecessary computational complexity and overfitting, pre-processsing the text is a central task in text mining \citep{bholat_text_2015}. Intuitively the term frequency (tf) of a word is a measure of how important that word may be for the understanding of the text. As can be seen in Figure \ref{fig_wordcloud1}, problems arise with words that are highly frequent. For example "die", or "der (eng. "the"), "und" (eng. "and"), and "ist" (eng. "is") are extremely common but unrelated to the quantity of interest. These terms, often called stop words \citep{gentzkow_text_2017}, are important to the grammatical structure of a text, but typically don't add any additional meaning and can therefore be neglected. A common strategy to reduce the number of language elements is to pre-process the text by imposing some preliminary restrictions (e.g. stop-word removal and stemming) based on the nature of the data (e.g. twitter text, newspaper articles, speeches, etc.) \citep{gentzkow_text_2017}. 
+\begin{figure}[H]
+\begin{center}
+	\caption{Political orientation }
+	\includegraphics[width=0.5\textwidth]{../figs/reuters2}
+	\label{fig_reuters2}
+	\end{center}
+\end{figure}
 
-To remove distorting words, the pre-defined stop word list from the Snowball project\footnote{http://snowball.tartarus.org/algorithms/german/stop.txt} is used together with a customized list of stop-words. Additionally punctuation character (e.g. ., ,, !, ?, etc.) and all numbers are removed from the data. A next step to reduce the dimensionality of text data is to apply an adequate stemming technique. Stemming is a process by which different morphological variants of a word are traced back to their common root. For example, "voting" and "vote" would be treated as two instances of the same token after the stemming process. There are many different techniques for the stemming process. I apply the widely used Porter-Stemmer algorithm, which is based on a set of shortening rules that are applied to a word until it has a minimum number of syllables.\footnote{https://tartarus.org/martin/PorterStemmer/} After completing these steps 68,576 unique terms were left in the vocabulary. The word clouds in Figure \ref{fig_wordcloud2} represent the most frequent words of the pre-processed articles for Bild.de and Tagesschau.de. It becomes evident that these are texts discussing domestic policy issues. The SPD in particular seems to be highly frequent. However, at first glance, there are no obvious differences between the news providers.  
+Combining both the political orientation and the brand preferences can give an indication about the political orientation of the consumers of a specific medium. Thus, for example, it is possible to answer the question of how many percent of the respondents who stated that they consume stern.de classify themselves as rather left of the political spectrum. To calculate this value, the absolute values for each medium-political orientation combination in Figure \ref{fig_reuters3} was divided by the total number of respondents, who consume a specific medium. As the results show, the majority of consumers of ZEIT Online and Spiegel Online place themselves rather on the left, while the opposite is true for Focus Online, Welt Online and Bild.de. Consumers of Tagesschau.de and stern.de would rather place themselves in the center of the political spectrum.
 
- % --------------------
+\begin{figure}[H]
+\begin{center}
+	\caption{Political orientation }
+	\includegraphics[width=.9\textwidth]{../figs/reuters3}
+	\label{fig_reuters3}
+	\end{center}
+\end{figure}
+
+\subsection{Data preparation}
+
+To use text as data for statistical analysis, different pre-processing steps have to be conducted. In fact, in order to use text as data and reduce the dimensionality to avoid unnecessary computational complexity and overfitting, pre-processsing the text is a central task in text mining \citep{gentzkow_text_2017, bholat_text_2015}. Intuitively the term frequency (tf) of a word is a measure of how important that word may be for the understanding of the text. As can be seen in Figure \ref{fig_wordcloud1}, problems arise with words that are highly frequent. For example "die", or "der (eng. "the"), "und" (eng. "and"), and "ist" (eng. "is") are extremely common but unrelated to the quantity of interest. These terms, often called stop words \citep{gentzkow_text_2017}, are important to the grammatical structure of a text, but typically don't add any additional meaning and can therefore be neglected. 
+
+To remove distorting words, the pre-defined stop word list from the Snowball project\footnote{http://snowball.tartarus.org/algorithms/german/stop.txt} is used together with a customized list of stop-words. Additionally punctuation character (e.g. ., ,, !, ?, etc.) and all numbers are removed from the data. A next step to reduce the dimensionality of text data is to apply an adequate stemming technique. Stemming is a process by which different morphological variants of a word are traced back to their common root. For example, "voting" and "vote" would be treated as two instances of the same token after the stemming process. There are many different techniques for the stemming process. I apply the widely used Porter-Stemmer algorithm, which is based on a set of shortening rules that are applied to a word until it has a minimum number of syllables.\footnote{https://tartarus.org/martin/PorterStemmer/} After completing these steps 63,360 unique terms were left in the vocabulary. The word clouds in Figure \ref{fig_wordcloud2} represent the most frequent words after pre-processing the text data. It becomes evident that the words "SPD", "CDU" and "AfD" in particular seems to be highly frequent.  
+
+\begin{figure}[H]
+	\begin{center}
+	\caption{Wordclouds}
+		\begin{subfigure}[normla]{0.49\textwidth}
+			\caption{before pre-processing}
+			\includegraphics[width=\textwidth]{../figs/wordcloud}
+			\label{fig_wordcloud1}
+		\end{subfigure}
+		\begin{subfigure}[normla]{0.49\textwidth}
+			\caption{after pre-processing}
+			\includegraphics[width=\textwidth]{../figs/wordcloud_cleaned}
+			\label{fig_wordcloud2}
+		\end{subfigure}
+	\end{center}
+\end{figure}
+
+% --------------------
 % Document-term-matrix
 % --------------------
 The next step is to divide the entire dataset into individual documents and to represent these documents as a finite list of unique terms. In this setting, each news article and each press release represents a document $d$, whereby each of these documents can be assigned to a news website or a party. The sum of all documents forms what is called the corpus. For each document $d \in \lbrace 1,...,D \rbrace$ the number of occurrences of term $v$ in document $d$ is computed, in order to obtain the count $x_{d,v}$, where each unique term in the corpus is indexed by some $v \in \lbrace 1,...,V \rbrace$ and where $V$ is the number of unique terms. The $D$ x $V$ matrix $\boldsymbol{X}$ of all such counts is called the document-term matrix. Each row in this matrix represents a document, where each entry in this row counts the occurrences of a unique term in that document. This representation is often referred to as the bag of words model \citep{gentzkow_text_2017}, since the order in which words are used within a document is disregarded.
 
-\subsubsection{Structural topic model}
 
-To find out the latent structure of each document, a structural topic model (STM) is estimated. In general, topic models formalize the idea that documents are formed by hidden variables (topics) that generate correlations among observed terms. They belong to the group of unsupervised generative models, meaning that the true attributes (topics) cannot be observed. One crucial assumption to be made for such models is the number of topics ($K$) that occur over the entire corpus. 
+
+\subsection{Structural topic model}\label{ch_stm}
+
+To find out the latent topics of each document, a structural topic model (STM) is estimated. In general, topic models formalize the idea that documents are formed by hidden variables (topics) that generate correlations among observed terms. They belong to the group of unsupervised generative models, meaning that the true attributes (topics) cannot be observed. One crucial assumption to be made for such models is the number of topics ($K$) that occur over the entire corpus. 
 
 Each individual topic potentially contains all of the unique terms within the vocabulary $V$ with different probability. Therefore, each topic $k$ can be represented as a probability vector $\phi_k$ over all unique terms $V$. Simultaneously, each individual document $d$ in the corpus can be represented as a probability distribution $\theta_d$ over the $K$ topics. The underlying data generating process to generate each individual word $w_{d,n}$ in a document $d$ for the $n^{th}$ word-position can be described as follows:\footnote{A more detailed description of the generative process of the STM can be found in section \ref{ch_generativeProcess}}
 
@@ -263,10 +323,18 @@ Each individual topic potentially contains all of the unique terms within the vo
 	\item for each word word $n$, draw the term distribution for the selected topic $\phi_{z_{d,n}}$.
 \end{enumerate}
 
+This process generates two posterior distribution parameters: 
+
+\begin{enumerate}
+	\item $\phi$ is a $K$-by-$V$ matrix (where $K=$ number of topics and $V=$ vocabulary or unique terms), where the entry $\phi_{kvc}$ can be interpreted as the probability of observing the $v$-th word in topic $k$ for the covariate level $c$ (the news website). 
+	\item $\theta$ is a $D$-by-$V$ matrix (where $D=$ number of documents and $V=$ vocabulary or unique terms) of the document-topic distributions, where the entry $\theta_{dk}$ can be interpreted as the proportion of words in document $d$ which arise from topic $k$, or rather as the probability that document $d$ deals about topic $k$. 
+\end{enumerate}
+
+
 % ----------------------
 % Model Selection
 % ----------------------
-Inference of mixed-membership models, such as the one applied in this paper, has been a thread of research in applied statistics in the past few years (\citet{blei_latent_2003} \citet{erosheva_mixed-membership_2004} \citet{braun_variational_2010}). Topic models are usually imprecise as the function to be optimized has multiple modes, such that the model results can be sensitive to the starting values (e.g. the number of topics). Since an ex ante valuation of a model is hardly possible, I compute a variety of different models and compare their posterior probability. This enables me to check how results vary for different model solution \citep{roberts_navigating_2016}. I then cross-checked some subset of assigned topic distributions to evaluate whether the estimates align with the concept of interest \citep{gentzkow_text_2017}. These manual audits are applied together with numeric optimization based on the topic coherence measure suggested by \citet{mimno_optimizing_2011}. 
+Inference of mixed-membership models, such as the one applied in this paper, has been a thread of research in applied statistics \citep{blei_latent_2003, erosheva_mixed-membership_2004, braun_variational_2010}. Topic models are usually imprecise as the function to be optimized has multiple modes, such that the model results can be sensitive to the starting values (e.g. the number of topics). Since an ex ante valuation of a model is hardly possible, I compute a variety of different models and compare their posterior probability. This enables me to check how results vary for different model solution \citep{roberts_navigating_2016}. I then cross-checked some subset of assigned topic distributions to evaluate whether the estimates align with the concept of interest \citep{gentzkow_text_2017}. These manual audits are applied together with numeric optimization based on the topic coherence measure suggested by \citet{mimno_optimizing_2011}. 
 
 This process revealed that a model with 60 topics best reflects the structure in the corpus. Furthermore, the source (news website or party) of a document is used as covariate in the topic prevalence. In other words, the corresponding news website or party of an article or press release influences the probability distribution of topics for that document. Additionally I assume that the topical content differs between news articles and press releases. 
 
@@ -278,7 +346,7 @@ This process revealed that a model with 60 topics best reflects the structure in
 
 \subsection{Topic distribution} 
 
-The generative process of the STM results in two posterior distributions: (1) a distribution over all topics for each document and (2) a distribution over all words for each topic. As we included the type of source (news article or press release) as a covariate in the model, we have two different posterior word-distributions for each topic. A combination of both is used to label the topics as listed in table \ref{t_labels}. 
+As stated in section \ref{ch_stm}, the generative process of the STM results in two posterior distributions: (1) a distribution over all topics for each document and (2) a distribution over all words for each topic. As we included the type of source (news article or press release) as a covariate in the model, we have two different posterior word-distributions for each topic. A combination of both is used to label the topics as listed in table \ref{t_labels}. 
  
 For each document, we have a distribution over all topics
 

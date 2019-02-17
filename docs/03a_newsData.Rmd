@@ -14,14 +14,21 @@ knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE)
 
 ```{r include=FALSE}
 # load the packages
-libs <- c("readr","lubridate","tidyverse","data.table","stringr","scales","ggthemes","xtable")
+libs <- c("readr","lubridate","tidyverse","data.table","stringr","scales","ggthemes","xtable","viridis")
 lapply(libs, library, character.only = TRUE)
 
 rm(list=ls())
 #source("func/functions.R")
 
 # Load Dataframes
-visits <- read.csv("../data/visits", stringsAsFactors = FALSE) # visits
+
+# source: https://www.ivw.eu/
+visits <- read_delim("../data/agof/download_201801.csv", ";", escape_double = FALSE, locale = locale(encoding = "ISO-8859-1"),  trim_ws = TRUE)
+# source: http://www.ard.de/home/die-ard/fakten/ard-mediendaten/ARD_Reichweitendaten/409224/index.html
+tagesschau <- data_frame(medium = "tagesschau.de",
+                         visits = 283200000,
+                         insample = "Yes")
+
 load("../output/data_step2.Rda")
 ```
 
@@ -30,22 +37,42 @@ load("../output/data_step2.Rda")
 News sources used for the analysis including their respective number of articles and readers measured as Visits. As no advertising is permitted on the Tagesschau.de website in accordance with the Interstate Broadcasting Treaty, public data is difficult to find or compare. 
 
 ```{r}
-visits %>%
-  mutate(visits = visits/1000000) %>%
-  ggplot(aes(reorder(medium, visits), visits)) +
-  geom_col(alpha = 0.9) +
-  theme_hc() +
-  scale_fill_hc()+
-  coord_flip() +
-  labs(x="", y="Visits in million",
-       caption="Source: AGOF daily digital facts\nINFOnline (tagesschau.de)")
+media <- c("Bild.de", "SPIEGEL ONLINE", "FOCUS ONLINE", "WELT", "ZEIT ONLINE", "stern.de")
 
-#ggsave(filename = "../figs/visits.png", width = 6, height = 5)
+visits %>%
+  dplyr::transmute(
+    medium = Angebote,
+    visits = str_replace(`Visits gesamt`, "\\.", ""),
+    visits = str_replace(visits, "\\.", ""),
+    visits = as.numeric(visits),
+    insample = ifelse(medium %in% media, "Yes", "No")
+  ) %>%
+  rbind(tagesschau) -> visits.df
+```
+
+```{r}
+visits.df %>%
+  dplyr::arrange(desc(visits)) %>%
+  top_n(30, visits) %>%
+  ggplot(aes(reorder(medium, visits), visits/1000000, fill = insample)) +
+  geom_col(show.legend = F) +
+  theme_hc() +
+  coord_flip() +
+  viridis::scale_fill_viridis(discrete=TRUE) +
+  labs(x = NULL, y= NULL, caption = "Data source: AGOF daily digital facts\nINFOnline (tagesschau.de)")
+
+ggsave(filename = "../figs/visits.png", width = 8, height = 8)
 ```
 
 # Articles
 
 ## Summary
+
+The URL of a news article specifies the path where this article is located. In this way articles that can be assigned to the main topic politics could be filtered out. For example, the following URL indicates that this article belongs thematically to 'Inland' and 'Politics'. 
+
+```{r}
+btw[594, "url"]
+```
 
 Overview of news sources used for the analysis including...
   
@@ -69,6 +96,16 @@ df_summary <- df %>%
   select(medium, total_articles,share, visits)
 ```
 
+```{r}
+politics %>%
+  ggplot(aes(reorder(medium, num_articles), num_articles)) +
+  geom_col(fill = "#407b8c") +
+  coord_flip() +
+  labs(x = NULL, y = "Sum of articles")
+
+ggsave(filename = "../figs/article_sum.png", width = 6, height = 5)
+```
+
 ```{r eval=FALSE, include=FALSE}
 # Print out the summary dataframe to a latex table 
 print(xtable(df_summary, 
@@ -80,10 +117,24 @@ print(xtable(df_summary,
 
 ```{r}
 btw %>%
+  group_by(medium) %>%
+  tally() %>%
+  ggplot(aes(reorder(medium,n), n, label = n)) +
+  geom_col(fill = "#3b528b") +
+  geom_text(color = "white", hjust=1) +
+  coord_flip() +
+  theme_hc() +
+  labs(x=NULL, y=NULL)
+
+ggsave(filename = "../figs/article_sum.png", width = 4, height = 6)
+```
+
+```{r}
+btw %>%
   group_by(medium, date) %>%
   tally() %>%
   ggplot(aes(date, n,color = medium)) +
-  geom_line() +
+  geom_line(show.legend = F) +
   # Election
   geom_vline(xintercept = as.POSIXct("2017-09-24"), linetype=2) +
   annotate(geom="text", x=as.POSIXct("2017-09-01"), 
@@ -95,31 +146,45 @@ btw %>%
   annotate(geom="text", x=as.POSIXct("2017-11-25"), 
            y=45, label="Failure of Jamaica") +
   theme_hc() +
-  scale_color_hc(name = NULL) +
+  scale_color_viridis_d(name = NULL) +
+  #scale_color_hc(name = NULL) +
   labs(x="",y="")
 
-#ggsave(filename = "../figs/article_timeline.png", width = 7, height = 4)
+ggsave(filename = "../figs/article_timeline.png", width = 8, height = 6)
+```
+
+```{r}
+btw %>%
+  #filter(text_length <5000) %>%
+  ggplot(aes(x=medium, y=text_length)) +
+  geom_boxplot() +
+  theme_hc() +
+  #coord_flip() +
+  stat_summary(fun.y=mean, geom="point", shape=20, size=5, color="#63b97b", fill="#63b97b") +
+  labs(x=NULL, y=NULL)
+
+ggsave("../figs/news_releases_textlength.png", width = 10, height = 6)
 ```
 
 ## Wordclouds 
 
 Before pre-processing:
 ```{r}
-#png('wordcloud.png')
+png('../figs/wordcloud.png')
   
-wordcloud::wordcloud(btw$title_text, max.words = 200)
+wordcloud::wordcloud(btw$title_text, max.words = 500)
   
-#dev.off()
+dev.off()
 ```
 
 Pre-processed Data:
 
 ```{r}
-#png('wordcloud_cleaned.png')
+png('wordcloud_cleaned.png')
   
-wordcloud::wordcloud(btw$text_cleaned1, max.words = 200)
+wordcloud::wordcloud(btw$text_cleaned1, max.words = 500)
   
-#dev.off()
+dev.off()
 ```
 
 ```{r eval=FALSE, include=FALSE}

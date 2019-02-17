@@ -12,12 +12,6 @@ output:
 knitr::opts_chunk$set(message=FALSE, warning=FALSE)
 ```
 
-Parties want the media agenda to be congruent with their own agenda to define the issue-based criteria on which they will be evaluated by voters ( [Eberl, 2017](https://journals.sagepub.com/doi/abs/10.1177/0093650215614364) ).Thus, parties instrumentalize their press releases in order to highlight issues that they are perceived to be competent on, that they "own" and that are important to their voters ( [Kepplinger & Maurer, 2004](https://link.springer.com/chapter/10.1007%2F978-3-322-83381-5_9) ). Editors can select from this universe and decide which of these topics will be discussed in the news. In that sense the ideological content of a newspaper refers to the extent to which the topics promoted by the parties correlate with the topics discussed in the news articles.
-
-To discover the latent topics in the corpus of press releases (1.942) and news articles (11.880), a structural topic modeling (STM) developed by [Roberts (2016)](https://scholar.princeton.edu/sites/default/files/bstewart/files/a_model_of_text_for_experimentation_in_the_social_sciences.pdf) is applied. The STM is an unsupervised machine learning approach that models topics as multinomial distributions of words and documents as multinomial distributions of topics, allowing to incorporate external variables that effect both, topical content and topical prevalence.
-
-# Structural Topic Model
-
 ```{r eval=FALSE, include=FALSE}
 set.seed(4556)
 
@@ -25,6 +19,7 @@ library(stm)
 library(tidyverse)
 library(dplyr)
 library(ggthemes)
+library(viridis)
 
 rm(list = ls())
 load("../output/pressReleases.Rda")
@@ -39,12 +34,113 @@ btw %>%
               mutate(source = party)) -> model_df
 ```
 
+# Inspect data
+
+## Wordclouds 
+
+Before pre-processing:
+```{r eval=FALSE, include=FALSE}
+png('../figs/wordcloud.png')
+  
+wordcloud::wordcloud(model_df$title_text, max.words = 400)
+  
+dev.off()
+```
+![](../figs/wordcloud.png)
+
+Pre-processed Data:
+
+```{r eval=FALSE, include=FALSE}
+png('../figs/wordcloud_cleaned.png')
+  
+wordcloud::wordcloud(model_df$text_cleaned1, max.words = 400)
+  
+dev.off()
+```
+![](../figs/wordcloud_cleaned.png)
+
+```{r eval=FALSE, include=FALSE}
+source <- unique(model_df$source)
+
+for (i in source) {
+  
+  name <- gsub(paste("\\/",".de"," ",sep  = "|"),"",i)
+  
+  png(paste0('../figs/wordclouds/',name,'.png'))
+  
+  wordcloud::wordcloud(model_df$text_cleaned1[model_df$source == i], max.words = 300)
+  
+  dev.off()
+  
+}
+```
+
+## TF-IDF
+
+The statistic tf-idf (term frequency - inverse document frequency) is intended to measure how important a word is to a document in a collection (or corpus) of documents. 
+
+The inverse document frequency for any given term is defined as 
+
+$$
+idf\text{(term)}=\frac{n_{\text{documents}}}{n_{\text{documents containing term}}}
+$$
+
+```{r eval=FALSE, include=FALSE}
+tokens <- model_df %>% unnest_tokens(word, text_cleaned1)
+
+tokens.count <- tokens %>%
+  count(source, type, word, sort = TRUE) %>%
+  ungroup() %>%
+  bind_tf_idf(word,source,n)
+```
+
+```{r eval=FALSE, include=FALSE}
+tokens.count %>% 
+  filter(type == "news") %>%
+  arrange(desc(tf_idf)) %>%
+  mutate(word = factor(word, levels = rev(unique(word)))) %>% 
+  group_by(source) %>% 
+  top_n(10, wt = tf_idf) %>% 
+  ungroup() %>%
+  ggplot(aes(word, tf_idf)) +
+  geom_col(fill="#5dc863", show.legend = FALSE) +
+  theme_hc() +
+  labs(x = NULL, y = NULL) +
+  facet_wrap(~source, ncol = 3, scales = "free") +
+  coord_flip()
+
+ggsave("../figs/tokens_news.png", width = 12, height = 12)
+```
+
+![](../figs/tokens_news.png)
+
+```{r eval=FALSE, fig.height=4, fig.width=4, include=FALSE}
+tokens.count %>% 
+  filter(type == "press") %>%
+  arrange(desc(tf_idf)) %>%
+  mutate(word = factor(word, levels = rev(unique(word)))) %>% 
+  group_by(source) %>% 
+  top_n(10, wt=tf_idf) %>% 
+  ungroup() %>%
+  ggplot(aes(word, tf_idf)) +
+  geom_col(fill="#440154", show.legend = FALSE) +
+  theme_hc() +
+  labs(x = NULL, y = NULL) +
+  facet_wrap(~source, ncol = 2, scales = "free") +
+  coord_flip()
+
+ggsave("../figs/tokens_press.png", width = 12, height = 12)
+```
+
+![](../figs/tokens_press.png)
+
 ## Build Corpus
+
 ```{r eval=FALSE, include=FALSE}
 library(stm)
 
 processed <- textProcessor(model_df$text_cleaned1, 
-                           metadata = model_df[,c("source","text_cleaned1")],
+                           metadata = model_df[,c("source","type","text_cleaned1")],
                            wordLengths = c(2,Inf),
                            lowercase = F,
                            removestopwords = F,
@@ -57,12 +153,20 @@ out$meta$source <- as.factor(out$meta$source)
 save(model_df, out, file="../output/final_modeldf.Rda")
 ```
 
+# Structural Topic Model
+
+Parties want the media agenda to be congruent with their own agenda to define the issue-based criteria on which they will be evaluated by voters ( [Eberl, 2017](https://journals.sagepub.com/doi/abs/10.1177/0093650215614364) ).Thus, parties instrumentalize their press releases in order to highlight issues that they are perceived to be competent on, that they "own" and that are important to their voters ( [Kepplinger & Maurer, 2004](https://link.springer.com/chapter/10.1007%2F978-3-322-83381-5_9) ). Editors can select from this universe and decide which of these topics will be discussed in the news. In that sense the ideological content of a newspaper refers to the extent to which the topics promoted by the parties correlate with the topics discussed in the news articles.
+
+To discover the latent topics in the corpus of press releases (1.942) and news articles (11.880), a structural topic modeling (STM) developed by [Roberts (2016)](https://scholar.princeton.edu/sites/default/files/bstewart/files/a_model_of_text_for_experimentation_in_the_social_sciences.pdf) is applied. The STM is an unsupervised machine learning approach that models topics as multinomial distributions of words and documents as multinomial distributions of topics, allowing to incorporate external variables that effect both, topical content and topical prevalence.
+
 ## Select Model
 
 STM assumes a fixed user-specified number of topics. There is not a "right" answer to the number of topics that are appropriate for a given corpus (Grimmer and Stewart 2013), but the function searchK uses a data-driven approach to selecting the number of topics. The function will perform several automated tests to help choose the number of topics including calculating the held out likelihood (Wallach et al. 2009) and performing a residual analysis
 (Taddy 2012).
 
 ```{r eval=FALSE, include=FALSE}
+load("../output/final_modeldf.Rda")
+
 # Model search across numbers of topics
 k=c(40,45,50,55,60)
 
@@ -79,14 +183,16 @@ plot(storage)
 
 ## Run Model
 ```{r eval=FALSE, include=FALSE}
-k=80
+load("../output/final_modeldf.Rda")
+
+k=60
 
 stmOut <- stm(documents = out$documents, vocab = out$vocab,
               K = k, prevalence =~ source,
               max.em.its = 75, data = out$meta,
               init.type = "Spectral")
 
-save(model_df, out, stmOut, file = "../output/models/finalmodel_80_nocontet.RDa")
+save(model_df, out, stmOut, file = "../output/models/finalmodel_60_nocontet.RDa")
 ```
 
 I included the document source as a control for the topical topical prevalence, assuming that the distribution of topics depends on the sources. The number of topics is set to 60.
@@ -97,6 +203,7 @@ library(stm)
 library(tidyverse)
 library(ggthemes)
 library(xtable)
+library(viridis)
 
 rm(list = ls())
 load("../output/models/finalmodel_60.RDa")
@@ -165,7 +272,7 @@ names(xt) <- c("Joint label", "News articles","Press releases")
 print(xt, include.rownames = F, file="../writing/tables/labels.tex" )
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 topics.df <- as.data.frame(sagelabs$marginal$prob) %>%
   transmute(topic = as.numeric(rownames(.)),
             joint_label = paste( "Topic",topic, ":", V1,V2,V3,V4))
@@ -208,7 +315,7 @@ source <- model_df$source[which(model_df$doc_index == sample_doc)]
 theta %>%
   filter(doc_index == sample_doc) %>%
   ggplot(aes(reorder(joint_label, desc(topic)), theta)) +
-  geom_col(fill="#0099c6", alpha = 0.8) +
+  geom_col(fill="#3d648a", alpha = 0.8) +
   ylim(c(0,1)) +
   coord_flip() +
   theme_hc() +
@@ -251,7 +358,8 @@ overall_freq %>%
              frequency, fill=frequency)) +
   geom_col(show.legend = F) +
   coord_flip() +
-  scale_fill_gradient(low = "#00AFBB", high = "#FC4E07") +
+  scale_fill_gradient(low = "#dee24e", high = "#421c64") +
+  theme_hc() +
   labs(x=NULL, y=NULL) 
 
 ggsave("../figs/topic_proportion.png", height = 10, width = 10)
@@ -278,7 +386,7 @@ topicmean_press <- theta %>%
 ```{r eval=FALSE, fig.align="center", fig.height=11, fig.width=11, include=FALSE}
 topicmean_news %>%
   ggplot(aes(reorder(joint_label,desc(topic)),topicmean)) +
-  geom_col(fill="#0099c6", alpha = 0.8) +
+  geom_col(fill="#3d648a") +
   coord_flip() +
   theme_hc() +
   facet_grid(~source) +
@@ -315,7 +423,7 @@ topicmean_news %>%
 ```{r eval=FALSE, fig.align="center", fig.height=11, fig.width=11, include=FALSE}
 topicmean_press %>%
   ggplot(aes(reorder(joint_label,desc(topic)),topicmean)) +
-  geom_col(fill="#FC4E07",alpha=0.8) +
+  geom_col(fill="#a3d55a") +
   coord_flip() +
     theme_hc() +
   facet_grid(~source) +
@@ -342,7 +450,7 @@ topicmean_press %>%
   geom_col(show.legend = F) +
   geom_text(hjust=-0.1, size=5) +
   coord_flip() +
-  scale_fill_gradient(low = "#00AFBB", high = "#FC4E07") +
+  scale_fill_gradient(low = "#dee24e", high = "#421c64") +
   facet_wrap(~source, nrow = 1) +
   labs(x=NULL, y=NULL) +
   theme(axis.text.y = element_text(size=12))
@@ -420,6 +528,7 @@ p <- agenda %>%
   geom_line(show.legend = F) +
   geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
   facet_wrap(~party) +
+    scale_color_viridis_d(name = NULL) +
   labs(y=NULL, x =NULL) 
   # guides(colour = guide_legend(nrow = 1)) +
   # theme(legend.position = "bottom",

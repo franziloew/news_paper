@@ -15,7 +15,6 @@ library(rebus)
 library(lubridate)
 library(tidyverse)
 library(zoo)
-library(plotly)
 
 rm(list=ls())
 ```
@@ -221,9 +220,17 @@ df.small <- df %>%
 save(df, df.small, file="../output/polldats.Rda")
 ```
 
-```{r fig.height=6, fig.width=10, message=FALSE, warning=FALSE}
+## Plot
+```{r include=FALSE}
+library(tidyverse)
+library(plotly)
+library(viridis)
+library(ggthemes)
 load("../output/polldats.Rda")
+```
 
+
+```{r fig.height=6, fig.width=10, message=FALSE, warning=FALSE}
 df.small %>%
   filter(date > as.Date("2017-01-01")) %>%
   filter(date < as.Date("2018-06-30")) -> df.plot
@@ -238,6 +245,9 @@ p <- ggplot(df.plot) +
   
   geom_vline(xintercept = as.Date("2017-06-01"), linetype=2) +
   geom_vline(xintercept = as.Date("2018-03-01"), linetype=2) +
+  scale_color_manual(values = c("#009ee0", "#32302e","#ffed00","#46962b","#ec008c", "#E3000F")) +
+  #scale_color_viridis_d(name = NULL) +
+  theme_hc() +
   
   labs(x=NULL,y=NULL,color=NULL)
 

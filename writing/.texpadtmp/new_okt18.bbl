@@ -161,7 +161,7 @@
       \verb{url}
       \verb http://www.sciencedirect.com/science/article/pii/S0047272705000216
       \endverb
-      \keyw{Bias,Media,News organizations}
+      \keyw{Media,Bias,News organizations}
     \endentry
     \entry{baturo_what_2017}{article}{}
       \name{author}{3}{}{%
@@ -474,6 +474,7 @@
       \field{labeldatesource}{}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{shorttitle}
+      \field{annotation}{Literaturverz. S. 685 - 6995. Aufl. u.d.T.: Time series analysis / George E.P. Box; Gwilym M. Jenkins; Gregory C. Reinsel; Greta M. Ljung}
       \field{edition}{4}
       \field{isbn}{978-0-470-27284-8}
       \field{pagetotal}{xxiv+746}
@@ -563,6 +564,7 @@
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{abstract}{Discrete choice models are commonly used by applied statisticians in numerous fields, such as marketing, economics, finance, and operations research. When agents in discrete choice models are assumed to have differing preferences, exact inference is often intractable. Markov chain Monte Carlo techniques make approximate inference possible, but the computational cost is prohibitive on the large data sets now becoming routinely available. Variational methods provide a deterministic alternative for approximation of the posterior distribution. We derive variational procedures for empirical Bayes and fully Bayesian inference in the mixed multinomial logit model of discrete choice. The algorithms require only that we solve a sequence of unconstrained optimization problems, which are shown to be convex. Extensive simulations demonstrate that variational methods achieve accuracy competitive with Markov chain Monte Carlo, at a small fraction of the computational cost. Thus, variational methods permit inferences on data sets that otherwise could not be analyzed without bias-inducing modifications to the underlying model.}
+      \field{annotation}{Comment: 29 pages, 2 tables, 2 figures}
       \field{eprinttype}{arxiv}
       \field{issn}{0162-1459, 1537-274X}
       \field{journaltitle}{Journal of the American Statistical Association}
@@ -1716,6 +1718,72 @@
       \endverb
       \keyw{Coverage,Data mining,Opinion mining,Politics,Sentiment mining}
     \endentry
+    \entry{kepplinger_einfluss_2004}{incollection}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,uniquepart=base,hash=496a383df38a72860b6b435dadde61ad}{%
+           family={Kepplinger},
+           familyi={K\bibinitperiod},
+           given={Hans\bibnamedelima Mathias},
+           giveni={H\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=3819dc63e2a0f1af7d6e27a63144da4b}{%
+           family={Maurer},
+           familyi={M\bibinitperiod},
+           given={Marcus},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=e5bd2d44e550333580a76c098568ec25}{%
+           family={Raupp},
+           familyi={R\bibinitperiod},
+           given={Juliana},
+           giveni={J\bibinitperiod}}}%
+        {{hash=9fa9a89152c7c46ec5a24fe5d33ba82e}{%
+           family={Klewes},
+           familyi={K\bibinitperiod},
+           given={Joachim},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Wiesbaden}%
+      }
+      \list{publisher}{1}{%
+        {{VS} Verlag für Sozialwissenschaften}%
+      }
+      \strng{namehash}{67041eabf1c823739f72208250f4ed18}
+      \strng{fullhash}{67041eabf1c823739f72208250f4ed18}
+      \strng{bibnamehash}{67041eabf1c823739f72208250f4ed18}
+      \strng{authorbibnamehash}{67041eabf1c823739f72208250f4ed18}
+      \strng{authornamehash}{67041eabf1c823739f72208250f4ed18}
+      \strng{authorfullhash}{67041eabf1c823739f72208250f4ed18}
+      \strng{editorbibnamehash}{562d633cda4891b68658fb674f349d67}
+      \strng{editornamehash}{562d633cda4891b68658fb674f349d67}
+      \strng{editorfullhash}{562d633cda4891b68658fb674f349d67}
+      \field{sortinit}{K}
+      \field{sortinithash}{9fd838a31ba64d981e8f44562bd33f89}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Startschüsse sind notwendig, laut und sehen. Dies trifft auch auf die Studie zum Einfluss der Pressearbeit der Parteien in Nordrhein-Westfalen auf die Berichterstattung regionaler Tageszeitungen zu, die Barbara Baerns bereits 1981 abgeschlossen, jedoch erst später unter dem Titel „Öffentlichkeitsarbeit oder Joumalismus? Zum Einflu{\textbackslash}s s im Mediensystem“ (Baerns 1985) publizierte. Sie öffnete ein weites Forschungsfeld, das zwar viele geahnt und wortreich umschrieben haben, aber niemand auf breiter Basis empirisch angegangen war. Nicht neu, aber wegweisend war die Anlage der Untersuchung als Input-Output-Analyse, die allerdings auf einen Vergleich der Stuktur des Angebotes an {PR}-Meldungen mit der Stmktur der abgedmck- ten Angebote beschränkt blieb (Baerns 1985: 70-73). Spektakulär und viel zitiert war ihr Befund, dass knapp zwei Drittel der publizierten Beiträge auf {PR}-Quellen bemhten (Baerns 1985: 66-68). Er wurde zur Gmndlage der „Determiniemngs These“, die angesichts wachsender {PR}-Abteilungen und schmmpfender Redaktionen besondere Aktualität besitzt.}
+      \field{booktitle}{Quo vadis Public Relations? Auf dem Weg zum Kommunikationsmanagement: Bestandsaufnahmen und Entwicklungen}
+      \field{isbn}{978-3-322-83381-5}
+      \field{title}{Der Einfluss der Pressemitteilungen der Bundesparteien auf die Berichterstattung im Bundestagswahlkampf 2002}
+      \field{year}{2004}
+      \field{dateera}{ce}
+      \field{pages}{113\bibrangedash 124}
+      \range{pages}{12}
+      \verb{doi}
+      \verb 10.1007/978-3-322-83381-5_9
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1007/978-3-322-83381-5_9
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1007/978-3-322-83381-5_9
+      \endverb
+    \endentry
     \entry{lott_is_2014}{article}{}
       \name{author}{2}{}{%
         {{uniquename=0,uniquepart=base,hash=1fe71f6270cfca80c7989f1ffa2dc6a0}{%
@@ -2865,7 +2933,7 @@
       \endverb
     \endentry
   \enddatalist
-  \missing{kepplinger_einfluss_2004}
+  \missing{newman_reuters_2018}
 \endrefsection
 \endinput
 
