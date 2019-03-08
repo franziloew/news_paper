@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.7.17)  17 FEB 2019 22:12
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.7.17)  8 MAR 2019 15:27
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1131,6 +1131,9 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has b
 l.71 
       [1] [2]
 
+LaTeX Warning: Reference `ch_generativeProcess' on page 3 undefined on input line 90.
+
+
 LaTeX Warning: Reference `ch_regression' on page 3 undefined on input line 90.
 
 [3]
@@ -1268,118 +1271,119 @@ l.163 ...�nen sharply criticized the liberals'
 You may provide a definition with
 \DeclareUnicodeCharacter 
 
-<../figs/polldata.png, id=264, 2107.875pt x 1204.5pt>
+<../figs/polldata.png, id=273, 2107.875pt x 1204.5pt>
 File: ../figs/polldata.png Graphic file (type png)
 <use ../figs/polldata.png>
 Package pdftex.def Info: ../figs/polldata.png  used on input line 172.
 (pdftex.def)             Requested size: 409.71692pt x 234.11382pt.
 [7] [8 <../figs/polldata.png>]
-
-LaTeX Warning: Reference `ch_agendacorrl' on page 9 undefined on input line 186.
-
-<../figs/press_releases.png, id=292, 1806.75pt x 1204.5pt>
+<../figs/press_releases.png, id=302, 1806.75pt x 1204.5pt>
 File: ../figs/press_releases.png Graphic file (type png)
 <use ../figs/press_releases.png>
-Package pdftex.def Info: ../figs/press_releases.png  used on input line 210.
+Package pdftex.def Info: ../figs/press_releases.png  used on input line 206.
 (pdftex.def)             Requested size: 223.07211pt x 148.70583pt.
-<../figs/press_releases_textlength.png, id=293, 1806.75pt x 1204.5pt>
+<../figs/press_releases_textlength.png, id=303, 1806.75pt x 1204.5pt>
 File: ../figs/press_releases_textlength.png Graphic file (type png)
 <use ../figs/press_releases_textlength.png>
-Package pdftex.def Info: ../figs/press_releases_textlength.png  used on input line 215.
+Package pdftex.def Info: ../figs/press_releases_textlength.png  used on input line 211.
 (pdftex.def)             Requested size: 223.07211pt x 148.70583pt.
-[9]
-<../figs/article_sum.png, id=305, 1204.5pt x 1806.75pt>
+ [9]
+Overfull \hbox (2.59683pt too wide) in paragraph at lines 222--223
+\T1/cmr/m/it/12 gefuehlt-das-Einzige-in-Berlin-was-funktioniert.html \T1/cmr/m/n/12 in-di-cates that this ar-ti-cle be-longs the-
+ []
+
+<../figs/article_sum.png, id=315, 1204.5pt x 1806.75pt>
 File: ../figs/article_sum.png Graphic file (type png)
 <use ../figs/article_sum.png>
-Package pdftex.def Info: ../figs/article_sum.png  used on input line 233.
+Package pdftex.def Info: ../figs/article_sum.png  used on input line 229.
 (pdftex.def)             Requested size: 136.57462pt x 204.86337pt.
-<../figs/news_releases_textlength.png, id=306, 3011.25pt x 1806.75pt>
+<../figs/news_releases_textlength.png, id=316, 3011.25pt x 1806.75pt>
 File: ../figs/news_releases_textlength.png Graphic file (type png)
 <use ../figs/news_releases_textlength.png>
-Package pdftex.def Info: ../figs/news_releases_textlength.png  used on input line 238.
+Package pdftex.def Info: ../figs/news_releases_textlength.png  used on input line 234.
 (pdftex.def)             Requested size: 314.11954pt x 188.45996pt.
- [10 <../figs/press_releases.png> <../figs/press_releases_textlength.png>]
-<../figs/visits.png, id=322, 2409.0pt x 2409.0pt>
+[10 <../figs/press_releases.png> <../figs/press_releases_textlength.png>]
+<../figs/visits.png, id=333, 2409.0pt x 2409.0pt>
 File: ../figs/visits.png Graphic file (type png)
 <use ../figs/visits.png>
-Package pdftex.def Info: ../figs/visits.png  used on input line 251.
+Package pdftex.def Info: ../figs/visits.png  used on input line 247.
 (pdftex.def)             Requested size: 223.07211pt x 223.04956pt.
-<../figs/reuters1.png, id=323, 2409.0pt x 2409.0pt>
+<../figs/reuters1.png, id=334, 2409.0pt x 2409.0pt>
 File: ../figs/reuters1.png Graphic file (type png)
 <use ../figs/reuters1.png>
-Package pdftex.def Info: ../figs/reuters1.png  used on input line 256.
+Package pdftex.def Info: ../figs/reuters1.png  used on input line 252.
 (pdftex.def)             Requested size: 223.07211pt x 223.04956pt.
  [11 <../figs/article_sum.png> <../figs/news_releases_textlength.png>]
-<../figs/reuters2.png, id=337, 1204.5pt x 903.375pt>
+<../figs/reuters2.png, id=347, 1204.5pt x 903.375pt>
 File: ../figs/reuters2.png Graphic file (type png)
 <use ../figs/reuters2.png>
-Package pdftex.def Info: ../figs/reuters2.png  used on input line 269.
+Package pdftex.def Info: ../figs/reuters2.png  used on input line 265.
 (pdftex.def)             Requested size: 227.62206pt x 170.70569pt.
  [12 <../figs/visits.png> <../figs/reuters1.png> <../figs/reuters2.png>]
-<../figs/reuters3.png, id=349, 1806.75pt x 1204.5pt>
+<../figs/reuters3.png, id=360, 1806.75pt x 1204.5pt>
 File: ../figs/reuters3.png Graphic file (type png)
 <use ../figs/reuters3.png>
-Package pdftex.def Info: ../figs/reuters3.png  used on input line 279.
+Package pdftex.def Info: ../figs/reuters3.png  used on input line 275.
 (pdftex.def)             Requested size: 409.71692pt x 273.13278pt.
  [13 <../figs/reuters3.png>]
-<../figs/wordcloud.png, id=366, 481.8pt x 481.8pt>
+<../figs/wordcloud.png, id=377, 481.8pt x 481.8pt>
 File: ../figs/wordcloud.png Graphic file (type png)
 <use ../figs/wordcloud.png>
-Package pdftex.def Info: ../figs/wordcloud.png  used on input line 295.
+Package pdftex.def Info: ../figs/wordcloud.png  used on input line 291.
 (pdftex.def)             Requested size: 223.07211pt x 223.07161pt.
-<../figs/wordcloud_cleaned.png, id=367, 481.8pt x 481.8pt>
+<../figs/wordcloud_cleaned.png, id=378, 481.8pt x 481.8pt>
 File: ../figs/wordcloud_cleaned.png Graphic file (type png)
 <use ../figs/wordcloud_cleaned.png>
-Package pdftex.def Info: ../figs/wordcloud_cleaned.png  used on input line 300.
+Package pdftex.def Info: ../figs/wordcloud_cleaned.png  used on input line 296.
 (pdftex.def)             Requested size: 223.07211pt x 223.07161pt.
  [14 <../figs/wordcloud.png> <../figs/wordcloud_cleaned.png>]
-
-LaTeX Warning: Reference `t_labels' on page 15 undefined on input line 349.
-
-[15]
-<../figs/doc_topic_distr.png, id=402, 3011.25pt x 3011.25pt>
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 316.
+ [15]
+<../figs/doc_topic_distr.png, id=416, 3011.25pt x 3011.25pt>
 File: ../figs/doc_topic_distr.png Graphic file (type png)
 <use ../figs/doc_topic_distr.png>
-Package pdftex.def Info: ../figs/doc_topic_distr.png  used on input line 356.
+Package pdftex.def Info: ../figs/doc_topic_distr.png  used on input line 357.
 (pdftex.def)             Requested size: 455.24411pt x 455.20601pt.
-<../figs/topic_proportion.png, id=404, 3011.25pt x 3011.25pt>
+ [16]
+<../figs/topic_proportion.png, id=427, 3011.25pt x 3011.25pt>
 File: ../figs/topic_proportion.png Graphic file (type png)
 <use ../figs/topic_proportion.png>
-Package pdftex.def Info: ../figs/topic_proportion.png  used on input line 366.
+Package pdftex.def Info: ../figs/topic_proportion.png  used on input line 367.
 (pdftex.def)             Requested size: 455.24411pt x 455.20601pt.
- [16 <../figs/doc_topic_distr.png>]
-<../figs/topic_proportion_press.png, id=412, 3312.375pt x 3011.25pt>
+ [17 <../figs/doc_topic_distr.png>]
+<../figs/topic_proportion_press.png, id=434, 3312.375pt x 3011.25pt>
 File: ../figs/topic_proportion_press.png Graphic file (type png)
 <use ../figs/topic_proportion_press.png>
-Package pdftex.def Info: ../figs/topic_proportion_press.png  used on input line 377.
+Package pdftex.def Info: ../figs/topic_proportion_press.png  used on input line 378.
 (pdftex.def)             Requested size: 218.51521pt x 198.63284pt.
-<../figs/topic_proportion_news.png, id=413, 3312.375pt x 3011.25pt>
+<../figs/topic_proportion_news.png, id=435, 3312.375pt x 3011.25pt>
 File: ../figs/topic_proportion_news.png Graphic file (type png)
 <use ../figs/topic_proportion_news.png>
-Package pdftex.def Info: ../figs/topic_proportion_news.png  used on input line 381.
+Package pdftex.def Info: ../figs/topic_proportion_news.png  used on input line 382.
 (pdftex.def)             Requested size: 218.51521pt x 198.63284pt.
- [17 <../figs/topic_proportion.png>]
-<../figs/radarchart.png, id=420, 2107.875pt x 2107.875pt>
+ [18 <../figs/topic_proportion.png>]
+<../figs/radarchart.png, id=443, 2107.875pt x 2107.875pt>
 File: ../figs/radarchart.png Graphic file (type png)
 <use ../figs/radarchart.png>
-Package pdftex.def Info: ../figs/radarchart.png  used on input line 394.
+Package pdftex.def Info: ../figs/radarchart.png  used on input line 395.
 (pdftex.def)             Requested size: 455.24411pt x 455.24277pt.
- [18 <../figs/topic_proportion_press.png> <../figs/topic_proportion_news.png>] [19 <../figs/radarchart.png>] [20]
-Overfull \hbox (19.39157pt too wide) in paragraph at lines 408--408
+ [19 <../figs/topic_proportion_press.png> <../figs/topic_proportion_news.png>] [20 <../figs/radarchart.png>] [21]
+Overfull \hbox (19.39157pt too wide) in paragraph at lines 411--411
 \T1/cmr/m/n/12 pp. 117^^U133. \T1/cmr/m/sc/12 url\T1/cmr/m/n/12 : []$\T1/cmtt/m/n/12 https : / / www . aeaweb . org / articles ? id = 10 . 1257 / 0895330042162313$[]
  []
 
-[21]
-Overfull \hbox (4.62137pt too wide) in paragraph at lines 408--408
+[22]
+Overfull \hbox (4.62137pt too wide) in paragraph at lines 411--411
 \T1/cmr/m/n/12 teilun-gen der Bun-desparteien auf die Berichter-stat-tung im Bun-destagswahlkampf 2002^^Q.
  []
 
-[22]
-Overfull \hbox (16.957pt too wide) in paragraph at lines 408--408
+[23]
+Overfull \hbox (16.957pt too wide) in paragraph at lines 411--411
 \T1/cmr/m/n/12 ON WE-BLOGS AND SO-CIAL ME-DIA. Wash-ing-ton. \T1/cmr/m/sc/12 url\T1/cmr/m/n/12 : []$\T1/cmtt/m/n/12 https : / / www . researchgate .
  []
 
-[23] [24]
+[24] [25]
 \openout2 = `tables/labels.aux'.
 
  (./tables/labels.tex
@@ -1390,12 +1394,12 @@ Overfull \hbox (622.0081pt too wide) in paragraph at lines 5--71
 
 LaTeX Warning: Float too large for page by 178.9632pt on input line 72.
 
-) [25]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 453.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 453.
+) [26]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 449.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 449.
  (/Users/franzi/Projects/news_paper/writing/.texpadtmp/new_okt18.aux (/Users/franzi/Projects/news_paper/writing/.texpadtmp/tables/labels.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 453.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 453.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 449.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 449.
 Package rerunfilecheck Info: File `new_okt18.out' has not changed.
 (rerunfilecheck)             Checksum: <no file>.
 
@@ -1410,21 +1414,21 @@ Package logreq Info: Writing requests to 'new_okt18.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 38909 strings out of 492649
- 874824 string characters out of 6129622
- 1415500 words of memory out of 5000000
- 41931 multiletter control sequences out of 15000+600000
+ 38920 strings out of 492649
+ 875031 string characters out of 6129622
+ 1415892 words of memory out of 5000000
+ 41943 multiletter control sequences out of 15000+600000
  31333 words of font info for 86 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 62i,11n,96p,1946b,1827s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,11n,96p,2052b,1832s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exist, replaced by a fixed one
 
 {/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfcc1000.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfcc1200.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm2074.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfti1440.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2018/texmf-dist/fonts/
 type1/public/cm-super/sftt1200.pfb>
-Output written on /Users/franzi/Projects/news_paper/writing/.texpadtmp/new_okt18.pdf (26 pages, 4027258 bytes).
+Output written on /Users/franzi/Projects/news_paper/writing/.texpadtmp/new_okt18.pdf (27 pages, 4065551 bytes).
 PDF statistics:
- 671 PDF objects out of 1000 (max. 8388607)
- 579 compressed objects within 6 object streams
- 141 named destinations out of 1000 (max. 500000)
- 229 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 691 PDF objects out of 1000 (max. 8388607)
+ 598 compressed objects within 6 object streams
+ 140 named destinations out of 1000 (max. 500000)
+ 245 words of extra memory for PDF output out of 10000 (max. 10000000)
 

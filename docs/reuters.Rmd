@@ -53,9 +53,9 @@ p <- reutersDF1.grouped %>%
   ggplot(aes(reorder(medium,count),count,
              fill = insample
              )) +
-  geom_col() +
+  geom_col(show.legend = F) +
   coord_flip() +
-  viridis::scale_fill_viridis(discrete=TRUE, name = "In sample") +
+  viridis::scale_fill_viridis(discrete=TRUE) +
   labs(x = NULL, y = NULL,title = NULL, caption = "Source: Hans-Bredow-Institut")
 
 plotly::ggplotly(p, tooltip="y")

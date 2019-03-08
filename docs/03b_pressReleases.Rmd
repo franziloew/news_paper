@@ -45,9 +45,6 @@ cdu.f <- cdu.f %>% mutate(type = "faction") %>% select(-link)
 cdu <- rbind(cdu.p,cdu.f) %>% 
   # date format
   mutate(date = as.Date(date, format="%d.%m.%Y")) %>% 
-  # filter time perion
-  filter(date >= as.Date("2017-06-01")) %>%
-  filter(date < as.Date("2018-03-01")) %>%
   
   # clean text
   mutate(text = gsub('Berlin','',body, ignore.case = TRUE, perl = TRUE),
@@ -63,7 +60,7 @@ cdu <- rbind(cdu.p,cdu.f) %>%
          ) %>%
   distinct(title, .keep_all = T) %>%
   # remove text about inner-party votes
-  filter(!grepl("wahl ",title,ignore.case = T)) %>%
+ # filter(!grepl("wahl ",title,ignore.case = T)) %>%
   # keep variables 
   select(title, title_text, party, type, date)
 
@@ -90,9 +87,6 @@ spd.f <- spd.f %>% mutate(type = "faction",
 
 # combine both
 spd <- rbind(spd.p,spd.f) %>%
-  # filter time perion
-  filter(date >= as.Date("2017-06-01")) %>%
-  filter(date < as.Date("2018-03-01")) %>%
   
   # clean text
   mutate(text = gsub('(.+?):','', body, perl = TRUE, ignore.case = TRUE),
@@ -102,7 +96,7 @@ spd <- rbind(spd.p,spd.f) %>%
          ) %>%
   distinct(title, .keep_all = T) %>%
   # remove text about inner-party votes
-  filter(!grepl("wahl ",title,ignore.case = T)) %>%
+ # filter(!grepl("wahl ",title,ignore.case = T)) %>%
   # keep variables 
   select(title, title_text, party, type, date)
   
@@ -135,17 +129,12 @@ fdp.f <- fdp.f %>%
 # combine both
 fdp <- rbind(fdp.p,fdp.f) %>%
   
-  filter(!grepl("Gastbeitrag",title)) %>%
-  filter(!grepl("Interview",title)) %>%
-  
   # clean text
   mutate(title = gsub('(.+?):','', title, perl = TRUE, ignore.case = TRUE),
          title_text = paste(title, body),
          party = "FDP"
          ) %>%
   distinct(title, .keep_all = T) %>%
-  # remove text about inner-party votes
-  filter(!grepl("wahl ",title,ignore.case = T)) %>%
   # keep variables 
   select(title, title_text, party, type, date)
   
@@ -178,8 +167,6 @@ gruene <- rbind(gruene.p,gruene.f) %>%
          party = "B90/GRÜNE"
          ) %>%
   distinct(title, .keep_all = T) %>%
-  # remove text about inner-party votes
-  filter(!grepl("wahl ",title,ignore.case = T)) %>%
   # keep variables 
   select(title, title_text, party, type, date)
 
@@ -206,10 +193,6 @@ linke.f <- linke.f %>% mutate(type = "faction",
 
 # combine both
 linke <- rbind(linke.p,linke.f) %>%
-  # filter time perion
-  filter(date >= as.Date("2017-06-01")) %>%
-  filter(date < as.Date("2018-03-01")) %>%
-  
   # clean text
   mutate(text = body,
          title = title,
@@ -247,8 +230,10 @@ afd <- rbind(afd %>% mutate(type = "party"),
 rm(afd.f)
 ```
 
+## Clean Data
+
 ```{r eval=FALSE, include=FALSE}
-filter <- paste("wahl","wählt","personalentscheidung","gremien","rufbereitschaft","erreichbarkeit", sep = "|")
+filter <- paste("vorsitz","personalentscheidung","gremien","rufbereitschaft","erreichbarkeit", sep = "|")
   
 pressReleases <- bind_rows(cdu, spd, afd, gruene, linke, fdp) %>%
   filter(date >= as.Date("2017-06-01")) %>%
@@ -257,13 +242,22 @@ pressReleases <- bind_rows(cdu, spd, afd, gruene, linke, fdp) %>%
     author = type,
     type = "press",
     text_length = sapply(gregexpr("\\S+", title_text), length)) %>%
-  # remove text about inner-party votes
-  filter(!grepl(filter,title_text,ignore.case = T)) %>%
-  filter(text_length > 50) %>%
-  filter(text_length < 2000)
+  
+  mutate(
+    filtered = ifelse(grepl(filter,title,ignore.case = T), TRUE, FALSE),
+    filtered = ifelse(text_length < 50, TRUE, filtered)
+  )
+```
+
+```{r}
+ggplot(pressReleases, aes(party, fill=filtered)) +
+  geom_bar() +
+  labs(x= NULL, y = NULL, fill = "filtered ?")
 ```
 
 ```{r eval=FALSE, include=FALSE}
+pressReleases <- pressReleases %>% filter(filtered == FALSE) 
+
 pressReleases %>%
   group_by(party, author) %>%
   tally() %>%
@@ -275,7 +269,7 @@ pressReleases %>%
   labs(y = NULL, x = NULL, fill = NULL)
 ```
 
-## Clean Data
+### Pre-process Text 
 
 1. Remove... 
 
@@ -343,6 +337,7 @@ pressReleases %>%
   write.csv(file = "../output/pressReleases.csv")
 ```
 
+## Inspect Data 
 ```{r include=FALSE}
 library(tidyverse)
 library(tidytext)
@@ -376,15 +371,16 @@ ggsave("../figs/press_releases.png", width = 6, height = 4)
 
 ```{r}
 pressReleases %>%
-  filter(text_length < 1000) %>%
+  filter(text_length < 1500) %>%
   ggplot(aes(x=party, y=text_length)) +
   geom_boxplot() +
   theme_hc() +
-  stat_summary(fun.y=mean, geom="point", shape=20, size=5, color="#63b97b", fill="#63b97b") +
-  labs(x=NULL, y=NULL)
+  #stat_summary(fun.y=mean, geom="point", shape=20, size=3, color="red", fill="red") +
+  labs(x=NULL, y="# of words", caption = "37 articles with a text length > 1500 words are not plotted:\nFDP: 37")
 
 ggsave("../figs/press_releases_textlength.png", width = 6, height = 4)
 ```
+
 
 ```{r}
 pressReleases %>%
@@ -404,8 +400,6 @@ pressReleases %>%
   select(title_text, text_cleaned) %>%
   htmlTable::htmlTable()
 ```
-
-## Inspect Data
 
 ### Tokens
 
