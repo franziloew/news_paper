@@ -103,7 +103,7 @@ tokens.count %>%
   top_n(10, wt = tf_idf) %>% 
   ungroup() %>%
   ggplot(aes(word, tf_idf)) +
-  geom_col(fill="#5dc863", show.legend = FALSE) +
+  geom_col(fill= "#3b528b", show.legend = FALSE) +
   theme_hc() +
   labs(x = NULL, y = NULL) +
   facet_wrap(~source, ncol = 3, scales = "free") +
@@ -123,7 +123,7 @@ tokens.count %>%
   top_n(10, wt=tf_idf) %>% 
   ungroup() %>%
   ggplot(aes(word, tf_idf)) +
-  geom_col(fill="#440154", show.legend = FALSE) +
+  geom_col(fill="#3b528b", show.legend = FALSE) +
   theme_hc() +
   labs(x = NULL, y = NULL) +
   facet_wrap(~source, ncol = 2, scales = "free") +
@@ -161,23 +161,31 @@ To discover the latent topics in the corpus of press releases (1.942) and news a
 
 ## Select Model
 
-STM assumes a fixed user-specified number of topics. There is not a "right" answer to the number of topics that are appropriate for a given corpus (Grimmer and Stewart 2013), but the function searchK uses a data-driven approach to selecting the number of topics. The function will perform several automated tests to help choose the number of topics including calculating the held out likelihood (Wallach et al. 2009) and performing a residual analysis
-(Taddy 2012).
+STM assumes a fixed user-specified number of topics. There is not a "right" answer to the number of topics that are appropriate for a given corpus (Grimmer and Stewart 2013). [Roberts et al. (2016)](https://cran.r-project.org/web/packages/stm/vignettes/stmVignette.pdf) propose to measure
+topic quality through a combination of semantic coherence and exclusivity of words to topics. Semantic coherence is a criterion developed by [Mimno et al. (2011)](https://dl.acm.org/citation.cfm?id=2145462) and is closely related to pointwise mutual information (Newman et al. 2010): it is maximized when the most probable words in a given topic frequently co-occur together.
+
+Using the function searchK several automated tests are  performed to help choose the number of topics including
+the average exclusivity and semantic coherence as well as the held out likelihood (Wallach et al. 2009) and the residuals (Taddy 2012).
 
 ```{r eval=FALSE, include=FALSE}
 load("../output/final_modeldf.Rda")
-
-# Model search across numbers of topics
-k=c(40,45,50,55,60)
-
-storage <- stm(documents = out$documents, vocab = out$vocab,
-              K = k, prevalence =~ source, content = ~type, data = out$meta)
-```
-
-```{r eval=FALSE, include=FALSE}
 library(stm)
 
-load("../output/models/selectK_content2.RData")
+rm(list = ls())
+# Model search across numbers of topics
+k=c(40,50,60,70,80,90,100)
+
+storage <- searchK(documents = out$documents, vocab = out$vocab,
+              K = k, prevalence =~ source, content = ~type, data = out$meta)
+
+save(storage, file = "../output/models/searchK.Rda")
+```
+
+```{r echo=FALSE}
+library(stm)
+rm(list = ls())
+
+load("../output/models/searchK.Rda")
 plot(storage)
 ```
 
@@ -192,10 +200,10 @@ stmOut <- stm(documents = out$documents, vocab = out$vocab,
               max.em.its = 75, data = out$meta,
               init.type = "Spectral")
 
-save(model_df, out, stmOut, file = "../output/models/finalmodel_60_nocontet.RDa")
+save(model_df, out, stmOut, file = "../output/models/finalmodel_60.RDa")
 ```
 
-I included the document source as a control for the topical topical prevalence, assuming that the distribution of topics depends on the sources. The number of topics is set to 60.
+I included the document source as a control for the topical topical prevalence, assuming that the distribution of topics depends on the sources. The number of topics is set to 50.
 
 ## Results
 ```{r}
@@ -206,7 +214,7 @@ library(xtable)
 library(viridis)
 
 rm(list = ls())
-load("../output/models/finalmodel_60.RDa")
+load("../output/models/finalmodel_50.RDa")
 
 model_df <- model_df %>%
   dplyr::mutate(doc_index = as.numeric(rownames(.)),
@@ -225,15 +233,6 @@ model_df <- model_df %>%
          )
 ```
 
-```{r fig.align="center"}
-model_df %>%
-  ggplot(aes(source, fill=type)) +
-  geom_bar(show.legend = F, alpha = 0.8) +
-  coord_flip() +
-  facet_wrap(~type, scales = "free") +
-  labs(title = "Document distribution", y=NULL, x = NULL)
-```
-
 ### Label topics
 
 To explore the words associated with each topic we use the words with the highest probability in each topic. As we included the source type (press release or news paper) as a control for the topical content (the word distribution of each topic), we have two different labels for each topic.
@@ -242,7 +241,7 @@ To explore the words associated with each topic we use the words with the highes
 sagelabs <- sageLabels(stmOut)
 ```
 
-```{r labels, if content covariables included, eval=FALSE, include=FALSE}
+```{r include=FALSE}
 newsLabels <- as.data.frame(sagelabs$cov.betas[[1]]$problabels) %>%  
   transmute(topic = as.numeric(rownames(.)),
             topic_name_news_short = paste(V1,V2),
@@ -302,7 +301,7 @@ theta <- as.data.frame(stmOut$theta) %>% # get all theta values for each documen
 
 For each document, we have a distribution over all topics, e.g.:
 
-```{r fig.height=10, fig.width=12}
+```{r fig.height=6, fig.width=8}
 sample_doc <- sample(nrow(model_df),1)
 
 # uncomment this to only select docs from press releases
@@ -503,7 +502,8 @@ agenda <- corrDF %>%
                 medium = ifelse(medium ==  "ZEIT.ONLINE", "ZEIT ONLINE", medium),
                 medium = ifelse(medium == "FOCUS.Online", "FOCUS Online", medium),
                 medium = ifelse(medium == "SPIEGEL.ONLINE", "SPIEGEL ONLINE", medium)
-  )
+  ) %>%
+  filter(month > 5)
 ```
 
 ```{r Normalize Data Function}
@@ -566,7 +566,64 @@ p <- agenda %>%
                         rescale = F,
                         legend.position = "bottom") 
 
-ggsave(filename = "../figs/radarchart.png", p)
+ggsave(filename = "../figs/radarchart.png", p, width =9, height = 7)
+```
+
+
+#### Deviation from average visibility 
+
+Due to political relevance, not all potential topics recieve equal amounts of coverage in media. However, these factors should infuence all media outlets equally. To what extent does the topic correlation of a party in a medium differ from the average topic correlation in the media? To calculate the relative topic correlation, I estimate the deviation of the topic correlation of a party in one medium from the average topic correlation of that party over all news paper.
+
+```{r fig.height=6, fig.width=10, fig.align="center"}
+agenda_diff <- agenda %>%
+  group_by(party, date) %>%
+  # estimate average correlation for each party
+  mutate(cor_by_party = mean(cor, na.rm = T)) %>%
+  ungroup() %>%
+  # estimate average correlation for each party-medium pair
+  mutate(
+    cor_diff = cor - cor_by_party
+    )
+```
+
+```{r fig.height=6, fig.width=10, fig.align="center"}
+p <- agenda_diff %>%
+  ggplot(aes(date, cor_diff, color = medium)) +
+  geom_line(show.legend = F) +
+  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
+  facet_wrap(~party) +
+    scale_color_viridis_d(name = NULL) +
+  labs(y=NULL, x =NULL) 
+
+plotly::ggplotly(p, tooltip=c("cor","medium"))
+```
+
+```{r}
+p <- agenda_diff %>%
+  group_by(party, medium) %>%
+  summarize(cor = mean(cor_diff, na.rm = T)) %>%
+  spread(key = party, value = cor) %>%
+  ggiraphExtra::ggRadar(aes(color = medium),
+                        interactive = T,
+                        alpha = 0,
+                        rescale = F,
+                        legend.position = "bottom") 
+
+p
+```
+
+
+```{r}
+agenda_diff %>%
+  filter(!medium == "tagesschau.de") %>%
+  group_by(party, medium) %>%
+  summarize(cor = mean(cor_diff, na.rm = T)) %>%
+  spread(key = party, value = cor) %>%
+  ggiraphExtra::ggRadar(aes(color = medium),
+                        interactive = T,
+                        alpha = 0,
+                        rescale = F,
+                        legend.position = "bottom") 
 ```
 
 ```{r eval=FALSE, include=FALSE}

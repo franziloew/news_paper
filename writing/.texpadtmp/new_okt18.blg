@@ -1,18 +1,18 @@
 [0] Config.pm:302> INFO - This is Biber 2.11
 [0] Config.pm:305> INFO - Logfile is '/Users/franzi/Projects/news_paper/writing/.texpadtmp/new_okt18.blg'
-[37] biber-darwin:313> INFO - === Fri Mar  8, 2019, 15:26:54
-[95] Biber.pm:371> INFO - Reading '/Users/franzi/Projects/news_paper/writing/.texpadtmp/new_okt18.bcf'
-[198] Biber.pm:857> INFO - Found 53 citekeys in bib section 0
-[223] Biber.pm:3976> INFO - Processing section 0
-[252] Biber.pm:4136> INFO - Looking for bibtex format file '/Users/franzi/Projects/news_paper/writing/Textmining.bib' for section 0
-[273] bibtex.pm:1500> INFO - LaTeX decoding ...
-[717] bibtex.pm:1316> INFO - Found BibTeX data source '/Users/franzi/Projects/news_paper/writing/Textmining.bib'
-[979] Utils.pm:193> WARN - ISBN '978-3-319-21379-8 978-3-319-21380-4' in entry 'mishler_using_2015' is invalid - run biber with '--validate_datamodel' for details.
-[1088] Utils.pm:193> WARN - I didn't find a database entry for 'newman_reuters_2018' (section 0)
-[1193] UCollate.pm:68> INFO - Overriding locale 'de_DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[1193] UCollate.pm:68> INFO - Overriding locale 'de_DE' defaults 'variable = shifted' with 'variable = non-ignorable'
-[1194] Biber.pm:3804> INFO - Sorting list 'nyt/global//global/global' of type 'entry' with template 'nyt' and locale 'de_DE'
-[1194] Biber.pm:3810> INFO - No sort tailoring available for locale 'de_DE'
-[1263] bbl.pm:617> INFO - Writing '/Users/franzi/Projects/news_paper/writing/.texpadtmp/new_okt18.bbl' with encoding 'UTF-8'
-[1324] bbl.pm:720> INFO - Output to /Users/franzi/Projects/news_paper/writing/.texpadtmp/new_okt18.bbl
-[1325] Biber.pm:110> INFO - WARNINGS: 2
+[52] biber-darwin:313> INFO - === Sun Mar 10, 2019, 22:28:10
+[92] Biber.pm:371> INFO - Reading '/Users/franzi/Projects/news_paper/writing/.texpadtmp/new_okt18.bcf'
+[187] Biber.pm:857> INFO - Found 53 citekeys in bib section 0
+[203] Biber.pm:3976> INFO - Processing section 0
+[214] Biber.pm:4136> INFO - Looking for bibtex format file '/Users/franzi/Projects/news_paper/writing/Textmining.bib' for section 0
+[233] bibtex.pm:1500> INFO - LaTeX decoding ...
+[955] bibtex.pm:1316> INFO - Found BibTeX data source '/Users/franzi/Projects/news_paper/writing/Textmining.bib'
+[1356] Utils.pm:193> WARN - ISBN '978-3-319-21379-8 978-3-319-21380-4' in entry 'mishler_using_2015' is invalid - run biber with '--validate_datamodel' for details.
+[1499] Utils.pm:193> WARN - I didn't find a database entry for 'newman_reuters_2018' (section 0)
+[1681] UCollate.pm:68> INFO - Overriding locale 'de_DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1681] UCollate.pm:68> INFO - Overriding locale 'de_DE' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1682] Biber.pm:3804> INFO - Sorting list 'nyt/global//global/global' of type 'entry' with template 'nyt' and locale 'de_DE'
+[1682] Biber.pm:3810> INFO - No sort tailoring available for locale 'de_DE'
+[1782] bbl.pm:617> INFO - Writing '/Users/franzi/Projects/news_paper/writing/.texpadtmp/new_okt18.bbl' with encoding 'UTF-8'
+[1843] bbl.pm:720> INFO - Output to /Users/franzi/Projects/news_paper/writing/.texpadtmp/new_okt18.bbl
+[1843] Biber.pm:110> INFO - WARNINGS: 2

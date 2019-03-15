@@ -65,17 +65,11 @@ visits.df %>%
 ggsave(filename = "../figs/visits.png", width = 8, height = 8)
 ```
 
-# Articles
+# Article content
 
-## Summary
+## Number of articles by medium
 
-The URL of a news article specifies the path where this article is located. In this way articles that can be assigned to the main topic politics could be filtered out. For example, the following URL indicates that this article belongs thematically to 'Inland' and 'Politics'. 
-
-```{r}
-btw[594, "url"]
-```
-
-```{r}
+```{r fig.align="center"}
 btw %>%
   group_by(medium) %>%
   tally() %>%
@@ -86,10 +80,12 @@ btw %>%
   theme_hc() +
   labs(x=NULL, y=NULL)
 
-ggsave(filename = "../figs/article_sum.png", width = 4, height = 6)
+ggsave(filename = "../figs/article_sum.png",width = 6, height = 4)
 ```
 
-```{r}
+## Number of articles by medium and month
+
+```{r fig.height=6, fig.width=9}
 btw %>%
   group_by(medium, date) %>%
   tally() %>%
@@ -113,7 +109,9 @@ btw %>%
 ggsave(filename = "../figs/article_timeline.png", width = 8, height = 6)
 ```
 
-```{r}
+## Number of words (article length)
+
+```{r fig.align="center"}
 btw %>%
   filter(text_length < 10000) %>%
   ggplot(aes(x=medium, y=text_length)) +
@@ -126,16 +124,10 @@ btw %>%
 ggsave("../figs/news_releases_textlength.png", width = 10, height = 6)
 ```
 
-```{r}
-btw %>% filter(text_length > 10000) %>% 
-  group_by(medium) %>%
-  tally()
-```
-
 ## Wordclouds 
 
-Before pre-processing:
-```{r}
+### Before pre-processing:
+```{r eval=FALSE, include=FALSE}
 png('../figs/wordcloud.png')
   
 wordcloud::wordcloud(btw$title_text, max.words = 500)
@@ -143,15 +135,19 @@ wordcloud::wordcloud(btw$title_text, max.words = 500)
 dev.off()
 ```
 
-Pre-processed Data:
+![](../figs/wordcloud.png)
 
-```{r}
+### Pre-processed Data:
+
+```{r eval=FALSE, include=FALSE}
 png('wordcloud_cleaned.png')
   
 wordcloud::wordcloud(btw$text_cleaned1, max.words = 500)
   
 dev.off()
 ```
+
+![](../figs/wordcloud_cleaned.png)
 
 ```{r eval=FALSE, include=FALSE}
 medium <- unique(btw$medium)
@@ -165,5 +161,102 @@ for (i in medium) {
   
 }
 ```
+
+## Visibility
+
+In order to get a deeper understanding of the extent to which the newspapers report about parties, the mention of the individual parties in the articles can be considered. Indeed, the visibility of an entity is a commonly used measure in communication literature [Eberl, 2017](https://journals.sagepub.com/doi/abs/10.1177/0093650215614364).
+
+The visibility of a party $p$ in a newspaper $s$ is defined as the number of news articles published by the newspaper on that party (e.g. articles that mention the name of the party), normalised on the total amount of articles by that newspaper in the corpus. A party is treated as visible in an article if the party itself is mentioned in an article (if an article contains the word "SPD", "CDU"/"CSU/Union","FDP","Grüne","AfD" or "Linke")
+
+```{r claculate total amount of articles by newspaper}
+btw <- btw %>% 
+  dplyr::mutate(
+    year = lubridate::year(date),
+    month = lubridate::month(date)) %>%
+  group_by(medium,year,month) %>%
+  dplyr::mutate(articles_s = n()) %>%
+  ungroup()
+```
+
+```{r Apply function to all parties}
+parties <- c("SPD",paste("CDU","CSU","Union",sep = "|"),"FDP","Grüne","AfD","Linke")
+
+rm(vis)
+for (party in parties) {
+  
+    tempdf <- btw %>% 
+      # filter all articles that contain the party as a word
+      filter(grepl(party,text, ignore.case = T)) %>%
+      # calculate the number of articles by each newspaper
+      group_by(medium, year, month) %>%
+      dplyr::summarise(
+        # pass the total amount of articles to the grouped df
+        articles_s = mean(articles_s),
+        # calculate the number of articles about a party in a newsletter
+        articles_p_s = n()) %>% ungroup() %>%
+      mutate(
+        party = party,
+        # calculate relative amount
+        visibility_p_s = articles_p_s/articles_s)
+    
+  if (exists('vis')) {
+   vis <- bind_rows(vis, tempdf) 
+  } else {
+    vis <- tempdf
+  }
+}
+
+vis <- vis %>%
+  mutate(party = ifelse(grepl("CDU",party), "Union",party),
+    date = as.Date(paste0(year,"/",month,"/1")))
+```
+
+```{r}
+vis %>%
+  group_by(party, medium) %>%
+  summarize(vis = mean(visibility_p_s, na.rm = T)) %>%
+  spread(key = party, value = vis) %>%
+  ggiraphExtra::ggRadar(aes(color = medium),
+                        interactive = T,
+                        alpha = 0,
+                        rescale = F,
+                        legend.position = "bottom") 
+```
+
+### Deviation from average visibility 
+
+Due to political relevance, not all potential parties recieve equal amounts of coverage in media. However, these factors should infuence all media outlets equally. To what extent does the visibility of a party in a medium differ from the average visibility in the media? To calculate the relative visibility, I estimate the deviation of the visibility of a party in one medium from the average visibility of that party over all news paper.
+ 
+
+```{r}
+vis <- vis %>%
+  group_by(party, date) %>%
+  mutate(visibility_p = mean(visibility_p_s, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(
+    visibility_diff = visibility_p_s - visibility_p
+  )
+```
+
+```{r}
+vis %>%
+  group_by(party, medium) %>%
+  summarize(vis = mean(visibility_diff, na.rm = T)) %>%
+  spread(key = party, value = vis) %>%
+  ggiraphExtra::ggRadar(aes(color = medium),
+                        interactive = T,
+                        alpha = 0,
+                        rescale = F,
+                        legend.position = "bottom") 
+```
+
+
+
+
+
+
+
+
+
 
 

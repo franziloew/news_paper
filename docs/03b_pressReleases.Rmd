@@ -59,9 +59,6 @@ cdu <- rbind(cdu.p,cdu.f) %>%
          party = "CDU"
          ) %>%
   distinct(title, .keep_all = T) %>%
-  # remove text about inner-party votes
- # filter(!grepl("wahl ",title,ignore.case = T)) %>%
-  # keep variables 
   select(title, title_text, party, type, date)
 
 rm(cdu.f, cdu.p)
@@ -95,9 +92,6 @@ spd <- rbind(spd.p,spd.f) %>%
          party = "SPD"
          ) %>%
   distinct(title, .keep_all = T) %>%
-  # remove text about inner-party votes
- # filter(!grepl("wahl ",title,ignore.case = T)) %>%
-  # keep variables 
   select(title, title_text, party, type, date)
   
 rm(spd.f, spd.p)
@@ -135,7 +129,6 @@ fdp <- rbind(fdp.p,fdp.f) %>%
          party = "FDP"
          ) %>%
   distinct(title, .keep_all = T) %>%
-  # keep variables 
   select(title, title_text, party, type, date)
   
 rm(fdp.f, fdp.p)
@@ -167,7 +160,6 @@ gruene <- rbind(gruene.p,gruene.f) %>%
          party = "B90/GRÜNE"
          ) %>%
   distinct(title, .keep_all = T) %>%
-  # keep variables 
   select(title, title_text, party, type, date)
 
 rm(gruene.f, gruene.p)
@@ -200,7 +192,6 @@ linke <- rbind(linke.p,linke.f) %>%
          party = "DIE LINKE"
          ) %>%
   distinct(title, .keep_all = T) %>%
-  # keep variables 
   select(title, title_text, party, type, date)
 
 rm(linke.f, linke.p)
@@ -255,23 +246,25 @@ ggplot(pressReleases, aes(party, fill=filtered)) +
   labs(x= NULL, y = NULL, fill = "filtered ?")
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 pressReleases <- pressReleases %>% filter(filtered == FALSE) 
-
-pressReleases %>%
-  group_by(party, author) %>%
-  tally() %>%
-  ggplot(aes(reorder(party, n),n, fill = author)) +
-  geom_col() +
-  coord_flip() +
-  ggthemes::theme_hc() +
-  ggthemes::scale_fill_hc() +
-  labs(y = NULL, x = NULL, fill = NULL)
 ```
 
 ### Pre-process Text 
 
 1. Remove... 
+
+  - Interview words (eg. Frage:, Lindner:)
+  
+```{r}
+pressReleases <- pressReleases %>%
+  mutate(title_text = gsub("Lindner:","",title_text),
+         title_text = gsub("Kubicki:","",title_text),
+         title_text = gsub("Lambsdorff:","",title_text),
+         title_text = gsub("Beer:","",title_text),
+         title_text = gsub("Frage:","",title_text)
+         )
+```
 
   - punctuation, numbers, special characters
   - stopwords (frequently used words, that are not important for the analysis like "und", "ist", "in",...)
@@ -300,8 +293,7 @@ mystopwords <- c("januar","februar","märz","april","mai","juni","juli","august"
                  "stellvertretende","vorsitzende","stellvertretender","vorsitzender",
                  "fraktionsvorsitzender","bundestagsabgeordneter",
                  "drucken","bundestagsfraktion","fraktion",
-                 "freie","demokraten","freien","demokraten","bündnis",
-                 "linke","cdu","csu","union","spd","afd","grüne","fdp"
+                 "freie","demokraten","freien","demokraten"
                  )
 stopwords <- c(german_stopwords_full, mystopwords)
 stopwords <- unique(stopwords)

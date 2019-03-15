@@ -98,14 +98,14 @@ load(file="../output/data_step1.Rda")
 
 ## A. Select Sample
 
-### 1. by date, medium & party ... 
+### 1. by date & medium ... 
+
 ```{r}
 start <- "2017-06-01"
 end <- "2018-03-01"
 keeps <- c("bild.de","focus.de","spiegel.de", "stern.de","tagesschau.de", "welt.de", "zeit.de")
-parties <- c("CDU","CSU","AfD","SPD","FDP","Grüne","Linke")
 
-df <- df_full %>%
+df_sample <- df_full %>%
   filter(site %in% keeps) %>%
   mutate(medium = ifelse(site == "zeit.de","ZEIT ONLINE", site),
          medium = ifelse(site == "focus.de","FOCUS Online",medium),
@@ -116,48 +116,52 @@ df <- df_full %>%
          medium = ifelse(site == "tagesschau.de","tagesschau.de",medium)
          ) %>%
   select(-fullname) %>%
-  filter(date > start & date < end) %>%
-  filter(grepl(paste(parties, sep="|", collapse = "|"), text)) %>%
+  
+  # filter time period
+  filter(date >= start & date <= end) %>%
+
   mutate(title_text = paste(title, text, sep=" "),
          index = as.integer(rownames(.)),
          text_length = sapply(gregexpr("\\S+", text), length)
          )  
 ```
 
+```{r}
+df_sample %>%
+  select(title, medium, insample) %>%
+  sample_n(50) %>%
+  htmlTable::htmlTable(align="l")
+```
+
 ### 2. by website section...
 ```{r}
 # split the url into several parts (separated by  '/') and save it into a list
-url_pattern <- str_split(df$url,"[/]")
+url_pattern <- str_split(df_sample$url,"[/]")
 
 # convert the list into a dataframe
 df_url <- do.call(rbind.data.frame, url_pattern)
 
 # select columns 3,4,5 of that df and rename the columns accordingly
-df_url <- df_url[,c(3,4,5)]
-names(df_url) <- c("subsite","ressort1","ressort2")
+df_url <- df_url[,c(3,4,5,6)]
+names(df_url) <- c("subsite","ressort1","ressort2","ressort3")
+df_url <- df_url %>% transmute(ressort1 = as.character(ressort1),
+                               ressort2 = as.character(ressort2),
+                               ressort3 = as.character(ressort3),
+                               subsite = as.character(subsite),
+                               rownum = as.integer(rownames(.)))
 
 # combine with df
-df <- df %>% 
-  left_join(df_url %>% 
-              transmute(ressort1 = as.character(ressort1),
-                        ressort2 = as.character(ressort2),
-                        subsite = as.character(subsite),
-                        index = as.integer(rownames(.))
-                        ), by = "index")
+df_sample <- df_sample %>%
+  mutate(rownum = as.integer(rownames(.))) %>%
+  left_join(df_url, by = "rownum")
 ```
 
-
-```{r}
-df %>% 
-  filter(is.na(ressort1)) %>%
-  sample_n(10) %>% select(site, title, subsite, url, ressort1) %>% 
-  htmlTable::htmlTable(align="l")
-```
 
 ```{r fig.height=6, fig.width=10}
-df %>%
+df_sample %>%
   group_by(site, ressort1) %>%
   tally(sort=T) %>%
+  filter(!is.na(ressort1)) %>%
   top_n(n = 10, wt = n) %>%
   ggplot(aes(reorder(ressort1,n),n)) +
   ggthemes::theme_hc() +
@@ -170,57 +174,41 @@ df %>%
 ```
 
 ```{r}
-df %>%
-  filter(ressort1=="politik"|ressort1=="inland") %>% 
-  group_by(medium, ressort2) %>%
+btw1 <- df_sample %>% filter(ressort1=="politik" | ressort1 =="inland")
+```
+
+```{r fig.height=6, fig.width=10}
+btw1 %>%
+  group_by(site, ressort2) %>%
   tally(sort=T) %>%
-  top_n(n = 2, wt = n) %>%
+  top_n(n = 3, wt = n) %>%
   ggplot(aes(reorder(ressort2,n),n)) +
   ggthemes::theme_hc() +
   #ggthemes::scale_fill_hc() +
   geom_col(show.legend = F, alpha=.6) +
-  facet_wrap( ~ medium, ncol =4, scales = "free") +
-  coord_flip() 
+  facet_wrap( ~ site, ncol =4, scales = "free") +
+  coord_flip() +
+  labs(x = NULL, y = NULL, title="Top 10 news section",
+       subtitle = "Ressorts where selected from the URL of each article")
 ```
 
 ```{r}
-btw1 <- df %>% filter(ressort1=="politik") %>% filter(ressort2=="deutschland" | ressort2 == "inland")
-
-# tagesschau 
-btw2 <- df %>% filter(ressort1=="inland")
-
-# combine 
-btw <- bind_rows(btw1, btw2)
+btw1 <- btw1 %>% filter(ressort2=="inland" | ressort2 =="deutschland" | medium == "tagesschau.de")
 ```
 
-```{r eval=FALSE, include=FALSE}
-# pat1 <- paste("sport", "kultur", "ausland", "kommentar", "multimedia", "eilmeldung","wetter","unwetter", 
-#               "index", "100sekunden","fernsehen","international","german","arabisch","reaktionenspanien",
-#               "video","praxistipps","diverses","ticker","stream","podcast","elbvertiefung","magazin", sep="|")
-# 
-# pat2 <- paste("grossbritannien", "jemen", "kabul", "teheran", "syrien", "saudi-arabien", "turku", "venezuela", 
-#               "xiaobo", "zugunglueck", "korrespondenten", "lego", "unterhaltung", "scheichun", "parliament",
-#               "airbus-enders", "alabama-moore", "olympiasperre", "las-vegas-angriff-109", "malta-journalistin",
-#               "polen-eu-rechtsstaatverfahren", "radiopreis", sep="|")
-
-# Select articles within the politics section
-btw <- df %>% filter(ressort1=="politik"|ressort1=="inland") %>%
-  filter(!grepl(paste(pat1,pat2,sep="|"),title_text, ignore.case = T))
-```
-
-```{r eval=FALSE, include=FALSE}
-pat1 <- "\\w\\.de/politik"
-pat2 <- "tagesschau.de"
-pat3 <- paste("sport", "kultur", "ausland", "kommentar", "multimedia", "eilmeldung", "wirtschaft", "schlusslicht", "hintergrund", "tutorials", "wetter","index", "100sekunden", "app", "fernsehen", "grossbritannien", "jemen", "kabul", "teheran", "syrien", "saudi-arabien", "turku", "venezuela", "xiaobo", "zugunglueck", "korrespondenten", "lego", "unterhaltung", "scheichun", "parliament", "airbus-enders", "alabama-moore", "olympiasperre", "las-vegas-angriff-109", "malta-journalistin", "polen-eu-rechtsstaatverfahren", "radiopreis", "bild-international", "spiegel.de/international","german","arabisch", "reaktionenspanien", "wetter", "video", "praxistipps", "diverses", "ticker", "stream", "podcast", "elbvertiefung", "magazin", sep="|")
-
-btw <- df %>% 
-  filter(grepl(paste(pat1, pat2, sep="|"),url, perl =TRUE)) %>%
-  filter(!grepl(pat3, url))
+```{r}
+btw1 %>%
+  group_by(medium) %>%
+  tally() %>%
+  ggplot(aes(reorder(medium,n),n)) +
+  geom_col() +
+  coord_flip() +
+  labs(x=NULL, y=NULL)
 ```
 
 ### 3. by more filters ...
 ```{r}
-btw <- btw %>%
+btw <- btw1 %>%
   # Filter Articles with less than 120 words
   filter(text_length > 120) %>%
   arrange(desc(text_length)) %>%
@@ -232,6 +220,7 @@ btw <- btw %>%
   filter(!grepl("Nutzungsbedingungen Embedding Tagesschau", 
                 title_text,perl = TRUE, ignore.case = TRUE)) %>%
   filter(!grepl("video",url)) %>%
+  filter(!grepl("tv",url)) %>%
   filter(!grepl("</div>", title_text)) %>%
   
   # remove text that mostly contain user comments
@@ -246,7 +235,7 @@ btw <- btw %>%
 ```
 
 ```{r}
-save(df, btw, file="../output/data_step2.Rda")
+save(btw, file="../output/data_step2.Rda")
 
 rm(list=ls())
 load("../output/data_step2.Rda")
@@ -420,7 +409,7 @@ btw %>%
 ```
 
 ```{r}
-save(btw, df, file="../output/data_step2.Rda")
+save(btw, file="../output/data_step2.Rda")
 ```
 
 

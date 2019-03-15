@@ -201,12 +201,12 @@ Articles with less than 50 words, as well as articles about party internal elect
 \begin{figure}[H]
 	\begin{center}
 	\caption{Press releases}
-		\begin{subfigure}[normla]{0.49\textwidth}
+		\begin{subfigure}[normla]{0.39\textwidth}
 			\caption{Count}
 			\includegraphics[width=\textwidth]{../figs/press_releases}
 			\label{fig_press}
 		\end{subfigure}
-		\begin{subfigure}[normla]{0.49\textwidth}
+		\begin{subfigure}[normla]{0.59\textwidth}
 			\caption{Text length}
 			\includegraphics[width=\textwidth]{../figs/press_releases_textlength}
 			\label{fig_press_textlength}
@@ -219,17 +219,17 @@ Articles with less than 50 words, as well as articles about party internal elect
 
 %\input{tables/data_summary}
 
-The data on news articles includes online articles from seven German news providers about domestic politics\footnote{Bild.de, DIE WELT, FOCUS ONLINE, SPIEGEL ONLINE, stern.de, ZEIT ONLINE, Tagesschau.de} dated from June 1, 2017 to March 1, 2018. I first extract all online articles using the Webhose.io API.\footnote{For more information see https://docs.webhose.io/v1.0/docs/getting-started. The scraping code was written in Python and can be made available on request.} In order to limit the analysis to articles on domestic politics, the articles are filtered using the url of the article. For example, the URL \textit{https://www.welt.de/politik/deutschland/article166629242/Tegel-ist-gefuehlt-das-Einzige-in-Berlin-was-funktioniert.html} indicates that this article belongs thematically to 'politics' and 'deutschland' (Germany). After further cleaning processes (e.g. articles that only contain video content) the total sample size was 11,880. As shown in Figure \ref{fig_news_count} most articles were published by "Die Welt" and "tagesschau.de" has the smallest number of articles. Also in terms of text length is DIE WELT on top and tagesschau.de at the bottom. 
+The data on news articles includes online articles from seven German news providers about domestic politics\footnote{Bild.de, DIE WELT, FOCUS ONLINE, SPIEGEL ONLINE, stern.de, ZEIT ONLINE, Tagesschau.de} dated from June 1, 2017 to March 1, 2018. First all online articles from the corresponding news websites are scraped using the Webhose.io API.\footnote{For more information see https://docs.webhose.io/v1.0/docs/getting-started. The scraping code was written in Python and can be made available on request.} In order to limit the analysis to articles on domestic politics, the articles are filtered using the url of the article. For example, the URL \textit{http://www.spiegel.de/politik/deutschland/christian-lindner-ukraine-kritisiert-fdp-chef-scharf-der-morgen-live-a-1161196.html} indicates that this article belongs thematically to 'politics' and 'deutschland' (Germany). After further cleaning processes (e.g. articles that only contain video content) the total sample size was 15,135. As shown in Figure \ref{fig_news_count} most articles were published by "Die Welt" and "tagesschau.de" has the smallest number of articles. Also in terms of text length is DIE WELT on top and tagesschau.de at the bottom. 
 
 \begin{figure}[H]
 	\begin{center}
 	\caption{News articles}
-		\begin{subfigure}[normla]{0.3\textwidth}
+		\begin{subfigure}[normla]{0.39\textwidth}
 			\caption{Count}
 			\includegraphics[width=\textwidth]{../figs/article_sum.png}
 			\label{fig_news_count}
 		\end{subfigure}
-		\begin{subfigure}[normla]{0.69\textwidth}
+		\begin{subfigure}[normla]{0.59\textwidth}
 			\caption{Text length}
 			\includegraphics[width=\textwidth]{../figs/news_releases_textlength}
 			\label{fig_length}

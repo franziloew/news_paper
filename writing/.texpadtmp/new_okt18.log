@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.7.17)  8 MAR 2019 15:27
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.7.17)  10 MAR 2019 22:28
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1281,28 +1281,24 @@ Package pdftex.def Info: ../figs/polldata.png  used on input line 172.
 File: ../figs/press_releases.png Graphic file (type png)
 <use ../figs/press_releases.png>
 Package pdftex.def Info: ../figs/press_releases.png  used on input line 206.
-(pdftex.def)             Requested size: 223.07211pt x 148.70583pt.
+(pdftex.def)             Requested size: 177.54492pt x 118.36183pt.
 <../figs/press_releases_textlength.png, id=303, 1806.75pt x 1204.5pt>
 File: ../figs/press_releases_textlength.png Graphic file (type png)
 <use ../figs/press_releases_textlength.png>
 Package pdftex.def Info: ../figs/press_releases_textlength.png  used on input line 211.
-(pdftex.def)             Requested size: 223.07211pt x 148.70583pt.
+(pdftex.def)             Requested size: 268.59235pt x 179.04984pt.
  [9]
-Overfull \hbox (2.59683pt too wide) in paragraph at lines 222--223
-\T1/cmr/m/it/12 gefuehlt-das-Einzige-in-Berlin-was-funktioniert.html \T1/cmr/m/n/12 in-di-cates that this ar-ti-cle be-longs the-
- []
-
-<../figs/article_sum.png, id=315, 1204.5pt x 1806.75pt>
+<../figs/article_sum.png, id=315, 1806.75pt x 1204.5pt>
 File: ../figs/article_sum.png Graphic file (type png)
 <use ../figs/article_sum.png>
 Package pdftex.def Info: ../figs/article_sum.png  used on input line 229.
-(pdftex.def)             Requested size: 136.57462pt x 204.86337pt.
+(pdftex.def)             Requested size: 177.54492pt x 118.36183pt.
 <../figs/news_releases_textlength.png, id=316, 3011.25pt x 1806.75pt>
 File: ../figs/news_releases_textlength.png Graphic file (type png)
 <use ../figs/news_releases_textlength.png>
 Package pdftex.def Info: ../figs/news_releases_textlength.png  used on input line 234.
-(pdftex.def)             Requested size: 314.11954pt x 188.45996pt.
-[10 <../figs/press_releases.png> <../figs/press_releases_textlength.png>]
+(pdftex.def)             Requested size: 268.59235pt x 161.13934pt.
+ [10 <../figs/press_releases.png> <../figs/press_releases_textlength.png>]
 <../figs/visits.png, id=333, 2409.0pt x 2409.0pt>
 File: ../figs/visits.png Graphic file (type png)
 <use ../figs/visits.png>
@@ -1320,11 +1316,11 @@ File: ../figs/reuters2.png Graphic file (type png)
 Package pdftex.def Info: ../figs/reuters2.png  used on input line 265.
 (pdftex.def)             Requested size: 227.62206pt x 170.70569pt.
  [12 <../figs/visits.png> <../figs/reuters1.png> <../figs/reuters2.png>]
-<../figs/reuters3.png, id=360, 1806.75pt x 1204.5pt>
+<../figs/reuters3.png, id=360, 1505.625pt x 903.375pt>
 File: ../figs/reuters3.png Graphic file (type png)
 <use ../figs/reuters3.png>
 Package pdftex.def Info: ../figs/reuters3.png  used on input line 275.
-(pdftex.def)             Requested size: 409.71692pt x 273.13278pt.
+(pdftex.def)             Requested size: 409.71692pt x 245.83054pt.
  [13 <../figs/reuters3.png>]
 <../figs/wordcloud.png, id=377, 481.8pt x 481.8pt>
 File: ../figs/wordcloud.png Graphic file (type png)
@@ -1340,7 +1336,7 @@ Package pdftex.def Info: ../figs/wordcloud_cleaned.png  used on input line 296.
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 316.
  [15]
-<../figs/doc_topic_distr.png, id=416, 3011.25pt x 3011.25pt>
+<../figs/doc_topic_distr.png, id=418, 3011.25pt x 3011.25pt>
 File: ../figs/doc_topic_distr.png Graphic file (type png)
 <use ../figs/doc_topic_distr.png>
 Package pdftex.def Info: ../figs/doc_topic_distr.png  used on input line 357.
@@ -1416,7 +1412,7 @@ Package logreq Info: Writing requests to 'new_okt18.run.xml'.
 Here is how much of TeX's memory you used:
  38920 strings out of 492649
  875031 string characters out of 6129622
- 1415892 words of memory out of 5000000
+ 1415893 words of memory out of 5000000
  41943 multiletter control sequences out of 15000+600000
  31333 words of font info for 86 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1425,7 +1421,7 @@ pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exist,
 
 {/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfcc1000.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfcc1200.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm2074.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfti1440.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2018/texmf-dist/fonts/
 type1/public/cm-super/sftt1200.pfb>
-Output written on /Users/franzi/Projects/news_paper/writing/.texpadtmp/new_okt18.pdf (27 pages, 4065551 bytes).
+Output written on /Users/franzi/Projects/news_paper/writing/.texpadtmp/new_okt18.pdf (27 pages, 4044407 bytes).
 PDF statistics:
  691 PDF objects out of 1000 (max. 8388607)
  598 compressed objects within 6 object streams
