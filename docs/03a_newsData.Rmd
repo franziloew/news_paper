@@ -112,15 +112,24 @@ ggsave(filename = "../figs/article_timeline.png", width = 8, height = 6)
 ## Number of words (article length)
 
 ```{r fig.align="center"}
+maxval <- 9500
+dd <- btw %>% filter(text_length > maxval) %>% 
+  group_by(medium) %>% 
+  summarise(outlier_txt=paste(text_length ,collapse=","))
+
 btw %>%
-  filter(text_length < 10000) %>%
+  filter(text_length < maxval) %>%
   ggplot(aes(x=medium, y=text_length)) +
   geom_boxplot() +
   theme_hc() +
-  #coord_flip() +
+  geom_text(data=dd,aes(y=maxval,label= outlier_txt),
+            size=3, vjust=1.5, hjust=-0.1) +
+  geom_segment(data=dd, 
+               aes(y=maxval*0.95,yend=maxval,xend=medium),
+               color = "red", arrow = arrow(length = unit(0.1,"cm"))) +
   #stat_summary(fun.y=mean, geom="point", shape=20, size=3, color="red", fill="red") +
-  labs(x=NULL,  y="# of words", caption = "4 articles (DIE WELT) with a text length > 10000 words are not plotted")
-
+  labs(x=NULL,  y="# of words")
+  
 ggsave("../figs/news_releases_textlength.png", width = 10, height = 6)
 ```
 

@@ -219,72 +219,61 @@
       \endverb
       \keyw{Computer Science - Computation and Language,Computer Science - Social and Information Networks}
     \endentry
-    \entry{benewick_floating_1969}{article}{}
-      \name{author}{4}{}{%
-        {{uniquename=0,uniquepart=base,hash=802e2ad2520ce4eb7bc1609f947d8b6a}{%
-           family={Benewick},
+    \entry{besley_handcuffs_2006}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,uniquepart=base,hash=57c77888db637677332c102812686993}{%
+           family={Besley},
            familyi={B\bibinitperiod},
-           given={R.\bibnamedelimi J.},
-           giveni={R\bibinitperiod\bibinitdelim J\bibinitperiod},
+           given={Timothy},
+           giveni={T\bibinitperiod},
            givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=229bb2e67e00b342086b517b5888b7c6}{%
-           family={Birch},
-           familyi={B\bibinitperiod},
-           given={A.\bibnamedelimi H.},
-           giveni={A\bibinitperiod\bibinitdelim H\bibinitperiod},
-           givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=05af9c8bced7fd854e68060debd5a5ca}{%
-           family={Blumler},
-           familyi={B\bibinitperiod},
-           given={J.\bibnamedelimi G.},
-           giveni={J\bibinitperiod\bibinitdelim G\bibinitperiod},
-           givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=23469129bf91258a4d4ae1a4f6f1e274}{%
-           family={Ewbank},
-           familyi={E\bibinitperiod},
-           given={Alison},
+        {{uniquename=0,uniquepart=base,hash=f766860a95ac88ce120bb6d241b6f3b9}{%
+           family={Prat},
+           familyi={P\bibinitperiod},
+           given={Andrea},
            giveni={A\bibinitperiod},
            givenun=0}}%
       }
-      \strng{namehash}{28a4d498988db90b1207ea95351f3aee}
-      \strng{fullhash}{dbffd6d110b5536cd12e6bc587291ee8}
-      \strng{bibnamehash}{28a4d498988db90b1207ea95351f3aee}
-      \strng{authorbibnamehash}{28a4d498988db90b1207ea95351f3aee}
-      \strng{authornamehash}{28a4d498988db90b1207ea95351f3aee}
-      \strng{authorfullhash}{dbffd6d110b5536cd12e6bc587291ee8}
+      \strng{namehash}{16f270e42f808165ee6884e50f8d133e}
+      \strng{fullhash}{16f270e42f808165ee6884e50f8d133e}
+      \strng{bibnamehash}{16f270e42f808165ee6884e50f8d133e}
+      \strng{authorbibnamehash}{16f270e42f808165ee6884e50f8d133e}
+      \strng{authornamehash}{16f270e42f808165ee6884e50f8d133e}
+      \strng{authorfullhash}{16f270e42f808165ee6884e50f8d133e}
       \field{sortinit}{B}
       \field{sortinithash}{276475738cc058478c1677046f857703}
       \field{extradatescope}{labelyear}
       \field{labeldatesource}{}
       \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{day}{1}
-      \field{issn}{1467-9248}
-      \field{journaltitle}{Political Studies}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{It has long been recognized that the media play an essential role in government accountability. Even in the absence of censorship, however, the government may influence news content by maintaining a "cozy" relationship with the media. This paper develops a model of democratic politics in which media capture is endogenous. The model offers insights into the features of the media market that determine the ability of the government to exercise such capture and hence to influence political outcomes. ({JEL} D72, D73, L82)}
+      \field{issn}{0002-8282}
+      \field{journaltitle}{American Economic Review}
       \field{langid}{english}
       \field{month}{6}
-      \field{number}{2}
-      \field{title}{{THE} {FLOATING} {VOTER} {AND} {THE} {LIBERAL} {VIEW} {OF} {REPRESENTATIONa}}
-      \field{urlday}{14}
-      \field{urlmonth}{8}
-      \field{urlyear}{2018}
-      \field{volume}{17}
-      \field{year}{1969}
+      \field{number}{3}
+      \field{shorttitle}{Handcuffs for the Grabbing Hand?}
+      \field{title}{Handcuffs for the Grabbing Hand? Media Capture and Government Accountability}
+      \field{urlday}{19}
+      \field{urlmonth}{1}
+      \field{urlyear}{2019}
+      \field{volume}{96}
+      \field{year}{2006}
       \field{dateera}{ce}
       \field{urldateera}{ce}
-      \field{pages}{177\bibrangedash 195}
-      \range{pages}{19}
+      \field{pages}{720\bibrangedash 736}
+      \range{pages}{17}
       \verb{doi}
-      \verb 10.1111/j.1467-9248.1969.tb00634.x
+      \verb 10.1257/aer.96.3.720
       \endverb
       \verb{file}
-      \verb Full Text PDF:/Users/franzi/Zotero/storage/Z53NBN9F/Benewick et al. - 1969 - THE FLOATING VOTER AND THE LIBERAL VIEW OF REPRESE.pdf:application/pdf;Snapshot:/Users/franzi/Zotero/storage/C96GQEHU/j.1467-9248.1969.tb00634.html:text/html
+      \verb Full Text:/Users/franzi/Zotero/storage/XX2F78GB/Besley and Prat - 2006 - Handcuffs for the Grabbing Hand Media Capture and.pdf:application/pdf;Snapshot:/Users/franzi/Zotero/storage/39BHPLC9/articles.html:text/html
       \endverb
       \verb{urlraw}
-      \verb https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1467-9248.1969.tb00634.x
+      \verb https://www.aeaweb.org/articles?id=10.1257/aer.96.3.720
       \endverb
       \verb{url}
-      \verb https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1467-9248.1969.tb00634.x
+      \verb https://www.aeaweb.org/articles?id=10.1257/aer.96.3.720
       \endverb
     \endentry
     \entry{bholat_text_2015}{article}{}
@@ -435,107 +424,6 @@
       \field{pages}{993\bibrangedash 1022}
       \range{pages}{30}
     \endentry
-    \entry{box_time_2008}{book}{}
-      \name{author}{3}{}{%
-        {{uniquename=0,uniquepart=base,hash=55911e7dd73a9ab7592c871dd1115249}{%
-           family={Box},
-           familyi={B\bibinitperiod},
-           given={George\bibnamedelimb E.\bibnamedelimi P.},
-           giveni={G\bibinitperiod\bibinitdelim E\bibinitperiod\bibinitdelim P\bibinitperiod},
-           givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=0b4c326c6f8c91b78b2d8f9730425439}{%
-           family={Jenkins},
-           familyi={J\bibinitperiod},
-           given={Gwilym\bibnamedelima M.},
-           giveni={G\bibinitperiod\bibinitdelim M\bibinitperiod},
-           givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=64d31e8a99cec253b4fe363ecff48428}{%
-           family={Reinsel},
-           familyi={R\bibinitperiod},
-           given={Gregory\bibnamedelima C.},
-           giveni={G\bibinitperiod\bibinitdelim C\bibinitperiod},
-           givenun=0}}%
-      }
-      \list{location}{1}{%
-        {Hoboken, {NJ}}%
-      }
-      \list{publisher}{1}{%
-        {Wiley}%
-      }
-      \strng{namehash}{22571cb5ce4bb9997a73818b2cfb8353}
-      \strng{fullhash}{1dcfa80011a9fb7e0cb755811f68fde2}
-      \strng{bibnamehash}{1dcfa80011a9fb7e0cb755811f68fde2}
-      \strng{authorbibnamehash}{1dcfa80011a9fb7e0cb755811f68fde2}
-      \strng{authornamehash}{22571cb5ce4bb9997a73818b2cfb8353}
-      \strng{authorfullhash}{1dcfa80011a9fb7e0cb755811f68fde2}
-      \field{sortinit}{B}
-      \field{sortinithash}{276475738cc058478c1677046f857703}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{shorttitle}
-      \field{annotation}{Literaturverz. S. 685 - 6995. Aufl. u.d.T.: Time series analysis / George E.P. Box; Gwilym M. Jenkins; Gregory C. Reinsel; Greta M. Ljung}
-      \field{edition}{4}
-      \field{isbn}{978-0-470-27284-8}
-      \field{pagetotal}{xxiv+746}
-      \field{series}{Wiley series in probability and statistics}
-      \field{shorttitle}{Time series analysis}
-      \field{title}{Time series analysis: forecasting and control}
-      \field{year}{2008}
-      \field{dateera}{ce}
-      \keyw{*Time-series analysis / Prediction theory / Transfer functions / Feedback control systems -- Mathematical models,*Zeitreihenanalyse / Kontrolltheorie / Rückkopplung / Mathematisches Modell}
-    \endentry
-    \entry{brandenburg_party_2006}{article}{}
-      \name{author}{1}{}{%
-        {{uniquename=0,uniquepart=base,hash=70f8b3bd6fc1925d1e7f06dbfab0418e}{%
-           family={Brandenburg},
-           familyi={B\bibinitperiod},
-           given={Heinz},
-           giveni={H\bibinitperiod},
-           givenun=0}}%
-      }
-      \strng{namehash}{70f8b3bd6fc1925d1e7f06dbfab0418e}
-      \strng{fullhash}{70f8b3bd6fc1925d1e7f06dbfab0418e}
-      \strng{bibnamehash}{70f8b3bd6fc1925d1e7f06dbfab0418e}
-      \strng{authorbibnamehash}{70f8b3bd6fc1925d1e7f06dbfab0418e}
-      \strng{authornamehash}{70f8b3bd6fc1925d1e7f06dbfab0418e}
-      \strng{authorfullhash}{70f8b3bd6fc1925d1e7f06dbfab0418e}
-      \field{sortinit}{B}
-      \field{sortinithash}{276475738cc058478c1677046f857703}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{shorttitle}
-      \field{abstract}{This article investigates the current state of press partisanship in the {UK}. Utilizing content analysis data from the 2005 General Election campaign, recent hypotheses about press dealignment are tested with quantitative methods. Partisan tendencies in reporting are measured in terms of coverage bias, statement bias, and agenda bias. As the governing party, Labour benefits from coverage bias in all papers, while the Liberal Democrats remain marginalized. It can be shown that increasingly ambiguous endorsements in broadsheet and tabloid press alike translate into a general absence of open support for political parties. At best, endorsed parties receive neutral treatment, with their opponents being harshly criticized. Partisan tendencies do, however, manifest themselves in other patterns of campaign coverage. Even weakly partisan papers engage in strategic behaviour, most notably by reinforcing the issue agendas of endorsed parties. With both the Independent and the Guardian lending strategic support to the Liberal Democrats, and the Murdoch press being largely non‐committal, the analysis hints at an erosion of support for New Labour.}
-      \field{day}{1}
-      \field{issn}{1745-7289}
-      \field{journaltitle}{Journal of Elections, Public Opinion and Parties}
-      \field{month}{7}
-      \field{number}{2}
-      \field{shorttitle}{Party Strategy and Media Bias}
-      \field{title}{Party Strategy and Media Bias: A Quantitative Analysis of the 2005 {UK} Election Campaign}
-      \field{urlday}{25}
-      \field{urlmonth}{9}
-      \field{urlyear}{2018}
-      \field{volume}{16}
-      \field{year}{2006}
-      \field{dateera}{ce}
-      \field{urldateera}{ce}
-      \field{pages}{157\bibrangedash 178}
-      \range{pages}{22}
-      \verb{doi}
-      \verb 10.1080/13689880600716027
-      \endverb
-      \verb{file}
-      \verb Snapshot:/Users/franzi/Zotero/storage/DJPIC8M4/13689880600716027.html:text/html
-      \endverb
-      \verb{urlraw}
-      \verb https://doi.org/10.1080/13689880600716027
-      \endverb
-      \verb{url}
-      \verb https://doi.org/10.1080/13689880600716027
-      \endverb
-    \endentry
     \entry{braun_variational_2010}{article}{}
       \name{author}{2}{}{%
         {{uniquename=0,uniquepart=base,hash=6549fe610fc1d75fcf918a8b6ee89636}{%
@@ -596,65 +484,6 @@
       \verb http://arxiv.org/abs/0712.2526
       \endverb
       \keyw{Statistics - Computation,Statistics - Machine Learning,Statistics - Methodology}
-    \endentry
-    \entry{dalessio_media_2000}{article}{}
-      \name{author}{2}{}{%
-        {{uniquename=0,uniquepart=base,hash=5087da6f23c3ecdc523ff8995db9ea04}{%
-           family={D'Alessio},
-           familyi={D\bibinitperiod},
-           given={Dave},
-           giveni={D\bibinitperiod},
-           givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=9a2753f7ec9da9b9550494b9fa2d4ee2}{%
-           family={Allen},
-           familyi={A\bibinitperiod},
-           given={Mike},
-           giveni={M\bibinitperiod},
-           givenun=0}}%
-      }
-      \strng{namehash}{0aff7f73a09b5e5ec79c30c22c2279f8}
-      \strng{fullhash}{0aff7f73a09b5e5ec79c30c22c2279f8}
-      \strng{bibnamehash}{0aff7f73a09b5e5ec79c30c22c2279f8}
-      \strng{authorbibnamehash}{0aff7f73a09b5e5ec79c30c22c2279f8}
-      \strng{authornamehash}{0aff7f73a09b5e5ec79c30c22c2279f8}
-      \strng{authorfullhash}{0aff7f73a09b5e5ec79c30c22c2279f8}
-      \field{sortinit}{D}
-      \field{sortinithash}{2ef1bd9a78cc71eb74d7231c635177b8}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{shorttitle}
-      \field{abstract}{Abstract. A meta-analysis considered 59 quantitative studies containing data concerned with partisan media bias in presidential election campaigns since 1948.}
-      \field{day}{1}
-      \field{issn}{0021-9916}
-      \field{journaltitle}{Journal of Communication}
-      \field{langid}{english}
-      \field{month}{12}
-      \field{number}{4}
-      \field{shortjournal}{J Commun}
-      \field{shorttitle}{Media Bias in Presidential Elections}
-      \field{title}{Media Bias in Presidential Elections: A Meta-Analysis}
-      \field{urlday}{14}
-      \field{urlmonth}{8}
-      \field{urlyear}{2018}
-      \field{volume}{50}
-      \field{year}{2000}
-      \field{dateera}{ce}
-      \field{urldateera}{ce}
-      \field{pages}{133\bibrangedash 156}
-      \range{pages}{24}
-      \verb{doi}
-      \verb 10.1111/j.1460-2466.2000.tb02866.x
-      \endverb
-      \verb{file}
-      \verb Full Text PDF:/Users/franzi/Zotero/storage/Q67V2BQV/D'Alessio und Allen - 2000 - Media Bias in Presidential Elections A Meta-Analy.pdf:application/pdf;Snapshot:/Users/franzi/Zotero/storage/PW67GGZB/4110147.html:text/html
-      \endverb
-      \verb{urlraw}
-      \verb https://academic.oup.com/joc/article/50/4/133/4110147
-      \endverb
-      \verb{url}
-      \verb https://academic.oup.com/joc/article/50/4/133/4110147
-      \endverb
     \endentry
     \entry{dellavigna_fox_2006}{report}{}
       \name{author}{2}{}{%
@@ -750,64 +579,6 @@
       \field{volume}{179}
       \field{year}{2018}
       \field{dateera}{ce}
-    \endentry
-    \entry{druckman_impact_2005}{article}{}
-      \name{author}{2}{}{%
-        {{uniquename=0,uniquepart=base,hash=7f6dc43aabcbb7fe47e84e43cc9871f4}{%
-           family={Druckman},
-           familyi={D\bibinitperiod},
-           given={James\bibnamedelima N.},
-           giveni={J\bibinitperiod\bibinitdelim N\bibinitperiod},
-           givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=f81bbdc952bf0de45509987debc0e8c2}{%
-           family={Parkin},
-           familyi={P\bibinitperiod},
-           given={Michael},
-           giveni={M\bibinitperiod},
-           givenun=0}}%
-      }
-      \strng{namehash}{01b1392435de7057b59945e3c891fd98}
-      \strng{fullhash}{01b1392435de7057b59945e3c891fd98}
-      \strng{bibnamehash}{01b1392435de7057b59945e3c891fd98}
-      \strng{authorbibnamehash}{01b1392435de7057b59945e3c891fd98}
-      \strng{authornamehash}{01b1392435de7057b59945e3c891fd98}
-      \strng{authorfullhash}{01b1392435de7057b59945e3c891fd98}
-      \field{sortinit}{D}
-      \field{sortinithash}{2ef1bd9a78cc71eb74d7231c635177b8}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{shorttitle}
-      \field{abstract}{We investigate how editorial slant—defined as the quantity and tone of a newspaper's candidate coverage as influenced by its editorial position—shapes candidate evaluations and vote choice. We avoid various methodological pitfalls by focusing on a single Senate campaign in a single market with two competing, editorially distinct newspapers. Combining comprehensive content analyses of the papers with an Election Day exit poll, we assess the slant of campaign coverage and its effects on voters. We find compelling evidence that editorial slant influences voters’ decisions. Our results raise serious questions about the media's place in democratic processes.}
-      \field{day}{1}
-      \field{issn}{0022-3816}
-      \field{journaltitle}{The Journal of Politics}
-      \field{month}{11}
-      \field{number}{4}
-      \field{shortjournal}{The Journal of Politics}
-      \field{shorttitle}{The Impact of Media Bias}
-      \field{title}{The Impact of Media Bias: How Editorial Slant Affects Voters}
-      \field{urlday}{25}
-      \field{urlmonth}{9}
-      \field{urlyear}{2018}
-      \field{volume}{67}
-      \field{year}{2005}
-      \field{dateera}{ce}
-      \field{urldateera}{ce}
-      \field{pages}{1030\bibrangedash 1049}
-      \range{pages}{20}
-      \verb{doi}
-      \verb 10.1111/j.1468-2508.2005.00349.x
-      \endverb
-      \verb{file}
-      \verb Full Text PDF:/Users/franzi/Zotero/storage/PURKC6GV/Druckman und Parkin - 2005 - The Impact of Media Bias How Editorial Slant Affe.pdf:application/pdf;Snapshot:/Users/franzi/Zotero/storage/V5PB5D3R/j.1468-2508.2005.00349.html:text/html
-      \endverb
-      \verb{urlraw}
-      \verb https://www.journals.uchicago.edu/doi/full/10.1111/j.1468-2508.2005.00349.x
-      \endverb
-      \verb{url}
-      \verb https://www.journals.uchicago.edu/doi/full/10.1111/j.1468-2508.2005.00349.x
-      \endverb
     \endentry
     \entry{eberl_one_2017}{article}{}
       \name{author}{3}{}{%
@@ -991,62 +762,6 @@
       \endverb
       \keyw{climate change,computational social science,funding,polarization,politics}
     \endentry
-    \entry{fu_analyzing_2013}{article}{}
-      \name{author}{2}{}{%
-        {{uniquename=0,uniquepart=base,hash=78c52eee52b1a744cbeb14527e497b2d}{%
-           family={Fu},
-           familyi={F\bibinitperiod},
-           given={King-wa},
-           giveni={K\bibinithyphendelim w\bibinitperiod},
-           givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=bec4bb2f2eed9f462138242fd3586f37}{%
-           family={Chan},
-           familyi={C\bibinitperiod},
-           given={Chee-hon},
-           giveni={C\bibinithyphendelim h\bibinitperiod},
-           givenun=0}}%
-      }
-      \strng{namehash}{a362aacda2598c5445f3d5ec744231c6}
-      \strng{fullhash}{a362aacda2598c5445f3d5ec744231c6}
-      \strng{bibnamehash}{a362aacda2598c5445f3d5ec744231c6}
-      \strng{authorbibnamehash}{a362aacda2598c5445f3d5ec744231c6}
-      \strng{authornamehash}{a362aacda2598c5445f3d5ec744231c6}
-      \strng{authorfullhash}{a362aacda2598c5445f3d5ec744231c6}
-      \field{sortinit}{F}
-      \field{sortinithash}{669c706c6f1fbf3b5a83d26f1d9e9e72}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{abstract}{The telephone survey is a common social science research method for capturing public opinion, for example, an individual’s values or attitudes, or the government’s approval rating. However, reducing domestic landline usage, increasing nonresponse rate, and suffering from response bias of the interviewee’s self-reported data pose methodological challenges to such an approach. Because of the labor cost of administration, a phone survey is often conducted on a biweekly or monthly basis, and therefore a daily reﬂection of public opinion is usually not available. Recently, online sentiment analysis of user-generated content has been deployed to predict public opinion and human behavior. However, its overall effectiveness remains uncertain. This study seeks to examine the temporal association between online sentiment reﬂected in social media content and phone survey poll results in Hong Kong. Speciﬁcally, it aims to ﬁnd the extent to which online sentiment can predict phone survey results. Using autoregressive integrated moving average time-series analysis, this study suggested that online sentiment scores can lead phone survey results by about 8–15 days, and their correlation coefﬁcients were about 0.16. The ﬁnding is signiﬁcant to the study of social media in social science research, because it supports the conclusion that daily sentiment observed in social media content can serve as a leading predictor for phone survey results, keeping as much as 2 weeks ahead of the monthly announcement of opinion polls. We also discuss the practical and theoretical implications of this study.}
-      \field{issn}{2152-2715, 2152-2723}
-      \field{journaltitle}{Cyberpsychology, Behavior, and Social Networking}
-      \field{langid}{english}
-      \field{month}{9}
-      \field{number}{9}
-      \field{title}{Analyzing Online Sentiment to Predict Telephone Poll Results}
-      \field{urlday}{19}
-      \field{urlmonth}{3}
-      \field{urlyear}{2018}
-      \field{volume}{16}
-      \field{year}{2013}
-      \field{dateera}{ce}
-      \field{urldateera}{ce}
-      \field{pages}{702\bibrangedash 707}
-      \range{pages}{6}
-      \verb{doi}
-      \verb 10.1089/cyber.2012.0375
-      \endverb
-      \verb{file}
-      \verb Fu und Chan - 2013 - Analyzing Online Sentiment to Predict Telephone Po.pdf:/Users/franzi/Zotero/storage/MPTLP2XU/Fu und Chan - 2013 - Analyzing Online Sentiment to Predict Telephone Po.pdf:application/pdf
-      \endverb
-      \verb{urlraw}
-      \verb http://online.liebertpub.com/doi/abs/10.1089/cyber.2012.0375
-      \endverb
-      \verb{url}
-      \verb http://online.liebertpub.com/doi/abs/10.1089/cyber.2012.0375
-      \endverb
-    \endentry
     \entry{gentzkow_television_2006}{article}{}
       \name{author}{1}{}{%
         {{uniquename=1,uniquepart=given,hash=7f632dc67b8bd2566eae625ec44fafd0}{%
@@ -1156,7 +871,7 @@
       \endverb
     \endentry
     \entry{gentzkow_text_2017}{report}{}
-      \name{author}{3}{uniquelist=1}{%
+      \name{author}{3}{uniquelist=2}{%
         {{uniquename=1,uniquepart=given,hash=7f632dc67b8bd2566eae625ec44fafd0}{%
            family={Gentzkow},
            familyi={G\bibinitperiod},
@@ -1179,11 +894,11 @@
       \list{institution}{1}{%
         {National Bureau of Economic Research}%
       }
-      \strng{namehash}{300bb1d59239c5d8ae741096e3c6cc08}
+      \strng{namehash}{01d280f63e2220722a7c320124dc806f}
       \strng{fullhash}{5934917cfad5b80fd98330f02a679eb9}
       \strng{bibnamehash}{5934917cfad5b80fd98330f02a679eb9}
       \strng{authorbibnamehash}{5934917cfad5b80fd98330f02a679eb9}
-      \strng{authornamehash}{300bb1d59239c5d8ae741096e3c6cc08}
+      \strng{authornamehash}{01d280f63e2220722a7c320124dc806f}
       \strng{authorfullhash}{5934917cfad5b80fd98330f02a679eb9}
       \field{sortinit}{G}
       \field{sortinithash}{5e8d2bf9d38de41b1528bd307546008f}
@@ -1207,6 +922,63 @@
       \verb{url}
       \verb http://www.nber.org/papers/w23276
       \endverb
+    \endentry
+    \entry{gentzkow_what_2010}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=1,uniquepart=given,hash=7f632dc67b8bd2566eae625ec44fafd0}{%
+           family={Gentzkow},
+           familyi={G\bibinitperiod},
+           given={Matthew},
+           giveni={M\bibinitperiod},
+           givenun=1}}%
+        {{uniquename=0,uniquepart=base,hash=0f546f6b883c5e8d4fcec9d24b940555}{%
+           family={Shapiro},
+           familyi={S\bibinitperiod},
+           given={Jesse\bibnamedelima M.},
+           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{2cccb063561387d76799fd34757f8eaa}
+      \strng{fullhash}{2cccb063561387d76799fd34757f8eaa}
+      \strng{bibnamehash}{2cccb063561387d76799fd34757f8eaa}
+      \strng{authorbibnamehash}{2cccb063561387d76799fd34757f8eaa}
+      \strng{authornamehash}{2cccb063561387d76799fd34757f8eaa}
+      \strng{authorfullhash}{2cccb063561387d76799fd34757f8eaa}
+      \field{sortinit}{G}
+      \field{sortinithash}{5e8d2bf9d38de41b1528bd307546008f}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{We construct a new index of media slant that measures the similarity of a news outlet's language to that of a congressional Republican or Democrat. We estimate a model of newspaper demand that incorporates slant explicitly, estimate the slant that would be chosen if newspapers independently maximized their own profits, and compare these profit-maximizing points with firms' actual choices. We find that readers have an economically significant preference for like-minded news. Firms respond strongly to consumer preferences, which account for roughly 20 percent of the variation in measured slant in our sample. By contrast, the identity of a newspaper's owner explains far less of the variation in slant.}
+      \field{issn}{1468-0262}
+      \field{journaltitle}{Econometrica}
+      \field{langid}{english}
+      \field{number}{1}
+      \field{shorttitle}{What Drives Media Slant?}
+      \field{title}{What Drives Media Slant? Evidence From U.S. Daily Newspapers}
+      \field{urlday}{7}
+      \field{urlmonth}{1}
+      \field{urlyear}{2019}
+      \field{volume}{78}
+      \field{year}{2010}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{35\bibrangedash 71}
+      \range{pages}{37}
+      \verb{doi}
+      \verb 10.3982/ECTA7195
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:/Users/franzi/Zotero/storage/9S2AALCS/Gentzkow and Shapiro - 2010 - What Drives Media Slant Evidence From U.S. Daily .pdf:application/pdf;Snapshot:/Users/franzi/Zotero/storage/5AGBX3N8/ECTA7195.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://onlinelibrary.wiley.com/doi/abs/10.3982/ECTA7195
+      \endverb
+      \verb{url}
+      \verb https://onlinelibrary.wiley.com/doi/abs/10.3982/ECTA7195
+      \endverb
+      \keyw{Bias,media ownership,text categorization}
     \endentry
     \entry{griffiths_probabilistic_2002}{article}{}
       \name{author}{2}{}{%
@@ -1402,65 +1174,6 @@
       \verb https://www.jstor.org/stable/25098770
       \endverb
     \endentry
-    \entry{hansen_shocking_2016}{article}{}
-      \name{author}{2}{}{%
-        {{uniquename=0,uniquepart=base,hash=06a66038d2938d53f3996217db5f8aaf}{%
-           family={Hansen},
-           familyi={H\bibinitperiod},
-           given={Stephen},
-           giveni={S\bibinitperiod},
-           givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=878be333c2c50f71ef95cfbbba7fd363}{%
-           family={{McMahon}},
-           familyi={M\bibinitperiod},
-           given={Michael},
-           giveni={M\bibinitperiod},
-           givenun=0}}%
-      }
-      \strng{namehash}{1d35ed31caea43903635255b5f43b5f4}
-      \strng{fullhash}{1d35ed31caea43903635255b5f43b5f4}
-      \strng{bibnamehash}{1d35ed31caea43903635255b5f43b5f4}
-      \strng{authorbibnamehash}{1d35ed31caea43903635255b5f43b5f4}
-      \strng{authornamehash}{1d35ed31caea43903635255b5f43b5f4}
-      \strng{authorfullhash}{1d35ed31caea43903635255b5f43b5f4}
-      \field{sortinit}{H}
-      \field{sortinithash}{5f15a7bc777ad49ff15aa4d2831b1681}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{shorttitle}
-      \field{abstract}{We explore how the multi-dimensional aspects of information released by the {FOMC} has effects on both market and real economic variables. Using tools from computational linguistics, we measure the information released by the {FOMC} on the state of economic conditions, as well as the guidance the {FOMC} provides about future monetary policy decisions. Employing these measures within a {FAVAR} framework, we find that shocks to forward guidance are more important than the {FOMC} communication of current economic conditions in terms of their effects on market and real variables. Nonetheless, neither communication has particularly strong effects on real economic variables.}
-      \field{day}{1}
-      \field{issn}{0022-1996}
-      \field{journaltitle}{Journal of International Economics}
-      \field{month}{3}
-      \field{series}{38th Annual {NBER} International Seminar on Macroeconomics}
-      \field{shortjournal}{Journal of International Economics}
-      \field{shorttitle}{Shocking language}
-      \field{title}{Shocking language: Understanding the macroeconomic effects of central bank communication}
-      \field{urlday}{7}
-      \field{urlmonth}{3}
-      \field{urlyear}{2018}
-      \field{volume}{99}
-      \field{year}{2016}
-      \field{dateera}{ce}
-      \field{urldateera}{ce}
-      \field{pages}{S114\bibrangedash S133}
-      \range{pages}{-1}
-      \verb{doi}
-      \verb 10.1016/j.jinteco.2015.12.008
-      \endverb
-      \verb{file}
-      \verb ScienceDirect Full Text PDF:/Users/franzi/Zotero/storage/AINER6IR/Hansen und McMahon - 2016 - Shocking language Understanding the macroeconomic.pdf:application/pdf;ScienceDirect Snapshot:/Users/franzi/Zotero/storage/39TT2SW9/S0022199615001828.html:text/html
-      \endverb
-      \verb{urlraw}
-      \verb http://www.sciencedirect.com/science/article/pii/S0022199615001828
-      \endverb
-      \verb{url}
-      \verb http://www.sciencedirect.com/science/article/pii/S0022199615001828
-      \endverb
-      \keyw{Communication,Monetary policy,Vector autoregression}
-    \endentry
     \entry{hofmann_probabilistic_1999}{inproceedings}{}
       \name{author}{1}{}{%
         {{uniquename=0,uniquepart=base,hash=ee42cfed2ff3020233d2de97c356eaee}{%
@@ -1540,68 +1253,6 @@
       \field{volume}{44}
       \field{year}{2018}
       \field{dateera}{ce}
-    \endentry
-    \entry{hopmann_political_2012}{article}{}
-      \name{author}{3}{}{%
-        {{uniquename=0,uniquepart=base,hash=7f17238e6613ee09f5004d08c34ebf6c}{%
-           family={Hopmann},
-           familyi={H\bibinitperiod},
-           given={David\bibnamedelima Nicolas},
-           giveni={D\bibinitperiod\bibinitdelim N\bibinitperiod},
-           givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=0595582d158029729592186f8e8b3eaa}{%
-           family={Van\bibnamedelima Aelst},
-           familyi={V\bibinitperiod\bibinitdelim A\bibinitperiod},
-           given={Peter},
-           giveni={P\bibinitperiod},
-           givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=f74022d4b50a0dd7688a2ebd42927ee6}{%
-           family={Legnante},
-           familyi={L\bibinitperiod},
-           given={Guido},
-           giveni={G\bibinitperiod},
-           givenun=0}}%
-      }
-      \strng{namehash}{41f9466dc30f248377c9aadbf51083df}
-      \strng{fullhash}{d06282a965f1df99423b581dbe1192e7}
-      \strng{bibnamehash}{d06282a965f1df99423b581dbe1192e7}
-      \strng{authorbibnamehash}{d06282a965f1df99423b581dbe1192e7}
-      \strng{authornamehash}{41f9466dc30f248377c9aadbf51083df}
-      \strng{authorfullhash}{d06282a965f1df99423b581dbe1192e7}
-      \field{sortinit}{H}
-      \field{sortinithash}{5f15a7bc777ad49ff15aa4d2831b1681}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{shorttitle}
-      \field{abstract}{Balance is a notoriously difficult concept to operationalize. It has typically been investigated by examining the issues raised in elections, as well as the volume and favorability of coverage of political actors. However, even after collecting these measures, it is difficult to determine precisely what would constitute ‘balanced’ coverage. Based on a comprehensive overview of previous research in western democracies, we argue that political balance can be defined according to a political system perspective (where coverage reflects politically defined norms or regulation) or a media routine perspective (where coverage results from journalistic norms). Unless forced to follow norms, western broadcasting seems to comply with a media routine perspective. Empirically, newspaper coverage is sometimes imbalanced according to both perspectives. Finally, we discuss why only a systematic analysis of explanations across time and space makes it possible to determine whether politically ‘imbalanced’ news is the result of partisan bias or not.}
-      \field{day}{1}
-      \field{issn}{1464-8849}
-      \field{journaltitle}{Journalism}
-      \field{langid}{english}
-      \field{month}{2}
-      \field{number}{2}
-      \field{shortjournal}{Journalism}
-      \field{shorttitle}{Political balance in the news}
-      \field{title}{Political balance in the news: A review of concepts, operationalizations and key findings}
-      \field{urlday}{10}
-      \field{urlmonth}{11}
-      \field{urlyear}{2018}
-      \field{volume}{13}
-      \field{year}{2012}
-      \field{dateera}{ce}
-      \field{urldateera}{ce}
-      \field{pages}{240\bibrangedash 257}
-      \range{pages}{18}
-      \verb{doi}
-      \verb 10.1177/1464884911427804
-      \endverb
-      \verb{urlraw}
-      \verb https://doi.org/10.1177/1464884911427804
-      \endverb
-      \verb{url}
-      \verb https://doi.org/10.1177/1464884911427804
-      \endverb
     \endentry
     \entry{hurtikova_importance_2017}{article}{}
       \name{author}{1}{}{%
@@ -2048,134 +1699,60 @@
       \endverb
       \keyw{Civil War,conflict,Forecasting,Latent Dirichlet Allocation.,Machine Learning,panel data,Topic Models}
     \endentry
-    \entry{nyman_news_2018}{article}{}
-      \name{author}{6}{}{%
-        {{uniquename=0,uniquepart=base,hash=94b2021fa4290e442407bf6458c14e39}{%
-           family={Nyman},
-           familyi={N\bibinitperiod},
-           given={Rickard},
-           giveni={R\bibinitperiod},
-           givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=b523ac20bc9927932c826ae07f349113}{%
-           family={Kapadia},
-           familyi={K\bibinitperiod},
-           given={Sujit},
+    \entry{mullainathan_market_2005}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,uniquepart=base,hash=0ad4a50fedec7f3fb2ce43f3f64e62d6}{%
+           family={Mullainathan},
+           familyi={M\bibinitperiod},
+           given={Sendhil},
            giveni={S\bibinitperiod},
            givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=07414e413593e9c52fdb50ac8cd0bbbc}{%
-           family={Tuckett},
-           familyi={T\bibinitperiod},
-           given={David},
-           giveni={D\bibinitperiod},
-           givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=7c9ec81f997afa0a1abd66e0e4773cd5}{%
-           family={Gregory},
-           familyi={G\bibinitperiod},
-           given={David},
-           giveni={D\bibinitperiod},
-           givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=9825531f35a109b46539ebea85ebe886}{%
-           family={Ormerod},
-           familyi={O\bibinitperiod},
-           given={Paul},
-           giveni={P\bibinitperiod},
-           givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=a0b47a66c48bc7434c754ae9cb5c8e6e}{%
-           family={Smith},
+        {{uniquename=0,uniquepart=base,hash=73d7bf2d3105674f373111fc7356eec3}{%
+           family={Shleifer},
            familyi={S\bibinitperiod},
-           given={Robert},
-           giveni={R\bibinitperiod},
+           given={Andrei},
+           giveni={A\bibinitperiod},
            givenun=0}}%
       }
-      \strng{namehash}{734616a76405d986b731ff0834abe895}
-      \strng{fullhash}{b67ad1d0eb247487758578df71ffe70d}
-      \strng{bibnamehash}{734616a76405d986b731ff0834abe895}
-      \strng{authorbibnamehash}{734616a76405d986b731ff0834abe895}
-      \strng{authornamehash}{734616a76405d986b731ff0834abe895}
-      \strng{authorfullhash}{b67ad1d0eb247487758578df71ffe70d}
-      \field{sortinit}{N}
-      \field{sortinithash}{f7242c3ed3dc50029fca1be76c497c7c}
+      \strng{namehash}{91666b6f5e893627bb5d3261808ab018}
+      \strng{fullhash}{91666b6f5e893627bb5d3261808ab018}
+      \strng{bibnamehash}{91666b6f5e893627bb5d3261808ab018}
+      \strng{authorbibnamehash}{91666b6f5e893627bb5d3261808ab018}
+      \strng{authornamehash}{91666b6f5e893627bb5d3261808ab018}
+      \strng{authorfullhash}{91666b6f5e893627bb5d3261808ab018}
+      \field{sortinit}{M}
+      \field{sortinithash}{cfd219b90152c06204fab207bc6c7cab}
       \field{extradatescope}{labelyear}
       \field{labeldatesource}{}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{day}{1}
-      \field{journaltitle}{Bank of England Working Paper}
-      \field{month}{5}
-      \field{title}{News and narratives in financial systems: exploiting big data for systemic risk assessment {|} Bank of England}
-      \field{urlday}{21}
-      \field{urlmonth}{2}
-      \field{urlyear}{2018}
-      \field{volume}{704}
-      \field{year}{2018}
-      \field{dateera}{ce}
-      \field{urldateera}{ce}
-      \verb{file}
-      \verb News and narratives in financial systems\: exploiting big data for systemic risk assessment | Bank of England:/Users/franzi/Zotero/storage/BK83G72M/news-and-narratives-in-financial-systems.html:text/html
-      \endverb
-      \verb{urlraw}
-      \verb https://www.bankofengland.co.uk/working-paper/2018/news-and-narratives-in-financial-systems
-      \endverb
-      \verb{url}
-      \verb https://www.bankofengland.co.uk/working-paper/2018/news-and-narratives-in-financial-systems
-      \endverb
-    \endentry
-    \entry{padmaja_evaluating_2014}{article}{}
-      \name{author}{3}{}{%
-        {{uniquename=0,uniquepart=base,hash=aec625a03bf3420e380f334bec2a630c}{%
-           family={Padmaja},
-           familyi={P\bibinitperiod},
-           given={S.},
-           giveni={S\bibinitperiod},
-           givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=7d3a1ecf6977068df81f997e8bb9a637}{%
-           family={Fatima},
-           familyi={F\bibinitperiod},
-           given={Prof\bibnamedelimb S.\bibnamedelimi Sameen},
-           giveni={P\bibinitperiod\bibinitdelim S\bibinitperiod\bibinitdelim S\bibinitperiod},
-           givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=8f21e58c6824dcd37800ba0e2d1c5621}{%
-           family={Bandu},
-           familyi={B\bibinitperiod},
-           given={Sasidhar},
-           giveni={S\bibinitperiod},
-           givenun=0}}%
-      }
-      \strng{namehash}{906b7e112462ce4f48898e442d8cc9ba}
-      \strng{fullhash}{0f534f9fd5a414a56af786a0ab35860c}
-      \strng{bibnamehash}{0f534f9fd5a414a56af786a0ab35860c}
-      \strng{authorbibnamehash}{0f534f9fd5a414a56af786a0ab35860c}
-      \strng{authornamehash}{906b7e112462ce4f48898e442d8cc9ba}
-      \strng{authorfullhash}{0f534f9fd5a414a56af786a0ab35860c}
-      \field{sortinit}{P}
-      \field{sortinithash}{8d51b3d5b78d75b54308d706b9bbe285}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{abstract}{Automatic detection of linguistic negation in free text is a demanding need for many text processing applications including Sentiment Analysis. Our system uses online news archives from two different resources namely {NDTV} and The Hindu. While dealing with news articles, we performed three subtasks namely identifying the target; separation of good and bad news content from the good and bad sentiment expressed on the target and analysis of clearly marked opinion that is expressed explicitly, not needing interpretation or the use of world knowledge. In this paper, our main focus was on evaluating and comparing three sentiment analysis methods (two machine learning based and one lexical based) and also identifying the scope of negation in news articles for two political parties namely {BJP} and {UPA} by using three existing methodologies. They were Rest of the Sentence ({RoS}), Fixed Window Length ({FWL}) and Dependency Analysis ({DA}). Among the sentiment methods the best F-measure was {SVM} with the values 0.688 and 0.657 for {BJP} and {UPA} respectively. On the other hand, the F measures for {RoS}, {FWL} and {DA} were 0.58, 0.69 and 0.75 respectively. We observed that {DA} was performing better than the other two. Among 1675 sentences in the corpus, according to annotator I, 1,137 were positive and 538 were negative whereas according to annotator {II}, 1,130 were positive and 545 were negative. Further we also identified the score of each sentence and calculated the accuracy on the basis of average score of both the annotators.}
-      \field{journaltitle}{International Journal of Advanced Research in Artificial Intelligence ({IJARAI})}
+      \field{abstract}{We investigate the market for news under two assumptions: that readers hold beliefs which they like to see confirmed, and that newspapers can slant stories toward these beliefs. We show that, on the topics where readers share common beliefs, one should not expect accuracy even from competitive media: competition results in lower prices, but common slanting toward reader biases. On topics where reader beliefs diverge (such as politically divisive issues), however, newspapers segment the market and slant toward extreme positions. Yet in the aggregate, a reader with access to all news sources could get an unbiased perspective. Generally speaking, reader heterogeneity is more important for accuracy in media than competition per se.}
+      \field{issn}{0002-8282}
+      \field{journaltitle}{American Economic Review}
       \field{langid}{english}
-      \field{number}{11}
-      \field{title}{Evaluating Sentiment Analysis Methods and Identifying Scope of Negation in Newspaper Articles}
+      \field{month}{9}
+      \field{number}{4}
+      \field{title}{The Market for News}
       \field{urlday}{19}
-      \field{urlmonth}{3}
-      \field{urlyear}{2018}
-      \field{volume}{3}
-      \field{year}{2014}
+      \field{urlmonth}{1}
+      \field{urlyear}{2019}
+      \field{volume}{95}
+      \field{year}{2005}
       \field{dateera}{ce}
       \field{urldateera}{ce}
+      \field{pages}{1031\bibrangedash 1053}
+      \range{pages}{23}
       \verb{doi}
-      \verb 10.14569/IJARAI.2014.031101
+      \verb 10.1257/0002828054825619
       \endverb
       \verb{file}
-      \verb Full Text PDF:/Users/franzi/Zotero/storage/3NRWA2F2/Padmaja et al. - 2014 - Evaluating Sentiment Analysis Methods and Identify.pdf:application/pdf;Snapshot:/Users/franzi/Zotero/storage/RY3NFDRX/ViewPaper.html:text/html
+      \verb Snapshot:/Users/franzi/Zotero/storage/2YJNP8J6/articles.html:text/html;Submitted Version:/Users/franzi/Zotero/storage/RVCNEDQH/Mullainathan and Shleifer - 2005 - The Market for News.pdf:application/pdf
       \endverb
       \verb{urlraw}
-      \verb http://thesai.org/Publications/ViewPaper?Volume=3&Issue=11&Code=IJARAI&SerialNo=1
+      \verb https://www.aeaweb.org/articles?id=10.1257/0002828054825619
       \endverb
       \verb{url}
-      \verb http://thesai.org/Publications/ViewPaper?Volume=3&Issue=11&Code=IJARAI&SerialNo=1
+      \verb https://www.aeaweb.org/articles?id=10.1257/0002828054825619
       \endverb
     \endentry
     \entry{paul_cross-collection_2009}{thesis}{}
@@ -2655,180 +2232,49 @@
       \verb https://academic.oup.com/qje/article/119/1/189/1876059
       \endverb
     \endentry
-    \entry{tetlock_giving_2007}{article}{}
+    \entry{suen_self-perpetuation_2004}{article}{}
       \name{author}{1}{}{%
-        {{uniquename=0,uniquepart=base,hash=43e620292c04ccd0b1bb834cc476d39f}{%
-           family={Tetlock},
-           familyi={T\bibinitperiod},
-           given={Paul\bibnamedelima C.},
-           giveni={P\bibinitperiod\bibinitdelim C\bibinitperiod},
+        {{uniquename=0,uniquepart=base,hash=e18ca2fe6f9a05ea100d383327fba285}{%
+           family={Suen},
+           familyi={S\bibinitperiod},
+           given={Wing},
+           giveni={W\bibinitperiod},
            givenun=0}}%
       }
-      \strng{namehash}{43e620292c04ccd0b1bb834cc476d39f}
-      \strng{fullhash}{43e620292c04ccd0b1bb834cc476d39f}
-      \strng{bibnamehash}{43e620292c04ccd0b1bb834cc476d39f}
-      \strng{authorbibnamehash}{43e620292c04ccd0b1bb834cc476d39f}
-      \strng{authornamehash}{43e620292c04ccd0b1bb834cc476d39f}
-      \strng{authorfullhash}{43e620292c04ccd0b1bb834cc476d39f}
-      \field{sortinit}{T}
-      \field{sortinithash}{6f7aff9db9dcfeb7f95fd5bbd2f78df9}
+      \strng{namehash}{e18ca2fe6f9a05ea100d383327fba285}
+      \strng{fullhash}{e18ca2fe6f9a05ea100d383327fba285}
+      \strng{bibnamehash}{e18ca2fe6f9a05ea100d383327fba285}
+      \strng{authorbibnamehash}{e18ca2fe6f9a05ea100d383327fba285}
+      \strng{authornamehash}{e18ca2fe6f9a05ea100d383327fba285}
+      \strng{authorfullhash}{e18ca2fe6f9a05ea100d383327fba285}
+      \field{sortinit}{S}
+      \field{sortinithash}{322b1d5276f2f6c1bccdcd15920dbee6}
       \field{extradatescope}{labelyear}
       \field{labeldatesource}{}
       \field{labelnamesource}{author}
-      \field{labeltitlesource}{shorttitle}
-      \field{abstract}{I quantitatively measure the interactions between the media and the stock market using daily content from a popular Wall Street Journal column. I find that high media pessimism predicts downward pressure on market prices followed by a reversion to fundamentals, and unusually high or low pessimism predicts high market trading volume. These and similar results are consistent with theoretical models of noise and liquidity traders, and are inconsistent with theories of media content as a proxy for new information about fundamental asset values, as a proxy for market volatility, or as a sideshow with no relationship to asset markets.}
-      \field{day}{1}
-      \field{issn}{1540-6261}
-      \field{journaltitle}{The Journal of Finance}
+      \field{labeltitlesource}{title}
+      \field{abstract}{To overcome strong prior beliefs, strong evidence to the contrary is needed. If a person is predisposed to choosing a certain action, the advice from an advisor who sets a low threshold for recommending the alternative action is not of much use. The preference for like-minded advisors who supply coarse information implies that the advice a person receives is likely to reinforce his existing priors. This effect can lead to polarisation of opinion and the emergence of self-serving beliefs. The learning process is prolonged and the induced short run bias can become perpetual if information is costly. Copyright 2004 Royal Economic Society.}
+      \field{journaltitle}{Economic Journal}
       \field{langid}{english}
-      \field{month}{6}
-      \field{number}{3}
-      \field{shorttitle}{Giving Content to Investor Sentiment}
-      \field{title}{Giving Content to Investor Sentiment: The Role of Media in the Stock Market}
-      \field{volume}{62}
-      \field{year}{2007}
-      \field{dateera}{ce}
-      \field{pages}{1139\bibrangedash 1168}
-      \range{pages}{30}
-      \verb{doi}
-      \verb 10.1111/j.1540-6261.2007.01232.x
-      \endverb
-      \verb{file}
-      \verb Snapshot:/Users/franzi/Zotero/storage/R4FBIJ83/abstract.html:text/html
-      \endverb
-      \verb{urlraw}
-      \verb http://onlinelibrary.wiley.com/doi/10.1111/j.1540-6261.2007.01232.x/abstract
-      \endverb
-      \verb{url}
-      \verb http://onlinelibrary.wiley.com/doi/10.1111/j.1540-6261.2007.01232.x/abstract
-      \endverb
-    \endentry
-    \entry{tetlock_more_2008}{article}{}
-      \name{author}{3}{uniquelist=1}{%
-        {{uniquename=0,uniquepart=base,hash=43e620292c04ccd0b1bb834cc476d39f}{%
-           family={Tetlock},
-           familyi={T\bibinitperiod},
-           given={Paul\bibnamedelima C.},
-           giveni={P\bibinitperiod\bibinitdelim C\bibinitperiod},
-           givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=c8d3795e2f790e26a58220f89db9371a}{%
-           family={Saar-Tsechansky},
-           familyi={S\bibinithyphendelim T\bibinitperiod},
-           given={Maytal},
-           giveni={M\bibinitperiod},
-           givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=4be2ffd1242472b4b91610680460f71d}{%
-           family={Macskassy},
-           familyi={M\bibinitperiod},
-           given={Sofus},
-           giveni={S\bibinitperiod},
-           givenun=0}}%
-      }
-      \strng{namehash}{308a0d8cc355ab44ff0076b49874628c}
-      \strng{fullhash}{bc27662581efcfb0f2ef4623105a667a}
-      \strng{bibnamehash}{bc27662581efcfb0f2ef4623105a667a}
-      \strng{authorbibnamehash}{bc27662581efcfb0f2ef4623105a667a}
-      \strng{authornamehash}{308a0d8cc355ab44ff0076b49874628c}
-      \strng{authorfullhash}{bc27662581efcfb0f2ef4623105a667a}
-      \field{sortinit}{T}
-      \field{sortinithash}{6f7aff9db9dcfeb7f95fd5bbd2f78df9}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{shorttitle}
-      \field{abstract}{We examine whether a simple quantitative measure of language can be used to predict individual firms' accounting earnings and stock returns. Our three main findings are: (1) the fraction of negative words in firm-specific news stories forecasts low firm earnings; (2) firms' stock prices briefly underreact to the information embedded in negative words; and (3) the earnings and return predictability from negative words is largest for the stories that focus on fundamentals. Together these findings suggest that linguistic media content captures otherwise hard-to-quantify aspects of firms' fundamentals, which investors quickly incorporate into stock prices.}
-      \field{day}{1}
-      \field{issn}{1540-6261}
-      \field{journaltitle}{The Journal of Finance}
-      \field{langid}{english}
-      \field{month}{6}
-      \field{number}{3}
-      \field{shorttitle}{More Than Words}
-      \field{title}{More Than Words: Quantifying Language to Measure Firms' Fundamentals}
-      \field{urlday}{7}
-      \field{urlmonth}{3}
-      \field{urlyear}{2018}
-      \field{volume}{63}
-      \field{year}{2008}
+      \field{number}{495}
+      \field{title}{The Self-Perpetuation of Biased Beliefs}
+      \field{urlday}{19}
+      \field{urlmonth}{1}
+      \field{urlyear}{2019}
+      \field{volume}{114}
+      \field{year}{2004}
       \field{dateera}{ce}
       \field{urldateera}{ce}
-      \field{pages}{1437\bibrangedash 1467}
-      \range{pages}{31}
-      \verb{doi}
-      \verb 10.1111/j.1540-6261.2008.01362.x
-      \endverb
+      \field{pages}{377\bibrangedash 396}
+      \range{pages}{20}
       \verb{file}
-      \verb Full Text PDF:/Users/franzi/Zotero/storage/NTZB3TUK/Tetlock et al. - 2008 - More Than Words Quantifying Language to Measure F.pdf:application/pdf
+      \verb Snapshot:/Users/franzi/Zotero/storage/BSUZCHV8/v114y2004i495p377-396.html:text/html
       \endverb
       \verb{urlraw}
-      \verb http://onlinelibrary.wiley.com/doi/10.1111/j.1540-6261.2008.01362.x/abstract
+      \verb https://ideas.repec.org/a/ecj/econjl/v114y2004i495p377-396.html
       \endverb
       \verb{url}
-      \verb http://onlinelibrary.wiley.com/doi/10.1111/j.1540-6261.2008.01362.x/abstract
-      \endverb
-    \endentry
-    \entry{tumasjan_predicting_2010}{inproceedings}{}
-      \name{author}{4}{}{%
-        {{uniquename=0,uniquepart=base,hash=478771634ee86d4ef56bb7d93e21aa00}{%
-           family={Tumasjan},
-           familyi={T\bibinitperiod},
-           given={Andranik},
-           giveni={A\bibinitperiod},
-           givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=a8f37d1a07b9e25df300aab51e5cc13e}{%
-           family={Sprenger},
-           familyi={S\bibinitperiod},
-           given={Timm\bibnamedelima Oliver},
-           giveni={T\bibinitperiod\bibinitdelim O\bibinitperiod},
-           givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=4f84a325c1f05cd8bca73cd94f99ce16}{%
-           family={Sandner},
-           familyi={S\bibinitperiod},
-           given={Philipp},
-           giveni={P\bibinitperiod},
-           givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=cf4a90b92e43a6da9696377501e1fc8f}{%
-           family={Welpe},
-           familyi={W\bibinitperiod},
-           given={Isabell},
-           giveni={I\bibinitperiod},
-           givenun=0}}%
-      }
-      \list{location}{1}{%
-        {Washington}%
-      }
-      \strng{namehash}{3d75a230c57b75413684805db4c5a2d6}
-      \strng{fullhash}{ac8d6496937129549be4d446516d86b5}
-      \strng{bibnamehash}{3d75a230c57b75413684805db4c5a2d6}
-      \strng{authorbibnamehash}{3d75a230c57b75413684805db4c5a2d6}
-      \strng{authornamehash}{3d75a230c57b75413684805db4c5a2d6}
-      \strng{authorfullhash}{ac8d6496937129549be4d446516d86b5}
-      \field{sortinit}{T}
-      \field{sortinithash}{6f7aff9db9dcfeb7f95fd5bbd2f78df9}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{shorttitle}
-      \field{abstract}{Twitter is a microblogging website where users read and write millions of short messages on a variety of topics every day. This study uses the context of the German federal election to investigate whether Twitter is used as a forum for political deliberation and whether online messages on Twitter validly mirror offline political sentiment. Using {LIWC} text analysis software, we conducted a contentanalysis of over 100,000 messages containing a reference to either a political party or a politician. Our results show that Twitter is indeed used extensively for political deliberation. We find that the mere number of messages mentioning a party reflects the election result. Moreover, joint mentions of two parties are in line with real world political ties and coalitions. An analysis of the tweets' political sentiment demonstrates close correspondence to the parties' and politicians' political positions indicating that the content of Twitter messages plausibly reflects the offline political landscape. We discuss the use of microblogging message content as a valid indicator of political sentiment and derive suggestions for further research.}
-      \field{booktitle}{Proceedings of the Fourth International Conference on Weblogs and Social Media}
-      \field{eventtitle}{{INTERNATIONAL} {AAAI} {CONFERENCE} {ON} {WEBLOGS} {AND} {SOCIAL} {MEDIA}}
-      \field{langid}{english}
-      \field{shorttitle}{Predicting Elections with Twitter}
-      \field{title}{Predicting Elections with Twitter: What 140 Characters Reveal about Political Sentiment}
-      \field{urlday}{17}
-      \field{urlmonth}{3}
-      \field{urlyear}{2018}
-      \field{year}{2010}
-      \field{dateera}{ce}
-      \field{urldateera}{ce}
-      \verb{file}
-      \verb Snapshot:/Users/franzi/Zotero/storage/JHIPIJAW/215776042_Predicting_Elections_with_Twitter_What_140_Characters_Reveal_about_Political_Sentimen.html:text/html
-      \endverb
-      \verb{urlraw}
-      \verb https://www.researchgate.net/publication/215776042_Predicting_Elections_with_Twitter_What_140_Characters_Reveal_about_Political_Sentiment
-      \endverb
-      \verb{url}
-      \verb https://www.researchgate.net/publication/215776042_Predicting_Elections_with_Twitter_What_140_Characters_Reveal_about_Political_Sentiment
+      \verb https://ideas.repec.org/a/ecj/econjl/v114y2004i495p377-396.html
       \endverb
     \endentry
     \entry{de_vreese_valenced_2006}{article}{}
@@ -2933,6 +2379,7 @@
       \endverb
     \endentry
   \enddatalist
+  \missing{gentzkow_media_2006}
   \missing{newman_reuters_2018}
 \endrefsection
 \endinput

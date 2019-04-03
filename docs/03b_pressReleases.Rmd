@@ -362,13 +362,23 @@ ggsave("../figs/press_releases.png", width = 6, height = 4)
 ```
 
 ```{r}
+maxval <- 2500
+dd <- pressReleases %>% filter(text_length > maxval) %>% 
+  group_by(party) %>% 
+  summarise(outlier_txt=paste(text_length ,collapse=", "))
+
 pressReleases %>%
-  filter(text_length < 1500) %>%
+  filter(text_length < maxval) %>%
   ggplot(aes(x=party, y=text_length)) +
   geom_boxplot() +
   theme_hc() +
-  #stat_summary(fun.y=mean, geom="point", shape=20, size=3, color="red", fill="red") +
-  labs(x=NULL, y="# of words", caption = "37 articles with a text length > 1500 words are not plotted:\nFDP: 37")
+  geom_text(data=dd,aes(y=maxval,label= outlier_txt),
+            size=3, vjust=1.5, hjust=-0.1) +
+  geom_segment(data=dd, 
+               aes(y=maxval*0.95, yend=maxval, xend=5),
+               color = "red",
+               arrow = arrow(length = unit(0.1,"cm"))) +
+  labs(x=NULL, y="# of words")
 
 ggsave("../figs/press_releases_textlength.png", width = 6, height = 4)
 ```
@@ -449,7 +459,7 @@ frequency %>%
   theme(legend.position="none") +
   labs(y = "CDU", x = NULL)
 
-#ggsave("../figs/word_freq_CDU.png", width = 15, height = 10)
+ggsave("../figs/word_freq_CDU.png", width = 15, height = 10)
 ```
 
 #### SPD
@@ -467,7 +477,7 @@ frequency %>%
   theme(legend.position="none") +
   labs(y = "SPD", x = NULL)
 
-#ggsave("../figs/word_freq_SPD.png", width = 15, height = 10)
+ggsave("../figs/word_freq_SPD.png", width = 15, height = 10)
 ```
 
 #### FDP
