@@ -19,6 +19,80 @@
 
 \refsection{0}
   \datalist[entry]{nyt/global//global/global}
+    \entry{anderson_media_2006}{incollection}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,uniquepart=base,hash=4f462e6a09daad97d915cf4ddbae22f9}{%
+           family={Anderson},
+           familyi={A\bibinitperiod},
+           given={Simon\bibnamedelima P.},
+           giveni={S\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=0ff52fb4fc31707f07048f765f218a05}{%
+           family={Gabszewicz},
+           familyi={G\bibinitperiod},
+           given={Jean\bibnamedelima J.},
+           giveni={J\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=9b8722f50616e06ef24930c41683d486}{%
+           family={Ginsburg},
+           familyi={G\bibinitperiod},
+           given={Victor\bibnamedelima A.},
+           giveni={V\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=b73ce563890c20729a57534fc6053230}{%
+           family={Throsby},
+           familyi={T\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{86812a264d367a190c4d737fcfaf9b65}
+      \strng{fullhash}{86812a264d367a190c4d737fcfaf9b65}
+      \strng{bibnamehash}{86812a264d367a190c4d737fcfaf9b65}
+      \strng{authorbibnamehash}{86812a264d367a190c4d737fcfaf9b65}
+      \strng{authornamehash}{86812a264d367a190c4d737fcfaf9b65}
+      \strng{authorfullhash}{86812a264d367a190c4d737fcfaf9b65}
+      \strng{editorbibnamehash}{4b45f07474184756f1bdf5b7193601fa}
+      \strng{editornamehash}{4b45f07474184756f1bdf5b7193601fa}
+      \strng{editorfullhash}{4b45f07474184756f1bdf5b7193601fa}
+      \field{sortinit}{A}
+      \field{sortinithash}{d77c7cdd82ff690d4c3ef13216f92f0b}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Media industries are important drivers of popular culture. A large fraction of leisure time is devoted to radio, magazines, newspapers, the Internet, and television (the illustrative example henceforth). Most advertising expenditures are incurred for these media. They are also mainly supported by advertising revenue. Early work stressed possible market failures in program duplication and catering to the Lowest Common Denominator, indicating lack of cultural diversity and quality. The business model for most media industries is underscored by advertisers' demand to reach prospective customers. This business model has important implications for performance in the market since viewer sovereignty is indirect. Viewers are attracted by programming, though they dislike the ads it carries, and advertisers want viewers as potential consumers. The two sides are coordinated by broadcasters (or “platforms”) that choose ad levels and program types, and advertising finances the programming. Competition for viewers of the demographics most desired by advertisers implies that programming choices will be biased towards the tastes of those with such demographics. The ability to use subscription pricing may help improve performance by catering to the tastes of those otherwise under-represented, though higher full prices tend to favor broadcasters at the expense of viewers and advertisers. If advertising demand is weak, program equilibrium program selection may be too extreme as broadcasters strive to avoid ruinous subscription price competition, but strong advertising demand may lead to strong competition for viewers and hence minimum differentiation (“la pensée unique”). Markets (such as newspapers) with a high proportion of ad-lovers may be served only by monopoly due to a circulation spiral: advertisers want to place ads in the paper with most readers, but readers want to buy the paper with more ads.}
+      \field{booktitle}{Handbook of the Economics of Art and Culture}
+      \field{day}{1}
+      \field{month}{1}
+      \field{shorttitle}{Chapter 18 The Media and Advertising}
+      \field{title}{The Media and Advertising: A Tale of Two-Sided Markets}
+      \field{urlday}{19}
+      \field{urlmonth}{4}
+      \field{urlyear}{2019}
+      \field{volume}{1}
+      \field{year}{2006}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{567\bibrangedash 614}
+      \range{pages}{48}
+      \verb{doi}
+      \verb 10.1016/S1574-0676(06)01018-0
+      \endverb
+      \verb{file}
+      \verb ScienceDirect Snapshot:/Users/franzi/Zotero/storage/SVCVBE4B/S1574067606010180.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb http://www.sciencedirect.com/science/article/pii/S1574067606010180
+      \endverb
+      \verb{url}
+      \verb http://www.sciencedirect.com/science/article/pii/S1574067606010180
+      \endverb
+      \keyw{platform competition,two-sided markets,advertising finance,circulation spiral,pensee unique}
+    \endentry
     \entry{balahur_sentiment_2013}{article}{}
       \name{author}{8}{}{%
         {{uniquename=0,uniquepart=base,hash=62a874d02833635da9cf1541aaf0c40f}{%
@@ -254,8 +328,8 @@
       \field{number}{3}
       \field{shorttitle}{Handcuffs for the Grabbing Hand?}
       \field{title}{Handcuffs for the Grabbing Hand? Media Capture and Government Accountability}
-      \field{urlday}{19}
-      \field{urlmonth}{1}
+      \field{urlday}{30}
+      \field{urlmonth}{3}
       \field{urlyear}{2019}
       \field{volume}{96}
       \field{year}{2006}
@@ -267,7 +341,7 @@
       \verb 10.1257/aer.96.3.720
       \endverb
       \verb{file}
-      \verb Full Text:/Users/franzi/Zotero/storage/XX2F78GB/Besley and Prat - 2006 - Handcuffs for the Grabbing Hand Media Capture and.pdf:application/pdf;Snapshot:/Users/franzi/Zotero/storage/39BHPLC9/articles.html:text/html
+      \verb Full Text:/Users/franzi/Zotero/storage/6H3PQSX8/Besley and Prat - 2006 - Handcuffs for the Grabbing Hand Media Capture and.pdf:application/pdf;Snapshot:/Users/franzi/Zotero/storage/GPVE7D97/articles.html:text/html
       \endverb
       \verb{urlraw}
       \verb https://www.aeaweb.org/articles?id=10.1257/aer.96.3.720
@@ -424,6 +498,57 @@
       \field{pages}{993\bibrangedash 1022}
       \range{pages}{30}
     \endentry
+    \entry{brandenburg_political_2005}{article}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,uniquepart=base,hash=70f8b3bd6fc1925d1e7f06dbfab0418e}{%
+           family={Brandenburg},
+           familyi={B\bibinitperiod},
+           given={Heinz},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{70f8b3bd6fc1925d1e7f06dbfab0418e}
+      \strng{fullhash}{70f8b3bd6fc1925d1e7f06dbfab0418e}
+      \strng{bibnamehash}{70f8b3bd6fc1925d1e7f06dbfab0418e}
+      \strng{authorbibnamehash}{70f8b3bd6fc1925d1e7f06dbfab0418e}
+      \strng{authornamehash}{70f8b3bd6fc1925d1e7f06dbfab0418e}
+      \strng{authorfullhash}{70f8b3bd6fc1925d1e7f06dbfab0418e}
+      \field{sortinit}{B}
+      \field{sortinithash}{276475738cc058478c1677046f857703}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{The aim of this study is to give some systematic insights into how Irish media tend to report an election campaign. The main focus will be on their attitudes toward and treatment of the competing parties and candidates. Content analysis data from television newscasts and campaign stories in four of the largest newspapers is used to investigate three different forms of media bias: coverage bias, agenda bias, and statement bias. We find that Irish media tend to grant disproportionate amounts of coverage to the government parties, Fianna Fáil and the Progressive Democrats; the more prominent the coverage, the less proportionate it becomes. The extent to which media take the freedom to ‘distort’ party agendas in their reporting appears to depend on party size, campaign strategy and the acquired status and acceptance of a party amongst the political and media establishment. Most notable, however, is the predominantly negative attitude of all Irish print media towards political actors. Instead of a polarised partisan press, as for example in the {UK}, in Ireland we seem to be faced with a rather homogenous anti‐politics bias.}
+      \field{day}{1}
+      \field{issn}{0790-7184}
+      \field{journaltitle}{Irish Political Studies}
+      \field{month}{9}
+      \field{number}{3}
+      \field{shorttitle}{Political Bias in the Irish Media}
+      \field{title}{Political Bias in the Irish Media: A Quantitative Study of Campaign Coverage during the 2002 General Election}
+      \field{urlday}{20}
+      \field{urlmonth}{10}
+      \field{urlyear}{2018}
+      \field{volume}{20}
+      \field{year}{2005}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{297\bibrangedash 322}
+      \range{pages}{26}
+      \verb{doi}
+      \verb 10.1080/07907180500359350
+      \endverb
+      \verb{file}
+      \verb Snapshot:/Users/franzi/Zotero/storage/TS2G9CU6/07907180500359350.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1080/07907180500359350
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1080/07907180500359350
+      \endverb
+    \endentry
     \entry{braun_variational_2010}{article}{}
       \name{author}{2}{}{%
         {{uniquename=0,uniquepart=base,hash=6549fe610fc1d75fcf918a8b6ee89636}{%
@@ -484,6 +609,65 @@
       \verb http://arxiv.org/abs/0712.2526
       \endverb
       \keyw{Statistics - Computation,Statistics - Machine Learning,Statistics - Methodology}
+    \endentry
+    \entry{dalessio_media_2000}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,uniquepart=base,hash=5087da6f23c3ecdc523ff8995db9ea04}{%
+           family={D'Alessio},
+           familyi={D\bibinitperiod},
+           given={Dave},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=9a2753f7ec9da9b9550494b9fa2d4ee2}{%
+           family={Allen},
+           familyi={A\bibinitperiod},
+           given={Mike},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{0aff7f73a09b5e5ec79c30c22c2279f8}
+      \strng{fullhash}{0aff7f73a09b5e5ec79c30c22c2279f8}
+      \strng{bibnamehash}{0aff7f73a09b5e5ec79c30c22c2279f8}
+      \strng{authorbibnamehash}{0aff7f73a09b5e5ec79c30c22c2279f8}
+      \strng{authornamehash}{0aff7f73a09b5e5ec79c30c22c2279f8}
+      \strng{authorfullhash}{0aff7f73a09b5e5ec79c30c22c2279f8}
+      \field{sortinit}{D}
+      \field{sortinithash}{2ef1bd9a78cc71eb74d7231c635177b8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Abstract. A meta-analysis considered 59 quantitative studies containing data concerned with partisan media bias in presidential election campaigns since 1948.}
+      \field{day}{1}
+      \field{issn}{0021-9916}
+      \field{journaltitle}{Journal of Communication}
+      \field{langid}{english}
+      \field{month}{12}
+      \field{number}{4}
+      \field{shortjournal}{J Commun}
+      \field{shorttitle}{Media Bias in Presidential Elections}
+      \field{title}{Media Bias in Presidential Elections: A Meta-Analysis}
+      \field{urlday}{14}
+      \field{urlmonth}{8}
+      \field{urlyear}{2018}
+      \field{volume}{50}
+      \field{year}{2000}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{133\bibrangedash 156}
+      \range{pages}{24}
+      \verb{doi}
+      \verb 10.1111/j.1460-2466.2000.tb02866.x
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:/Users/franzi/Zotero/storage/Q67V2BQV/D'Alessio und Allen - 2000 - Media Bias in Presidential Elections A Meta-Analy.pdf:application/pdf;Snapshot:/Users/franzi/Zotero/storage/PW67GGZB/4110147.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://academic.oup.com/joc/article/50/4/133/4110147
+      \endverb
+      \verb{url}
+      \verb https://academic.oup.com/joc/article/50/4/133/4110147
+      \endverb
     \endentry
     \entry{dellavigna_fox_2006}{report}{}
       \name{author}{2}{}{%
@@ -923,6 +1107,63 @@
       \verb http://www.nber.org/papers/w23276
       \endverb
     \endentry
+    \entry{gentzkow_media_2006}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=1,uniquepart=given,hash=7f632dc67b8bd2566eae625ec44fafd0}{%
+           family={Gentzkow},
+           familyi={G\bibinitperiod},
+           given={Matthew},
+           giveni={M\bibinitperiod},
+           givenun=1}}%
+        {{uniquename=0,uniquepart=base,hash=0f546f6b883c5e8d4fcec9d24b940555}{%
+           family={Shapiro},
+           familyi={S\bibinitperiod},
+           given={Jesse\bibnamedelima M.},
+           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{2cccb063561387d76799fd34757f8eaa}
+      \strng{fullhash}{2cccb063561387d76799fd34757f8eaa}
+      \strng{bibnamehash}{2cccb063561387d76799fd34757f8eaa}
+      \strng{authorbibnamehash}{2cccb063561387d76799fd34757f8eaa}
+      \strng{authornamehash}{2cccb063561387d76799fd34757f8eaa}
+      \strng{authorfullhash}{2cccb063561387d76799fd34757f8eaa}
+      \field{sortinit}{G}
+      \field{sortinithash}{5e8d2bf9d38de41b1528bd307546008f}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{A Bayesian consumer who is uncertain about the quality of an information source will infer that the source is of higher quality when its reports conform to the consumer’s prior expectations. We use this fact to build a model of media bias in which firms slant their reports toward the prior beliefs of their customers in order to build a reputation for quality. Bias emerges in our model even though it can make all market participants worse off. The model predicts that bias will be less severe when consumers receive independent evidence on the true state of the world and that competition between independently owned news outlets can reduce bias. We present a variety of empirical evidence consistent with these predictions.}
+      \field{day}{1}
+      \field{issn}{0022-3808}
+      \field{journaltitle}{Journal of Political Economy}
+      \field{month}{4}
+      \field{number}{2}
+      \field{shortjournal}{Journal of Political Economy}
+      \field{title}{Media Bias and Reputation}
+      \field{urlday}{30}
+      \field{urlmonth}{3}
+      \field{urlyear}{2019}
+      \field{volume}{114}
+      \field{year}{2006}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{280\bibrangedash 316}
+      \range{pages}{37}
+      \verb{doi}
+      \verb 10.1086/499414
+      \endverb
+      \verb{file}
+      \verb Full Text:/Users/franzi/Zotero/storage/68DMKQDE/Gentzkow and Shapiro - 2006 - Media Bias and Reputation.pdf:application/pdf;Snapshot:/Users/franzi/Zotero/storage/SHBPKLPN/499414.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://www.journals.uchicago.edu/doi/10.1086/499414
+      \endverb
+      \verb{url}
+      \verb https://www.journals.uchicago.edu/doi/10.1086/499414
+      \endverb
+    \endentry
     \entry{gentzkow_what_2010}{article}{}
       \name{author}{2}{}{%
         {{uniquename=1,uniquepart=given,hash=7f632dc67b8bd2566eae625ec44fafd0}{%
@@ -1219,41 +1460,6 @@
       \verb http://doi.acm.org/10.1145/312624.312649
       \endverb
     \endentry
-    \entry{holig_reuters_2018}{article}{}
-      \name{author}{2}{}{%
-        {{uniquename=0,uniquepart=base,hash=e3fce07062b318921cad24ea770baeaa}{%
-           family={Hölig},
-           familyi={H\bibinitperiod},
-           given={Sascha},
-           giveni={S\bibinitperiod},
-           givenun=0}}%
-        {{uniquename=0,uniquepart=base,hash=1c108590ee811c79954caee77d7af8e3}{%
-           family={Hasebrink},
-           familyi={H\bibinitperiod},
-           given={Uwe},
-           giveni={U\bibinitperiod},
-           givenun=0}}%
-      }
-      \strng{namehash}{fdf6ad4c35bd40f113897f372a6b14fc}
-      \strng{fullhash}{fdf6ad4c35bd40f113897f372a6b14fc}
-      \strng{bibnamehash}{fdf6ad4c35bd40f113897f372a6b14fc}
-      \strng{authorbibnamehash}{fdf6ad4c35bd40f113897f372a6b14fc}
-      \strng{authornamehash}{fdf6ad4c35bd40f113897f372a6b14fc}
-      \strng{authorfullhash}{fdf6ad4c35bd40f113897f372a6b14fc}
-      \field{sortinit}{H}
-      \field{sortinithash}{5f15a7bc777ad49ff15aa4d2831b1681}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{issn}{1435‐9413}
-      \field{journaltitle}{Arbeitspapiere des Hans‐Bredow‐ Instituts}
-      \field{month}{6}
-      \field{title}{Reuters Institute Digital News Report 2018 – Ergebnisse für Deutschland}
-      \field{volume}{44}
-      \field{year}{2018}
-      \field{dateera}{ce}
-    \endentry
     \entry{hurtikova_importance_2017}{article}{}
       \name{author}{1}{}{%
         {{uniquename=0,uniquepart=base,hash=802cc99300030851eedc01920e563db8}{%
@@ -1368,6 +1574,76 @@
       \verb http://www.sciencedirect.com/science/article/pii/S0957417412006100
       \endverb
       \keyw{Coverage,Data mining,Opinion mining,Politics,Sentiment mining}
+    \endentry
+    \entry{junque_de_fortuny_evaluating_2014}{article}{}
+      \name{author}{4}{}{%
+        {{uniquename=0,uniquepart=base,hash=163e5e2f2f4155ac1f5dff4721127c8b}{%
+           family={Junqué\bibnamedelimb de\bibnamedelima Fortuny},
+           familyi={J\bibinitperiod\bibinitdelim d\bibinitperiod\bibinitdelim F\bibinitperiod},
+           given={Enric},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=228232ebcc92016d11200def64fb561b}{%
+           family={De\bibnamedelima Smedt},
+           familyi={D\bibinitperiod\bibinitdelim S\bibinitperiod},
+           given={Tom},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=7c997c881a1f81d7785808bd0fee2040}{%
+           family={Martens},
+           familyi={M\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=de80d83604a86dc9aff51ca1ce3069e6}{%
+           family={Daelemans},
+           familyi={D\bibinitperiod},
+           given={Walter},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{3e5ed425fa30a2598699257f98b9b5e5}
+      \strng{fullhash}{18f1b83f2d063f42d260a35e2a0e0624}
+      \strng{bibnamehash}{3e5ed425fa30a2598699257f98b9b5e5}
+      \strng{authorbibnamehash}{3e5ed425fa30a2598699257f98b9b5e5}
+      \strng{authornamehash}{3e5ed425fa30a2598699257f98b9b5e5}
+      \strng{authorfullhash}{18f1b83f2d063f42d260a35e2a0e0624}
+      \field{sortinit}{J}
+      \field{sortinithash}{fce5f8d0bd05e8d93f3dbe21c78897ca}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Despite the fact that both the Efficient Market Hypothesis and Random Walk Theory postulate that it is impossible to predict future stock prices based on currently available information, recent advances in empirical research have been proving the opposite by achieving what seems to be better than random prediction performance. We discuss some of the (dis)advantages of the most widely used performance metrics and conclude that is difficult to assess the external validity of performance using some of these measures. Moreover, there remain many questions as to the real-world applicability of these empirical models. In the first part of this study we design novel stock price prediction models, based on state-of-the-art text-mining techniques to assert whether we can predict the movement of stock prices more accurately by including indicators of irrationality. Along with this, we discuss which metrics are most appropriate for which scenarios in order to evaluate the models. Finally, we discuss how to gain insight into text-mining-based stock price prediction models in order to evaluate, validate and refine the models.}
+      \field{day}{1}
+      \field{issn}{0306-4573}
+      \field{journaltitle}{Information Processing \& Management}
+      \field{month}{3}
+      \field{number}{2}
+      \field{shortjournal}{Information Processing \& Management}
+      \field{title}{Evaluating and understanding text-based stock price prediction models}
+      \field{urlday}{11}
+      \field{urlmonth}{10}
+      \field{urlyear}{2018}
+      \field{volume}{50}
+      \field{year}{2014}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{426\bibrangedash 441}
+      \range{pages}{16}
+      \verb{doi}
+      \verb 10.1016/j.ipm.2013.12.002
+      \endverb
+      \verb{file}
+      \verb ScienceDirect Snapshot:/Users/franzi/Zotero/storage/WENRITVN/S0306457313001143.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb http://www.sciencedirect.com/science/article/pii/S0306457313001143
+      \endverb
+      \verb{url}
+      \verb http://www.sciencedirect.com/science/article/pii/S0306457313001143
+      \endverb
+      \keyw{Sentiment mining,Evaluation,Prediction,Stock,Support Vector Machine}
     \endentry
     \entry{kepplinger_einfluss_2004}{incollection}{}
       \name{author}{2}{}{%
@@ -1753,6 +2029,115 @@
       \endverb
       \verb{url}
       \verb https://www.aeaweb.org/articles?id=10.1257/0002828054825619
+      \endverb
+    \endentry
+    \entry{newman_reuters_2018}{report}{}
+      \name{author}{5}{}{%
+        {{uniquename=0,uniquepart=base,hash=f6832af7f3f4accde57753595f365cf9}{%
+           family={Newman},
+           familyi={N\bibinitperiod},
+           given={Nic},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=5eca8a5df49309ac5d0a01722cc5dc88}{%
+           family={Fletcher},
+           familyi={F\bibinitperiod},
+           given={Richard},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=010aca90c3cdd485d908990a344ee006}{%
+           family={Kalogeropoulos},
+           familyi={K\bibinitperiod},
+           given={Antonis},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=ac69624a4475cfc7d4024efd4717374e}{%
+           family={Levy},
+           familyi={L\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=afd4e3349ece0958ef0997d8e9523ce2}{%
+           family={Kleis\bibnamedelima Nielsen},
+           familyi={K\bibinitperiod\bibinitdelim N\bibinitperiod},
+           given={Rasmus},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{1}{%
+        {Reuters Institute for the Study of Journalism}%
+      }
+      \strng{namehash}{896561e06c74766614f2af280a80f66b}
+      \strng{fullhash}{32220904b1c1649897c0b76169ce335a}
+      \strng{bibnamehash}{896561e06c74766614f2af280a80f66b}
+      \strng{authorbibnamehash}{896561e06c74766614f2af280a80f66b}
+      \strng{authornamehash}{896561e06c74766614f2af280a80f66b}
+      \strng{authorfullhash}{32220904b1c1649897c0b76169ce335a}
+      \field{sortinit}{N}
+      \field{sortinithash}{f7242c3ed3dc50029fca1be76c497c7c}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Reuters Institute Digital News Report 2018}
+      \field{year}{2018}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb http://media.digitalnewsreport.org/wp-content/uploads/2018/06/digital-news-report-2018.pdf?x89475
+      \endverb
+      \verb{url}
+      \verb http://media.digitalnewsreport.org/wp-content/uploads/2018/06/digital-news-report-2018.pdf?x89475
+      \endverb
+    \endentry
+    \entry{oegema_personalization_2009}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,uniquepart=base,hash=f8d05c3a73ac84a451a1ef05c0973de7}{%
+           family={Oegema},
+           familyi={O\bibinitperiod},
+           given={Dirk},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=107dac0376c9a6c1880b4cd655501114}{%
+           family={Kleinnijenhuis},
+           familyi={K\bibinitperiod},
+           given={Jan},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{5cdcca5f6cc43e85646ae70b1aaeeb0a}
+      \strng{fullhash}{5cdcca5f6cc43e85646ae70b1aaeeb0a}
+      \strng{bibnamehash}{5cdcca5f6cc43e85646ae70b1aaeeb0a}
+      \strng{authorbibnamehash}{5cdcca5f6cc43e85646ae70b1aaeeb0a}
+      \strng{authornamehash}{5cdcca5f6cc43e85646ae70b1aaeeb0a}
+      \strng{authorfullhash}{5cdcca5f6cc43e85646ae70b1aaeeb0a}
+      \field{sortinit}{O}
+      \field{sortinithash}{dad3efd0836470093a7b4a7bb756eb8c}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{issn}{1613-4087}
+      \field{journaltitle}{Communications}
+      \field{number}{1}
+      \field{shorttitle}{Personalization in political Television News}
+      \field{title}{Personalization in political Television News: A 13-Wave Survey Study to Assess Effects of Text and Footage}
+      \field{urlday}{19}
+      \field{urlmonth}{4}
+      \field{urlyear}{2019}
+      \field{volume}{25}
+      \field{year}{2009}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{43\bibrangedash 60}
+      \range{pages}{18}
+      \verb{doi}
+      \verb 10.1515/comm.2000.25.1.43
+      \endverb
+      \verb{urlraw}
+      \verb https://www.degruyter.com/view/j/comm.2000.25.issue-1/comm.2000.25.1.43/comm.2000.25.1.43.xml
+      \endverb
+      \verb{url}
+      \verb https://www.degruyter.com/view/j/comm.2000.25.issue-1/comm.2000.25.1.43/comm.2000.25.1.43.xml
       \endverb
     \endentry
     \entry{paul_cross-collection_2009}{thesis}{}
@@ -2379,8 +2764,6 @@
       \endverb
     \endentry
   \enddatalist
-  \missing{gentzkow_media_2006}
-  \missing{newman_reuters_2018}
 \endrefsection
 \endinput
 

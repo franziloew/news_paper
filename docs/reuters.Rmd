@@ -26,6 +26,12 @@ library(ggthemes)
 library(patchwork)
 rm(list=ls())
 
+color <- "#b7b7b7"
+color1 <- "#778899"
+color2 <- "#808080"
+color3 <- "#000000"
+source("func/functions.R")
+
 reutersDF1 <- readxl::read_excel("../data/reuters_clean.xlsx")
 reutersDF2 <- readxl::read_excel("../data/reuters_clean.xlsx", sheet = "orientation")
 ```
@@ -49,13 +55,15 @@ reutersDF1 %>%
   summarise(count = sum(count)) %>%
   mutate(insample = ifelse(medium %in% keeps, "Yes", "No")) -> reutersDF1.grouped
 
+cols <- c("Yes"=color1, "No"=color)
+
 p <- reutersDF1.grouped %>%
   ggplot(aes(reorder(medium,count),count,
              fill = insample
              )) +
   geom_col(show.legend = F) +
   coord_flip() +
-  viridis::scale_fill_viridis(discrete=TRUE) +
+  scale_fill_manual(values = cols) +
   labs(x = NULL, y = NULL,title = NULL, caption = "Source: Hans-Bredow-Institut")
 
 plotly::ggplotly(p, tooltip="y")
@@ -81,14 +89,14 @@ p<- reutersDF2 %>%
   ggplot(aes(reorder(partisan, partisan_scale), count_rel,
              label = paste(round(count_rel, digits = 1),"%")
             )) +
-  geom_col(fill="#3b528b") +
+  geom_col(fill=color1) +
   geom_text(vjust = 1, color = "white", size =2) +
-  #coord_flip() +
   labs(x = NULL, y = "%") +
   theme(axis.text.x = element_text(angle = 90),
         axis.text = element_text(size= 6))
 
 ggsave({p + theme_hc()}, filename = "../figs/reuters2.png", width = 4, height = 3)
+ggsave({p + theme_hc()}, filename = "../slides/img/reuters2.png", width = 4, height = 2)
 
 plotly::ggplotly(p, tooltip="y")
 ```
@@ -168,16 +176,15 @@ p1 <- reutersDF.long %>%
   filter(medium %in% keeps) %>%
   mutate(
     label = (count_relative_m*100),
-    label_color = ifelse(label > 18, "black", "white")
+    label_color = ifelse(label > 18, "white", "black")
   ) %>%
   ggplot(aes(reorder(partisan.f, partisan_scale),
              reorder(medium, order_relative_m), 
              fill = count_relative_m)) +
   geom_tile() +
-  geom_text(aes(label=round(label, digits = 1), 
-                color = label_color
-                ), size = 2) +
-  viridis::scale_fill_viridis() +
+  scale_fill_gradient2(low = color, high = color1) +
+  geom_text(aes(label=round(label, digits = 1)), color = color3, size = 2) +
+  #scale_color_manual(values = c("black"=color3, "white"="white")) +
   theme_hc() +
   labs(x = NULL, y = NULL) + 
   scale_x_discrete(expand = c(0, 0)) +
@@ -193,7 +200,7 @@ p2 <- reutersDF.long %>%
   summarise(count_sum = sum(count),
             order_relative_m = sum(order_relative_m)) %>%
   ggplot(aes(reorder(medium,order_relative_m), count_sum)) +
-  geom_col(fill = "#3b528b") +
+  geom_col(fill = color1) +
   geom_text(aes(label=count_sum), hjust = 1, size = 2, color = "white") +
   coord_flip() +
   theme_hc() +

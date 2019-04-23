@@ -342,6 +342,10 @@ library(ggridges)
 theme_set(theme_ridges())
 
 rm(list = ls())
+color <- "#b7b7b7"
+color1 <- "#778899"
+color2 <- "#808080"
+color3 <- "#000000"
 load("../output/pressReleases.Rda")
 
 party_colors <- c("#009ee0", "#32302e","#ffed00","#46962b","#ec008c", "#E3000F")
@@ -355,7 +359,10 @@ pressReleases %>%
   geom_col() +
   coord_flip() +
   theme_hc() +
-  scale_fill_viridis_d(labels = c("Party","Parliamentary group")) +
+  scale_fill_manual(values = c("faction" = color, "party" = color1),
+                    breaks = c("faction","party"),
+                    labels = c("Parliamentary group", "Party")
+                    ) +
   labs(y = NULL, x = NULL, fill = NULL)
 
 ggsave("../figs/press_releases.png", width = 6, height = 4)

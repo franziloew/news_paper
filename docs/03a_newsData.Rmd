@@ -16,9 +16,14 @@ knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE)
 # load the packages
 libs <- c("readr","lubridate","tidyverse","data.table","stringr","scales","ggthemes","xtable","viridis")
 lapply(libs, library, character.only = TRUE)
+library(gridExtra)
 
 rm(list=ls())
-#source("func/functions.R")
+color <- "#b7b7b7"
+color1 <- "#778899"
+color2 <- "#808080"
+color3 <- "#000000"
+source("func/functions.R")
 
 # Load Dataframes
 
@@ -51,6 +56,8 @@ visits %>%
 ```
 
 ```{r}
+cols <- c("Yes"=color1, "No"=color)
+
 visits.df %>%
   dplyr::arrange(desc(visits)) %>%
   top_n(30, visits) %>%
@@ -58,7 +65,7 @@ visits.df %>%
   geom_col() +
   theme_hc() +
   coord_flip() +
-  viridis::scale_fill_viridis(discrete=TRUE, name = "in sample") +
+  scale_fill_manual(values = cols, name ="in sample") +
   theme(legend.position = "right") +
   labs(x = NULL, y= NULL, caption = "Data source: AGOF daily digital facts\nINFOnline (tagesschau.de)")
 
@@ -74,7 +81,7 @@ btw %>%
   group_by(medium) %>%
   tally() %>%
   ggplot(aes(reorder(medium,n), n, label = n)) +
-  geom_col(fill = "#3b528b") +
+  geom_col(fill = color1) +
   geom_text(color = "white", hjust=1) +
   coord_flip() +
   theme_hc() +
@@ -218,54 +225,65 @@ for (party in parties) {
 vis <- vis %>%
   mutate(party = ifelse(grepl("CDU",party), "Union",party),
     date = as.Date(paste0(year,"/",month,"/1")))
+
+save(vis, file = "../output/visibility.Rda")
 ```
 
 ```{r}
-vis %>%
+radar <- vis %>%
   group_by(party, medium) %>%
   summarize(vis = mean(visibility_p_s, na.rm = T)) %>%
-  spread(key = party, value = vis) %>%
-  ggiraphExtra::ggRadar(aes(color = medium),
-                        interactive = T,
-                        alpha = 0,
-                        rescale = F,
-                        legend.position = "bottom") 
-```
+  spread(key = party, value = vis)
 
-### Deviation from average visibility 
+# Print out the dataframe to a latex table 
+xt <- xtable(radar,
+             type="latex",
+             caption ="Visibility")
 
-Due to political relevance, not all potential parties recieve equal amounts of coverage in media. However, these factors should infuence all media outlets equally. To what extent does the visibility of a party in a medium differ from the average visibility in the media? To calculate the relative visibility, I estimate the deviation of the visibility of a party in one medium from the average visibility of that party over all news paper.
- 
-
-```{r}
-vis <- vis %>%
-  group_by(party, date) %>%
-  mutate(visibility_p = mean(visibility_p_s, na.rm = TRUE)) %>%
-  ungroup() %>%
-  mutate(
-    visibility_diff = visibility_p_s - visibility_p
-  )
+print(xt, include.rownames = F, file="../writing/tables/visibility.tex" )
 ```
 
 ```{r}
-vis %>%
-  group_by(party, medium) %>%
-  summarize(vis = mean(visibility_diff, na.rm = T)) %>%
-  spread(key = party, value = vis) %>%
-  ggiraphExtra::ggRadar(aes(color = medium),
-                        interactive = T,
-                        alpha = 0,
-                        rescale = F,
-                        legend.position = "bottom") 
+ggiraphExtra::ggRadar(radar, 
+                      aes(color = medium),
+                      alpha = 0,
+                      rescale = F) + 
+  theme_hc() +
+  scale_color_viridis_d() +
+  theme(legend.position = "none",
+        legend.title = element_blank()) +
+   guides(col = guide_legend(ncol = 1)) 
+
+ggsave("../figs/radar_vis.png", width = 5, height = 5, dpi = 200)
 ```
 
+### Rescaled
 
+```{r}
+radar_rescaled <- as_tibble(sapply(radar[,-1], function(x) normalize_data2(x) ) ) %>%
+  mutate(medium = radar$medium)
 
+# Print out the dataframe to a latex table 
+xt <- xtable(radar_rescaled,
+             type="latex",
+             caption ="Visibility (rescaled)")
 
+print(xt, include.rownames = F, file="../writing/tables/visibility_rescaled.tex" )
+```
 
+```{r}
+ggiraphExtra::ggRadar(radar_rescaled, 
+                      aes(color = medium),
+                      rescale = F,
+                      alpha = 0) + 
+  theme_hc() +
+  scale_color_viridis_d() +
+  theme(legend.position = "right",
+        legend.title = element_blank()) +
+   guides(col = guide_legend(ncol = 1))
 
-
-
+ggsave("../figs/radar_vis_rescaled.png", width = 6, height = 5, dpi = 200)
+```
 
 
 

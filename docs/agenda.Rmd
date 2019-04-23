@@ -20,8 +20,14 @@ library(tidyverse)
 library(dplyr)
 library(ggthemes)
 library(viridis)
+library(tidytext)
+library(patchwork)
 
 rm(list = ls())
+
+color1 <- "#778899"
+color2 <- "#808080"
+color3 <- "#000000"
 load("../output/pressReleases.Rda")
 load("../output/data_step2.Rda")
 
@@ -42,7 +48,7 @@ Before pre-processing:
 ```{r eval=FALSE, include=FALSE}
 png('../figs/wordcloud.png')
   
-wordcloud::wordcloud(model_df$title_text, max.words = 400)
+wordcloud::wordcloud(model_df$title_text, max.words = 200)
   
 dev.off()
 ```
@@ -53,7 +59,7 @@ Pre-processed Data:
 ```{r eval=FALSE, include=FALSE}
 png('../figs/wordcloud_cleaned.png')
   
-wordcloud::wordcloud(model_df$text_cleaned1, max.words = 400)
+wordcloud::wordcloud(model_df$text_cleaned1, max.words = 200)
   
 dev.off()
 ```
@@ -103,41 +109,103 @@ tokens.press <- tokens %>%
 
 ```{r eval=FALSE, include=FALSE}
 tokens.news %>% 
-  arrange(desc(tf_idf)) %>%
+  select(source, word, tf) %>%
   mutate(word = factor(word, levels = rev(unique(word)))) %>% 
   group_by(source) %>% 
-  top_n(10, wt = tf_idf) %>%
+  top_n(10) %>%
+  arrange(desc(tf)) %>%
   ungroup() %>%
-  ggplot(aes(word, tf_idf)) +
-  geom_col(fill="#3b528b", show.legend = FALSE) +
+  ggplot(aes(word, tf)) +
+  geom_col(fill=color1, show.legend = FALSE) +
   theme_hc() +
   labs(x = NULL, y = NULL) +
   facet_wrap(~source, ncol = 3, scales = "free") +
   coord_flip()
 
-ggsave("../figs/tfidf_news.png", width = 14, height = 8)
+ggsave("../figs/tf_news.png", width = 10, height = 10)
 ```
 
-![](../figs/tfidf_news.png)
+![](../figs/tf_news.png)
 
-```{r eval=FALSE, fig.height=4, fig.width=4, include=FALSE}
+```{r eval=FALSE, include=FALSE}
 tokens.press %>% 
-  arrange(desc(tf_idf)) %>%
+  select(source, word, tf) %>%
   mutate(word = factor(word, levels = rev(unique(word)))) %>% 
   group_by(source) %>% 
-  top_n(10, wt=tf_idf) %>% 
+  top_n(10) %>% 
+  arrange(desc(tf)) %>%
   ungroup() %>%
-  ggplot(aes(word, tf_idf)) +
-  geom_col(fill="#3b528b", show.legend = FALSE) +
+  ggplot(aes(reorder(word,tf),tf)) +
+  geom_col(fill=color2, show.legend = FALSE) +
+  theme_hc() +
+  labs(x = NULL, y = NULL) +
+  facet_wrap(~source, ncol = 2, scales = "free") +
+  coord_flip()
+
+ggsave("../figs/tf_press.png", width = 8, height = 10)
+```
+
+![](../figs/tf_press.png)
+
+## Bigrams
+
+```{r eval=FALSE, include=FALSE}
+bigrams <- model_df %>% unnest_tokens(bigram, text_cleaned, token = "ngrams", n = 2)
+
+bigrams.news <- bigrams %>%
+  filter(type == "news") %>%
+  count(source, bigram, sort = TRUE) %>%
+  ungroup() %>%
+  bind_tf_idf(bigram,source,n)
+
+bigrams.press <- bigrams %>%
+  filter(type == "press") %>%
+  count(source, bigram, sort = TRUE) %>%
+  ungroup() %>%
+  bind_tf_idf(bigram,source,n)
+```
+
+```{r eval=FALSE, include=FALSE}
+bigrams.news %>% 
+  select(source, bigram, tf) %>%
+  mutate(bigram = factor(bigram, levels = rev(unique(bigram)))) %>% 
+  group_by(source) %>% 
+  arrange(desc(tf)) %>%
+  top_n(15) %>%
+  ungroup() %>%
+  arrange(source, desc(tf)) %>%
+  ggplot(aes(bigram, tf)) +
+  geom_col(fill=color1, show.legend = FALSE) +
   theme_hc() +
   labs(x = NULL, y = NULL) +
   facet_wrap(~source, ncol = 3, scales = "free") +
   coord_flip()
 
-ggsave("../figs/tfidf_press.png", width = 14, height = 6)
+ggsave("../figs/tf_bigrams_news.png", width = 10, height = 10)
 ```
 
-![](../figs/tfidf_press.png)
+![](../figs/tf_bigrams_news.png)
+
+```{r eval=FALSE, include=FALSE}
+bigrams.press %>% 
+  arrange(desc(tf)) %>%
+  select(source, bigram, tf) %>%
+  mutate(bigram = factor(bigram, levels = rev(unique(bigram)))) %>% 
+  group_by(source) %>% 
+  top_n(15) %>% 
+  ungroup() %>%
+  arrange(source, tf) %>%
+  ggplot(aes(bigram,tf)) +
+  geom_col(fill=color2, show.legend = FALSE) +
+  theme_hc() +
+  labs(x = NULL, y = NULL) +
+  facet_wrap(~source, ncol = 2, scales = "free") +
+  coord_flip()
+
+ggsave("../figs/tf_bigrams_press.png", width = 8, height = 10)
+```
+
+![](../figs/tf_bigrams_press.png)
 
 ## Build Corpus
 
@@ -198,20 +266,20 @@ plot(storage)
 ```{r eval=FALSE, include=FALSE}
 load("../output/final_modeldf.Rda")
 
-k=60
+k=50
 
 stmOut <- stm(documents = out$documents, vocab = out$vocab,
               K = k, prevalence =~ source,
               max.em.its = 75, data = out$meta,
               init.type = "Spectral")
 
-save(model_df, out, stmOut, file = "../output/models/finalmodel_60.RDa")
+save(model_df, out, stmOut, file = "../output/models/finalmodel_50.RDa")
 ```
 
 I included the document source as a control for the topical topical prevalence, assuming that the distribution of topics depends on the sources. The number of topics is set to 50.
 
 ## Results
-```{r}
+```{r message=FALSE, warning=FALSE}
 library(stm)
 library(tidyverse)
 library(ggthemes)
@@ -219,8 +287,15 @@ library(xtable)
 library(viridis)
 
 rm(list = ls())
-load("../output/models/finalmodel_50.RDa")
+color <- "#b7b7b7"
+color1 <- "#778899"
+color2 <- "#808080"
+color3 <- "#000000"
+source("func/functions.R")
 
+load("../output/models/finalmodel_50.RDa")
+k <- stmOut$settings$dim$K
+  
 model_df <- model_df %>%
   dplyr::mutate(doc_index = as.numeric(rownames(.)),
          source = ifelse(source == "welt.de", "DIE WELT", source),
@@ -236,6 +311,18 @@ model_df <- model_df %>%
          source = ifelse(source == "linke", "Linke", source),
          source = ifelse(source == "fdp", "FDP", source)
          )
+
+stmOut$settings$call
+```
+
+```{r}
+length(stmOut$vocab)
+```
+
+```{r}
+model_df %>%
+  group_by(type) %>%
+  tally()
 ```
 
 ### Label topics
@@ -243,22 +330,25 @@ model_df <- model_df %>%
 To explore the words associated with each topic we use the words with the highest probability in each topic. As we included the source type (press release or news paper) as a control for the topical content (the word distribution of each topic), we have two different labels for each topic.
 
 ```{r}
-sagelabs <- sageLabels(stmOut)
+sagelabs <- sageLabels(stmOut, 20)
 ```
 
 ```{r include=FALSE}
 newsLabels <- as.data.frame(sagelabs$cov.betas[[1]]$problabels) %>%  
   transmute(topic = as.numeric(rownames(.)),
-            topic_name_news_short = paste(V1,V2),
-            topic_name_news = paste(V1,V2,V3,V4))
+            topic_name_news = paste(V1,V2,V3))
 
 pressLabels <- as.data.frame(sagelabs$cov.betas[[2]]$problabels) %>% 
   transmute(topic = as.numeric(rownames(.)),
-            topic_name_press_short = paste(V1,V2),
-            topic_name_press = paste(V1,V2,V3,V4))
+            topic_name_press = paste(V1,V2,V3))
 
 topics.df <- left_join(newsLabels, pressLabels, by="topic") %>%
-  mutate(joint_label = paste("Topic",topic,":",topic_name_news_short, topic_name_press_short))
+  mutate(label1 = paste(topic_name_news, topic_name_press))
+
+for (i in seq(k)) {
+  label <- paste(unique(unlist(strsplit(topics.df$label1[i], " "))), collapse = " ")
+  topics.df$joint_label[i] <- paste("Topic",topics.df$topic[i],":", label)
+}
 
 topics.df %>% 
   select(joint_label, topic_name_news, topic_name_press) %>% 
@@ -266,24 +356,58 @@ topics.df %>%
                        rnames = F)
 ```
 
+```{r}
+for (i in seq(k)) {
+  
+  name <- paste0("topic_label",i)
+
+  png(paste0('../figs/topiclabel/',name,'.png'), width = 400, height = 450)
+
+  plotQuote(
+    
+    c(paste(sagelabs$covnames[1],":",
+            paste(sagelabs$cov.betas[[1]]$problabels[i,], collapse="\n")),
+      paste(sagelabs$covnames[2],":",
+            paste(sagelabs$cov.betas[[2]]$problabels[i,], collapse="\n"))
+      )
+    )
+
+  dev.off()
+
+}
+```
+
 ```{r eval=FALSE, include=FALSE}
 # Print out the dataframe to a latex table 
-xt <- xtable(topics.df %>% select(joint_label, topic_name_news, topic_name_press),
-             type="latex",
-             caption ="Most frequent words")
+newsLabels <- as.data.frame(sagelabs$cov.betas[[1]]$problabels) %>%  
+  transmute(topic = as.numeric(rownames(.)),
+            topic_name_news = paste(V1,V2,V3,V4,V5))
 
-names(xt) <- c("Joint label", "News articles","Press releases")
+pressLabels <- as.data.frame(sagelabs$cov.betas[[2]]$problabels) %>% 
+  transmute(topic = as.numeric(rownames(.)),
+            topic_name_press = paste(V1,V2,V3,V4,V5))
+
+xt <- xtable(left_join(newsLabels, pressLabels, by="topic") %>%
+  transmute(Topic = as.character(topic),
+            topic_name_news = topic_name_news,
+            topic_name_press = topic_name_press),
+  type="latex",
+  caption ="Most frequent words")
+
+names(xt) <- c("Topic", "News articles","Press releases")
 print(xt, include.rownames = F, file="../writing/tables/labels.tex" )
 ```
 
 ```{r eval=FALSE, include=FALSE}
-topics.df <- as.data.frame(sagelabs$marginal$prob) %>%
-  transmute(topic = as.numeric(rownames(.)),
-            joint_label = paste( "Topic",topic, ":", V1,V2,V3,V4))
-
-topics.df %>% select(joint_label) %>% 
-  htmlTable::htmlTable(align="l", header = c("Topic Label"),
-                       rnames = F)
+### use this for models without content - covariates ###
+# -------
+# topics.df <- as.data.frame(sagelabs$marginal$prob) %>%
+#   transmute(topic = as.numeric(rownames(.)),
+#             joint_label = paste( "Topic",topic, ":", V1,V2,V3,V4))
+# 
+# topics.df %>% select(joint_label) %>% 
+#   htmlTable::htmlTable(align="l", header = c("Topic Label"),
+#                        rnames = F)
 ```
 
 ```{r}
@@ -299,7 +423,32 @@ theta <- as.data.frame(stmOut$theta) %>% # get all theta values for each documen
   
   # join with model_df
   left_join(., model_df %>% 
-              select(date,type,source,doc_index,title_text), by="doc_index")
+              select(date,type,source,doc_index,title_text), by="doc_index") %>%  
+  
+  # delete documents that are published in Mai 2017
+  mutate(
+    year = lubridate::year(date),
+    month = lubridate::month(date)
+    ) %>%
+  filter(month != 5)
+```
+
+```{r}
+# select a random document
+doc <- sample(unique(theta$doc_index),1)
+
+sample <- theta %>% filter(doc_index == doc) 
+caption <- model_df %>% filter(doc_index == doc) %>% select(title, source)
+
+sample %>%
+  ggplot(aes(reorder(joint_label,desc(topic)), theta)) +
+  geom_col(fill = color1) +
+  coord_flip() +
+  ylim(c(0,1)) +
+  theme_hc() +
+  labs(x = NULL, y = NULL, caption = paste("title:",caption$title,"(",caption$source,")"))
+
+ggsave("../figs/doc_topic_distr.png", height = 8, width = 8)
 ```
 
 ### Topic frequency
@@ -307,58 +456,79 @@ theta <- as.data.frame(stmOut$theta) %>% # get all theta values for each documen
 The expected proportion of the corpus that belongs to each topic is used to get an initial overview of the results. The figure below displays the topics ordered by their expected frequency across the corpus. The four most frequent words in each topic are used as a label for that topic. 
 
 ```{r}
-overall_freq <- as.data.frame(colMeans(stmOut$theta)) %>%
-  transmute(
-    topic = as.numeric(rownames(.)),
-    frequency = colMeans(stmOut$theta)
-         ) %>%
-  left_join(., topics.df, by = "topic") %>% 
-  arrange(desc(frequency))%>%
+topicmean <- theta %>%
+  group_by(topic, joint_label) %>%
+  summarise(frequency = mean(theta)) %>%
+  ungroup() %>%
+  arrange(desc(frequency)) %>%
   mutate(order = row_number())
 ```
 
-```{r Plot expected frequency, fig.height=10, fig.width=8, fig.align="center"}
-overall_freq %>%
-  ggplot(aes(reorder(joint_label, -order), 
-             frequency, fill=frequency)) +
-  geom_col(show.legend = F) +
+```{r Plot expected frequency, include=FALSE}
+topicmean %>%
+  ggplot(aes(reorder(joint_label, -order),frequency, fill=frequency)) +
+  geom_col(show.legend = FALSE) +
   coord_flip() +
-  scale_fill_gradient(low = "#dee24e", high = "#421c64") +
+  scale_fill_gradient2(low="white", mid="blue", high="red") +
   theme_hc() +
   labs(x=NULL, y=NULL) 
 
-ggsave("../figs/topic_proportion.png", height = 10, width = 10)
+ggsave("../figs/topic_proportion.png", height = 8, width = 8)
 ```
 
-# Measure Agendas
+![](../figs/topic_proportion.png)
 
-Agendas were measured in terms of percentage distributions across the 60 topics. For each source the average distribution of each topic is calculated for each month. The following pictures show the overall topic distribution.
+# Topic frequencies by source
+
+For each source the average distribution of each topic is calculated. 
 
 ```{r}
 topicmean_news <- theta %>%
   filter(type == "news") %>%
-  group_by(topic,joint_label, source) %>%
-  summarise(topicmean = mean(theta)) %>% 
+  group_by(topic,joint_label,source) %>%
+  summarise(frequency = mean(theta, na.rm = T)) %>% 
   ungroup()
 
 topicmean_press <- theta %>%
   filter(type == "press") %>%
   group_by(topic,joint_label, source) %>%
-  summarise(topicmean = mean(theta)) %>% 
+  summarise(frequency = mean(theta)) %>% 
   ungroup()
+```
+
+```{r}
+table_out <- bind_rows(topicmean %>% mutate(source = "_overall") %>% select(-order),
+                       topicmean_news, topicmean_press) %>%
+  mutate(Topic = as.character(topic),
+            frequency = round(frequency,3),
+            source = source) %>% 
+  spread(source, frequency) %>% select(-topic, -joint_label)
+```
+
+```{r}
+# Print out the dataframe to a latex table 
+xt <- xtable(table_out,
+             type="latex",
+            digits = 3,
+             caption ="Topic frequency")
+
+print(xt, include.rownames = F, file="../writing/tables/topic_probability.tex" )
 ```
 
 ```{r eval=FALSE, fig.align="center", fig.height=11, fig.width=11, include=FALSE}
 topicmean_news %>%
-  ggplot(aes(reorder(joint_label,desc(topic)),topicmean)) +
-  geom_col(fill="#3d648a") +
+  ggplot(aes(reorder(joint_label,desc(topic)),
+             frequency, fill=frequency)) +
+  geom_col(show.legend = F) +
   coord_flip() +
   theme_hc() +
   facet_grid(~source) +
+  scale_fill_gradient2(limits=c(0,0.25), low="white", mid="blue", high="red") +
+  scale_y_continuous(limits = c(0,0.25), breaks = c(0,0.1,0.2)) +
   labs(x=NULL, y=NULL) +
   theme(axis.text.y = element_blank())
 
-ggsave("../figs/topic_proportion_news.png", width = 11, height =10)
+ggsave("../figs/topic_proportion_news.png", width = 10, height =8)
 ```
 
 ```{r fig.height=3, fig.width=12}
@@ -379,7 +549,7 @@ topicmean_news %>%
   geom_col(show.legend = F) +
   geom_text(hjust=-0.1, size=5) +
   coord_flip() +
-  scale_fill_gradient(low = "#00AFBB", high = "#FC4E07") +
+  scale_fill_gradient(low = color1, high = color3) +
   facet_wrap(~source, nrow = 1) +
   labs(x=NULL, y=NULL) +
   theme(axis.text.y = element_text(size=12))
@@ -387,14 +557,17 @@ topicmean_news %>%
 
 ```{r eval=FALSE, fig.align="center", fig.height=11, fig.width=11, include=FALSE}
 topicmean_press %>%
-  ggplot(aes(reorder(joint_label,desc(topic)),topicmean)) +
-  geom_col(fill="#a3d55a") +
+  ggplot(aes(reorder(joint_label,desc(topic)),
+             frequency, fill=frequency)) +
+  geom_col(show.legend = FALSE) +
   coord_flip() +
     theme_hc() +
   facet_grid(~source) +
+  scale_fill_gradient2(limits=c(0,0.25), low="white", mid="blue", high="red") +
+    scale_y_continuous(limits = c(0,0.25), breaks = c(0,0.1,0.2)) +
   labs(x=NULL, y=NULL) 
 
-ggsave("../figs/topic_proportion_press.png", width = 11, height =10)
+ggsave("../figs/topic_proportion_press.png", width = 10, height =8)
 ```
 
 ```{r fig.height=3, fig.width=12}
@@ -415,74 +588,13 @@ topicmean_press %>%
   geom_col(show.legend = F) +
   geom_text(hjust=-0.1, size=5) +
   coord_flip() +
-  scale_fill_gradient(low = "#dee24e", high = "#421c64") +
+  scale_fill_gradient(low = color1, high = color3) +
   facet_wrap(~source, nrow = 1) +
   labs(x=NULL, y=NULL) +
   theme(axis.text.y = element_text(size=12))
 ```
 
 ### Correlation of topic prevalence
-```{r Normalize Data Function}
-normalize_data <- function(x) {
-  # normalize data between -1,1
-  if (is.numeric(x)) {
-    y <- 2*((x - min(x, na.rm = T)) / (max(x, na.rm = T) - min(x, na.rm = T)))-1
-    return(y)
-  } else {
-    return(x)
-  }
-
-}
-```
-
-For each document $d$, we get a vector $1$x$k$ defined as the document-topic distribution $\theta_{d}$:
-
-$$
-\theta_{d} =
-  \begin{bmatrix} 
-    \theta_{1} \\
-	  . \\
-	  . \\
-	  \theta_{k-1} \\
-	  \theta_{k}\\
-	\end{bmatrix}
-$$
- 
-where $\theta_1, ... ,\theta_{k-1}, \theta_k$ are the probabilities $\theta$ of observing topic $k$ in document $d$.
-
-E.g. following vector is given for a sample document:
-
-```{r}
-sample_doc <- sample(nrow(model_df),1)
-
-theta %>% 
-  filter(doc_index == sample_doc) %>%
-  transmute(theta = round(theta, 4)) %>% htmlTable::htmlTable()
-```
-
-```{r fig.height=6, fig.width=8}
-# uncomment this to only select docs from press releases
-#sample_doc <- theta %>% filter(type=="press") %>% sample_n(1) %>% select(doc_index)
-#sample_doc <- sample_doc$doc_index
-
-title <- model_df$title[which(model_df$doc_index == sample_doc)]
-source <- model_df$source[which(model_df$doc_index == sample_doc)]
-
-theta %>%
-  filter(doc_index == sample_doc) %>%
-  ggplot(aes(reorder(joint_label, desc(topic)), theta)) +
-  geom_col(fill="#3d648a", alpha = 0.8) +
-  ylim(c(0,1)) +
-  coord_flip() +
-  theme_hc() +
-  labs(title = paste("Topic distribution of document",sample_doc),
-       subtitle = paste0("Source: ",source,"\nTitle: ", title),
-       x = NULL, y = NULL
-       ) +
-  theme(axis.text = element_text(size = 10))
-
-#ggsave("../figs/doc_topic_distr.png", height = 10, width = 10)
-```
 
 For each source $s$, we get a matrix $\Theta_s$ as the collection of all documents (collection of column vectors $\theta_{dk}$). 
 
@@ -518,99 +630,154 @@ $$
 
 where $i \in \{1, ... , k \} $
 
-```{r}
-# calculate topic mean by source and month
-topicmean <- theta %>%
-  mutate(
-    year = lubridate::year(date),
-    month = lubridate::month(date)
-    ) %>%
-  filter(month != 5) %>%
-  group_by(topic,source) %>%
-  dplyr::summarise(topicmean = mean(theta)) %>% 
-  ungroup() %>%
-  spread(source, topicmean) 
-
-theta %>%
-  mutate(
-    year = lubridate::year(date),
-    month = lubridate::month(date)
-    ) %>%
-  filter(month != 5) %>%
-  group_by(topic,source) %>%
-  dplyr::summarise(topicmean = mean(theta)) %>% 
-  ungroup() %>%
-  mutate(topicmean = round(topicmean,4)) %>%
-  spread(source, topicmean) %>%
-  select(-topic) %>%
-  htmlTable::htmlTable()
-```
-
 Next, I estimate bivariate correlations between party agendas (press releases) and the mediated party agendas in the online news. These correlations represent the agenda selectivity each party experiences in each media outlet. The higher the correlation, the more congruent both agendas are.
 
-E.g. for "CDU" we get the following correlations:
-
 ```{r}
-media <- unique(model_df %>% filter(type == "news") %>% select(source))
-parties <- unique(model_df %>% filter(type == "press") %>% select(source))
-
-cor(topicmean[,media$source], topicmean[,"CDU"]) %>% htmlTable::htmlTable()
+library(Hmisc)
+library(ggcorrplot)
+library(corrr)
 ```
 
 ```{r}
-rm(corrDF)
-for (i in parties$source) {
-  
-  tempdf <- topicmean %>%
-    do(data.frame(Cor=t(cor(.[,media$source], .[,i])))) %>%
-    gather(medium, cor) %>%
-    mutate(party = i,
-           medium = gsub("Cor.","",medium))
-  
-  if (exists("corrDF")){
-    corrDF <- rbind(corrDF,tempdf)
-  } else {
-    corrDF <- tempdf
-  }
-  
-}
+corr.df <- bind_rows(topicmean_news, topicmean_press) %>% 
+  select(-joint_label) %>% spread(source, frequency)
 
-agenda <- corrDF %>% 
-  dplyr::mutate(medium = ifelse(medium == "DIE.WELT", "DIE WELT", medium),
-                medium = ifelse(medium ==  "ZEIT.ONLINE", "ZEIT ONLINE", medium),
-                medium = ifelse(medium == "FOCUS.Online", "FOCUS Online", medium),
-                medium = ifelse(medium == "SPIEGEL.ONLINE", "SPIEGEL ONLINE", medium)
-  )
+x <- as.matrix(corr.df[,-1])
 ```
 
-#### Correlation of topic prevalence  - grouped by party & medium
+```{r}
+rs <- correlate(x)
+rs %>% knitr::kable()
+```
 
 ```{r}
-p <- agenda %>%
-  spread(key = party, value = cor) %>%
-  ggiraphExtra::ggRadar(aes(color = medium),
-                        interactive = T,
-                        alpha = 0,
-                        rescale = F,
-                        legend.position = "bottom") 
+rs %>% 
+  network_plot()
+```
 
-htmlwidgets::saveWidget(p, "../figs/radarchart.html")
+```{r}
+rs %>%
+  focus(parties, mirror = TRUE)  %>%
+  rplot()
+```
 
-p
+```{r}
+news <- c("DIE WELT","stern.de", "ZEIT ONLINE", "FOCUS Online", "Bild.de", "SPIEGEL ONLINE", "tagesschau.de" )
+parties <- c("CDU", "SPD", "AfD", "B90/GRÜNE", "DIE LINKE", "FDP" )
+
+plot <- rs %>%
+  as_tibble() %>%
+  dplyr::rename(source1 = rowname) %>%
+  gather(key = source2, value = corr, -source1) %>% 
+  mutate(
+    type1 = ifelse(source1 %in% news, "news", "party"),
+    type2 = ifelse(source2 %in% news, "news", "party")
+  ) 
+```
+
+```{r}
+p1 <- plot %>%
+  filter(type1 == "news") %>%
+  filter(type2 == "news") %>%
+  ggplot(aes(source1, source2, 
+                 label=round(corr, digits = 2),
+                 fill=corr)) +
+  geom_tile() +
+  scale_fill_gradient2(low = color, high = color1) +
+  geom_text(size=1.8) +
+  theme_hc() +
+  labs(x = NULL, y = NULL, title = "Medium / Medium") + 
+  scale_x_discrete(expand = c(0, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  theme(legend.position = "none",
+        axis.text = element_text(size = 6),
+       axis.text.x = element_text(angle = 90))
+
+p2 <- plot %>%
+  filter(type1 == "news") %>%
+  filter(type2 == "party") %>%
+  ggplot(aes(source1, source2, 
+                 label=round(corr, digits = 2),
+                 fill=corr)) +
+  geom_tile() +
+  scale_fill_gradient2(low = color, high = color1) +
+  geom_text(size=1.8) +
+  theme_hc() +
+  labs(x = NULL, y = NULL, title = "Medium / Partei") + 
+  scale_x_discrete(expand = c(0, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  theme(legend.position = "none",
+        axis.text = element_text(size = 6),
+        #axis.text.y = element_blank(),
+       axis.text.x = element_text(angle = 90))
+
+p3 <- plot %>%
+  filter(type1 == "party") %>%
+  filter(type2 == "party") %>%
+  ggplot(aes(source1, 
+             source2,label=round(corr, digits = 2), fill=corr)) +
+  geom_tile() +
+  scale_fill_gradient2(low = color, high = color1) +
+  geom_text(size=1.8) +
+  theme_hc() +
+  labs(x = NULL, y = NULL, title = "Partei / Partei") + 
+  scale_x_discrete(expand = c(0, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  theme(legend.position = "none",
+        axis.text = element_text(size = 6),
+       axis.text.x = element_text(angle = 90))
+
+p1 + p2 + p3
+
+ggsave("../figs/corrplot.png", width = 10, height =4)
+```
+
+```{r include=FALSE}
+plot %>%
+  filter(type1 == "news") %>%
+  filter(type2 == "party") %>%
+  mutate(
+    order = ifelse(source2=="DIE LINKE",1,NA),
+    order = ifelse(source2=="B90/GRÜNE",2,order),
+    order = ifelse(source2=="SPD",3,order),
+    order = ifelse(source2=="FDP",4,order),
+    order = ifelse(source2=="CDU",5,order),
+    order = ifelse(source2=="AfD",6,order),
+    corr = normalize_data2(corr)
+  ) %>%
+  ggplot(aes(reorder(source2, order), source1, 
+                 label=round(corr, digits = 2),
+                 fill=corr)) +
+  geom_tile() +
+  scale_fill_gradient2(low='darkblue', mid='white', high='darkred') +
+  geom_text(size=1.8, color="white") +
+  theme_hc() +
+  labs(x = NULL, y = NULL) + 
+  scale_x_discrete(expand = c(0, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  theme(legend.position = "none",
+        axis.text = element_text(size = 6),
+        #axis.text.y = element_blank(),
+       axis.text.x = element_text(angle = 90))
+
+ggsave("../figs/corrplot_news_media.png", width = 4, height =4)
+```
+
+
+```{r}
+# save to latex table
+Rnew <- corstars(x)
+xt <- xtable(Rnew, type="latex")
+print(xt, include.rownames = F, file="../writing/tables/topic_correlation.tex" )
 ```
 
 ```{r}
 # calculate topic mean by source and month
-topicmean <- theta %>%
-  mutate(
-    year = lubridate::year(date),
-    month = lubridate::month(date)
-    ) %>%
+topicmean_monthly <- theta %>%
   group_by(topic,source, month, year) %>%
-  dplyr::summarise(topicmean = mean(theta)) %>% 
+  dplyr::summarise(topicmean = mean(theta)) %>%
   ungroup() %>%
-  spread(source, topicmean) %>%
-  filter(month != 5)
+  spread(source, topicmean) 
 ```
 
 ```{r}
@@ -620,7 +787,7 @@ parties <- unique(model_df %>% filter(type == "press") %>% select(source))
 rm(corrDF)
 for (i in parties$source) {
   
-  tempdf <- topicmean %>%
+  tempdf <- topicmean_monthly %>%
     group_by(month, year) %>%
     do(data.frame(Cor=t(cor(.[,media$source], .[,i])))) %>%
     gather(medium, cor, 3:9) %>%
@@ -637,106 +804,110 @@ for (i in parties$source) {
 }
 
 agenda <- corrDF %>% 
-  mutate(date = as.Date(paste0(year,"/",month,"/1"))) %>%
+  mutate(date = as.Date(paste0(year,"/",month,"/1")),
+         cor_norm = normalize_data2(cor)
+         ) %>%
   dplyr::mutate(medium = ifelse(medium == "DIE.WELT", "DIE WELT", medium),
                 medium = ifelse(medium ==  "ZEIT.ONLINE", "ZEIT ONLINE", medium),
                 medium = ifelse(medium == "FOCUS.Online", "FOCUS Online", medium),
                 medium = ifelse(medium == "SPIEGEL.ONLINE", "SPIEGEL ONLINE", medium)
-  ) %>%
-  filter(month > 5)
+  )
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 p <- agenda %>%
-  summarize(cor = mean(cor, na.rm = T)) %>%
-  spread(key = party, value = cor) %>%
-  ggiraphExtra::ggRadar(aes(color = medium),
-                        interactive = F,
-                        alpha = 0,
-                        rescale = F,
-                        legend.position = "bottom") 
+  ggplot(aes(date, cor, 
+             color = medium,
+             linetype = medium)) +
+  geom_line() +
+  geom_hline(yintercept = 0, size = 0.3, color = color1) +
+  facet_wrap(~party) +
+  theme_hc() +
+  scale_color_viridis_d() +
+  labs(y=NULL, x =NULL) +
+  scale_x_date(date_breaks = "2 month", date_labels = "%b/%y") +
+  theme(legend.position = "bottom",
+        legend.title = element_blank()) +
+     guides(col = guide_legend(nrow = 1))
 
-ggsave(filename = "../figs/radarchart.png", p, width =9, height = 7)
+plotly::ggplotly(p, tooltip=c("cor","medium"))
+
+#ggsave("../figs/corr_timeline.png", height = 5, width = 8)
 ```
+
+#### Radar chart
+
+```{r include=FALSE}
+radar <- agenda %>%
+  group_by(party, medium) %>%
+  summarize(cor = mean(cor, na.rm = T)) %>%
+  spread(key = party, value = cor) 
+
+ggiraphExtra::ggRadar(radar, aes(color = medium),
+                      rescale = F,
+                      alpha = 0) +
+  theme_hc() +
+  scale_color_viridis_d() +
+  theme(legend.position = "none",
+        legend.title = element_blank()) +
+   guides(col = guide_legend(ncol = 1)) 
+
+ggsave("../figs/radar_corr.png", width = 5, height = 5, dpi = 200)
+```
+
+```{r}
+ggiraphExtra::ggRadar(radar, aes(color = medium),
+                      rescale = F,
+                      interactive = T,
+                      alpha = 0) 
+```
+
+```{r}
+# Print out the dataframe to a latex table 
+xt <- xtable(radar,
+             digits = c(0,3,3,3,3,3,3,3),
+             type="latex",
+             caption ="Topic correlation")
+
+print(xt, include.rownames = F, file="../writing/tables/correlation.tex" )
+```
+
 
 #### Deviation from average visibility 
 
-Due to political relevance, not all potential topics recieve equal amounts of coverage in media. However, these factors should infuence all media outlets equally. To what extent does the topic correlation of a party in a medium differ from the average topic correlation in the media? To calculate the relative topic correlation, I estimate the deviation of the topic correlation of a party in one medium from the average topic correlation of that party over all news paper.
+Due to political relevance, not all potential topics recieve equal amounts of coverage in media. However, these factors should influence all media outlets equally. To what extent does the topic correlation of a party in a medium differ from the average topic correlation in the media? To calculate the relative topic correlation, I estimate the deviation of the topic correlation of a party in one medium from the average topic correlation of that party over all news paper.
 
-```{r fig.height=6, fig.width=10, fig.align="center"}
-agenda_diff <- agenda %>%
-  group_by(party, date) %>%
-  # estimate average correlation for each party
-  mutate(cor_by_party = mean(cor, na.rm = T)) %>%
-  ungroup() %>%
-  # estimate average correlation for each party-medium pair
-  mutate(
-    cor_diff = cor - cor_by_party
-    )
+```{r}
+radar_rescaled <- as_tibble(sapply(radar[,-1], function(x) normalize_data2(x) ) ) %>%
+  mutate(medium = radar$medium)
 ```
 
-```{r fig.height=6, fig.width=10, fig.align="center"}
-p <- agenda_diff %>%
-  ggplot(aes(date, cor_diff, color = medium)) +
-  geom_line(show.legend = F) +
-  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
-  facet_wrap(~party) +
-    scale_color_viridis_d(name = NULL) +
-  labs(y=NULL, x =NULL) 
+```{r include=FALSE}
+ggiraphExtra::ggRadar(radar_rescaled, 
+                      aes(color = medium),
+                      rescale = F,
+                      alpha = 0) + 
+  theme_hc() +
+  scale_color_viridis_d() +
+  theme(legend.position = "right",
+        legend.title = element_blank()) +
+   guides(col = guide_legend(ncol = 1))
 
-plotly::ggplotly(p, tooltip=c("cor","medium"))
+ggsave("../figs/radar_corr_rescaled.png", width = 6, height = 5, dpi = 200)
 ```
 
 ```{r}
-p <- agenda_diff %>%
-  group_by(party, medium) %>%
-  summarize(cor = mean(cor_diff, na.rm = T)) %>%
-  spread(key = party, value = cor) %>%
-  ggiraphExtra::ggRadar(aes(color = medium),
-                        interactive = T,
-                        alpha = 0,
-                        rescale = F,
-                        legend.position = "bottom") 
-
-p
+ggiraphExtra::ggRadar(radar_rescaled, 
+                      aes(color = medium),
+                      rescale = F,
+                      interactive = T,
+                      alpha = 0) 
 ```
 
-
-```{r}
-agenda_diff %>%
-  filter(!medium == "tagesschau.de") %>%
-  group_by(party, medium) %>%
-  summarize(cor = mean(cor_diff, na.rm = T)) %>%
-  spread(key = party, value = cor) %>%
-  ggiraphExtra::ggRadar(aes(color = medium),
-                        interactive = T,
-                        alpha = 0,
-                        rescale = F,
-                        legend.position = "bottom") 
-```
 
 ```{r eval=FALSE, include=FALSE}
 save(agenda, file = "../output/agenda.Rda")
 ```
 
 
-#### Estimate correlation by date
-
-```{r fig.height=6, fig.width=10, fig.align="center"}
-p <- agenda %>%
-  mutate(
-    date =as.Date(paste("01",month,year, sep = "-"), format="%d-%m-%Y")
-  ) %>%
-  ggplot(aes(date, cor, color = medium)) +
-  geom_line(show.legend = F) +
-  geom_hline(yintercept = 0, size = 0.3, color = "grey30", linetype = 2) +
-  facet_wrap(~party) +
-    scale_color_viridis_d(name = NULL) +
-  labs(y=NULL, x =NULL) 
-  # guides(colour = guide_legend(nrow = 1)) +
-  # theme(legend.position = "bottom",
-  #       legend.title = element_blank())
-
-plotly::ggplotly(p, tooltip=c("cor","medium"))
-```
 
