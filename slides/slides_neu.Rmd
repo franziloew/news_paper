@@ -41,14 +41,13 @@ class: inverse, center, middle
 # Einleitung
 
 ---
-
 ## Einleitung
 
 **Kritik an Medien:** Verzerrte Berichterstattung und dadurch Einflussnahme auf gesellschaftliche / politische Ergebnisse
 
 --
 
-**Aber:** Was bedeutet unverzerrte/objektive Berichterstattung?
+**Aber:** Was bedeutet unverzerrte in diesem Zusammenhang? Kann es objektive Berichterstattung geben?
   
   - Journalisten setzen Zahlen und Fakten in einen Kontext, sodass jeder Artikel durch seine subjektive Wahrnehmung beeinflusst wird.
   
@@ -71,7 +70,7 @@ Aus der ökonomischen Literatur:
 - Persönliche Präferenzen/ politische Einstellung der Journalisten (Baron, 2006. *Journal of Public Economics*)
   / des Verlegers (Besley & Prat, 2006. *American Economic Review*) ?
 
-Nachfrageseitig:
+**Nachfrageseitig**:
   
 - Präferenzen der Leser (Gentzkow & Shapiro, 2006. *Journal of Political Economy*)
   
@@ -86,7 +85,7 @@ Nachfrageseitig:
 
 --
 
-**Methode:** 
+**Vorgehensweise:** 
 
 1. Slant-index berechnen: Korrelation der Themen zwischen Pressemitteilungen der Parteien und der Nachrichtenartikel
 
@@ -95,8 +94,8 @@ Nachfrageseitig:
 
 2. Slant-index vergleichen mit Daten zu...
   
-  - Leserpräferenzen (Digital news report 2018)
-  - aktuellen Umfragewerten der Parteien (7 deutsche Umfrageinstitute)
+  - ...Leserpräferenzen (Digital news report 2018)
+  - ...aktuellen Umfragewerten der Parteien (7 deutsche Umfrageinstitute)
 
 ---
 class: inverse, center, middle
@@ -166,7 +165,7 @@ Um diese Hyptothesen zu untersuchen...
 
 Inwiefern wird **die selbe Sprache** verwendet, die auch die Parteien/politische Aktuere verwenden?: 
   - Wie häufig werden die selben ThinkTanks zitiert? (Groseclose and Milyo, 2005; Lott and Hassett, 2014)
-  - Wie häufig werdendie selben Ausdrücke verwendet? (Gentzkow and Shapiro, 2004)
+  - Wie häufig werden die selben Ausdrücke verwendet? (Gentzkow and Shapiro, 2004)
 
 Inwiefern werden die **politischen Agenden** der Parteien übernommen?
   - Wie korrelieren die Themen aus den Pressemittelungen mit den Themen in den Medien? (Eberl et al., 2017)
@@ -187,8 +186,8 @@ Korrelation zwischen den Themen, die in den Nachrichten vorkommen und den Themen
 **Annahme**: 
 
 - Parteien möchten in den Medien in Zusammenhang mit den Themen besprochen werden, die sie kompetent erscheinen lassen (Brandenburg, 2005; Eberl et al., 2017)
-- Sie instrumentalisieren ihre Pressemitteilungen um ihre "eigenen" Themen auf die Medienagenda zu setzen (Kepplinger and Maurer, 2004)
-- Verleger können aus diesem Universum an Themen wählen und setzen so die Agenda für ihr Medium
+- Sie instrumentalisieren ihre Pressemitteilungen, um ihre "eigenen" Themen auf die Medienagenda zu setzen (Kepplinger and Maurer, 2004)
+- Verleger können aus einm Universum an Themen wählen und berücksichtigen dabei auch die Themen, die von den Parteien auf die Agenda gesetzt werden. 
 
 
 ---
@@ -197,6 +196,7 @@ class: inverse, center, middle
 # Hypothesen
 
 ---
+class: middle
 
 ## Hypothesen
 
@@ -1076,15 +1076,14 @@ ggsave("img/hypothese2.png", width = 8, height = 5, dpi=300)
 
 ![](img/hypothese2.png)
 
-
 ---
 class: center, middle, inverse
 
-#Conclusion
+# Erste Ergebnisse
 
 ---
 
-## Conclusion
+## Erste Ergebnisse
 
 - Keine direkten Anzeichen dafür, dass sich die "Slant"-Variation der untersuchten online Medien mit Hilfe der entsprechenden Leserpräferenzen erklären lassen. 
 
@@ -1095,5 +1094,7 @@ class: center, middle, inverse
 **Idee für weitere Studien:**
 
 - Anwendung der Methode weitere Datensätze, anderen Zeitraum
+
+- Berechnung des STM mit Spezifikation, dass sich die Sprache zwischen den Quellen unterscheidet (nicht nur zwischen der Art der Quelle)
 
 - Unterschied erkennbar für Artikel "hinter der Paywall" ? 

@@ -106,18 +106,33 @@ Since private media outlets are almost exclusively platforms, that connect the m
 In order to answer the question whether the media is biased, the preliminary question of what media bias means has to be answered. In order to arrive at a better operational definition of bias, some scholars argue that an objective news report is a neutral or balanced report, thus one where all sides are equally represented according to some kind of benchmark for balance or neutrality \citep{eberl_one_2017}. 
 
 % ---- What is media bias? How to measure political content? ---- %
-This implies the challenge of measuring the extent to which parties are represented in the media, i.e. the quantification of reporting in the context of political actors. The simplest approach would be to count how often a party or a political actor is mentioned in the media. The frequency of mentioning or mere visibility is then used as an indicator of a party's media coverage \citep{oegema_personalization_2009, eberl_one_2017, junque_de_fortuny_evaluating_2014}. Although this approach analyses the visibility of political actors, it says nothing about the way in which they are covered. The concept of valence framing suggests that public awareness of parties is affected depending on whether they are highlighted with positive or negative aspects in the media \citep{de_vreese_valenced_2006, hurtikova_importance_2017}. To take into account this effect, sentiment analysis is a commonly used approach to measure how parties are discussed in media. To measure tonality in a text, studies differ between manually coded data \citep{eberl_one_2017, dewenter_can_2018} and dictionary-based analysis \citep{junque_de_fortuny_media_2012}. To conduct the latter, a lists of words (dictionary) associated with a given emotion, such as negativity is pre-defined by the analyst. The document is then deconstructed into individual words and the frequencies of words contained in a given dictionary are calculated. \citet{junque_de_fortuny_media_2012} count the sentiment words in a window of two sentences before and after the mention of a political party and assuming uniformity of sentiment distribution among parties to measure the bias.\footnote{A similar approach for target identification with a 10-word window is used in \citet{balahur_sentiment_2013}} Both the human-coded assessment of tonality and computer-assisted analysis techniques pose problems and challenges that make it difficult to quantify media content. While the former is time consuming, costly and fraught with the risk of subjectivity, computer-aided text analysis techniques pose the well-known NLU (natural language understanding) challenge, e.g. that an exact assignment of tonality to political actors can be made more difficult by irony or sarcasm - concepts that are difficult to reproduce in current text analysis approaches.
+
+%-- umschreiben! (zu doll von Hansen geklaut)
+The major empirical challenge for the analysis of media content, and one I address head on in this paper, is to convert the raw text into meaningful quantities which can be systematically analysed. 
+%--
+
+Some approaches focus on the quantitative visibility from a political entity, e.g. how often this entity is mentioned in the article. The frequency of mentioning or mere visibility is then used as an indicator of a party's media coverage \citep{oegema_personalization_2009, eberl_one_2017, junque_de_fortuny_evaluating_2014}. Although this approach analyses the visibility of political actors, it says nothing about the way in which they are covered. The concept of valence framing suggests that public awareness of parties is affected depending on whether they are highlighted with positive or negative aspects in the media \citep{de_vreese_valenced_2006, hurtikova_importance_2017}. To take into account this effect, sentiment analysis is a commonly used approach to measure how parties are discussed in media. To measure tonality in a text, studies differ between manually coded data \citep{eberl_one_2017, dewenter_can_2018} and dictionary-based analysis \citep{junque_de_fortuny_media_2012}. To conduct the latter, a lists of words (dictionary) associated with a given emotion, such as negativity is pre-defined by the analyst. The document is then deconstructed into individual words and the frequencies of words contained in a given dictionary are calculated. \citet{junque_de_fortuny_media_2012} count the sentiment words in a window of two sentences before and after the mention of a political party and assuming uniformity of sentiment distribution among parties to measure the bias.\footnote{A similar approach for target identification with a 10-word window is used in \citet{balahur_sentiment_2013}} 
 
 A further approach to quantifying media content in terms of political content is the evaluation of domain-specific language. \citet{groseclose_measure_2005} count the times that particular media outlet cites various think tanks and policy groups, and then compare this with the times that members of Congress cite the same groups. Similarly \citet{gentzkow_what_2010} define a set of all phrases used by members of Congress in the 2005 Congressional Record, and identify those that are used much more frequently by one party than another. In both cases, news articles are scanned for the previously defined language. News providers who quote think tanks more frequently or use sentences used by one party rather than another have a bias toward that party. 
 
-In addition to domain-specific language, topics can also be used as an indicator of political content, following the assumption that parties want the media agenda to be congruent with their own agenda to define the issue-based criteria on which they will be evaluated by voters. \citet{eberl_one_2017} compares topics in press releases of political parties with topics in news agencies in order to find out which media cover the topics addressed by the parties. This paper follows a similar approach, but unlike \citet{eberl_one_2017}, no human-coded analysis is used, but topics are defined using a structural topic model (STM).  
+In addition to domain-specific language, topics can also be used as an indicator of political content, following the assumption that parties want the media agenda to be congruent with their own agenda to define the issue-based criteria on which they will be evaluated by voters. \citet{eberl_one_2017} compares topics in press releases of political parties with topics in news agencies in order to find out which media cover the topics addressed by the parties. 
+
+%-- umschreiben! (zu doll von Hansen geklaut)
+ The main methodological contribution in this paper is to use computational linguistics, and particularly the combination of topic modelling and dictionary methods, in order to examine the content of what central banks are trying to communicate to the markets and the public.
+
+The first obvious advantage of the use of automated techniques rather than a purely narrative approach to study the statements is scalability without concerns about consistency of the application of the method. With automated methods it is then easy to extend the sample to include more recent data, other sources of communication such as FOMC speeches, or to extend it to other central banks.
+
+In terms of the computational approaches, I use a structural topic model (STM) and dictionary methods to extract the content of online news articles of seven major news provider and press releases of the parties in the German Bundestag. 
+%--
 
 % -----  STM --------
 The STM developed by \citet{roberts_model_2016} is a recent extension of the standard topic modelling technique, labeled as latent Dirichlet allocation (LDA), which refers to the Bayesian model in \citet{blei_latent_2003} that treats each word in a topic and each topic in a document as generated from a Dirichlet - distributed prior.\footnote{See also \citet{griffiths_probabilistic_2002}, \citet{griffiths_finding_2004} and \citet{hofmann_probabilistic_1999}. \citet{pritchard_inference_2000} introduced the same model in genetics for factorizing gene expression as a function of latent populations.} Since its introduction into text analysis, LDA has become hugely popular and especially useful in political science.\footnote{see \citet{blei_probabilistic_2012}, \citet{grimmer_text_2013} and \citet{wiedmann_text_2016} for an overview in social science and \citet{gentzkow_text_2017} give an overview of text mining applications in economics.} \citet{wiedmann_text_2016} uses topic model methods on large amounts of news articles from two german newspapers published between 1959 and 2011, to reveal how democratic demarcation was performed in Germany over the past six decades. \citet{paul_cross-collection_2009} compares editorial differences between media sources, using cross-collection latent Dirichlet allocation (ccLDA), an LDA-based approach that incorporates differences in document metadata. They use a dataset of 623 news articles from August 2008 from two American media outlets - msnbc.com and foxnews.com - to compare how they discuss topics. Reviewing the top words of the word-topic distribution, they find some content differences between the two media sources under review.
 
 Furthermore, the model has been applied to multiple academic fields: \citet{roberts_structural_2014} uses STM to analyze open-ended responses from surveys and experiments, \citet{farrell_corporate_2016} applies the model to scientific texts on climate change, revealing links between corporate funding and the framing of scientific studies. \citet{mishler_using_2015} show that "STM can be used to detect significant events such as the downing of Malaysia Air Flight 17" when applied to twitter data. Another study shows how STM can be used to explore the main international development topics of countries' annual statements in the UN General Debate and examine the country-specific drivers of international development rhetoric \citep{baturo_what_2017}. \citet{mueller_reading_2016} use newspaper text to predict armed conflicts in different regions. They use the estimated topic shares in linear fixed effects regression to forecast conflict out-of-sample. \citet{roberts_navigating_2016} use STM to examine the role of partisanship in topical coverage using a corpus of 13,246 posts that were written for 6 political blogs during the course of the 2008 U.S. presidential election. With the aim of revealing the effect of partisan membership on topic prevalence, each blog is assigned to be either liberal or conservative. To explore the differences between the two, they look at the expected proportion of topics and examine the posts most associated with a respective topic. This approach is similar to \citet{roberts_model_2016}. 
 
-% This paper therefore takes up current concepts for measuring media bias in order to analyse a new data set with the help of state-of-the-art text mining techniques.
+The main contribution of this paper relative to the above mentioned research work is that I combine the effect of topic correlation \citep{eberl_one_2017} and sentiment analysis \citep{dewenter_can_2018, junque_de_fortuny_evaluating_2014, eberl_one_2017} to estimate the slant index of media. I also apply different tools from computational linguistics (both STM for topic modelling and dictionary methods to measure sentiment).
+
+The remainder of the paper proceeds as follows... 
 
 % -------------------------
 % Background Bundestagswahl
@@ -189,23 +204,20 @@ Based on the finding from \citet{gentzkow_what_2010} that readers prefer like-mi
 In contrast to the other providers, tagesschau.de is financed by compulsory fees and has the constitutional mandate to contribute to the formation of individual and public opinion and to secure basic provision. This implies a nationwide reception of broadcasting for the general public as well as the supply of a diversified content.\footnote{The mandate of public service broadcasting is based on Art. 5 Para. 1 Sentence 2 of the German Basic Law (Grundgesetz).} This leads to the assumption that the reporting of tagessschau.de is not aligned to the market conditions of the advertising and reader market, but rather reports balanced on all parties and possible topics.
 
 
-% -------
-% Method
-% -------
-\section{Measuring slant-index}\label{ch_method}
- 
-My approach to measuring the slant of a newspaper is to compare the topics parties discuss in their press releases with the parties that are discussed in the online news articles to identify, which parties the newspapers are most similar to. Parties want the media agenda to be congruent with their own agenda to define the issue-based criteria on which they will be evaluated by voters \citep{eberl_one_2017, brandenburg_political_2005}. Thus, I assume that parties instrumentalize their press releases in order to highlight issues that they are perceived to be competent on, that they "own" and that are important to their voters \citep{kepplinger_einfluss_2004}. Editors can select from this universe and decide which topics will be discussed in the news. In that sense the ideological content of a newspaper refers to the extent to which the topics promoted by the parties correlate with the topics discussed in the news articles.
-
-To discover the latent topics in the corpus of press releases (2.666) (see Section \ref{ch_press}) and news articles (15.135) (see Section \ref{ch_news}), a structural topic model (STM) developed by \citet{roberts_model_2016} is applied. The STM is an unsupervised machine learning approach that models topics as multinomial distributions of words (topical content) and documents as multinomial distributions of topics (topical prevalence of a document), allowing to incorporate external variables that effect both, topical content and topical prevalence. I estimate a model in which the source\footnote{Bild.de, DIE WELT, FOCUS ONLINE, SPIEGEL ONLINE, stern.de, ZEIT ONLINE, Tagesschau.de, CDU/CSU, SPD, AfD, FDP, B90/Die Grünen, DIE LINKE} of the document is included as a control for the topical prevalence, e.g. I assume that the possibility that a topic appears in a document depends on the source. Additionally, the type of source\footnote{press release or news article} is included as a control for the topical content, e.g. I assume that words used to describe the same topics differ between press releases and news articles. The results of the generative process of the STM are two posterior distributions: One for the topic prevalence in a document (what is the article or press release about?) and one for the content of a topic (what is the topic about?). The topic prevalence is used to calculate the agenda of each source as the mean over all documents that belong to that source. Subsequently the bivariate correlations between party agendas and the mediated party agendas in the online news are estimated. These correlations represent the agenda selectivity each party experiences in each media outlet. The higher the correlation, the more congruent both agendas are.  A more formale description of this process is described in Section \ref{ch_stm} and \ref{ch_agendacorrl}. In the last step I compare the agenda selectivity of each medium with the user preferences expressed in the Reuters Institute Digital News Survey (see Section \ref{ch_readerpref}). 
-
 % -----
 % Data
-% ----
-\subsection{Data sources}\label{ch_data}
+% -----
+\section{Data}\label{ch_method}
+
+To measure the slant index of a media outlet, the topics discussed in that media outlet are compared to topics discussed in the press releases of political parties. 
+
+Parties want the media agenda to be congruent with their own agenda to define the issue-based criteria on which they will be evaluated by voters \citep{eberl_one_2017, brandenburg_political_2005}. Thus, I assume that parties instrumentalize their press releases in order to highlight issues that they are perceived to be competent on, that they "own" and that are important to their voters \citep{kepplinger_einfluss_2004}. Editors can select from this universe and decide which topics will be discussed in the news. In that sense the ideological content of a newspaper refers to the extent to which the topics promoted by the parties correlate with the topics discussed in the news articles. 
+
+% Ich nehme außerdem an, dass Parteien Themen mit unterschiedlichen "Sentiment" Werten besprechen. Ich vergleiche dieses Sentiment mit dem wert der Zeitungen. 
 
 The following section describes the data on news articles and press releases and how they have processed in order to use them as input for the model.
 
-\subsubsection{Press releases}\label{ch_press}
+\subsection{Press releases}\label{ch_press}
 
 The press releases were scraped from the publicly accessible press portals of the parties\footnote{afd.de, spd.de, die-linke.de, fdp.de, gruene.de, cdu.de} and parliamentary groups\footnote{afdbundestag.de, spdfraktion.de, die-linke.de/start/presse/aus-dem-bundestag, fdpbt.de, gruene-bundestag.de/, presseportal.de/nr/7846}. 
 
@@ -230,7 +242,7 @@ Articles with less than 50 words, as well as articles about party internal elect
 \end{figure}
 
 
-\subsubsection{News articles}\label{ch_news}
+\subsection{News articles}\label{ch_news}
 
 %\input{tables/data_summary}
 
@@ -322,6 +334,24 @@ Figure \ref{fig_tf_news} and \ref{fig_tf_press} show the top 15 bigrams (pairs o
 % --------------------
 The next step is to divide the entire dataset into individual documents and to represent these documents as a finite list of unique terms. In this setting, each news article and each press release represents a document $d$, whereby each of these documents can be assigned to a news website or a party. The sum of all documents forms what is called the corpus. For each document $d \in \lbrace 1,...,D \rbrace$ the number of occurrences of term $v$ in document $d$ is computed, in order to obtain the count $x_{d,v}$, where each unique term in the corpus is indexed by some $v \in \lbrace 1,...,V \rbrace$ and where $V$ is the number of unique terms. The $D$ x $V$ matrix $\boldsymbol{X}$ of all such counts is called the document-term matrix. Each row in this matrix represents a document, where each entry in this row counts the occurrences of a unique term in that document. This representation is often referred to as the bag of words model \citep{gentzkow_text_2017}, since the order in which words are used within a document is disregarded.
 
+\section{Measuring slant-index}\label{ch_method}
+
+To discover the latent topics in the corpus of press releases (2.666) (see Section \ref{ch_press}) and news articles (15.135) (see Section \ref{ch_news}), a structural topic model (STM) developed by \citet{roberts_model_2016} is applied. The STM is an unsupervised machine learning approach that models topics as multinomial distributions of words (topical content) and documents as multinomial distributions of topics (topical prevalence of a document), allowing to incorporate external variables that effect both, topical content and topical prevalence. I estimate a model in which the source\footnote{Bild.de, DIE WELT, FOCUS ONLINE, SPIEGEL ONLINE, stern.de, ZEIT ONLINE, Tagesschau.de, CDU/CSU, SPD, AfD, FDP, B90/Die Grünen, DIE LINKE} of the document is included as a control for the topical prevalence, e.g. I assume that the possibility that a topic appears in a document depends on the source. Additionally, the type of source\footnote{press release or news article} is included as a control for the topical content, e.g. I assume that words used to describe the same topics differ between press releases and news articles. The results of the generative process of the STM are two posterior distributions: One for the topic prevalence in a document (what is the article or press release about?) and one for the content of a topic (what is the topic about?). The topic prevalence is used to calculate the agenda of each source as the mean over all documents that belong to that source. Subsequently the bivariate correlations between party agendas and the mediated party agendas in the online news are estimated. These correlations represent the agenda selectivity each party experiences in each media outlet. The higher the correlation, the more congruent both agendas are.  A more formale description of this process is described in Section \ref{ch_stm} and \ref{ch_agendacorrl}. In the last step I compare the agenda selectivity of each medium with the user preferences expressed in the Reuters Institute Digital News Survey (see Section \ref{ch_readerpref}). 
+
+\subsection{Sentiment score}
+
+To estimate the sentiment of each document a dictionary-based method is applied with the aim to measure the tone (or sentiment) of a document. The idea of a sentiment analysis is to determine the attitude of a writer toward the overall tonality of a document. To conduct such an analysis, a lists of words (dictionary) associated with a given emotion, such as negativity is pre-defined by the analyst. The document is then deconstructed into individual words and the frequencies of words contained in a given dictionary are calculated. 
+
+Such lexical or "bag-of-words" approaches are widely presented in the finance literature to determine the effect of central banks' monetary policy communications on asset prices and real variables (\citet{nyman_news_2018} \citet{tetlock_giving_2007}, \citet{tetlock_more_2008}). \citet{hansen_shocking_2016} use a similar approach to measure "the two Ts" (Topic and tone). They explore the effects of FOMC (Federal Open Market Committee) statements on both market and real economic variables. To understand the latent topic of a statement, they apply LDA on a corpus of 142 FOMC decision statements split into sentences. They then measure how the central bank is talking about that topic, using a dictionary approach. To calculate their score, they subtract the negative words from the positive words und divide this by the number of total words of the statement. A similar score is used by \citet{nyman_news_2018}, who measure the effect of narratives and sentiment of financial market text-based data on developments in the financial system. They count the number of occurrences of excitement words and anxiety words and then scale these numbers by the total text size as measured by the number of characters.
+
+The present paper uses a dictionary that lists words associated with positive and negative polarity weighted within the interval of $[-1; 1]$. SentimentWortschatz\footnote{SentiWS for short. available here: http://wortschatz.uni-leipzig.de/de/download}, is a publicly available German-language resource for sentiment analysis, opinion mining, etc.. The current version of SentiWS (v1.8b) contains 1,650 positive and 1,818 negative words, which sum up to 15,649 positive and 15,632 negative words including their inflections, respectively. 
+
+The sentiment score for each document $d$ is calculated  based on the weighted polarity values for a word, defined on an interval between -1 and 1. The score is then calculated from the sum of the words in a document (which can be assigned to a word from the dictionary) divided by the total number of words in that document:
+ 
+\begin{equation}
+	\text{SentScore}_d = \frac{|\text{positive polarity score}_d| - |\text{negative polarity score}_d|}{|\text{TotalWords}_d|}
+\end{equation}
+
 \subsection{Structural topic model}\label{ch_stm}
 
 To find out the latent topics of each document, a structural topic model (STM) is estimated. In general, topic models formalize the idea that documents are formed by hidden variables (topics) that generate correlations among observed terms. They belong to the group of unsupervised generative models, meaning that the true attributes (topics) cannot be observed. The STM developed by \citet{roberts_model_2016} is a recent extension of the standard topic modelling technique, labeled as latent Dirichlet allocation (LDA), which refers to the Bayesian model in \citet{blei_latent_2003} that treats each word in a topic and each topic in a document as generated from a Dirichlet - distributed prior.\footnote{See also \citet{griffiths_probabilistic_2002}, \citet{griffiths_finding_2004} and \citet{hofmann_probabilistic_1999}}. 
@@ -344,10 +374,11 @@ Inference of mixed-membership models, such as the one applied in this paper, has
 
 This process revealed that a model with 50 topics best reflects the structure in the corpus. Furthermore, the source of a document\footnote{Each party as well as each media outlet represent one source.} is used as covariate in the topic prevalence. In other words, I assume that the probability distribution of topics for a specific document is influenced by the source of that document. Additionally the type of that source (news website or party) is used as a covariate for the term frequency as I assume that the words used for the same topic differ between news articles or press releases.  
 
+
 % -----------------------------
 % ---- Agenda correlation -----
 % -----------------------------
-\subsection{Topic correlation}\label{ch_agendacorrl}
+\subsection{Weighted topic correlation}\label{ch_agendacorrl}
 
 The process described in \ref{ch_stm} generates two different kinds of posterior distributions that can be represented as the following matrices: 
 
@@ -356,10 +387,10 @@ The process described in \ref{ch_stm} generates two different kinds of posterior
 	\item $\Theta$ is a $D$-by-$K$ matrix (where $D=$ number of documents and $K=$ number of topics), where the entry $\theta_{d,k}$ can be interpreted as the proportion of words in document $d$ which arise from topic $k$, or rather as the probability that document $d$ deals about topic $k$. 
 \end{enumerate}
 
-To calculate the average topic probability for a document source $s$ for month $t$, the mean value of all documents belonging to source $s$ is calculated. This results in a $k$x$1$ vector representing the mean distributions $\bar{ \theta_{s,t} }$ of this source in each month:
+To combine the sentiment value with the topic probability of each document, the sentiment score is multiplied with the $k$x$1$ vector for each document. Subsequently, to calculate the average topic sentiment for a source $s$, the mean value of all documents belonging to source $s$ is calculated. This results in a $k$x$1$ vector representing the mean distributions $\bar{ \theta_{s} }$ of this source, weighted by the sentiment scores:
 
 \begin{equation}
-	\bar{ \theta_{s,t} } =
+	\bar{ \theta_{s} } =
 	\begin{bmatrix} 
 	\bar{ \theta_{1} } \\
 	. \\
@@ -368,7 +399,8 @@ To calculate the average topic probability for a document source $s$ for month $
 	\end{bmatrix}
 \end{equation} 
 
-On the basis of these values, the bivariate Pearson correlation coefficients are calculated for each pair of media outlet and party  on a monthly basis. The higher the correlation coefficient, the higher the agenda selectivity a party experiences in a media outlet \citep{eberl_one_2017, brandenburg_political_2005}.
+
+On the basis of these values, the bivariate Pearson correlation coefficients are calculated for each pair of media outlet and party  on a monthly basis. The higher the correlation coefficient, the higher the slant index for a party in a media outlet.
 
 % ---------------------- 
 % ------- Results 
@@ -376,7 +408,24 @@ On the basis of these values, the bivariate Pearson correlation coefficients are
 
 \section{Results}
 
-\subsection{Topic distribution} 
+\subsection{Sentiment}
+
+- Figure \ref{fig_sentiment} shows the aggregated sentiment value for each source. Dashed line shows the median value. 
+- overall: all values are negative or 0 (CDU).
+- parties: higher sentiment variance. DIE LINKE is most negative, CDU most positive
+- media: FOCUS Online most negative, stern.de most positive. 
+
+\begin{figure}[H]
+\begin{center}
+	\caption{Sentiment score }
+	\includegraphics[width=.8\textwidth]{../figs/sentiment}
+	\label{fig_sentiment}
+	\end{center}
+\end{figure}
+
+
+
+\subsection{Topics} 
 
 As stated above, the generative process of the STM results in a matrix $\Phi_c$ representing the probability of words in each topic. The most frequent words in each topic help to understand what each topic is about. Since the type of source is included as a covariate in the model specification, the result consists of two matrices (one for each covariate level $c$). It is therefore important to check the different word-distributions for each topic. The following Figure shows the 20 most frequent words for the first 3 topics separated between the covariate levels "news article" and "press release".\footnote{See \ref{a_labels} for a table of the most frequent words for each topic.}.
 
@@ -409,14 +458,14 @@ The second posterior distribution from the STM results in a topic distribution $
 \end{figure}
 
 The average of each topic across all documents results in the expected probability of a topic across the whole corpus. As shown in Figure \ref{fig_expected_freq},\footnote{Results a shown in Appendix \ref{a_proportion}} topic 23 - which apparently deals with the issue of the Jamaica Coalition - is the most common topic. Topic 4, which deals with the coalition negotiations of the grand coalition ("GroKo") follows closely behind. 
-
-\begin{figure}[H]
-\begin{center}
-	\caption{Document-Topic distribution (example document) }
-	\includegraphics[width=0.8\textwidth]{../figs/topic_proportion}
-	\label{fig_expected_freq}
-	\end{center}
-\end{figure}
+%
+%\begin{figure}[H]
+%\begin{center}
+%	\caption{Document-Topic distribution (example document) }
+%	\includegraphics[width=0.8\textwidth]{../figs/topic_proportion}
+%	\label{fig_expected_freq}
+%	\end{center}
+%\end{figure}
 
 %------------------------------
 %----- Topic proportion by type
@@ -427,7 +476,7 @@ For each source the average distribution of each topic is calculated.
 
 \begin{figure}[H]
 	\begin{center}
-	\caption{Term frequency}
+	\caption{Topic probablity}
 		\begin{subfigure}[normla]{0.49\textwidth}
 			\caption{Press releases}
 			\includegraphics[width=\textwidth]{../figs/topic_proportion_press}
@@ -441,13 +490,32 @@ For each source the average distribution of each topic is calculated.
 	\end{center}
 \end{figure}
 
+% describe results !!!
 
-- topic wahrscheinlichkeiten sind insgesamt sehr viel 
 
+\subsection{Weighted topic correlation}
 
-\subsection{Topic correlation}
+First, the topic probability vector of each document is weighted by its sentiment value
 
-Subsequently, the bivariate correlations between these agendas are estimated. 
+\begin{figure}[H]
+	\begin{center}
+	\caption{Weighted topic probability}
+		\begin{subfigure}[normla]{0.49\textwidth}
+			\caption{Press releases}
+			\includegraphics[width=\textwidth]{../figs/topic_sent_press}
+			\label{fig_sent_press}
+		\end{subfigure}
+		\begin{subfigure}[normla]{0.49\textwidth}
+			\caption{News articles}
+			\includegraphics[width=\textwidth]{../figs/topic_sent_news}
+			\label{fig_sent_news}
+		\end{subfigure}
+	\end{center}
+\end{figure}
+
+% describe results !!!
+
+Subsequently, the bivariate correlations are estimated. 
 
 \begin{figure}[H]
 	\caption{Monthly topic correlation}

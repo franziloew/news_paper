@@ -1,6 +1,6 @@
 ---
 title: "Online News"
-subtitle: "Analysing online news from german media outlets"
+subtitle: "Analysing online news"
 author: "Franziska Löw"
 date: "`r format(Sys.Date())`"
 output: 
@@ -16,7 +16,6 @@ knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE)
 # load the packages
 libs <- c("readr","lubridate","tidyverse","data.table","stringr","scales","ggthemes","xtable","viridis")
 lapply(libs, library, character.only = TRUE)
-library(gridExtra)
 
 rm(list=ls())
 color <- "#b7b7b7"

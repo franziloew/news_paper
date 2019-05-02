@@ -1415,6 +1415,65 @@
       \verb https://www.jstor.org/stable/25098770
       \endverb
     \endentry
+    \entry{hansen_shocking_2016}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,uniquepart=base,hash=06a66038d2938d53f3996217db5f8aaf}{%
+           family={Hansen},
+           familyi={H\bibinitperiod},
+           given={Stephen},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=878be333c2c50f71ef95cfbbba7fd363}{%
+           family={{McMahon}},
+           familyi={M\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{1d35ed31caea43903635255b5f43b5f4}
+      \strng{fullhash}{1d35ed31caea43903635255b5f43b5f4}
+      \strng{bibnamehash}{1d35ed31caea43903635255b5f43b5f4}
+      \strng{authorbibnamehash}{1d35ed31caea43903635255b5f43b5f4}
+      \strng{authornamehash}{1d35ed31caea43903635255b5f43b5f4}
+      \strng{authorfullhash}{1d35ed31caea43903635255b5f43b5f4}
+      \field{sortinit}{H}
+      \field{sortinithash}{5f15a7bc777ad49ff15aa4d2831b1681}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{We explore how the multi-dimensional aspects of information released by the {FOMC} has effects on both market and real economic variables. Using tools from computational linguistics, we measure the information released by the {FOMC} on the state of economic conditions, as well as the guidance the {FOMC} provides about future monetary policy decisions. Employing these measures within a {FAVAR} framework, we find that shocks to forward guidance are more important than the {FOMC} communication of current economic conditions in terms of their effects on market and real variables. Nonetheless, neither communication has particularly strong effects on real economic variables.}
+      \field{day}{1}
+      \field{issn}{0022-1996}
+      \field{journaltitle}{Journal of International Economics}
+      \field{month}{3}
+      \field{series}{38th Annual {NBER} International Seminar on Macroeconomics}
+      \field{shortjournal}{Journal of International Economics}
+      \field{shorttitle}{Shocking language}
+      \field{title}{Shocking language: Understanding the macroeconomic effects of central bank communication}
+      \field{urlday}{7}
+      \field{urlmonth}{3}
+      \field{urlyear}{2018}
+      \field{volume}{99}
+      \field{year}{2016}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{S114\bibrangedash S133}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1016/j.jinteco.2015.12.008
+      \endverb
+      \verb{file}
+      \verb ScienceDirect Full Text PDF:/Users/franzi/Zotero/storage/AINER6IR/Hansen und McMahon - 2016 - Shocking language Understanding the macroeconomic.pdf:application/pdf;ScienceDirect Snapshot:/Users/franzi/Zotero/storage/39TT2SW9/S0022199615001828.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb http://www.sciencedirect.com/science/article/pii/S0022199615001828
+      \endverb
+      \verb{url}
+      \verb http://www.sciencedirect.com/science/article/pii/S0022199615001828
+      \endverb
+      \keyw{Communication,Monetary policy,Vector autoregression}
+    \endentry
     \entry{hofmann_probabilistic_1999}{inproceedings}{}
       \name{author}{1}{}{%
         {{uniquename=0,uniquepart=base,hash=ee42cfed2ff3020233d2de97c356eaee}{%
@@ -2089,6 +2148,78 @@
       \verb http://media.digitalnewsreport.org/wp-content/uploads/2018/06/digital-news-report-2018.pdf?x89475
       \endverb
     \endentry
+    \entry{nyman_news_2018}{article}{}
+      \name{author}{6}{}{%
+        {{uniquename=0,uniquepart=base,hash=94b2021fa4290e442407bf6458c14e39}{%
+           family={Nyman},
+           familyi={N\bibinitperiod},
+           given={Rickard},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=b523ac20bc9927932c826ae07f349113}{%
+           family={Kapadia},
+           familyi={K\bibinitperiod},
+           given={Sujit},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=07414e413593e9c52fdb50ac8cd0bbbc}{%
+           family={Tuckett},
+           familyi={T\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=7c9ec81f997afa0a1abd66e0e4773cd5}{%
+           family={Gregory},
+           familyi={G\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=9825531f35a109b46539ebea85ebe886}{%
+           family={Ormerod},
+           familyi={O\bibinitperiod},
+           given={Paul},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=a0b47a66c48bc7434c754ae9cb5c8e6e}{%
+           family={Smith},
+           familyi={S\bibinitperiod},
+           given={Robert},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{734616a76405d986b731ff0834abe895}
+      \strng{fullhash}{b67ad1d0eb247487758578df71ffe70d}
+      \strng{bibnamehash}{734616a76405d986b731ff0834abe895}
+      \strng{authorbibnamehash}{734616a76405d986b731ff0834abe895}
+      \strng{authornamehash}{734616a76405d986b731ff0834abe895}
+      \strng{authorfullhash}{b67ad1d0eb247487758578df71ffe70d}
+      \field{sortinit}{N}
+      \field{sortinithash}{f7242c3ed3dc50029fca1be76c497c7c}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{1}
+      \field{journaltitle}{Bank of England Working Paper}
+      \field{month}{5}
+      \field{title}{News and narratives in financial systems: exploiting big data for systemic risk assessment {|} Bank of England}
+      \field{urlday}{21}
+      \field{urlmonth}{2}
+      \field{urlyear}{2018}
+      \field{volume}{704}
+      \field{year}{2018}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb News and narratives in financial systems\: exploiting big data for systemic risk assessment | Bank of England:/Users/franzi/Zotero/storage/BK83G72M/news-and-narratives-in-financial-systems.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://www.bankofengland.co.uk/working-paper/2018/news-and-narratives-in-financial-systems
+      \endverb
+      \verb{url}
+      \verb https://www.bankofengland.co.uk/working-paper/2018/news-and-narratives-in-financial-systems
+      \endverb
+    \endentry
     \entry{oegema_personalization_2009}{article}{}
       \name{author}{2}{}{%
         {{uniquename=0,uniquepart=base,hash=f8d05c3a73ac84a451a1ef05c0973de7}{%
@@ -2660,6 +2791,118 @@
       \endverb
       \verb{url}
       \verb https://ideas.repec.org/a/ecj/econjl/v114y2004i495p377-396.html
+      \endverb
+    \endentry
+    \entry{tetlock_giving_2007}{article}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,uniquepart=base,hash=43e620292c04ccd0b1bb834cc476d39f}{%
+           family={Tetlock},
+           familyi={T\bibinitperiod},
+           given={Paul\bibnamedelima C.},
+           giveni={P\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{43e620292c04ccd0b1bb834cc476d39f}
+      \strng{fullhash}{43e620292c04ccd0b1bb834cc476d39f}
+      \strng{bibnamehash}{43e620292c04ccd0b1bb834cc476d39f}
+      \strng{authorbibnamehash}{43e620292c04ccd0b1bb834cc476d39f}
+      \strng{authornamehash}{43e620292c04ccd0b1bb834cc476d39f}
+      \strng{authorfullhash}{43e620292c04ccd0b1bb834cc476d39f}
+      \field{sortinit}{T}
+      \field{sortinithash}{6f7aff9db9dcfeb7f95fd5bbd2f78df9}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{I quantitatively measure the interactions between the media and the stock market using daily content from a popular Wall Street Journal column. I find that high media pessimism predicts downward pressure on market prices followed by a reversion to fundamentals, and unusually high or low pessimism predicts high market trading volume. These and similar results are consistent with theoretical models of noise and liquidity traders, and are inconsistent with theories of media content as a proxy for new information about fundamental asset values, as a proxy for market volatility, or as a sideshow with no relationship to asset markets.}
+      \field{day}{1}
+      \field{issn}{1540-6261}
+      \field{journaltitle}{The Journal of Finance}
+      \field{langid}{english}
+      \field{month}{6}
+      \field{number}{3}
+      \field{shorttitle}{Giving Content to Investor Sentiment}
+      \field{title}{Giving Content to Investor Sentiment: The Role of Media in the Stock Market}
+      \field{volume}{62}
+      \field{year}{2007}
+      \field{dateera}{ce}
+      \field{pages}{1139\bibrangedash 1168}
+      \range{pages}{30}
+      \verb{doi}
+      \verb 10.1111/j.1540-6261.2007.01232.x
+      \endverb
+      \verb{file}
+      \verb Snapshot:/Users/franzi/Zotero/storage/R4FBIJ83/abstract.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb http://onlinelibrary.wiley.com/doi/10.1111/j.1540-6261.2007.01232.x/abstract
+      \endverb
+      \verb{url}
+      \verb http://onlinelibrary.wiley.com/doi/10.1111/j.1540-6261.2007.01232.x/abstract
+      \endverb
+    \endentry
+    \entry{tetlock_more_2008}{article}{}
+      \name{author}{3}{uniquelist=1}{%
+        {{uniquename=0,uniquepart=base,hash=43e620292c04ccd0b1bb834cc476d39f}{%
+           family={Tetlock},
+           familyi={T\bibinitperiod},
+           given={Paul\bibnamedelima C.},
+           giveni={P\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=c8d3795e2f790e26a58220f89db9371a}{%
+           family={Saar-Tsechansky},
+           familyi={S\bibinithyphendelim T\bibinitperiod},
+           given={Maytal},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=4be2ffd1242472b4b91610680460f71d}{%
+           family={Macskassy},
+           familyi={M\bibinitperiod},
+           given={Sofus},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{308a0d8cc355ab44ff0076b49874628c}
+      \strng{fullhash}{bc27662581efcfb0f2ef4623105a667a}
+      \strng{bibnamehash}{bc27662581efcfb0f2ef4623105a667a}
+      \strng{authorbibnamehash}{bc27662581efcfb0f2ef4623105a667a}
+      \strng{authornamehash}{308a0d8cc355ab44ff0076b49874628c}
+      \strng{authorfullhash}{bc27662581efcfb0f2ef4623105a667a}
+      \field{sortinit}{T}
+      \field{sortinithash}{6f7aff9db9dcfeb7f95fd5bbd2f78df9}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{We examine whether a simple quantitative measure of language can be used to predict individual firms' accounting earnings and stock returns. Our three main findings are: (1) the fraction of negative words in firm-specific news stories forecasts low firm earnings; (2) firms' stock prices briefly underreact to the information embedded in negative words; and (3) the earnings and return predictability from negative words is largest for the stories that focus on fundamentals. Together these findings suggest that linguistic media content captures otherwise hard-to-quantify aspects of firms' fundamentals, which investors quickly incorporate into stock prices.}
+      \field{day}{1}
+      \field{issn}{1540-6261}
+      \field{journaltitle}{The Journal of Finance}
+      \field{langid}{english}
+      \field{month}{6}
+      \field{number}{3}
+      \field{shorttitle}{More Than Words}
+      \field{title}{More Than Words: Quantifying Language to Measure Firms' Fundamentals}
+      \field{urlday}{7}
+      \field{urlmonth}{3}
+      \field{urlyear}{2018}
+      \field{volume}{63}
+      \field{year}{2008}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{1437\bibrangedash 1467}
+      \range{pages}{31}
+      \verb{doi}
+      \verb 10.1111/j.1540-6261.2008.01362.x
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:/Users/franzi/Zotero/storage/NTZB3TUK/Tetlock et al. - 2008 - More Than Words Quantifying Language to Measure F.pdf:application/pdf
+      \endverb
+      \verb{urlraw}
+      \verb http://onlinelibrary.wiley.com/doi/10.1111/j.1540-6261.2008.01362.x/abstract
+      \endverb
+      \verb{url}
+      \verb http://onlinelibrary.wiley.com/doi/10.1111/j.1540-6261.2008.01362.x/abstract
       \endverb
     \endentry
     \entry{de_vreese_valenced_2006}{article}{}

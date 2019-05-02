@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.7.17)  21 APR 2019 08:17
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.7.17)  29 APR 2019 16:23
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -957,6 +957,9 @@ Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 (/Users/franzi/Projects/news_paper/writing/.texpadtmp/new_okt18.aux
 
+LaTeX Warning: Label `ch_method' multiply defined.
+
+
 LaTeX Warning: Label `fig_tf_press' multiply defined.
 
 
@@ -1132,6 +1135,9 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has b
 l.71 
       [1] [2]
 
+LaTeX Warning: Reference `ch_data' on page 3 undefined on input line 88.
+
+
 LaTeX Warning: Reference `ch_generativeProcess' on page 3 undefined on input line 88.
 
 
@@ -1139,236 +1145,251 @@ LaTeX Warning: Reference `ch_regression' on page 3 undefined on input line 88.
 
 [3] [4]
 
-./new_okt18.tex:118: Package inputenc Error: Unicode character  (U+80)
+./new_okt18.tex:131: Package inputenc Error: Unicode character  (U+80)
 (inputenc)                not set up for use with LaTeX.
 
 See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.118 ...tional development topics of countries'
+l.131 ...tional development topics of countries'
                                                    annual statements in th...
 You may provide a definition with
 \DeclareUnicodeCharacter 
 
 
-./new_okt18.tex:118: Package inputenc Error: Unicode character  (U+99)
+./new_okt18.tex:131: Package inputenc Error: Unicode character  (U+99)
 (inputenc)                not set up for use with LaTeX.
 
 See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.118 ...onal development topics of countries'
+l.131 ...onal development topics of countries'
                                                    annual statements in the ...
 You may provide a definition with
 \DeclareUnicodeCharacter 
 
 [5]
 
-./new_okt18.tex:133: Package inputenc Error: Unicode character  (U+9F)
+./new_okt18.tex:148: Package inputenc Error: Unicode character  (U+9F)
 (inputenc)                not set up for use with LaTeX.
 
 See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.133 ...n ("GroKo" - from the German word Groß
+l.148 ...n ("GroKo" - from the German word Groß
                                                   e Koalition) of CDU/CSU an...
 You may provide a definition with
 \DeclareUnicodeCharacter 
 
 
-./new_okt18.tex:133: Package inputenc Error: Unicode character  (U+80)
+./new_okt18.tex:148: Package inputenc Error: Unicode character  (U+80)
 (inputenc)                not set up for use with LaTeX.
 
 See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.133 ...rünen sharply criticized the liberals'
+l.148 ...rünen sharply criticized the liberals'
                                                    withdrawal. The then Gr...
 You may provide a definition with
 \DeclareUnicodeCharacter 
 
 
-./new_okt18.tex:133: Package inputenc Error: Unicode character  (U+99)
+./new_okt18.tex:148: Package inputenc Error: Unicode character  (U+99)
 (inputenc)                not set up for use with LaTeX.
 
 See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.133 ...�nen sharply criticized the liberals'
+l.148 ...�nen sharply criticized the liberals'
                                                    withdrawal. The then Gree...
 You may provide a definition with
 \DeclareUnicodeCharacter 
 
-<../figs/polldata.png, id=268, 2107.875pt x 1204.5pt>
+<../figs/polldata.png, id=279, 2107.875pt x 1204.5pt>
 File: ../figs/polldata.png Graphic file (type png)
 <use ../figs/polldata.png>
-Package pdftex.def Info: ../figs/polldata.png  used on input line 142.
+Package pdftex.def Info: ../figs/polldata.png  used on input line 157.
 (pdftex.def)             Requested size: 409.71692pt x 234.11382pt.
 [6]
-<../figs/visits.png, id=283, 2409.0pt x 2409.0pt>
+<../figs/visits.png, id=295, 2409.0pt x 2409.0pt>
 File: ../figs/visits.png Graphic file (type png)
 <use ../figs/visits.png>
-Package pdftex.def Info: ../figs/visits.png  used on input line 156.
+Package pdftex.def Info: ../figs/visits.png  used on input line 171.
 (pdftex.def)             Requested size: 223.07211pt x 223.04956pt.
-<../figs/reuters1.png, id=284, 2409.0pt x 2409.0pt>
+<../figs/reuters1.png, id=296, 2409.0pt x 2409.0pt>
 File: ../figs/reuters1.png Graphic file (type png)
 <use ../figs/reuters1.png>
-Package pdftex.def Info: ../figs/reuters1.png  used on input line 161.
+Package pdftex.def Info: ../figs/reuters1.png  used on input line 176.
 (pdftex.def)             Requested size: 223.07211pt x 223.04956pt.
  [7 <../figs/polldata.png>]
-<../figs/reuters2.png, id=297, 1204.5pt x 903.375pt>
+<../figs/reuters2.png, id=309, 1204.5pt x 903.375pt>
 File: ../figs/reuters2.png Graphic file (type png)
 <use ../figs/reuters2.png>
-Package pdftex.def Info: ../figs/reuters2.png  used on input line 172.
+Package pdftex.def Info: ../figs/reuters2.png  used on input line 187.
 (pdftex.def)             Requested size: 227.62206pt x 170.70569pt.
  [8 <../figs/visits.png> <../figs/reuters1.png> <../figs/reuters2.png>]
-<../figs/reuters3.png, id=308, 1505.625pt x 903.375pt>
+<../figs/reuters3.png, id=320, 1505.625pt x 903.375pt>
 File: ../figs/reuters3.png Graphic file (type png)
 <use ../figs/reuters3.png>
-Package pdftex.def Info: ../figs/reuters3.png  used on input line 182.
+Package pdftex.def Info: ../figs/reuters3.png  used on input line 197.
 (pdftex.def)             Requested size: 409.71692pt x 245.83054pt.
- [9 <../figs/reuters3.png>] [10]
-<../figs/press_releases.png, id=346, 1806.75pt x 1204.5pt>
+ [9 <../figs/reuters3.png>]
+<../figs/press_releases.png, id=339, 1806.75pt x 1204.5pt>
 File: ../figs/press_releases.png Graphic file (type png)
 <use ../figs/press_releases.png>
-Package pdftex.def Info: ../figs/press_releases.png  used on input line 221.
+Package pdftex.def Info: ../figs/press_releases.png  used on input line 233.
 (pdftex.def)             Requested size: 177.54492pt x 118.36183pt.
-<../figs/press_releases_textlength.png, id=347, 1806.75pt x 1204.5pt>
+<../figs/press_releases_textlength.png, id=340, 1806.75pt x 1204.5pt>
 File: ../figs/press_releases_textlength.png Graphic file (type png)
 <use ../figs/press_releases_textlength.png>
-Package pdftex.def Info: ../figs/press_releases_textlength.png  used on input line 226.
+Package pdftex.def Info: ../figs/press_releases_textlength.png  used on input line 238.
 (pdftex.def)             Requested size: 268.59235pt x 179.04984pt.
-<../figs/article_sum.png, id=351, 1806.75pt x 1204.5pt>
+ [10]
+<../figs/article_sum.png, id=354, 1806.75pt x 1204.5pt>
 File: ../figs/article_sum.png Graphic file (type png)
 <use ../figs/article_sum.png>
-Package pdftex.def Info: ../figs/article_sum.png  used on input line 244.
+Package pdftex.def Info: ../figs/article_sum.png  used on input line 256.
 (pdftex.def)             Requested size: 177.54492pt x 118.36183pt.
-<../figs/news_releases_textlength.png, id=352, 3011.25pt x 1806.75pt>
+<../figs/news_releases_textlength.png, id=355, 3011.25pt x 1806.75pt>
 File: ../figs/news_releases_textlength.png Graphic file (type png)
 <use ../figs/news_releases_textlength.png>
-Package pdftex.def Info: ../figs/news_releases_textlength.png  used on input line 249.
+Package pdftex.def Info: ../figs/news_releases_textlength.png  used on input line 261.
 (pdftex.def)             Requested size: 268.59235pt x 161.13934pt.
  [11 <../figs/press_releases.png> <../figs/press_releases_textlength.png>]
-<../figs/radar_vis.png, id=369, 1003.75pt x 1003.75pt>
+<../figs/radar_vis.png, id=371, 1003.75pt x 1003.75pt>
 File: ../figs/radar_vis.png Graphic file (type png)
 <use ../figs/radar_vis.png>
-Package pdftex.def Info: ../figs/radar_vis.png  used on input line 265.
+Package pdftex.def Info: ../figs/radar_vis.png  used on input line 277.
 (pdftex.def)             Requested size: 191.20169pt x 191.18927pt.
-<../figs/radar_vis_rescaled.png, id=370, 1204.5pt x 1003.75pt>
+<../figs/radar_vis_rescaled.png, id=372, 1204.5pt x 1003.75pt>
 File: ../figs/radar_vis_rescaled.png Graphic file (type png)
 <use ../figs/radar_vis_rescaled.png>
-Package pdftex.def Info: ../figs/radar_vis_rescaled.png  used on input line 270.
+Package pdftex.def Info: ../figs/radar_vis_rescaled.png  used on input line 282.
 (pdftex.def)             Requested size: 236.72888pt x 197.26971pt.
  [12 <../figs/article_sum.png> <../figs/news_releases_textlength.png>]
-<../figs/wordcloud.png, id=387, 301.125pt x 301.125pt>
+<../figs/wordcloud.png, id=389, 301.125pt x 301.125pt>
 File: ../figs/wordcloud.png Graphic file (type png)
 <use ../figs/wordcloud.png>
-Package pdftex.def Info: ../figs/wordcloud.png  used on input line 287.
+Package pdftex.def Info: ../figs/wordcloud.png  used on input line 299.
 (pdftex.def)             Requested size: 223.07211pt x 223.08171pt.
-<../figs/wordcloud_cleaned.png, id=388, 433.62pt x 434.62375pt>
+<../figs/wordcloud_cleaned.png, id=390, 433.62pt x 434.62375pt>
 File: ../figs/wordcloud_cleaned.png Graphic file (type png)
 <use ../figs/wordcloud_cleaned.png>
-Package pdftex.def Info: ../figs/wordcloud_cleaned.png  used on input line 292.
+Package pdftex.def Info: ../figs/wordcloud_cleaned.png  used on input line 304.
 (pdftex.def)             Requested size: 223.07211pt x 223.59166pt.
  [13 <../figs/radar_vis.png> <../figs/radar_vis_rescaled.png>]
-<../figs/tf_bigrams_news.png, id=399, 3011.25pt x 3011.25pt>
+<../figs/tf_bigrams_news.png, id=401, 3011.25pt x 3011.25pt>
 File: ../figs/tf_bigrams_news.png Graphic file (type png)
 <use ../figs/tf_bigrams_news.png>
-Package pdftex.def Info: ../figs/tf_bigrams_news.png  used on input line 307.
+Package pdftex.def Info: ../figs/tf_bigrams_news.png  used on input line 319.
 (pdftex.def)             Requested size: 259.49246pt x 259.46788pt.
-<../figs/tf_bigrams_press.png, id=400, 2409.0pt x 3011.25pt>
+<../figs/tf_bigrams_press.png, id=402, 2409.0pt x 3011.25pt>
 File: ../figs/tf_bigrams_press.png Graphic file (type png)
 <use ../figs/tf_bigrams_press.png>
-Package pdftex.def Info: ../figs/tf_bigrams_press.png  used on input line 312.
+Package pdftex.def Info: ../figs/tf_bigrams_press.png  used on input line 324.
 (pdftex.def)             Requested size: 172.99498pt x 216.2309pt.
- [14 <../figs/wordcloud.png> <../figs/wordcloud_cleaned.png> <../figs/tf_bigrams_news.png> <../figs/tf_bigrams_press.png>]
+ [14 <../figs/wordcloud.png> <../figs/wordcloud_cleaned.png> <../figs/tf_bigrams_news.png> <../figs/tf_bigrams_press.png>] [15] [16]
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 334.
- [15] [16]
-<../figs/topiclabel/topic_label1.png, id=458, 401.5pt x 451.6875pt>
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 364.
+ [17]
+<../figs/sentiment.png, id=480, 1806.75pt x 1204.5pt>
+File: ../figs/sentiment.png Graphic file (type png)
+<use ../figs/sentiment.png>
+Package pdftex.def Info: ../figs/sentiment.png  used on input line 421.
+(pdftex.def)             Requested size: 364.19667pt x 242.78879pt.
+ [18 <../figs/sentiment.png>]
+<../figs/topiclabel/topic_label1.png, id=494, 401.5pt x 451.6875pt>
 File: ../figs/topiclabel/topic_label1.png Graphic file (type png)
 <use ../figs/topiclabel/topic_label1.png>
-Package pdftex.def Info: ../figs/topiclabel/topic_label1.png  used on input line 387.
+Package pdftex.def Info: ../figs/topiclabel/topic_label1.png  used on input line 436.
 (pdftex.def)             Requested size: 136.57462pt x 153.64752pt.
-<../figs/topiclabel/topic_label2.png, id=459, 401.5pt x 451.6875pt>
+<../figs/topiclabel/topic_label2.png, id=495, 401.5pt x 451.6875pt>
 File: ../figs/topiclabel/topic_label2.png Graphic file (type png)
 <use ../figs/topiclabel/topic_label2.png>
-Package pdftex.def Info: ../figs/topiclabel/topic_label2.png  used on input line 391.
+Package pdftex.def Info: ../figs/topiclabel/topic_label2.png  used on input line 440.
 (pdftex.def)             Requested size: 136.57462pt x 153.64752pt.
-<../figs/topiclabel/topic_label3.png, id=460, 401.5pt x 451.6875pt>
+<../figs/topiclabel/topic_label3.png, id=496, 401.5pt x 451.6875pt>
 File: ../figs/topiclabel/topic_label3.png Graphic file (type png)
 <use ../figs/topiclabel/topic_label3.png>
-Package pdftex.def Info: ../figs/topiclabel/topic_label3.png  used on input line 395.
+Package pdftex.def Info: ../figs/topiclabel/topic_label3.png  used on input line 444.
 (pdftex.def)             Requested size: 136.57462pt x 153.64752pt.
-<../figs/doc_topic_distr.png, id=462, 2409.0pt x 2409.0pt>
+<../figs/doc_topic_distr.png, id=498, 2409.0pt x 2409.0pt>
 File: ../figs/doc_topic_distr.png Graphic file (type png)
 <use ../figs/doc_topic_distr.png>
-Package pdftex.def Info: ../figs/doc_topic_distr.png  used on input line 406.
+Package pdftex.def Info: ../figs/doc_topic_distr.png  used on input line 455.
 (pdftex.def)             Requested size: 273.14923pt x 273.15117pt.
- [17 <../figs/topiclabel/topic_label1.png> <../figs/topiclabel/topic_label2.png> <../figs/topiclabel/topic_label3.png>]
-<../figs/topic_proportion.png, id=477, 2409.0pt x 2409.0pt>
-File: ../figs/topic_proportion.png Graphic file (type png)
-<use ../figs/topic_proportion.png>
-Package pdftex.def Info: ../figs/topic_proportion.png  used on input line 416.
-(pdftex.def)             Requested size: 364.19667pt x 364.16481pt.
- [18 <../figs/doc_topic_distr.png>]
-<../figs/topic_proportion_press.png, id=486, 3011.25pt x 2409.0pt>
+ [19 <../figs/topiclabel/topic_label1.png> <../figs/topiclabel/topic_label2.png> <../figs/topiclabel/topic_label3.png>]
+
+LaTeX Warning: Reference `fig_expected_freq' on page 20 undefined on input line 460.
+
+<../figs/topic_proportion_press.png, id=511, 3011.25pt x 2409.0pt>
 File: ../figs/topic_proportion_press.png Graphic file (type png)
 <use ../figs/topic_proportion_press.png>
-Package pdftex.def Info: ../figs/topic_proportion_press.png  used on input line 433.
+Package pdftex.def Info: ../figs/topic_proportion_press.png  used on input line 482.
 (pdftex.def)             Requested size: 223.07211pt x 178.42494pt.
-<../figs/topic_proportion_news.png, id=487, 3011.25pt x 2409.0pt>
+<../figs/topic_proportion_news.png, id=512, 3011.25pt x 2409.0pt>
 File: ../figs/topic_proportion_news.png Graphic file (type png)
 <use ../figs/topic_proportion_news.png>
-Package pdftex.def Info: ../figs/topic_proportion_news.png  used on input line 438.
+Package pdftex.def Info: ../figs/topic_proportion_news.png  used on input line 487.
 (pdftex.def)             Requested size: 223.07211pt x 178.42494pt.
- [19 <../figs/topic_proportion.png> <../figs/topic_proportion_press.png> <../figs/topic_proportion_news.png>]
-<../figs/corr_timeline.png, id=495, 2409.0pt x 1505.625pt>
+<../figs/topic_sent_press.png, id=513, 3011.25pt x 2409.0pt>
+File: ../figs/topic_sent_press.png Graphic file (type png)
+<use ../figs/topic_sent_press.png>
+Package pdftex.def Info: ../figs/topic_sent_press.png  used on input line 505.
+(pdftex.def)             Requested size: 223.07211pt x 178.42494pt.
+<../figs/topic_sent_news.png, id=514, 3011.25pt x 2409.0pt>
+File: ../figs/topic_sent_news.png Graphic file (type png)
+<use ../figs/topic_sent_news.png>
+Package pdftex.def Info: ../figs/topic_sent_news.png  used on input line 510.
+(pdftex.def)             Requested size: 223.07211pt x 178.42494pt.
+[20 <../figs/doc_topic_distr.png> <../figs/topic_proportion_press.png> <../figs/topic_proportion_news.png>]
+<../figs/corr_timeline.png, id=523, 2409.0pt x 1505.625pt>
 File: ../figs/corr_timeline.png Graphic file (type png)
 <use ../figs/corr_timeline.png>
-Package pdftex.def Info: ../figs/corr_timeline.png  used on input line 455.
+Package pdftex.def Info: ../figs/corr_timeline.png  used on input line 523.
 (pdftex.def)             Requested size: 318.66948pt x 199.16124pt.
-<../figs/corrplot.png, id=496, 2409.0pt x 1204.5pt>
+<../figs/corrplot.png, id=524, 3011.25pt x 1204.5pt>
 File: ../figs/corrplot.png Graphic file (type png)
 <use ../figs/corrplot.png>
-Package pdftex.def Info: ../figs/corrplot.png  used on input line 462.
-(pdftex.def)             Requested size: 455.24411pt x 227.60759pt.
-<../figs/radar_corr.png, id=497, 1003.75pt x 1003.75pt>
+Package pdftex.def Info: ../figs/corrplot.png  used on input line 530.
+(pdftex.def)             Requested size: 455.24411pt x 182.0824pt.
+ [21 <../figs/topic_sent_press.png> <../figs/topic_sent_news.png> <../figs/corr_timeline.png>]
+<../figs/radar_corr.png, id=534, 1003.75pt x 1003.75pt>
 File: ../figs/radar_corr.png Graphic file (type png)
 <use ../figs/radar_corr.png>
-Package pdftex.def Info: ../figs/radar_corr.png  used on input line 474.
+Package pdftex.def Info: ../figs/radar_corr.png  used on input line 542.
 (pdftex.def)             Requested size: 191.20169pt x 191.18927pt.
-<../figs/radar_corr_rescaled.png, id=498, 1204.5pt x 1003.75pt>
+<../figs/radar_corr_rescaled.png, id=535, 1204.5pt x 1003.75pt>
 File: ../figs/radar_corr_rescaled.png Graphic file (type png)
 <use ../figs/radar_corr_rescaled.png>
-Package pdftex.def Info: ../figs/radar_corr_rescaled.png  used on input line 478.
+Package pdftex.def Info: ../figs/radar_corr_rescaled.png  used on input line 546.
 (pdftex.def)             Requested size: 236.72888pt x 197.26971pt.
- [20 <../figs/corr_timeline.png> <../figs/corrplot.png>] [21 <../figs/radar_corr.png> <../figs/radar_corr_rescaled.png>] [22]
-Overfull \hbox (19.39157pt too wide) in paragraph at lines 495--495
+ [22 <../figs/corrplot.png> <../figs/radar_corr.png> <../figs/radar_corr_rescaled.png>] [23] [24]
+Overfull \hbox (19.39157pt too wide) in paragraph at lines 563--563
 \T1/cmr/m/n/12 pp. 117^^U133. \T1/cmr/m/sc/12 url\T1/cmr/m/n/12 : []$\T1/cmtt/m/n/12 https : / / www . aeaweb . org / articles ? id = 10 . 1257 / 0895330042162313$[]
  []
 
-[23]
-Overfull \hbox (4.62137pt too wide) in paragraph at lines 495--495
+[25]
+Overfull \hbox (4.62137pt too wide) in paragraph at lines 563--563
 \T1/cmr/m/n/12 teilun-gen der Bun-desparteien auf die Berichter-stat-tung im Bun-destagswahlkampf 2002^^Q.
  []
 
-[24]
-Overfull \hbox (39.57954pt too wide) in paragraph at lines 495--495
+[26]
+Overfull \hbox (39.57954pt too wide) in paragraph at lines 563--563
 \T1/cmr/m/n/12 114.495, pp. 377^^U396. \T1/cmr/m/sc/12 url\T1/cmr/m/n/12 : []$\T1/cmtt/m/n/12 https : / / ideas . repec . org / a / ecj / econjl / v114y2004i495p377 -[]
  []
 
-[25]
+[27]
 \openout2 = `tables/visibility.aux'.
 
- (./tables/visibility.tex) [26
+ (./tables/visibility.tex) [28
 
-] [27
+] [29
 
 ]
 \openout2 = `tables/labels.aux'.
@@ -1381,7 +1402,7 @@ Overfull \hbox (315.86508pt too wide) in paragraph at lines 5--61
 
 LaTeX Warning: Float too large for page by 33.96335pt on input line 62.
 
-) [28] [29
+) [30] [31
 
 
 ]
@@ -1395,7 +1416,7 @@ Overfull \hbox (499.00131pt too wide) in paragraph at lines 5--61
 
 LaTeX Warning: Float too large for page by 34.51079pt on input line 62.
 
-) [30] [31
+) [32] [33
 
 
 ]
@@ -1406,14 +1427,14 @@ Overfull \hbox (358.8685pt too wide) in paragraph at lines 5--24
  [][] 
  []
 
-) [32
+) [34
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 545.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 545.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 613.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 613.
  (/Users/franzi/Projects/news_paper/writing/.texpadtmp/new_okt18.aux (/Users/franzi/Projects/news_paper/writing/.texpadtmp/tables/visibility.aux) (/Users/franzi/Projects/news_paper/writing/.texpadtmp/tables/labels.aux) (/Users/franzi/Projects/news_paper/writing/.texpadtmp/tables/topic_probability.aux) (/Users/franzi/Projects/news_paper/writing/.texpadtmp/tables/topic_correlation.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 545.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 545.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 613.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 613.
 Package rerunfilecheck Info: File `new_okt18.out' has not changed.
 (rerunfilecheck)             Checksum: <no file>.
 
@@ -1428,21 +1449,21 @@ Package logreq Info: Writing requests to 'new_okt18.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 39021 strings out of 492649
- 877933 string characters out of 6129622
- 1441442 words of memory out of 5000000
- 41994 multiletter control sequences out of 15000+600000
+ 39070 strings out of 492649
+ 879066 string characters out of 6129622
+ 1442975 words of memory out of 5000000
+ 42030 multiletter control sequences out of 15000+600000
  31333 words of font info for 86 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 62i,11n,96p,2390b,1826s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,11n,96p,2144b,1840s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exist, replaced by a fixed one
 
 {/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfcc1000.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfcc1200.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfrm2074.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sfti1440.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2018/texmf-dist/fonts/
 type1/public/cm-super/sftt1200.pfb>
-Output written on /Users/franzi/Projects/news_paper/writing/.texpadtmp/new_okt18.pdf (33 pages, 4969793 bytes).
+Output written on /Users/franzi/Projects/news_paper/writing/.texpadtmp/new_okt18.pdf (35 pages, 5252914 bytes).
 PDF statistics:
- 770 PDF objects out of 1000 (max. 8388607)
- 650 compressed objects within 7 object streams
- 158 named destinations out of 1000 (max. 500000)
- 327 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 815 PDF objects out of 1000 (max. 8388607)
+ 689 compressed objects within 7 object streams
+ 169 named destinations out of 1000 (max. 500000)
+ 353 words of extra memory for PDF output out of 10000 (max. 10000000)
 

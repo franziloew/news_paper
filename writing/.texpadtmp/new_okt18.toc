@@ -5,44 +5,48 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {2}Literature}{3}{section.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3}Background information}{5}{section.3}
+\contentsline {section}{\numberline {3}Background information}{6}{section.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.1}The political situation in Germany (June 2017 - March 2018)}{5}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.1}The political situation in Germany (June 2017 - March 2018)}{6}{subsection.3.1}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.2}German online news market}{7}{subsection.3.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4}Measuring slant-index}{10}{section.4}
+\contentsline {section}{\numberline {4}Data}{10}{section.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.1}Data sources}{10}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.1}Press releases}{10}{subsection.4.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.1.1}Press releases}{10}{subsubsection.4.1.1}
+\contentsline {subsection}{\numberline {4.2}News articles}{11}{subsection.4.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.1.2}News articles}{11}{subsubsection.4.1.2}
+\contentsline {subsection}{\numberline {4.3}Data preparation}{13}{subsection.4.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2}Data preparation}{13}{subsection.4.2}
+\contentsline {section}{\numberline {5}Measuring slant-index}{15}{section.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3}Structural topic model}{15}{subsection.4.3}
+\contentsline {subsection}{\numberline {5.1}Sentiment score}{15}{subsection.5.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.4}Topic correlation}{16}{subsection.4.4}
+\contentsline {subsection}{\numberline {5.2}Structural topic model}{16}{subsection.5.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5}Results}{17}{section.5}
+\contentsline {subsection}{\numberline {5.3}Weighted topic correlation}{17}{subsection.5.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.1}Topic distribution}{17}{subsection.5.1}
+\contentsline {section}{\numberline {6}Results}{18}{section.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.2}Topic correlation}{20}{subsection.5.2}
+\contentsline {subsection}{\numberline {6.1}Sentiment}{18}{subsection.6.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.3}Reader Preferences}{21}{subsection.5.3}
+\contentsline {subsection}{\numberline {6.2}Topics}{19}{subsection.6.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6}Conclusion}{21}{section.6}
+\contentsline {subsection}{\numberline {6.3}Weighted topic correlation}{21}{subsection.6.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {A}Appendices}{25}{appendix.A}
+\contentsline {subsection}{\numberline {6.4}Reader Preferences}{22}{subsection.6.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {A.1}Visibility}{25}{subsection.A.1}
+\contentsline {section}{\numberline {7}Conclusion}{22}{section.7}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {A.2}Generative Process of STM}{27}{subsection.A.2}
+\contentsline {section}{\numberline {A}Appendices}{27}{appendix.A}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {A.3}Most frequent words}{27}{subsection.A.3}
+\contentsline {subsection}{\numberline {A.1}Visibility}{27}{subsection.A.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {A.4}Topic frequency}{29}{subsection.A.4}
+\contentsline {subsection}{\numberline {A.2}Generative Process of STM}{29}{subsection.A.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {A.5}Topic correlation}{31}{subsection.A.5}
+\contentsline {subsection}{\numberline {A.3}Most frequent words}{29}{subsection.A.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {A.4}Topic frequency}{31}{subsection.A.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {A.5}Topic correlation}{33}{subsection.A.5}

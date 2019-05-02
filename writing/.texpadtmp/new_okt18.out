@@ -3,21 +3,23 @@
 \BOOKMARK [1][-]{section.3}{Background information}{}% 3
 \BOOKMARK [2][-]{subsection.3.1}{The political situation in Germany \(June 2017 - March 2018\)}{section.3}% 4
 \BOOKMARK [2][-]{subsection.3.2}{German online news market}{section.3}% 5
-\BOOKMARK [1][-]{section.4}{Measuring slant-index}{}% 6
-\BOOKMARK [2][-]{subsection.4.1}{Data sources}{section.4}% 7
-\BOOKMARK [3][-]{subsubsection.4.1.1}{Press releases}{subsection.4.1}% 8
-\BOOKMARK [3][-]{subsubsection.4.1.2}{News articles}{subsection.4.1}% 9
-\BOOKMARK [2][-]{subsection.4.2}{Data preparation}{section.4}% 10
-\BOOKMARK [2][-]{subsection.4.3}{Structural topic model}{section.4}% 11
-\BOOKMARK [2][-]{subsection.4.4}{Topic correlation}{section.4}% 12
-\BOOKMARK [1][-]{section.5}{Results}{}% 13
-\BOOKMARK [2][-]{subsection.5.1}{Topic distribution}{section.5}% 14
-\BOOKMARK [2][-]{subsection.5.2}{Topic correlation}{section.5}% 15
-\BOOKMARK [2][-]{subsection.5.3}{Reader Preferences}{section.5}% 16
-\BOOKMARK [1][-]{section.6}{Conclusion}{}% 17
-\BOOKMARK [1][-]{appendix.A}{Appendices}{}% 18
-\BOOKMARK [2][-]{subsection.A.1}{Visibility}{appendix.A}% 19
-\BOOKMARK [2][-]{subsection.A.2}{Generative Process of STM}{appendix.A}% 20
-\BOOKMARK [2][-]{subsection.A.3}{Most frequent words}{appendix.A}% 21
-\BOOKMARK [2][-]{subsection.A.4}{Topic frequency}{appendix.A}% 22
-\BOOKMARK [2][-]{subsection.A.5}{Topic correlation}{appendix.A}% 23
+\BOOKMARK [1][-]{section.4}{Data}{}% 6
+\BOOKMARK [2][-]{subsection.4.1}{Press releases}{section.4}% 7
+\BOOKMARK [2][-]{subsection.4.2}{News articles}{section.4}% 8
+\BOOKMARK [2][-]{subsection.4.3}{Data preparation}{section.4}% 9
+\BOOKMARK [1][-]{section.5}{Measuring slant-index}{}% 10
+\BOOKMARK [2][-]{subsection.5.1}{Sentiment score}{section.5}% 11
+\BOOKMARK [2][-]{subsection.5.2}{Structural topic model}{section.5}% 12
+\BOOKMARK [2][-]{subsection.5.3}{Weighted topic correlation}{section.5}% 13
+\BOOKMARK [1][-]{section.6}{Results}{}% 14
+\BOOKMARK [2][-]{subsection.6.1}{Sentiment}{section.6}% 15
+\BOOKMARK [2][-]{subsection.6.2}{Topics}{section.6}% 16
+\BOOKMARK [2][-]{subsection.6.3}{Weighted topic correlation}{section.6}% 17
+\BOOKMARK [2][-]{subsection.6.4}{Reader Preferences}{section.6}% 18
+\BOOKMARK [1][-]{section.7}{Conclusion}{}% 19
+\BOOKMARK [1][-]{appendix.A}{Appendices}{}% 20
+\BOOKMARK [2][-]{subsection.A.1}{Visibility}{appendix.A}% 21
+\BOOKMARK [2][-]{subsection.A.2}{Generative Process of STM}{appendix.A}% 22
+\BOOKMARK [2][-]{subsection.A.3}{Most frequent words}{appendix.A}% 23
+\BOOKMARK [2][-]{subsection.A.4}{Topic frequency}{appendix.A}% 24
+\BOOKMARK [2][-]{subsection.A.5}{Topic correlation}{appendix.A}% 25

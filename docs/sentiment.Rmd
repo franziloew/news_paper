@@ -61,20 +61,53 @@ sent <- c(
   # filter(type == "ADJX" | type == "ADV") %>%
   # manche Wörter kommen doppelt vor, hier nehmen wir den mittleren Wert
   group_by(word) %>%
-  dplyr::summarise(value = mean(value)) %>% ungroup %>%
+  dplyr::summarise(polarity = mean(value)) %>% ungroup %>%
   # Delete "Heil" (wegen Hubertus Heil)
   filter(!grepl('heil',word,ignore.case = T)) %>%
   # welcome to hell (g20)
   filter(!grepl('hell',word,ignore.case = T)) %>%
   # filter values that that score between -0.1 and +0.1 
-  filter(!dplyr::between(value, -0.1,0.1))
+  filter(!dplyr::between(polarity, -0.1,0.1))
 ```
 
-```{r echo=FALSE}
-sent %>% 
-  sample_n(10) %>%
-  htmlTable::htmlTable(align="l")
+## Sentimentanalyse mit sentimentr
+
+- Get a sentiment value for each document (press and news).
+- get a distribution over topics for each document (press and news).
+- how does each party/medium talk about each topic (e.g. what is the sentiment score?)
+- estimate the correlation matrix based on the topic-polarity vector (multiplied by the topic probability?)
+
+
+```{r}
+pacman::p_load(sentimentr)
+library(magrittr)
 ```
+
+## Wörterbuch konfigurieren
+
+Das Package bietet einen einfachen Weg, ein neues Wörterbuch zu erstellen um so den Polaritäts- oder Valenzverschieber zu beeinflussen. Ich verwenden das Lexikon der [Leipzig Corpora Collection](http://wortschatz.uni-leipzig.de/de/download)
+
+```{r}
+sent <- rbind(sent, c("nicht",-0.8))
+
+sent %>% 
+  mutate(words = word,
+         polarity = as.numeric(polarity)) %>%
+  as_key() -> sentiment_df
+```
+
+```{r}
+prep_df <- btw %>%
+  select(doc_index,title_text) 
+
+sent_df <- prep_df %>%
+    dplyr::mutate(split = get_sentences(title_text)) %$%
+    sentiment(split)
+
+save(sent, file = "../output/sentiment.Rda")
+```
+
+## Backup --------
 
 ```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 library(tidytext)
@@ -86,24 +119,47 @@ sentence <- btw %>%
   
 # check if a party is mentioned in a sentence
 sentence <- sentence %>%
-  mutate(party = ifelse(grepl("SPD",sentence, ignore.case = T),"SPD",NA),
-         party = ifelse(grepl("AfD",sentence, ignore.case = T),"AfD",party),
-         party = ifelse(grepl("FDP",sentence, ignore.case = T),"FDP",party),
-         party = ifelse(grepl("Grüne",sentence, ignore.case = T),"Grüne",party),
-         party = ifelse(grepl("Linke",sentence, ignore.case = T),"Linke",party),
-         party = ifelse(grepl(paste("CDU","CSU","Union",sep="|"),sentence, ignore.case = T),"Union",party)
+  mutate(SPD = ifelse(grepl("SPD",sentence, ignore.case = T),"SPD",NA),
+         AfD = ifelse(grepl("AfD",sentence, ignore.case = T),"AfD",NA),
+         FDP = ifelse(grepl("FDP",sentence, ignore.case = T),"FDP",NA),
+         `B90/DIE GRÜNEN` = ifelse(grepl("Grüne",sentence, ignore.case = T),"Grüne",NA),
+         `DIE LINKE` = ifelse(grepl("Linke",sentence, ignore.case = T),"Linke",NA),
+         `CDU/CSU` = ifelse(grepl(paste("CDU","CSU","Union",sep="|"),sentence, ignore.case = T),"Union",NA)
          )
 ```
 
-```{r eval=FALSE, include=FALSE}
+
+```{r}
 token <- sentence %>%
     # Filter one article (doc_index)
-    filter(doc_index == 10005) %>%
+    filter(doc_index == 142) %>%
     mutate(sentence_index = as.numeric(rownames(.))) %>%
     # and tokenize into words
     unnest_tokens(word, sentence) %>%
     # Combine second word with sentiment values
     left_join(., sent, by = "word") 
+
+token %>% 
+  # get all sentences where the party is mentioned
+  filter(!is.na(SPD)) %>%
+  distinct(sentence_index) %>%
+  # get the 2-sentence range
+  mutate(lower1 = sentence_index - 1,
+        # lower2 = sentence_index - 2,
+         upper1 = sentence_index + 1
+        # upper2 = sentence_index + 2
+        )  %>%
+  gather(index, sentence) %>%
+  distinct(sentence) %>%
+  filter(sentence > 0) %>%
+  select(sentence) -> tempdf
+
+token %>%
+  filter(sentence_index %in% tempdf$sentence) -> tempdf2
+
+tempdf2 %>%
+  mutate(value = ifelse(is.na(value),0,value)) 
+  summarise(sum_value = sum(value)) -> sum
 ```
 
 

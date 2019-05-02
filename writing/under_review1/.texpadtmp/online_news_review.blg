@@ -1,17 +1,17 @@
 [0] Config.pm:302> INFO - This is Biber 2.11
-[0] Config.pm:305> INFO - Logfile is '/Users/franzi/Projects/textmining/paper/writing/under_review1/.texpadtmp/online_news_review.blg'
-[46] biber-darwin:313> INFO - === Sun Jul 29, 2018, 21:38:22
-[76] Biber.pm:371> INFO - Reading '/Users/franzi/Projects/textmining/paper/writing/under_review1/.texpadtmp/online_news_review.bcf'
-[162] Biber.pm:857> INFO - Found 32 citekeys in bib section 0
-[183] Biber.pm:3976> INFO - Processing section 0
-[201] Biber.pm:4136> INFO - Looking for bibtex format file '/Users/franzi/Projects/textmining/paper/writing/under_review1/Textmining.bib' for section 0
-[215] bibtex.pm:1500> INFO - LaTeX decoding ...
-[491] bibtex.pm:1316> INFO - Found BibTeX data source '/Users/franzi/Projects/textmining/paper/writing/under_review1/Textmining.bib'
-[613] Utils.pm:193> WARN - ISBN '978-3-319-21379-8 978-3-319-21380-4' in entry 'mishler_using_2015' is invalid - run biber with '--validate_datamodel' for details.
-[780] UCollate.pm:68> INFO - Overriding locale 'de_DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[780] UCollate.pm:68> INFO - Overriding locale 'de_DE' defaults 'variable = shifted' with 'variable = non-ignorable'
-[780] Biber.pm:3804> INFO - Sorting list 'nyt/global//global/global' of type 'entry' with template 'nyt' and locale 'de_DE'
-[780] Biber.pm:3810> INFO - No sort tailoring available for locale 'de_DE'
-[829] bbl.pm:617> INFO - Writing '/Users/franzi/Projects/textmining/paper/writing/under_review1/.texpadtmp/online_news_review.bbl' with encoding 'UTF-8'
-[859] bbl.pm:720> INFO - Output to /Users/franzi/Projects/textmining/paper/writing/under_review1/.texpadtmp/online_news_review.bbl
-[859] Biber.pm:110> INFO - WARNINGS: 1
+[0] Config.pm:305> INFO - Logfile is '/Users/franzi/Projects/news_paper/writing/under_review1/.texpadtmp/online_news_review.blg'
+[36] biber-darwin:313> INFO - === Mon Apr 29, 2019, 14:47:15
+[56] Biber.pm:371> INFO - Reading '/Users/franzi/Projects/news_paper/writing/under_review1/.texpadtmp/online_news_review.bcf'
+[140] Biber.pm:857> INFO - Found 32 citekeys in bib section 0
+[153] Biber.pm:3976> INFO - Processing section 0
+[163] Biber.pm:4136> INFO - Looking for bibtex format file '/Users/franzi/Projects/news_paper/writing/under_review1/Textmining.bib' for section 0
+[175] bibtex.pm:1500> INFO - LaTeX decoding ...
+[448] bibtex.pm:1316> INFO - Found BibTeX data source '/Users/franzi/Projects/news_paper/writing/under_review1/Textmining.bib'
+[553] Utils.pm:193> WARN - ISBN '978-3-319-21379-8 978-3-319-21380-4' in entry 'mishler_using_2015' is invalid - run biber with '--validate_datamodel' for details.
+[707] UCollate.pm:68> INFO - Overriding locale 'de_DE' defaults 'variable = shifted' with 'variable = non-ignorable'
+[707] UCollate.pm:68> INFO - Overriding locale 'de_DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[707] Biber.pm:3804> INFO - Sorting list 'nyt/global//global/global' of type 'entry' with template 'nyt' and locale 'de_DE'
+[707] Biber.pm:3810> INFO - No sort tailoring available for locale 'de_DE'
+[746] bbl.pm:617> INFO - Writing '/Users/franzi/Projects/news_paper/writing/under_review1/.texpadtmp/online_news_review.bbl' with encoding 'UTF-8'
+[776] bbl.pm:720> INFO - Output to /Users/franzi/Projects/news_paper/writing/under_review1/.texpadtmp/online_news_review.bbl
+[776] Biber.pm:110> INFO - WARNINGS: 1
