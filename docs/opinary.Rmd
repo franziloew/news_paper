@@ -1,0 +1,257 @@
+---
+title: "Opinary Data"
+output: 
+  html_document:
+    code_folding: hide
+---
+
+```{r message=FALSE, warning=FALSE}
+# import libraries
+library(readxl)
+library(tidyverse)
+library(patchwork)
+
+# global options
+knitr::opts_chunk$set(fig.width=10, fig.height=8, fig.align = "center") 
+
+# import data
+opinary <- read_excel("../data/Publisher political orientation polls.xlsx", sheet = "Data") %>%
+  mutate(label = ifelse(vote_position=="left",leftlabel,rightlabel),
+         label = ifelse(vote_position=="middle","",label),
+         label_order = ifelse(vote_position=="left",1,2),
+         label_order = ifelse(vote_position=="right",3,label_order)
+         ) %>%
+  select(-leftlabel, -rightlabel) %>%
+  group_by(poll_id) %>%
+  # get number of total votes/poll
+  mutate(vote_sum = sum(votes)) %>%
+  ungroup() %>%
+  # keep polls with > 1000 votes
+  filter(vote_sum > 1000) %>%
+  mutate(vote_share = votes/vote_sum)
+```
+
+## Number of total votes
+
+```{r fig.height=5, fig.width=5}
+p <- opinary %>% 
+  group_by(poll_customer_id) %>%
+  summarise(vote_sum = sum(votes)) %>%
+  ggplot(aes(reorder(poll_customer_id, vote_sum), vote_sum, text = vote_sum)) +
+  geom_col(fill="darkred", alpha=0.7) +
+  coord_flip() +
+  ggthemes::theme_hc() +
+  labs(x=NULL, y="Total votes") +
+  ylim(0, 3800000)
+
+plotly::ggplotly(p, tooltip = c("text"))
+```
+
+## Topics
+
+```{r}
+check_polls <- function(df, topics) {
+  
+  df %>% 
+    # Add filter
+    filter(grepl(topics, header, ignore.case = T)) %>%
+    group_by(header, label) %>%
+    tally() %>%
+    htmlTable::htmlTable(align="l", rnames=F)
+}
+```
+
+```{r}
+plot_polls <- function(df, topics, pos_labels, neg_labels) {
+  
+  topic_df <- df %>%
+    # Add filter
+    filter(grepl(topics, header, ignore.case = T)) %>%
+    group_by(poll_customer_id, header, label) %>%
+    summarise(
+      votes = sum(votes),
+      vote_share = mean(vote_share)
+      ) %>%
+    ungroup() %>%
+    group_by(poll_customer_id) %>%
+    mutate(vote_sum = sum(votes)) %>% 
+    ungroup() %>%
+    # create labels
+    mutate(
+      short_label = ifelse(grepl(pos_labels, label, ignore.case = T),"+",""),
+      short_label = ifelse(grepl(neg_labels, label, ignore.case = T),"-",short_label),
+      long_label = paste(label,"(",votes,")")
+      ) %>%
+    group_by(poll_customer_id, header, short_label) %>%
+    summarise(
+      vote_share = mean(vote_share),
+      vote_mean = sum(votes),
+      labels = paste(long_label, collapse = "\n")
+      ) %>% ungroup() %>%
+    mutate(
+      label_order = ifelse(short_label =="+",0,1),
+      label_order = ifelse(short_label =="" ,1,label_order),
+      label_order = ifelse(short_label =="-",2,label_order)
+      )
+  
+  p <- topic_df %>%
+    ggplot(aes(reorder(short_label,label_order), 
+               poll_customer_id, fill=vote_share, text = labels
+               )) +
+    geom_tile() +
+    geom_text(aes(label= round(vote_share,2)), size=3) +
+    ggthemes::theme_hc() +
+    facet_wrap(.~header, ncol = 2, scales = "free") +
+    scale_fill_gradient2(low = "#6993c9", mid="#fcf8f7", high="#8b312e") +
+    labs(x=NULL, y=NULL) +
+    theme(axis.text.x = element_text(size = 6),
+          legend.position='none')
+  
+  plotly::ggplotly(p, tooltip = c("text"))
+  
+}
+```
+
+### 1. National
+
+#### AfD
+```{r}
+key = "afd"
+
+check_polls(opinary, key)
+```
+
+```{r}
+pos <- paste("Ja","Gut", sep="|")
+neg <- paste("Nein", "Schlecht", sep="|")
+
+plot_polls(opinary, key, pos, neg)
+```
+
+#### Islam, Rechtsextremismus, Antisemitismus
+```{r}
+keys = paste("islam","rechtsextrem", "antisemitismus", sep ="|")
+
+check_polls(opinary, keys)
+```
+
+```{r fig.height=6}
+pos <- "Ja" 
+neg <- "Nein"
+
+plot_polls(opinary, keys, pos, neg)
+```
+
+#### CDU, Koalition
+```{r}
+keys = paste("merkel","koalition", sep ="|")
+
+check_polls(opinary, keys)
+```
+
+```{r fig.height=6}
+pos <- "Ja" 
+neg <- "Nein"
+
+plot_polls(opinary, keys, pos, neg)
+```
+
+#### Cannabis, Alkohol
+```{r}
+keys = paste("cannabis","alkohol", sep ="|")
+
+check_polls(opinary, keys)
+```
+
+```{r fig.height=4}
+pos <- "Ja" 
+neg <- "Nein"
+
+plot_polls(opinary, keys, pos, neg)
+```
+
+#### Diesel-Fahrverbote, E-Mobilität, Klimawandel, ...
+```{r}
+keys <- paste("diesel","e-mobilität", "klimawandel", "cannabis", sep ="|")
+
+check_polls(opinary, keys)
+```
+
+```{r}
+pos <- paste("Ja","Gut", sep="|")
+neg <- paste("Nein", "Dagegen", sep="|")
+
+plot_polls(opinary, keys, pos, neg)
+```
+
+#### Gehalt, Warnstreiks
+```{r}
+keys = paste("gehalt", "warnstreiks", sep ="|")
+
+check_polls(opinary, keys)
+```
+
+```{r fig.height=4}
+pos <- "Ja" 
+neg <- "Nein"
+
+plot_polls(opinary, keys, pos, neg)
+```
+
+### 2. International
+
+#### Trump
+```{r}
+key <- "trump"
+
+check_polls(opinary, key)
+```
+
+```{r}
+pos <- paste("Ja","Viel", sep="|")
+neg <- paste("Nein", "Gar nichts", sep="|")
+
+plot_polls(opinary, key, pos, neg)
+```
+
+#### Brexit
+```{r}
+key <- "brexit"
+
+check_polls(opinary, key)
+```
+
+```{r fig.height=6}
+pos <- "Ja"
+neg <- "Nein"
+
+plot_polls(opinary, key, pos, neg)
+```
+
+#### Nato, Türkei, Syrien
+```{r}
+keys <- paste("nato","türkei", "tuerkei", "syrien", sep ="|")
+
+check_polls(opinary, keys)
+```
+
+```{r}
+pos <- "Ja"
+neg <- "Nein"
+
+plot_polls(opinary, keys, pos, neg)
+```
+
+#### EU
+```{r}
+keys <- paste("notre","asyl", sep ="|")
+
+check_polls(opinary, keys)
+```
+
+```{r fig.height=4}
+pos <- "Ja"
+neg <- "Nein"
+
+plot_polls(opinary, keys, pos, neg)
+```
