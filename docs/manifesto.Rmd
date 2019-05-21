@@ -1,0 +1,176 @@
+---
+title: "Manifesto Data"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(tidytext)
+library(tm)
+library(data.table)
+
+rm(list=ls())
+# import data
+path = "../data/manifesto/"
+file_names = list.files(path, pattern = "*.csv") 
+df <- do.call(rbind, lapply(file_names, 
+                            function(x) cbind(read.csv(paste0(path, x), stringsAsFactors = F), 
+                                              party=strsplit(x,'\\.')[[1]][1])))
+
+# define stopwords
+stopwords <- tm::stopwords(kind = "german")
+stopwords <- c(stopwords, "dass", "sowie", "müssen", "wer", "innen", "ab", "mehr", "seit", "dafür")
+```
+
+## Frequencies
+
+### 1. Tokens
+```{r}
+tokens <- df %>%
+  unnest_tokens(word, content) %>%
+  count(party, word, sort=TRUE) %>%
+  filter(!word %in% stopwords) %>%
+  bind_tf_idf(word, party, n)
+```
+
+#### Term frequency
+
+```{r fig.height=10, fig.width=8}
+tokens %>%
+  arrange(desc(n)) %>%
+  mutate(word = factor(word, levels = rev(unique(word)))) %>% 
+  group_by(party) %>% 
+  top_n(15, n) %>% 
+  ungroup() %>%
+  ggplot(aes(word, n, fill = party)) +
+  geom_col(show.legend = FALSE) +
+  labs(x = NULL, y = "term frequency") +
+  facet_wrap(~party, ncol = 2, scales = "free") +
+  coord_flip()
+```
+
+#### Term frequency - inverse document frequency
+
+```{r fig.height=10, fig.width=8}
+tokens %>%
+  arrange(desc(tf_idf)) %>%
+  mutate(word = factor(word, levels = rev(unique(word)))) %>% 
+  group_by(party) %>% 
+  top_n(15, tf_idf) %>% 
+  ungroup() %>%
+  ggplot(aes(word, tf_idf, fill = party)) +
+  geom_col(show.legend = FALSE) +
+  labs(x = NULL, y = "tf-idf") +
+  facet_wrap(~party, ncol = 2, scales = "free") +
+  coord_flip()
+```
+
+### 2. Bigrams 
+```{r}
+bigrams <- df %>%
+  unnest_tokens(bigram, content, token = "ngrams", n=2) 
+
+bigrams <- bigrams %>% 
+  separate(bigram, c("word1", "word2"), sep=" ") %>%
+  filter(!word1 %in% stopwords) %>%
+  filter(!word2 %in% stopwords) %>%
+  count(word1, word2, party, sort=TRUE) %>%
+  unite(bigram, word1, word2, sep=" ")
+```
+
+```{r fig.height=10, fig.width=8}
+bigrams %>%
+  arrange(desc(n)) %>%
+  mutate(word = factor(bigram, levels = rev(unique(bigram)))) %>% 
+  group_by(party) %>% 
+  top_n(10, n) %>% 
+  ungroup() %>%
+  ggplot(aes(word, n, fill = party)) +
+  geom_col(show.legend = FALSE) +
+  labs(x = NULL, y = "bigram frequency") +
+  facet_wrap(~party, ncol = 2, scales = "free") +
+  coord_flip()
+```
+
+## Topic model
+
+```{r}
+library(stm)
+library(quanteda)
+
+# summarise text 
+stm_df <- df %>% group_by(party) %>% summarise(text = paste(content, collapse = " "))
+
+# remove stopwords, numbers, punctiation
+stopw <- tm::stopwords(kind = "german")
+stopw <- c(stopw, "dass", "sowie", "müssen", "wer", "innen", "ab", "mehr", "seit", "dafür", "sollen", "deshalb","beim","gilt","grade", "setzen","unsere","unserer","dabei","immer","viele","daher","statt","insbesondere","stehen","stellen","darf","dürfen","braucht", "brauchen")
+stopw <- paste(stopw, collapse = "|")
+
+stm_df$text_cleaned <- gsub(stopw, "", stm_df$text)
+stm_df$text_cleaned <- gsub("[[:punct:]]", " ", stm_df$text_cleaned)
+stm_df$text_cleaned <- gsub("[[:cntrl:]]", " ", stm_df$text_cleaned)
+stm_df$text_cleaned <- gsub("[[:digit:]]", " ", stm_df$text_cleaned)
+stm_df$text_cleaned <- gsub("^[[:space:]]+", " ", stm_df$text_cleaned)
+stm_df$text_cleaned <- gsub("[[:space:]]+$", " ", stm_df$text_cleaned)
+
+tidy_stm <- stm_df %>%
+  unnest_tokens(word, text_cleaned)
+```
+
+```{r}
+library(stm)
+library(quanteda)
+
+# summarise text 
+stm_dfm <- tidy_stm %>% count(party, word, sort = T) %>% cast_dfm(party, word, n)
+
+# run STM model
+
+k=38 # number of topics asked at the wahlomat
+
+topic_model <- stm(stm_dfm, K = k, verbose = FALSE, init.type = "Spectral")
+
+#save(stm_df, out, stmOut, file = paste0("../output/models/manifesto_",k,".RDa"))
+```
+
+```{r}
+td_beta <- tidy(topic_model)
+
+td_beta %>%
+    group_by(topic) %>%
+    top_n(10, beta) %>%
+    ungroup() %>%
+    mutate(topic = paste0("Topic ", topic),
+           term = reorder_within(term, beta, topic)) %>%
+    ggplot(aes(term, beta, fill = as.factor(topic))) +
+    geom_col(alpha = 0.8, show.legend = FALSE) +
+    facet_wrap(~ topic, scales = "free_y") +
+    coord_flip() +
+    scale_x_reordered() +
+    labs(x = NULL, y = expression(beta),
+         title = "Highest word probabilities for each topic",
+         subtitle = "Different words are associated with different topics")
+```
+
+```{r}
+stm_df %>%
+  sample_n(1) %>%
+  select(text, text_cleaned) %>%
+  htmlTable::htmlTable()
+```
+
+```{r}
+# define stopwords
+stopw <- tm::stopwords(kind = "german")
+stopw <- c(stopw, "dass", "sowie", "müssen", "wer", "innen", "ab", "mehr", "seit", "dafür", "sollen", "deshalb","beim","gilt","grade", "setzen","unsere","unserer","dabei","immer","viele","daher","statt","insbesondere","stehen","stellen","darf","dürfen","braucht", "brauchen")
+
+tokens <- stm_df %>%
+  unnest_tokens(word, text) %>%
+  count(word, sort=TRUE) %>%
+  filter(!word %in% stopw)
+```
+
+```{r}
+"wir" %in% stm_df$text_cleaned[1]
+```
+

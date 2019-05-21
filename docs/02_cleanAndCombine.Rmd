@@ -96,6 +96,28 @@ rm(list=ls())
 load(file="../output/data_step1.Rda")
 ```
 
+```{r}
+df_full %>%
+  group_by(site) %>%
+  tally(sort = T) %>%
+  ggplot(aes(reorder(site, n),n/1000)) +
+  geom_col() +
+  coord_flip() +
+  ggthemes::theme_fivethirtyeight() +
+  labs(title = "Number of articles / Website", subtitle = "articles/1000")
+```
+
+```{r}
+df_full %>%
+  group_by(date) %>%
+  tally() %>%
+  ggplot(aes(date, n/1000)) +
+  geom_line() +
+  ggthemes::theme_fivethirtyeight() +
+  labs(title = "Number of articles/day", subtitle = "aritcles/1000")
+```
+
+
 ## A. Select Sample
 
 ### 1. by date & medium ... 
