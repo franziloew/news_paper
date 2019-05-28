@@ -44,6 +44,7 @@ library(dplyr)
 library(ggthemes)
 library(tidytext)
 library(patchwork)
+library(magrittr)
 
 rm(list = ls())
 
@@ -251,20 +252,15 @@ To measure the tone (or sentiment) of an article a dictionary-based method is ap
 
 The present paper uses a dictionary that lists words associated with positive and negative polarity weighted within the interval of $[-1; 1]$. [SentimentWortschatz](http://wortschatz.uni-leipzig.de/de/download), is a publicly available German-language resource for sentiment analysis, opinion mining, etc.. The current version of SentiWS (v1.8b) contains 1,650 positive and 1,818 negative words, which sum up to 15,649 positive and 15,632 negative words including their inflections, respectively. 
 
-The sentiment score for each document $d$ is calculated based on the weighted polarity values for a word, defined on an interval between -1 and 1. The score is then calculated from the sum of the words in a document (which can be assigned to a word from the dictionary) divided by the total number of words in that document:
- 
-$$
-\text{SentScore}_d = \frac{|\text{positive polarity score}_d| - |\text{negative polarity score}_d|}{|\text{TotalWords}_d|}
-$$
-
-
 ```{r}
-sent <- c(
+# 1. SentiWS
+# ---------
+SentiWS <- c(
   # positive Wörter
-  readLines("dict/SentiWS_v1.8c_Negative.txt",
+  readLines("dict/SentiWS_v2.0_Negative.txt",
             encoding = "UTF-8"),
   # negative W??rter
-  readLines("dict/SentiWS_v1.8c_Positive.txt",
+  readLines("dict/SentiWS_v2.0_Positive.txt",
             encoding = "UTF-8")
   ) %>%
   
@@ -273,7 +269,7 @@ sent <- c(
   res <- strsplit(x, "\t", fixed = TRUE)[[1]]
   return(data.frame(words = res[1], value = res[2],
                     stringsAsFactors = FALSE))
-  }) %>% 
+  }) %>%
   
   bind_rows %>%
   mutate(word = gsub("\\|.*", "", words) %>% 
@@ -281,7 +277,7 @@ sent <- c(
          type = gsub(".*\\|", "", words)) %>%
   
   # nur adjektive oder adverben
-  # filter(type == "ADJX" | type == "ADV") %>%
+  ## filter(type == "ADJX" | type == "ADV") %>%
   # manche Wörter kommen doppelt vor, hier nehmen wir den mittleren Wert
   group_by(word) %>%
   dplyr::summarise(polarity = mean(value)) %>% ungroup %>%
@@ -290,52 +286,159 @@ sent <- c(
   # welcome to hell (g20)
   filter(!grepl('hell',word,ignore.case = T)) %>%
   # filter values that that score between -0.1 and +0.1 
-  filter(!dplyr::between(polarity, -0.1,0.1))
+  filter(!dplyr::between(polarity, -0.1,0.1)) %>%
+  # create a -1 / 1 index for the sentiments
+  mutate(senti_dummy = ifelse(polarity > 0, 1, -1))
+
+# 2. BPW
+# ------
+posBPW <- xlsx::read.xlsx("dict/BPW_Dictionary.xlsx", sheetName = "POS_BPW", 
+                          header = FALSE, stringsAsFactors = FALSE, encoding = "UTF-8")
+negBPW <- xlsx::read.xlsx("dict/BPW_Dictionary.xlsx", sheetName = "NEG_BPW", 
+                          header = FALSE, stringsAsFactors = FALSE, encoding = "UTF-8")
+
+BPW <- as.data.frame(rbind(cbind(posBPW, y = 1), cbind(negBPW, y = -1)))
+names(BPW) <- c("word","senti_dummy")
 ```
+
+### Dictionary match
+
+The sentiment score for each document $d$ is calculated based on the weighted polarity values for a word, defined on an interval between -1 and 1. The score is then calculated from the sum of the words in a document (which can be assigned to a word from the dictionary) divided by the total number of words in that document:
+ 
+$$
+\text{SentScore}_d = \frac{|\text{positive polarity score}_d| - |\text{negative polarity score}_d|}{|\text{TotalWords}_d|}
+$$
 
 ```{r}
 sent_token <- model_df %>% 
   select(doc_index, date, source, title_text) %>%
-  unnest_tokens(word, title_text) %>% left_join(., sent, by = "word")
+  unnest_tokens(word, title_text)
+
+SentiWS.token <- sent_token %>% left_join(., SentiWS, by = "word")
+BPW.token <- sent_token %>% left_join(., BPW, by = "word" )
 ```
 
-```{r}
-sent_df <- sent_token %>% 
+```{r Sample sentiment analysis 1}
+doc <- sample(unique(model_df$doc_index),1)
+
+SentiWS.token %>% filter(doc_index == doc)
+```
+
+```{r Sample sentiment analysis 2}
+BPW.token %>% filter(doc_index == doc)
+```
+
+```{r Calculacte document sentiment-socres}
+sent_df1 <- SentiWS.token %>% 
   group_by(doc_index) %>% 
   dplyr::summarise(n = n(),
-                   polarity_sum = sum(polarity, na.rm = T),
-                   sentiment = polarity_sum/n)
+                   SentiWS_polarity = sum(polarity, na.rm = T),
+                   SentiWS_dummy = sum(senti_dummy, na.rm = T),
+                   SentiWS = SentiWS_dummy/n
+                   )
 
-save(sent_df, file="../output/sentiment.Rda")
+sent_df2 <- BPW.token %>% 
+  group_by(doc_index) %>% 
+  dplyr::summarise(
+                  n = n(),
+                   BPW_dummy = sum(senti_dummy, na.rm = T),
+                   BPW = sum(senti_dummy, na.rm = T)/n
+                   ) %>%
+  select(-n)
+
+model_df <- left_join(model_df, sent_df1, by="doc_index") %>% left_join(., sent_df2, by="doc_index")
+```
+
+### SentimentR
+
+```{r Load Packages}
+#if (!require("pacman")) install.packages("pacman")
+#pacman::p_load_current_gh("trinker/lexicon", "trinker/sentimentr")
+
+pacman::p_load(sentimentr)
+```
+
+```{r Prepare dictionary, message=FALSE, warning=FALSE}
+sentiment_df <- SentiWS %>% 
+  select(word, polarity) %>% 
+  rbind(., c("nicht",-0.8)) %>%
+  transmute(
+    words = word,
+    polarity = as.numeric(polarity)
+  ) %>%
+  # define as key for sentimentR
+  as_key()
+```
+
+We may wish to see the output from `sentiment_by` line by line with positive/negative sentences highlighted. The `highlight` function wraps a `sentiment_by` output to produces a highlighted HTML file (positive = green; negative = pink). Here we look at two random articles
+
+```{r}
+model_df %>% 
+  group_by(source) %>%
+  sample_n(1) %>%
+  mutate(title_split = get_sentences(title)) %$%
+  sentiment_by(title_text, source,
+               polarity_dt = sentiment_df) %>%
+  sentimentr::highlight()
+```
+
+```{r Apply on text data, eval=FALSE, include=FALSE}
+sentimenR.df <- model_df %>% 
+  mutate(text_split = get_sentences(title_text)) %$%
+  sentiment(text_split, polarity_dt = sentiment_df)
+
+model_df <- sentimenR.df %>%
+  group_by(element_id) %>% 
+  dplyr::summarise(sentimentR = mean(sentiment, na.rm = T)) %>%
+  dplyr::ungroup() %>%
+  mutate(doc_index = element_id) %>%
+  left_join(., model_df, by="doc_index")
+
+sent_df <- model_df %>% 
+  select(doc_index, source, type, n, SentiWS_polarity, SentiWS_dummy, SentiWS, BPW_dummy, BPW, sentimentR)
+
+save(sent_df,sentimenR.df, file="../output/sentiment.Rda")
 ```
 
 ```{r}
-model_df <- left_join(model_df, sent_df, by="doc_index")
+load("../output/sentiment.Rda")
 
-plot <- model_df %>%
-  mutate(sentiment = sentiment*1000) %>%
-  group_by(type) %>%
-  mutate(avg_sent_type = median(sentiment, na.rm = T)) %>%
-  ungroup() %>%
+plot <- sent_df %>%
   group_by(source, type) %>%
-  dplyr::summarise(avg_sent_type = mean(avg_sent_type, na.rm = T),
-                   sent_mean = median(sentiment, na.rm = T)) %>% ungroup()
-  
+  dplyr::summarise(
+   SentiWS = mean(SentiWS, na.rm = T),
+   BPW = mean(BPW, na.rm = T),
+   sentimentR = mean(sentimentR, na.rm = T)
+  ) %>%
+  ungroup() %>%
+  gather(metric, sent_value, SentiWS:sentimentR) %>%
+  group_by(type, metric) %>%
+  mutate(
+    sent_m = median(sent_value)
+  ) %>% ungroup()
 
-ggplot(plot, aes(source, sent_mean, 
-                 label = round(sent_mean,2),
-                 color = type)) +
-  geom_point(show.legend = F, alpha = 0.8, size=3) +
-  geom_hline(aes(yintercept =avg_sent_type), linetype=2, color = "darkred") +
-  geom_hline(aes(yintercept =0), color = color1) +
+ggplot(plot, aes(source, sent_value, label = round(sent_value,3))) +
+  geom_point(aes( color = metric), size = 3) +
+  geom_line(aes(source, sent_m, color = metric, group = metric), linetype=2) +
   geom_text(show.legend = F, color="black", size=2, vjust=-1) +
   coord_flip() +
-  facet_grid(type~., scales = "free_y") +
-  labs(x=NULL, y=NULL, title = "Sentiment score") +
-  theme_hc()
-
-#ggsave("../figs/sentiment.png", height = 4, width = 6, dpi=300)
+  labs(x=NULL, y=NULL) +
+  ggthemes::theme_hc() +
+  ggthemes::scale_color_fivethirtyeight() +
+  theme(legend.position = "bottom") +
+  facet_grid(type~., scales = "free_y") 
 ```
+
+```{r}
+radar <- plot %>%
+  select(-type, -sent_m) %>%
+  spread(source, sent_value)
+
+ggiraphExtra::ggRadar(radar, aes(color = metric), rescale = F,
+                      interactive = T,
+                      alpha = 0) 
+```
+
 
 # Structural Topic Model
 
@@ -432,7 +535,7 @@ k <- stmOut$settings$dim$K
   
 model_df <- model_df %>%
   dplyr::mutate(doc_index = as.numeric(rownames(.))) %>%
-  left_join(., sent_df, by="doc_index")
+  left_join(., sent_df %>% select(-source, -type), by="doc_index")
 
 stmOut$settings$call
 ```
@@ -528,7 +631,10 @@ theta <- as.data.frame(stmOut$theta) %>% # get all theta values for each documen
   
   # join with model_df
   left_join(., model_df %>% 
-              select(date,type,source,doc_index,title_text,sentiment), by="doc_index") %>%  
+              select(date,type,source,doc_index,title_text), by="doc_index") %>%  
+  
+  # join with sentiment df
+  left_join(., sent_df %>% select(-source, -type), by="doc_index") %>%
   
   # delete documents that are published in Mai 2017
   mutate(
@@ -657,68 +763,125 @@ topicmean_press %>%
 
 ## Weighted topic probability
 
-To combine the sentiment value with the topic probability of each document, the sentiment score is multiplied with the $k$x$1$ vector for each document. Subsequently, to calculate the average topic sentiment for a source $s$, the mean value of all documents belonging to source $s$ is calculated. This results in a $k$x$1$ vector representing the mean distributions $\bar{ \theta_{s} }$ of this source, weighted by the sentiment scores:
+In order to measure topic-specific tone, the sentiment values are combined with the results of the STM procedure. The output of the STM algorithm provides estimates of topic proportions $\theta_d = [\theta^1_{d},...,\theta^{50}_{d}]'$ for each document $d$. In other words, STM calculates which of the K = 50 topics is discussed in which proportion in each document. These topic proportions are combined with the tone of the corresponding paragraph as in [Jegadeesh and Wu (2017)](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2939937). 
+
+The topic-specific tone and uncertainty is measured by calculating nettone scores (NTS)
 
 $$
-	\bar{ \theta_{s} } =
-	\begin{bmatrix} 
-	\bar{ \theta_{1} } \\
-	. \\
-	. \\
-	\bar{ \theta_{k} } \\
-	\end{bmatrix}
+\text{NTS}^k_d=\theta^{k}_{d}*\text{NT}_d
 $$
+where $\theta^k_{d}$ is the proportion of topic $k$ in document $d$ obtained from the STM procedure and $NT_d$ is the number of positive words minus the number of negative words (nettone) in $d$.
 
 ```{r}
-theta <- theta %>% mutate(sentiment_theta = sentiment*theta)
-
-topicsent_news <- theta %>%
-  filter(type == "news") %>%
-  group_by(topic,joint_label,source) %>%
-  dplyr::summarise(sent_theta = mean(sentiment_theta, na.rm = T)) %>% 
-  ungroup()
-
-topicsent_press <- theta %>%
-  filter(type == "press") %>%
-  group_by(topic,joint_label, source) %>%
-  summarise(sent_theta = mean(sentiment_theta, na.rm = T)) %>% 
-  ungroup()
+theta <- theta %>% 
+  mutate(SentiWS_theta = SentiWS*theta,
+         BPW_theta = BPW*theta,
+         sentR_theta = sentimentR*theta
+         )
 ```
 
-```{r fig.align="center", fig.height=11, fig.width=11}
-topicsent_news %>%
-  mutate(sent_theta = sent_theta*1000) %>%
-  ggplot(aes(reorder(joint_label,desc(topic)),
-             sent_theta, fill=sent_theta)) +
+```{r Zero mean and unit variance}
+# normalize variable to have a mean of 0 and a standard deviation (and variance) of 1
+
+scaledX <- function(x){
+  (x - mean(x))/sd(x)
+}
+```
+
+```{r}
+plot <- theta %>%
+  group_by(topic,joint_label) %>%
+  dplyr::summarise(
+    SentiWS_theta = mean(SentiWS_theta, na.rm = T),
+    BPW_theta = mean(BPW_theta, na.rm = T),
+    sentR_theta = mean(sentR_theta, na.rm = T)
+  ) %>%
+  ungroup() %>%
+  mutate(
+    SentiWS_theta = scaledX(SentiWS_theta),
+    BPW_theta = scaledX(BPW_theta),
+    sentR_theta = scaledX(sentR_theta)
+  ) 
+```
+
+```{r fig.height=5, fig.width=5}
+library(patchwork)
+
+p1 <- plot %>%
+  ggplot(aes(reorder(joint_label,SentiWS_theta), 
+             SentiWS_theta, fill=SentiWS_theta)) +
+  geom_col(show.legend = F) + 
+  coord_flip() + theme_hc() +
+  labs(x=NULL, y=NULL, title="SentiWS")
+
+p2 <- plot %>%
+  ggplot(aes(reorder(joint_label,SentiWS_theta), 
+             BPW_theta, fill=BPW_theta)) +
+  geom_col(show.legend = F) + 
+  coord_flip() + theme_hc() +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.x = element_blank()) +
+  labs(x=NULL, y=NULL, title="BPW")
+
+p3 <- plot %>%
+  ggplot(aes(reorder(joint_label,SentiWS_theta), 
+             sentR_theta, fill=sentR_theta)) +
+  geom_col(show.legend = F) + 
+  coord_flip() + theme_hc() +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.x = element_blank()) +
+  labs(x=NULL, y=NULL, title="SentimentR")
+
+p1 + p2 + p3
+```
+
+```{r}
+corr.df <- theta %>%
+  group_by(topic, type, source, joint_label) %>%
+  dplyr::summarise(
+    SentiWS_theta = mean(SentiWS_theta, na.rm = T),
+    BPW_theta = mean(BPW_theta, na.rm = T),
+    sentR_theta = mean(sentR_theta, na.rm = T)
+  ) %>%
+  ungroup() %>%
+  mutate(
+    SentiWS_theta = scaledX(SentiWS_theta),
+    BPW_theta = scaledX(BPW_theta),
+    sentR_theta = scaledX(sentR_theta)
+  ) 
+```
+
+```{r fig.height=5, fig.width=8}
+corr.df %>%
+  ggplot(aes(reorder(joint_label,topic),
+             SentiWS_theta, fill=SentiWS_theta)) +
   geom_col(show.legend = F) +
   coord_flip() +
   theme_hc() +
-  facet_grid(.~source) +
-    scale_y_continuous(limits = c(-0.7,0.2), breaks = c(-0.6,-0.4,-0.2,0)) +
-  #scale_fill_gradient2(limits=c(0,0.25), low="white", mid="blue", high="red") +
-  labs(x=NULL, y=NULL) +
-  theme(axis.text.x = element_text(size = 6)
-        #axis.text.y = element_blank()
-        )
-
-#ggsave("../figs/topic_sent_news.png", width = 10, height =8)
+  labs(x=NULL, y=NULL, title="SentiWS") +
+  facet_grid(.~source)
 ```
 
-```{r fig.align="center", fig.height=11, fig.width=11}
-topicsent_press %>%
-  mutate(sent_theta = sent_theta*1000) %>%
-  ggplot(aes(reorder(joint_label,desc(topic)),
-             sent_theta, fill=sent_theta)) +
-  geom_col(show.legend = FALSE) +
+```{r fig.height=5, fig.width=8}
+corr.df %>%
+  ggplot(aes(reorder(joint_label,topic),
+             BPW_theta, fill=BPW_theta)) +
+  geom_col(show.legend = F) +
   coord_flip() +
-    theme_hc() +
-  facet_grid(~source) +
-  #scale_fill_gradient2(limits=c(0,0.25), low="white", mid="blue", high="red") +
-  scale_y_continuous(limits = c(-0.7,0.2), breaks = c(-0.6,-0.4,-0.2,0)) +
-  labs(x=NULL, y=NULL) +
-  theme(axis.text.x = element_text(size = 6))
+  theme_hc() +
+  labs(x=NULL, y=NULL, title="BPW") +
+  facet_grid(.~source)
+```
 
-#ggsave("../figs/topic_sent_press.png", width = 10, height =8)
+```{r fig.height=5, fig.width=8}
+corr.df %>%
+  ggplot(aes(reorder(joint_label,topic),
+             sentR_theta, fill=sentR_theta)) +
+  geom_col(show.legend = F) +
+  coord_flip() +
+  theme_hc() +
+  labs(x=NULL, y=NULL, title="SentimentR") +
+  facet_grid(.~source)
 ```
 
 ### Correlation of weighted topic distribution
@@ -732,23 +895,22 @@ library(corrr)
 
 news <- c("DIE WELT","stern.de", "ZEIT ONLINE", "FOCUS Online", "Bild.de", "SPIEGEL ONLINE", "tagesschau.de" )
 parties <- c("CDU", "SPD", "AfD", "B90/GRÜNE", "DIE LINKE", "FDP" )
-
-corr.df <- bind_rows(topicsent_press, topicsent_news) %>% 
-  select(-joint_label) %>% spread(source, sent_theta)
-
-x <- as.matrix(corr.df[,-1])
-
-rs <- correlate(x)
 ```
 
-```{r Network plot, fig.align="centre"}
+```{r Network plot, fig.align="centre", message=FALSE, warning=FALSE}
+corr.df.sm <- corr.df %>%
+  select(topic, source, BPW_theta) %>%
+  spread(source, BPW_theta)
+
+x <- as.matrix(corr.df.sm[,-1])
+
+rs <- correlate(x)
+
 rs %>% 
   network_plot()
 ```
 
-```{r fig.align="centre", fig.width=12}
-library(patchwork)
-
+```{r}
 plot <- rs %>%
   as_tibble() %>%
   dplyr::rename(source1 = rowname) %>%
@@ -757,6 +919,10 @@ plot <- rs %>%
     type1 = ifelse(source1 %in% news, "news", "party"),
     type2 = ifelse(source2 %in% news, "news", "party")
   ) 
+```
+
+```{r fig.align="centre", fig.height=4, fig.width=8}
+library(patchwork)
 
 p1 <- plot %>%
   filter(type1 == "news") %>%
@@ -841,7 +1007,7 @@ ggiraphExtra::ggRadar(radar, aes(color = source2),
         legend.title = element_blank()) +
    guides(col = guide_legend(ncol = 1)) 
 
-ggsave("../figs/radar_corr.png", width = 5, height = 5, dpi = 200)
+#ggsave("../figs/radar_corr.png", width = 5, height = 5, dpi = 200)
 ```
 
 ```{r}
@@ -890,6 +1056,13 @@ ggiraphExtra::ggRadar(radar_rescaled,
                       alpha = 0) 
 ```
 
+```{r}
+ggiraphExtra::ggRadar(radar_rescaled, 
+                      aes(color = medium),
+                      rescale = F,
+                      interactive = T,
+                      alpha = 0) 
+```
 
 ## Compare with reader preferences
 
@@ -910,7 +1083,7 @@ keeps <- c("Bild.de", "Spiegel Online","Welt Online","Focus Online", "Stern.de",
 
 Which of the brands have you used to access news online in the last week?
 
-```{r echo=FALSE, fig.align="centre", fig.height=6}
+```{r echo=FALSE, fig.align="centre"}
 reutersDF1 %>%
   gather(key = "orientation", value = "count", -medium) %>%
   group_by(medium) %>%
@@ -923,10 +1096,10 @@ p <- reutersDF1.grouped %>%
              )) +
   geom_col(show.legend = F) +
   coord_flip() +
+  theme_hc() +
   labs(x = NULL, y = NULL,title = NULL, caption = "Source: Hans-Bredow-Institut")
 
-plotly::ggplotly(p, tooltip="y")
-
+p
 #ggsave({p + theme_hc()}, filename = "../figs/reuters1.png", width = 8, height = 8)
 ```
 
@@ -949,13 +1122,13 @@ p<- reutersDF2 %>%
   geom_col(fill=color1) +
   geom_text(hjust = 1.5, color = "white", size =2) +
   labs(x = NULL, y = "%") +
+  theme_hc() +
   theme(axis.text.x = element_text(angle = 90),
         axis.text = element_text(size= 6))
 
+p
 #ggsave({p + theme_hc()}, filename = "../figs/reuters2.png", width = 4, height = 3)
 #ggsave({p + theme_hc()}, filename = "../slides/img/reuters2.png", width = 4, height = 2)
-
-plotly::ggplotly(p, tooltip="y")
 ```
 
 ```{r}
@@ -1041,6 +1214,55 @@ p2 <- reutersDF.long %>%
 p1 + p2 + plot_layout(widths = c(2,1))
 
 #ggsave("../figs/reuters3.png", width = 5, height = 3)
+```
+
+```{r}
+p1 <- reutersDF.long %>%
+  filter(!grepl("know",medium)) %>%
+  filter(!grepl("None",medium)) %>%
+  filter(medium %in% keeps) %>%
+  mutate(
+    medium = ifelse(grepl("Welt",medium,ignore.case = T),"DIE WELT", medium),
+    medium = ifelse(grepl("stern",medium,ignore.case = T),"stern.de", medium),
+    medium = ifelse(grepl("Zeit",medium,ignore.case = T),"ZEIT ONLINE", medium),
+    medium = ifelse(grepl("Focus",medium,ignore.case = T),"FOCUS OnlineT", medium),
+    medium = ifelse(grepl("Bild",medium,ignore.case = T),"Bild.de", medium),
+    medium = ifelse(grepl("Spiegel",medium,ignore.case = T),"SPIEGEL ONLINE", medium),
+    medium = ifelse(grepl("tagesschau",medium,ignore.case = T),"tagesschau.de", medium)
+  ) %>%
+
+#  mutate(count = scaledX(count)) %>%
+  ggplot(aes(reorder(partisan.f, partisan_scale), medium, 
+             fill = count)) +
+  geom_tile() +
+  geom_text(aes(label= round(count,2))) +
+  theme_hc() +
+  labs(x = NULL, y = NULL, title = "Reader preferences") + 
+  scale_x_discrete(expand = c(0, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  theme(legend.position = "none", axis.text.x = element_text(angle = 90))
+
+p2 <- plot %>%
+  filter(type1 == "news") %>%
+  filter(type2 == "party") %>%
+#  mutate(corr = scaledX(corr)) %>%
+  mutate(
+    party_order = ifelse(source2 == "DIE LINKE", 1, 0),
+    party_order = ifelse(source2 == "B90/GRÜNE", 2, party_order),
+    party_order = ifelse(source2 == "SPD", 3, party_order),
+    party_order = ifelse(source2 == "FDP", 4, party_order),
+    party_order = ifelse(source2 == "CDU", 5, party_order),
+    party_order = ifelse(source2 == "AfD", 6, party_order)
+    ) %>%
+  
+  ggplot(aes(reorder(source2, party_order), source1, fill=corr)) +
+  geom_tile() +
+  geom_text(aes(label = round(corr,2))) +
+  theme_hc() +
+  labs(x = NULL, y = NULL, title = "Medium / Partei") + 
+  theme(legend.position = "none", axis.text.x = element_text(angle = 90))
+
+p1 + p2
 ```
 
 # ---- Backup ---- #

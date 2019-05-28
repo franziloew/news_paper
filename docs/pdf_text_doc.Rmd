@@ -1,0 +1,360 @@
+---
+title: "Textanalyse der Wahlprogramme deutscher Parteien zur Europawahl 2019"
+author: "Franziska Löw"
+date: "`r format(Sys.Date())`"
+output:
+  html_document:
+    df_print: paged
+    code_folding: hide
+---
+
+```{r include=FALSE}
+#install.packages("pdftools")
+library(devtools)
+#install_github("cbail/textnets", force=TRUE)
+library(textnets)
+
+library(tidyverse)
+library(tidytext)
+library(tm)
+library(data.table)
+```
+
+```{r include=FALSE}
+rm(list=ls())
+
+# import data
+path = "../pdf/"
+file_names = list.files(path, pattern = "*.pdf") 
+
+df <- do.call(rbind, lapply(file_names, 
+                            function(x) cbind(as.data.frame(pdftools::pdf_text(paste0(path, x))), 
+                                              party=strsplit(x,'\\.')[[1]][1])))
+
+names(df) <- c("text","party")
+# define stopwords
+stopwords <- tm::stopwords(kind = "german")
+stopwords <- c(stopwords, "dass", "sowie", "müssen", "wer", "innen", "ab", "mehr", "seit", "dafür", "vi", "vii", "viii", "ix")
+```
+
+# Frequencies
+
+```{r}
+df_collapsed <- df %>% group_by(party) %>% summarise(text = paste(text, collapse = " "))
+```
+
+## 1. Tokens
+```{r}
+tokens <- df_collapsed %>%
+  unnest_tokens(word, text) %>%
+  count(party, word, sort=TRUE) %>%
+  filter(!word %in% stopwords) %>%
+  bind_tf_idf(word, party, n)
+```
+
+### Term frequency
+
+```{r fig.height=10, fig.width=8, fig.align="center"}
+tokens %>%
+  arrange(desc(n)) %>%
+  mutate(word = factor(word, levels = rev(unique(word)))) %>% 
+  group_by(party) %>% 
+  top_n(15, n) %>% 
+  ungroup() %>%
+  ggplot(aes(word, n, fill = party)) +
+  geom_col(show.legend = FALSE) +
+  labs(x = NULL, y = "term frequency") +
+  facet_wrap(~party, ncol = 2, scales = "free") +
+  coord_flip()
+```
+
+### Term frequency - inverse document frequency
+
+```{r fig.height=10, fig.width=8, fig.align="center"}
+tokens %>%
+  arrange(desc(tf_idf)) %>%
+  mutate(word = factor(word, levels = rev(unique(word)))) %>% 
+  group_by(party) %>% 
+  top_n(15, tf_idf) %>% 
+  ungroup() %>%
+  ggplot(aes(word, tf_idf, fill = party)) +
+  geom_col(show.legend = FALSE) +
+  labs(x = NULL, y = "tf-idf") +
+  facet_wrap(~party, ncol = 2, scales = "free") +
+  coord_flip()
+```
+
+## 2. Bigrams 
+```{r}
+bigrams <- df_collapsed %>%
+  unnest_tokens(bigram, text, token = "ngrams", n=2) 
+
+bigrams <- bigrams %>% 
+  separate(bigram, c("word1", "word2"), sep=" ") %>%
+  filter(!word1 %in% stopwords) %>%
+  filter(!word2 %in% stopwords) %>%
+  count(word1, word2, party, sort=TRUE) %>%
+  unite(bigram, word1, word2, sep=" ")
+```
+
+```{r fig.height=10, fig.width=8}
+bigrams %>%
+  arrange(desc(n)) %>%
+  mutate(word = factor(bigram, levels = rev(unique(bigram)))) %>% 
+  group_by(party) %>% 
+  top_n(10, n) %>% 
+  ungroup() %>%
+  ggplot(aes(word, n, fill = party)) +
+  geom_col(show.legend = FALSE) +
+  labs(x = NULL, y = "bigram frequency") +
+  facet_wrap(~party, ncol = 2, scales = "free") +
+  coord_flip()
+```
+
+# Text Netowrks
+
+Netzwerkanalyse umfasst Methoden, die Beziehungen zwischen Einheiten beschreiben. Ein Netzwerk besteht aus Kanten sowie den Kanten (Verbindungen) zwischen den Einheiten. In einem sozialen Netzwerk z.B. sind diese Einheiten oft einzelne Personen, und Kanten beschreiben Freundschaften, Zugehörigkeiten oder andere Arten von sozialen Beziehungen. 
+
+Obwohl die Netzwerkanalyse am häufigsten zur Beschreibung von Beziehungen zwischen Menschen verwendet wird, gibt es einige Pioniere, die diese Methode zur Darstellung von Beziehungen zwischen Wörtern verwendeten. Zum Beispiel kann man einen Korpus von Dokumenten als ein Netzwerk darstellen, in dem jeder Knoten ein Dokument ist, und die Dicke oder Stärke der Kanten zwischen ihnen beschreibt Ähnlichkeiten zwischen den Wörtern, die in zwei beliebigen Dokumenten verwendet werden. Oder man kann ein Textnetzwerk erstellen, in dem einzelne Wörter die Knoten sind, und die Kanten zwischen ihnen beschreiben die Regelmäßigkeit, mit der sie in Dokumenten zusammenkommen.
+
+Eine sehr gute Einführung in das Thema und die hier verwendete Library [textnets](https://github.com/cbail/textnets) gibt es [hier](https://cbail.github.io/SICSS_Text_Networks.html).
+
+## CDU
+```{r}
+x <- file_names[2]
+x
+```
+
+```{r eval=FALSE, include=FALSE}
+# load text
+df_sm <- as.data.frame(pdftools::pdf_text(paste0(path, x)))
+df_sm$page <- rownames(df_sm)
+names(df_sm) <- c("text","page")
+df_sm$text <- as.character(df_sm$text)
+
+report_df <- PrepText(df_sm,
+                textvar = "text",
+                groupvar="page",
+                node_type="words",
+                tokenizer = "words",
+                pos = "nouns",
+                language = "german",
+                remove_stop_words = TRUE,
+                compound_nouns = TRUE)
+
+save(report_df, file=paste0("../out/report_df",gsub(".pdf","",x),".Rda"))
+```
+
+```{r echo=FALSE, fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
+load(paste0("../out/report_df",gsub(".pdf","",x),".Rda"))
+
+out <- report_df %>% 
+  filter(!grepl("[[:punct:]]", lemma)) %>%
+  filter(!grepl("[[:cntrl:]]", lemma)) %>%
+  filter(!grepl("[[:digit:]]", lemma)) %>%
+  filter(!(grepl("\\W", lemma) & nchar(lemma) ==1)) %>%
+  filter(nchar(lemma) > 1) 
+
+report_network <- CreateTextnet(out)
+
+VisTextNet(report_network, label_degree_cut = 0, alpha=.1)
+```
+
+## SPD
+```{r}
+x <- file_names[6]
+x
+```
+
+```{r eval=FALSE, include=FALSE}
+df_sm <- as.data.frame(pdftools::pdf_text(paste0(path, x)))
+df_sm$page <- rownames(df_sm)
+names(df_sm) <- c("text","page")
+df_sm$text <- as.character(df_sm$text)
+
+report_df <- PrepText(df_sm,
+                textvar = "text",
+                groupvar="page",
+                node_type="words",
+                tokenizer = "words",
+                pos = "nouns",
+                language = "german",
+                remove_stop_words = TRUE,
+                compound_nouns = TRUE)
+
+save(report_df, file=paste0("../out/report_df",gsub(".pdf","",x),".Rda"))
+```
+
+```{r echo=FALSE, fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
+load(paste0("../out/report_df",gsub(".pdf","",x),".Rda"))
+
+out <- report_df %>% 
+  filter(!grepl("[[:punct:]]", lemma)) %>%
+  filter(!grepl("[[:cntrl:]]", lemma)) %>%
+  filter(!grepl("[[:digit:]]", lemma)) %>%
+    filter(!(grepl("\\W", lemma) & nchar(lemma) ==1)) %>%
+  filter(nchar(lemma) > 1) 
+
+report_network <- CreateTextnet(out)
+
+VisTextNet(report_network, label_degree_cut = 1, alpha=.1)
+```
+
+## B90/ Die Grünen
+```{r}
+x <- file_names[5]
+x
+```
+
+```{r eval=FALSE, include=FALSE}
+df_sm <- as.data.frame(pdftools::pdf_text(paste0(path, x)))
+df_sm$page <- rownames(df_sm)
+names(df_sm) <- c("text","page")
+df_sm$text <- as.character(df_sm$text)
+
+report_df <- PrepText(df_sm,
+                textvar = "text",
+                groupvar="page",
+                node_type="words",
+                tokenizer = "words",
+                pos = "nouns",
+                language = "german",
+                remove_stop_words = TRUE,
+                compound_nouns = TRUE)
+
+save(report_df, file=paste0("../out/report_df",gsub(".pdf","",x),".Rda"))
+```
+
+```{r echo=FALSE, fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
+load(paste0("../out/report_df",gsub(".pdf","",x),".Rda"))
+
+out <- report_df %>% 
+  filter(!grepl("[[:punct:]]", lemma)) %>%
+  filter(!grepl("[[:cntrl:]]", lemma)) %>%
+  filter(!grepl("[[:digit:]]", lemma)) %>%
+    filter(!(grepl("\\W", lemma) & nchar(lemma) ==1)) %>%
+  filter(nchar(lemma) > 1)
+
+report_network <- CreateTextnet(out)
+
+VisTextNet(report_network, label_degree_cut = 10, alpha=.09)
+```
+
+## FDP
+```{r}
+x <- file_names[4]
+x
+```
+
+```{r eval=FALSE, include=FALSE}
+df_sm <- as.data.frame(pdftools::pdf_text(paste0(path, x)))
+df_sm$page <- rownames(df_sm)
+names(df_sm) <- c("text","page")
+df_sm$text <- as.character(df_sm$text)
+
+report_df <- PrepText(df_sm,
+                textvar = "text",
+                groupvar="page",
+                node_type="words",
+                tokenizer = "words",
+                pos = "nouns",
+                language = "german",
+                remove_stop_words = TRUE,
+                compound_nouns = TRUE)
+
+save(report_df, file=paste0("../out/report_df",gsub(".pdf","",x),".Rda"))
+```
+
+```{r echo=FALSE, fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
+load(paste0("../out/report_df",gsub(".pdf","",x),".Rda"))
+
+out <- report_df %>% 
+  filter(!grepl("[[:punct:]]", lemma)) %>%
+  filter(!grepl("[[:cntrl:]]", lemma)) %>%
+  filter(!grepl("[[:digit:]]", lemma)) %>%
+  filter(nchar(lemma) > 1) 
+
+report_network <- CreateTextnet(out)
+
+VisTextNet(report_network, label_degree_cut = 10, alpha=.1)
+```
+
+## DIE LINKE
+```{r}
+x <- file_names[3]
+x
+```
+
+```{r eval=FALSE, include=FALSE}
+df_sm <- as.data.frame(pdftools::pdf_text(paste0(path, x)))
+df_sm$page <- rownames(df_sm)
+names(df_sm) <- c("text","page")
+df_sm$text <- as.character(df_sm$text)
+
+report_df <- PrepText(df_sm,
+                textvar = "text",
+                groupvar="page",
+                node_type="words",
+                tokenizer = "words",
+                pos = "nouns",
+                language = "german",
+                remove_stop_words = TRUE,
+                compound_nouns = TRUE)
+
+save(report_df, file=paste0("../out/report_df",gsub(".pdf","",x),".Rda"))
+```
+
+```{r echo=FALSE, fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
+load(paste0("../out/report_df",gsub(".pdf","",x),".Rda"))
+
+out <- report_df %>% 
+  filter(!grepl("[[:punct:]]", lemma)) %>%
+  filter(!grepl("[[:cntrl:]]", lemma)) %>%
+  filter(!grepl("[[:digit:]]", lemma)) %>%
+  filter(nchar(lemma) > 1) 
+
+report_network <- CreateTextnet(out)
+
+VisTextNet(report_network, label_degree_cut = 18, alpha=.12)
+```
+
+## AFD
+
+```{r}
+x <- file_names[1]
+x
+```
+
+```{r eval=FALSE, include=FALSE}
+df_sm <- as.data.frame(pdftools::pdf_text(paste0(path, x)))
+df_sm$page <- rownames(df_sm)
+names(df_sm) <- c("text","page")
+df_sm$text <- as.character(df_sm$text)
+
+report_df <- PrepText(df_sm,
+                textvar = "text",
+                groupvar="page",
+                node_type="words",
+                tokenizer = "words",
+                pos = "nouns",
+                language = "german",
+                remove_stop_words = TRUE,
+                compound_nouns = TRUE)
+
+save(report_df, file=paste0("../out/report_df",gsub(".pdf","",x),".Rda"))
+```
+
+```{r echo=FALSE, fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
+load(paste0("../out/report_df",gsub(".pdf","",x),".Rda"))
+
+out <- report_df %>% 
+  filter(!grepl("[[:punct:]]", lemma)) %>%
+  filter(!grepl("[[:cntrl:]]", lemma)) %>%
+  filter(!grepl("[[:digit:]]", lemma)) %>%
+  filter(nchar(lemma) > 1) 
+
+report_network <- CreateTextnet(out)
+
+VisTextNet(report_network, label_degree_cut = 2, alpha = .1)
+```
+

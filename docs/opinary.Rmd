@@ -21,7 +21,7 @@ opinary <- read_excel("../data/Publisher political orientation polls.xlsx", shee
          label_order = ifelse(vote_position=="left",1,2),
          label_order = ifelse(vote_position=="right",3,label_order)
          ) %>%
-  select(-leftlabel, -rightlabel) %>%
+  #select(-leftlabel, -rightlabel) %>%
   group_by(poll_id) %>%
   # get number of total votes/poll
   mutate(vote_sum = sum(votes)) %>%
@@ -29,6 +29,13 @@ opinary <- read_excel("../data/Publisher political orientation polls.xlsx", shee
   # keep polls with > 1000 votes
   filter(vote_sum > 1000) %>%
   mutate(vote_share = votes/vote_sum)
+```
+
+```{r}
+opinary %>%
+  mutate(vote_share = round(vote_share,2)) %>%
+  select(poll_customer_id, header, label, vote_position, votes, vote_sum, vote_share) %>%
+  sample_n(10) %>% htmlTable::htmlTable(align="l")
 ```
 
 ## Number of total votes
