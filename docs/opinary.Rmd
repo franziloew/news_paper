@@ -5,6 +5,29 @@ output:
     code_folding: hide
 ---
 
+## Explanations
+
+Data provided from [Opinary](https://opinary.com/de/home-de/)
+
+Data selection:
+
+- January 2018 - Mai 2019
+- Polls are limited to those with >5,000 responses (votes)
+- Polls are limited to those that appeared on >2 publisher sites
+- Qualitative (read: human) assessment as to whether they would be polls which could help to determine political orientation
+
+Vote position:
+
+- Measured on a range between 0 and 1:
+  - 0 = leftmost position 
+  - 1 = rightmost position
+
+- Segmented into thirds:
+  - <.33 = "left"; 
+  - .34-.66 = "middle" 
+  - .67+ = "right"
+
+
 ```{r message=FALSE, warning=FALSE}
 # import libraries
 library(readxl)
@@ -40,7 +63,7 @@ opinary %>%
 
 ## Number of total votes
 
-```{r fig.height=5, fig.width=5}
+```{r fig.height=6, fig.width=5, fig.align="center"}
 p <- opinary %>% 
   group_by(poll_customer_id) %>%
   summarise(vote_sum = sum(votes)) %>%
@@ -64,6 +87,7 @@ check_polls <- function(df, topics) {
     filter(grepl(topics, header, ignore.case = T)) %>%
     group_by(header, label) %>%
     tally() %>%
+    select(-n) %>%
     htmlTable::htmlTable(align="l", rnames=F)
 }
 ```
@@ -110,7 +134,7 @@ plot_polls <- function(df, topics, pos_labels, neg_labels) {
     ggthemes::theme_hc() +
     facet_wrap(.~header, ncol = 2, scales = "free") +
     scale_fill_gradient2(low = "#6993c9", mid="#fcf8f7", high="#8b312e") +
-    labs(x=NULL, y=NULL) +
+    labs(x=NULL, y=NULL, title="Proportion of votes (# of votes)") +
     theme(axis.text.x = element_text(size = 6),
           legend.position='none')
   
