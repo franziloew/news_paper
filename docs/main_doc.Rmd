@@ -67,6 +67,14 @@ model_df <- btw %>%
   dplyr::mutate(doc_index = as.numeric(rownames(.)))
 ```
 
+```{r}
+# rescale data 
+rescale <- function(x,x_min,x_max,a,b){
+  (x-x_min)/(x_max-x_min)*(b-a)+a
+}
+```
+
+
 # Inspect data
 
 ```{r}
@@ -91,7 +99,6 @@ wordcloud::wordcloud(model_df$title_text, max.words = 200)
   
 dev.off()
 ```
-![](../figs/wordcloud.png)
 
 Pre-processed Data:
 
@@ -102,7 +109,6 @@ wordcloud::wordcloud(model_df$text_cleaned1, max.words = 200)
   
 dev.off()
 ```
-![](../figs/wordcloud_cleaned.png)
 
 ```{r eval=FALSE, include=FALSE}
 source <- unique(model_df$source)
@@ -164,8 +170,6 @@ tokens.news %>%
 ggsave("../figs/tf_news.png", width = 10, height = 10)
 ```
 
-![](../figs/tf_news.png)
-
 ```{r eval=FALSE, include=FALSE}
 tokens.press %>% 
   select(source, word, tf) %>%
@@ -183,8 +187,6 @@ tokens.press %>%
 
 ggsave("../figs/tf_press.png", width = 8, height = 10)
 ```
-
-![](../figs/tf_press.png)
 
 ## Bigrams
 
@@ -223,8 +225,6 @@ bigrams.news %>%
 ggsave("../figs/tf_bigrams_news.png", width = 10, height = 10)
 ```
 
-![](../figs/tf_bigrams_news.png)
-
 ```{r eval=FALSE, include=FALSE}
 bigrams.press %>% 
   arrange(desc(tf)) %>%
@@ -244,7 +244,6 @@ bigrams.press %>%
 ggsave("../figs/tf_bigrams_press.png", width = 8, height = 10)
 ```
 
-![](../figs/tf_bigrams_press.png)
 
 # Sentiment analysis
 
@@ -286,7 +285,7 @@ SentiWS <- c(
   # welcome to hell (g20)
   filter(!grepl('hell',word,ignore.case = T)) %>%
   # filter values that that score between -0.1 and +0.1 
-  filter(!dplyr::between(polarity, -0.1,0.1)) %>%
+  #filter(!dplyr::between(polarity, -0.1,0.1)) %>%
   # create a -1 / 1 index for the sentiments
   mutate(senti_dummy = ifelse(polarity > 0, 1, -1))
 
@@ -299,33 +298,79 @@ negBPW <- xlsx::read.xlsx("dict/BPW_Dictionary.xlsx", sheetName = "NEG_BPW",
 
 BPW <- as.data.frame(rbind(cbind(posBPW, y = 1), cbind(negBPW, y = -1)))
 names(BPW) <- c("word","senti_dummy")
+
+# 3. combine both
+# ---------------
+sentDict <- bind_rows(SentiWS, BPW) %>% distinct(word, .keep_all = T)
 ```
 
 ### Dictionary match
 
-The sentiment score for each document $d$ is calculated based on the weighted polarity values for a word, defined on an interval between -1 and 1. The score is then calculated from the sum of the words in a document (which can be assigned to a word from the dictionary) divided by the total number of words in that document:
+NTm is defined as the number of all positive words minus negative words divided by the total number of words of each statement m.
+
+The sentiment score $SC_d$ for each document $d$ is defined as the number of all positive words minus negative wirds devided by the total number of words of that document:
  
 $$
-\text{SentScore}_d = \frac{|\text{positive polarity score}_d| - |\text{negative polarity score}_d|}{|\text{TotalWords}_d|}
+\text{SentScore}_d = \frac{|\text{positive words}_d| - |\text{negative words}_d|}{|\text{TotalWords}_d|}
 $$
 
 ```{r}
+# Tokenize the text
 sent_token <- model_df %>% 
   select(doc_index, date, source, title_text) %>%
   unnest_tokens(word, title_text)
 
+# Apply the Dictionaries
+# 1. SentiWS
 SentiWS.token <- sent_token %>% left_join(., SentiWS, by = "word")
+
+# 2. BPW
 BPW.token <- sent_token %>% left_join(., BPW, by = "word" )
+
+# 3. Combination
+sentDict.token <- sent_token %>% left_join(., sentDict, by = "word" )
+```
+
+### Apply on a sample document
+```{r}
+doc <- sample(unique(model_df$doc_index),1)
+
+model_df %>% filter(doc_index == doc) %>% select(title)
+```
+
+#### 1. SentiWS
+
+```{r Sample sentiment analysis 1 - calculate score}
+SentiWS.token %>% filter(doc_index == doc) -> sample
+mean(sample$senti_dummy, na.rm = T)
 ```
 
 ```{r Sample sentiment analysis 1}
-doc <- sample(unique(model_df$doc_index),1)
+sample
+```
 
-SentiWS.token %>% filter(doc_index == doc)
+#### 2. BPW
+
+```{r Sample sentiment analysis 2 - calculate score}
+BPW.token %>% filter(doc_index == doc) -> sample
+mean(sample$senti_dummy, na.rm = T)
 ```
 
 ```{r Sample sentiment analysis 2}
-BPW.token %>% filter(doc_index == doc)
+sample
+```
+
+#### 3. Combination of SentiWS & BPW
+
+
+```{r Sample sentiment analysis 3}
+sentDict.token %>% filter(doc_index == doc) -> sample
+
+sum(sample$senti_dummy, na.rm = T)/nrow(sample)
+```
+
+```{r Sample sentiment analysis 3}
+sample
 ```
 
 ```{r Calculacte document sentiment-socres}
@@ -346,7 +391,27 @@ sent_df2 <- BPW.token %>%
                    ) %>%
   select(-n)
 
-model_df <- left_join(model_df, sent_df1, by="doc_index") %>% left_join(., sent_df2, by="doc_index")
+sent_df3 <- sentDict.token %>% 
+  group_by(doc_index) %>% 
+  dplyr::summarise(
+                  n = n(),
+                   sentDict_dummy = sum(senti_dummy, na.rm = T),
+                   sentDict = sum(senti_dummy, na.rm = T)/n
+                   ) %>%
+  select(-n)
+
+model_df <- left_join(model_df, sent_df1, by="doc_index") %>% 
+  left_join(., sent_df2, by="doc_index") %>% 
+  left_join(., sent_df3, by="doc_index")
+```
+
+```{r}
+model_df %>%
+  transmute(title =title, 
+            SentiWS =round(SentiWS, 3), 
+            BPW =round(BPW, 3), 
+            sentDict=round(sentDict, 3)) %>%
+  sample_n(10) %>% htmlTable::htmlTable()
 ```
 
 ### SentimentR
@@ -359,12 +424,11 @@ pacman::p_load(sentimentr)
 ```
 
 ```{r Prepare dictionary, message=FALSE, warning=FALSE}
-sentiment_df <- SentiWS %>% 
-  select(word, polarity) %>% 
-  rbind(., c("nicht",-0.8)) %>%
+sentiment_df <- sentDict %>% 
+  select(word, senti_dummy) %>% 
   transmute(
     words = word,
-    polarity = as.numeric(polarity)
+    polarity = as.numeric(senti_dummy)
   ) %>%
   # define as key for sentimentR
   as_key()
@@ -395,9 +459,11 @@ model_df <- sentimenR.df %>%
   left_join(., model_df, by="doc_index")
 
 sent_df <- model_df %>% 
-  select(doc_index, source, type, n, SentiWS_polarity, SentiWS_dummy, SentiWS, BPW_dummy, BPW, sentimentR)
+  select(doc_index, source, type, n, SentiWS_polarity, SentiWS_dummy, SentiWS,
+         BPW_dummy, BPW, sentDict_dummy, sentDict, sentimentR)
 
-save(sent_df,sentimenR.df, file="../output/sentiment.Rda")
+save(sent_df,sentimenR.df, sentDict.token, 
+     SentiWS.token, BPW.token,  file="../output/sentiment.Rda")
 ```
 
 ```{r}
@@ -408,6 +474,7 @@ plot <- sent_df %>%
   dplyr::summarise(
    SentiWS = mean(SentiWS, na.rm = T),
    BPW = mean(BPW, na.rm = T),
+   sentDict = mean(sentDict, na.rm = T),
    sentimentR = mean(sentimentR, na.rm = T)
   ) %>%
   ungroup() %>%
@@ -418,13 +485,13 @@ plot <- sent_df %>%
   ) %>% ungroup()
 
 ggplot(plot, aes(source, sent_value, label = round(sent_value,3))) +
-  geom_point(aes( color = metric), size = 3) +
+  geom_point(aes(color = metric), size = 3) +
   geom_line(aes(source, sent_m, color = metric, group = metric), linetype=2) +
   geom_text(show.legend = F, color="black", size=2, vjust=-1) +
   coord_flip() +
   labs(x=NULL, y=NULL) +
   ggthemes::theme_hc() +
-  ggthemes::scale_color_fivethirtyeight() +
+  ggthemes::scale_color_gdocs() +
   theme(legend.position = "bottom") +
   facet_grid(type~., scales = "free_y") 
 ```
@@ -515,6 +582,7 @@ This process revealed that a model with 50 topics best reflects the structure in
 
 ```{r message=FALSE, warning=FALSE}
 library(stm)
+library(patchwork)
 library(tidyverse)
 library(tidytext)
 library(ggthemes)
@@ -646,7 +714,7 @@ theta <- as.data.frame(stmOut$theta) %>% # get all theta values for each documen
 
 Each document has a probabilty distribution over all topics, e.g.
 
-```{r fig.height=8}
+```{r fig.height=6, width=4}
 # select a random document
 doc <- sample(unique(theta$doc_index),1)
 
@@ -670,6 +738,21 @@ What is the document about?
 sample$title_text[1]
 ```
 
+What is the sentiment value of that topic?
+
+```{r}
+sample[1,] %>%
+  select(SentiWS, BPW, sentDict, sentimentR) %>%
+  gather(metric, senti) %>%
+  ggplot(aes(senti, metric, label=round(senti, 3))) +
+  geom_point(aes(color = metric), size=3) +
+  geom_text(vjust=-1) +
+  geom_vline(xintercept = 0, linetype=2 ) +
+  theme_hc() +
+  ggthemes::scale_color_gdocs() +
+  labs(x=NULL, y=NULL, title = "Sentiment scores of sample Document")
+```
+
 The figure below displays the topics ordered by their expected frequency across the corpus.
 
 ```{r}
@@ -681,7 +764,7 @@ topicmean <- theta %>%
   mutate(order = row_number())
 ```
 
-```{r Plot expected frequency, fig.height=8}
+```{r Plot expected frequency, fig.height=6, fig.width=5}
 topicmean %>%
   ggplot(aes(reorder(joint_label, -order),frequency, fill=frequency)) +
   geom_col(show.legend = FALSE) +
@@ -728,7 +811,7 @@ print(xt, include.rownames = F, file="../writing/tables/topic_probability.tex" )
 
 #### News articles
 
-```{r fig.align="center", fig.height=11, fig.width=11}
+```{r fig.align="center", fig.height=5, fig.width=6}
 topicmean_news %>%
   ggplot(aes(reorder(joint_label,desc(topic)),
              frequency, fill=frequency)) +
@@ -746,7 +829,7 @@ topicmean_news %>%
 
 #### Press releases
 
-```{r fig.align="center", fig.height=11, fig.width=11}
+```{r fig.align="center", fig.height=5, fig.width=6}
 topicmean_press %>%
   ggplot(aes(reorder(joint_label,desc(topic)),
              frequency, fill=frequency)) +
@@ -768,15 +851,17 @@ In order to measure topic-specific tone, the sentiment values are combined with 
 The topic-specific tone and uncertainty is measured by calculating nettone scores (NTS)
 
 $$
-\text{NTS}^k_d=\theta^{k}_{d}*\text{NT}_d
+\text{NTS}^k_d=\theta^{k}_{d}*\text{NT}_d*(\frac{1}{L_d})
 $$
-where $\theta^k_{d}$ is the proportion of topic $k$ in document $d$ obtained from the STM procedure and $NT_d$ is the number of positive words minus the number of negative words (nettone) in $d$.
+
+where $\theta^k_{d}$ is the proportion of topic $k$ in document $d$ obtained from the STM procedure and $NT_d$ is the number of positive words minus the number of negative words (nettone) in $d$ and $L_d$ is the number of words in document $d$.
+
 
 ```{r}
 theta <- theta %>% 
-  mutate(SentiWS_theta = SentiWS*theta,
-         BPW_theta = BPW*theta,
-         sentR_theta = sentimentR*theta
+  mutate(SentiWS_theta = SentiWS_dummy*theta*(1/n),
+         BPW_theta = BPW_dummy*theta*(1/n),
+         sentDict_theta = sentDict_dummy*theta*(1/n)
          )
 ```
 
@@ -784,7 +869,7 @@ theta <- theta %>%
 # normalize variable to have a mean of 0 and a standard deviation (and variance) of 1
 
 scaledX <- function(x){
-  (x - mean(x))/sd(x)
+  (x - mean(x, na.rm = T))/sd(x, na.rm = T)
 }
 ```
 
@@ -794,45 +879,31 @@ plot <- theta %>%
   dplyr::summarise(
     SentiWS_theta = mean(SentiWS_theta, na.rm = T),
     BPW_theta = mean(BPW_theta, na.rm = T),
-    sentR_theta = mean(sentR_theta, na.rm = T)
+    sentDict_theta = mean(sentDict_theta, na.rm = T)
   ) %>%
   ungroup() %>%
+  # mutate(
+  #   SentiWS_theta = scaledX(SentiWS_theta),
+  #   BPW_theta = scaledX(BPW_theta),
+  #   sentDict_theta = scaledX(sentDict_theta),
+  #   sentR_theta = scaledX(sentR_theta)
+  # ) %>%
+   gather(metric, sent_value, SentiWS_theta:sentDict_theta) %>%
+   group_by(metric) %>%
   mutate(
-    SentiWS_theta = scaledX(SentiWS_theta),
-    BPW_theta = scaledX(BPW_theta),
-    sentR_theta = scaledX(sentR_theta)
-  ) 
+    sent_m = median(sent_value)
+  ) %>% ungroup() 
 ```
 
-```{r fig.height=5, fig.width=5}
-library(patchwork)
-
-p1 <- plot %>%
-  ggplot(aes(reorder(joint_label,SentiWS_theta), 
-             SentiWS_theta, fill=SentiWS_theta)) +
-  geom_col(show.legend = F) + 
-  coord_flip() + theme_hc() +
-  labs(x=NULL, y=NULL, title="SentiWS")
-
-p2 <- plot %>%
-  ggplot(aes(reorder(joint_label,SentiWS_theta), 
-             BPW_theta, fill=BPW_theta)) +
-  geom_col(show.legend = F) + 
-  coord_flip() + theme_hc() +
-  theme(axis.text.y = element_blank(),
-        axis.ticks.x = element_blank()) +
-  labs(x=NULL, y=NULL, title="BPW")
-
-p3 <- plot %>%
-  ggplot(aes(reorder(joint_label,SentiWS_theta), 
-             sentR_theta, fill=sentR_theta)) +
-  geom_col(show.legend = F) + 
-  coord_flip() + theme_hc() +
-  theme(axis.text.y = element_blank(),
-        axis.ticks.x = element_blank()) +
-  labs(x=NULL, y=NULL, title="SentimentR")
-
-p1 + p2 + p3
+```{r fig.height=4, fig.width=7}
+plot %>% 
+  ggplot(aes(reorder(joint_label, -sent_value), sent_value, label=round(sent_value, 3))) +
+  geom_point(aes(color = metric)) +
+  geom_line(aes(joint_label, sent_m, color = metric, group = metric), linetype=2) +
+  coord_flip() +
+  theme_hc() +
+  scale_color_gdocs() +
+  labs(x=NULL, y=NULL)
 ```
 
 ```{r}
@@ -841,26 +912,17 @@ corr.df <- theta %>%
   dplyr::summarise(
     SentiWS_theta = mean(SentiWS_theta, na.rm = T),
     BPW_theta = mean(BPW_theta, na.rm = T),
-    sentR_theta = mean(sentR_theta, na.rm = T)
+    sentDict_theta = mean(sentDict_theta, na.rm = T)
   ) %>%
-  ungroup() %>%
-  mutate(
-    SentiWS_theta = scaledX(SentiWS_theta),
-    BPW_theta = scaledX(BPW_theta),
-    sentR_theta = scaledX(sentR_theta)
-  ) 
+  ungroup() 
+  # mutate(
+  #   SentiWS_theta = scaledX(SentiWS_theta),
+  #   BPW_theta = scaledX(BPW_theta),
+  #   sentDict_theta = scaledX(sentDict_theta),
+  #   sentR_theta = scaledX(sentR_theta)
+  # ) 
 ```
 
-```{r fig.height=5, fig.width=8}
-corr.df %>%
-  ggplot(aes(reorder(joint_label,topic),
-             SentiWS_theta, fill=SentiWS_theta)) +
-  geom_col(show.legend = F) +
-  coord_flip() +
-  theme_hc() +
-  labs(x=NULL, y=NULL, title="SentiWS") +
-  facet_grid(.~source)
-```
 
 ```{r fig.height=5, fig.width=8}
 corr.df %>%
@@ -873,16 +935,125 @@ corr.df %>%
   facet_grid(.~source)
 ```
 
-```{r fig.height=5, fig.width=8}
-corr.df %>%
-  ggplot(aes(reorder(joint_label,topic),
-             sentR_theta, fill=sentR_theta)) +
-  geom_col(show.legend = F) +
-  coord_flip() +
-  theme_hc() +
-  labs(x=NULL, y=NULL, title="SentimentR") +
-  facet_grid(.~source)
+
+#### Check topics
+
+```{r include=FALSE}
+library(patchwork)
+corr.df.dates <- theta %>%
+  group_by(topic, type, source, joint_label, month, year) %>%
+  dplyr::summarise(
+    theta = mean(theta, na.rm = T),
+    BPW_theta = mean(BPW_theta, na.rm = T),
+    BPW = mean(BPW, na.rm = T)
+  ) %>%
+  ungroup() 
+
+plot <- corr.df.dates %>%
+  mutate(
+    date = as.Date(paste0(year,"/",month,"/1"))
+    # theta = rescale(theta, min(theta), max(theta), -1,1),
+    # BPW_theta = rescale(BPW_theta, min(BPW_theta), max(BPW_theta), -1,1),
+    # BPW = rescale(BPW, min(BPW), max(BPW), -1,1)
+  ) %>% gather(metric, val, theta:BPW) 
+
+plot_topic <- function(t) {
+  
+  sample <- plot %>% filter(topic==t)
+  
+  p1 <- sample %>%
+    filter(type == "news") %>%
+    ggplot(aes(date, val, color=metric)) +
+    geom_line() +
+    geom_hline(aes(yintercept=0), linetype=2, size=0.5) +
+    theme_hc() +
+    labs(x=NULL, y=NULL, title = paste(sample$joint_label[1])) +
+    ggthemes::scale_color_fivethirtyeight() +
+    facet_grid(cols = vars(source), rows = vars(metric), scales = "free")
+  
+  p2 <-sample %>%
+    filter(type == "press") %>%
+    ggplot(aes(date, val, color=metric)) +
+    geom_line(show.legend = F) +
+    geom_hline(aes(yintercept=0), linetype=2, size=0.5) +
+    theme_hc() +
+    labs(x=NULL, y=NULL) +
+    ggthemes::scale_color_fivethirtyeight() +
+    facet_grid(cols = vars(source), rows = vars(metric), scales = "free")
+  
+  p1 + p2 + plot_layout(ncol=1)
+}
 ```
+
+```{r}
+plot_topic(1)
+```
+
+
+### Agenda congurence (Duncan segregation index)
+
+Congruence between two agendas can be calculated for every pair of media outlet and party. The formula reads the following (Duncan and Duncan, 1955)
+
+$$
+\text{congruence}=100-\frac{\sum_{i=1}^n |\text{NTS media}^k-\text{NTS party}^k|}{2}
+$$
+
+Where $\text{NTS media}^k$ is the $\text{NTS}$ of topic $k$ of a media outlet aggregated over all documents (news articles) belonging to that outlet. Similary $\text{NTS party}^k$ is the $\text{NTS}$ of topic $k$ of a party aggregated over all documents (press releases) belonging to that party.
+
+```{r}
+news <- c("DIE WELT","stern.de", "ZEIT ONLINE", "FOCUS Online", 
+          "Bild.de", "SPIEGEL ONLINE", "tagesschau.de" )
+parties <- c("CDU", "SPD", "AfD", "B90/GRÜNE", "DIE LINKE", "FDP" )
+
+temp <- corr.df %>%
+  select(topic, source, BPW_theta) %>%
+  spread(source, BPW_theta) %>%
+  select(-topic)
+
+cong <- matrix(
+      ncol = length(parties), 
+      nrow = length(news)
+    ) %>% as_tibble()
+
+colnames(cong) <- parties
+rownames(cong) <- news
+
+for (p in 1:length(parties)) {
+  for (n in 1:length(news)) {
+    sum = sum(abs(temp[news[n]] - temp[parties[p]]))
+    c = 1-(sum/2)
+
+    cong[news[n],parties[p]] <- c
+  }
+}
+
+cong %>%
+  mutate(media = rownames(.)) %>%
+  ggiraphExtra::ggRadar(aes(color = media), rescale = F,
+                      interactive = T,
+                      alpha = 0) 
+  
+```
+
+```{r}
+cong %>%
+  mutate(medium = rownames(.)) %>%
+  gather(party, metric, parties) %>%
+  mutate(
+    party_order = ifelse(party == "DIE LINKE", 1, 0),
+    party_order = ifelse(party == "B90/GRÜNE", 2, party_order),
+    party_order = ifelse(party == "SPD", 3, party_order),
+    party_order = ifelse(party == "FDP", 4, party_order),
+    party_order = ifelse(party == "CDU", 5, party_order),
+    party_order = ifelse(party == "AfD", 6, party_order),
+    # rescale the metric
+    congru = rescale(metric, min(metric), max(metric),0,1)
+    ) %>%
+
+  ggplot(aes(party, medium, fill=congru)) +
+  geom_tile()
+```
+
 
 ### Correlation of weighted topic distribution
 
@@ -911,7 +1082,7 @@ rs %>%
 ```
 
 ```{r}
-plot <- rs %>%
+corr_plot <- rs %>%
   as_tibble() %>%
   dplyr::rename(source1 = rowname) %>%
   gather(key = source2, value = corr, -source1) %>% 
@@ -924,7 +1095,7 @@ plot <- rs %>%
 ```{r fig.align="centre", fig.height=4, fig.width=8}
 library(patchwork)
 
-p1 <- plot %>%
+p1 <- corr_plot %>%
   filter(type1 == "news") %>%
   filter(type2 == "news") %>%
   ggplot(aes(source1, source2, 
@@ -941,7 +1112,7 @@ p1 <- plot %>%
         axis.text = element_text(size = 6),
        axis.text.x = element_text(angle = 90))
 
-p2 <- plot %>%
+p2 <- corr_plot %>%
   filter(type1 == "news") %>%
   filter(type2 == "party") %>%
   ggplot(aes(source1, source2, 
@@ -959,7 +1130,7 @@ p2 <- plot %>%
         #axis.text.y = element_blank(),
        axis.text.x = element_text(angle = 90))
 
-p3 <- plot %>%
+p3 <- corr_plot %>%
   filter(type1 == "party") %>%
   filter(type2 == "party") %>%
   ggplot(aes(source1, 
@@ -990,7 +1161,7 @@ print(xt, include.rownames = F, file="../writing/tables/topic_correlation.tex" )
 ## Radar chart
 
 ```{r}
-radar <- plot %>%
+radar <- corr_plot %>%
   filter(type1 == "party") %>%
   filter(type2=="news") %>%
   select(source1, source2, corr) %>%
@@ -1003,7 +1174,7 @@ ggiraphExtra::ggRadar(radar, aes(color = source2),
                       alpha = 0) +
   theme_hc() +
   scale_color_viridis_d() +
-  theme(legend.position = "none",
+  theme(legend.position = "right",
         legend.title = element_blank()) +
    guides(col = guide_legend(ncol = 1)) 
 
@@ -1066,6 +1237,8 @@ ggiraphExtra::ggRadar(radar_rescaled,
 
 ## Compare with reader preferences
 
+### Digital News Survey
+
 Since 2012, the [Reuters Institute Digital News Survey](http://www.digitalnewsreport.org/about-us-2018/) has been investigating the media use of digital content. Among others, the following questions are investigated: What websites do you visit to access news online? What is your political orientation?
 
 The study is being conducted simultaneously in 37 countries under the coordination of the Reuters Institute for the Study of Journalism, based in Oxford (UK). [The Hans Bredow Institute](https://www.hans-bredow-institut.de/de/projekte/reuters-institute-digital-news-survey) has been responsible for the German part of the study as a cooperation partner since 2013. Fieldwork was undertaken between 19th - 22nd January 2018 conducting an online survey. Total sample size for Germany was 2038 adults (aged 18+) who access news once a month or more.
@@ -1079,28 +1252,6 @@ reutersDF2 <- readxl::read_excel("../data/reuters_clean.xlsx", sheet = "orientat
 
 ```{r include=FALSE}
 keeps <- c("Bild.de", "Spiegel Online","Welt Online","Focus Online", "Stern.de","ZEIT Online","Tagesschau.de")
-```
-
-Which of the brands have you used to access news online in the last week?
-
-```{r echo=FALSE, fig.align="centre"}
-reutersDF1 %>%
-  gather(key = "orientation", value = "count", -medium) %>%
-  group_by(medium) %>%
-  summarise(count = sum(count)) %>%
-  mutate(insample = ifelse(medium %in% keeps, "In sample", "Not in sample")) -> reutersDF1.grouped
-
-p <- reutersDF1.grouped %>%
-  ggplot(aes(reorder(medium,count),count,
-             fill = insample
-             )) +
-  geom_col(show.legend = F) +
-  coord_flip() +
-  theme_hc() +
-  labs(x = NULL, y = NULL,title = NULL, caption = "Source: Hans-Bredow-Institut")
-
-p
-#ggsave({p + theme_hc()}, filename = "../figs/reuters1.png", width = 8, height = 8)
 ```
 
 **Q1F. Some people talk about 'left', 'right' and 'centre' to describe parties and politicians. (Generally socialist parties would be considered ‘left wing’ whilst conservative parties would be considered ‘right wing’). With this in mind, where would you place yourself on the following scale?**
@@ -1120,7 +1271,7 @@ p<- reutersDF2 %>%
              label = paste(round(count_rel, digits = 1),"%")
             )) +
   geom_col(fill=color1) +
-  geom_text(hjust = 1.5, color = "white", size =2) +
+  geom_text(vjust = 1, color = "white", size =4) +
   labs(x = NULL, y = "%") +
   theme_hc() +
   theme(axis.text.x = element_text(angle = 90),
@@ -1131,7 +1282,7 @@ p
 #ggsave({p + theme_hc()}, filename = "../slides/img/reuters2.png", width = 4, height = 2)
 ```
 
-```{r}
+```{r Prepare dataframe}
 reutersDF.long <- reutersDF1 %>%
   select(medium:`Very rightwing`) %>%
   mutate(order = Centre...5) %>%
@@ -1150,6 +1301,10 @@ reutersDF.long <- reutersDF1 %>%
 
 reutersDF.long <- reutersDF.long %>%
   
+  filter(!grepl("know",medium)) %>%
+  filter(!grepl("None",medium)) %>%
+  filter(medium %in% keeps) %>%
+  
   # group by partisan 
   group_by(partisan.f) %>%
   mutate(count_sum_p = sum(count)) %>%
@@ -1161,63 +1316,85 @@ reutersDF.long <- reutersDF.long %>%
   ungroup() %>%
   
   # calulate relative counts by partisan and medium
-  mutate(count_relative_p = count/count_sum_p,
-         count_relative_m = count/count_sum_m,
-         order_relative_p = order/count_sum_p,
-         order_relative_m = order/count_sum_m,
-         insample = ifelse(medium %in% keeps, "Yes", "No")
-         )
+  mutate(
+    # relative values by partisan
+    count_relative_p = count/count_sum_p,
+    # relative values by medium
+    count_relative_m = count/count_sum_m,
+    # relative values sample size
+    count_relative = count/2038
+    )
   
 ```
 
-```{r fig.align="centre"}
-p1 <- reutersDF.long %>%
-  filter(!grepl("know",medium)) %>%
-  filter(!grepl("None",medium)) %>%
-  filter(medium %in% keeps) %>%
-  mutate(
-    label = (count_relative_m*100),
-    label_color = ifelse(label > 18, "white", "black")
-  ) %>%
-  ggplot(aes(reorder(partisan.f, partisan_scale),
-             reorder(medium, order_relative_m), 
-             fill = count_relative_m)) +
-  geom_tile() +
-  scale_fill_gradient2(low = color, high = color1) +
-  geom_text(aes(label=round(label, digits = 1)), color = color3, size = 2) +
-  #scale_color_manual(values = c("black"=color3, "white"="white")) +
+```{r}
+reutersDF.long %>%
+  select(medium, partisan, count_relative, partisan_scale) %>%
+  ggplot(aes(reorder(partisan, partisan_scale), medium)) +
+  geom_tile(aes(fill=count_relative), show.legend = F) +
+  scale_fill_gradient(low = "white", high = "gray") +
+  geom_text(aes(label=round(count_relative,3))) +
+  labs(x=NULL, y=NULL) + 
   theme_hc() +
-  labs(x = NULL, y = NULL) + 
-  scale_x_discrete(expand = c(0, 0)) +
-  scale_y_discrete(expand = c(0, 0)) +
-  theme(legend.position = "none",
-        axis.text = element_text(size = 6),
-       axis.text.x = element_text(angle = 90))
-
-p2 <- reutersDF.long %>%
-  filter(!grepl("know",medium)) %>%
-  filter(medium %in% keeps) %>%
-  group_by(medium) %>%
-  summarise(count_sum = sum(count),
-            order_relative_m = sum(order_relative_m)) %>%
-  ggplot(aes(reorder(medium,order_relative_m), count_sum)) +
-  geom_col(fill = color1) +
-  geom_text(aes(label=count_sum), hjust = 1, size = 2, color = "white") +
-  coord_flip() +
-  theme_hc() +
-  labs(x = NULL, y = NULL) +
-  theme(axis.text.y = element_blank(),
-        axis.text = element_text(size = 6),
-        axis.ticks.y = element_blank()
-        )
-
-p1 + p2 + plot_layout(widths = c(2,1))
-
-#ggsave("../figs/reuters3.png", width = 5, height = 3)
+  theme(axis.text.x = element_text(angle=90))
 ```
 
+### Infratest Dimap
+
+- Erhebungszeitraum: 2. bis 3. November 2015
+- n= 1.003
+- Bevölkerung in Deutschland ab 18 Jahren
+
+**Frage_1: Man spricht in der Politik immer wieder von „links“ und „rechts“. Wenn Sie einmal an die Parteien in Deutschland denken: Wo würden Sie <Parteiname> auf einer Skala von 1-11 einordnen, wobei 1 bedeutet, dass die Partei „links“ ist und 11 bedeutet, dass die Partei „rechts“ ist. Mit den Werten dazwischen können Sie ihre Einschätzung abstufen.**
+
+Ergebnisse: 
+
+- Linke = 2.9
+- Grünen = 4.3
+- SPD = 4.7 
+- FDP = 5.6 
+- CDU = 5.8 
+- AfD = 7.2
+
 ```{r}
-p1 <- reutersDF.long %>%
+parties <- c("CDU", "SPD", "AfD", "B90/GRÜNE", "DIE LINKE", "FDP" )
+
+dimap <- data.frame(
+  "party" = parties,
+  "value" = c(5.8, 4.7, 7.2, 4.3, 2.7, 5.6),
+  "year" = 2015
+)
+
+cols = c("CDU"="black","SPD"="#e2001a","AfD"="#009ee0","B90/GRÜNE"="#3c8025","DIE LINKE"="#df0404","FDP"="#fdec4f")
+
+ggplot(dimap, aes(value, year, color = party)) +
+  geom_point(size=5) +
+  ggrepel::geom_label_repel(aes(label=party), 
+                            nudge_y = 2015) +
+  geom_text(aes(label=value),size=2, color = "white") +
+  geom_vline(xintercept = 6, linetype=2) +
+  scale_x_continuous(limits = c(1,11), breaks = seq(1,11)) +
+  scale_color_manual(values = cols) +
+  theme_hc() +
+  labs(x=NULL, y = NULL) +
+  theme(
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    legend.position = "none"
+  )
+```
+
+### Combine all data sources 
+
+Rescale the dimap values [1,11] on the reuters range [1,7]
+
+```{r Prepare and combine data sources}
+# Prepare dimap data
+dimap$value_rescaled <- rescale(dimap$value,1,11,-3,3)
+dimap$partisan_scale <- round(dimap$value_rescaled,0)
+
+# prepare reuters data
+reutersPlot <- reutersDF.long %>%
   filter(!grepl("know",medium)) %>%
   filter(!grepl("None",medium)) %>%
   filter(medium %in% keeps) %>%
@@ -1225,45 +1402,256 @@ p1 <- reutersDF.long %>%
     medium = ifelse(grepl("Welt",medium,ignore.case = T),"DIE WELT", medium),
     medium = ifelse(grepl("stern",medium,ignore.case = T),"stern.de", medium),
     medium = ifelse(grepl("Zeit",medium,ignore.case = T),"ZEIT ONLINE", medium),
-    medium = ifelse(grepl("Focus",medium,ignore.case = T),"FOCUS OnlineT", medium),
+    medium = ifelse(grepl("Focus",medium,ignore.case = T),"FOCUS Online", medium),
     medium = ifelse(grepl("Bild",medium,ignore.case = T),"Bild.de", medium),
     medium = ifelse(grepl("Spiegel",medium,ignore.case = T),"SPIEGEL ONLINE", medium),
     medium = ifelse(grepl("tagesschau",medium,ignore.case = T),"tagesschau.de", medium)
-  ) %>%
+  ) 
 
-#  mutate(count = scaledX(count)) %>%
-  ggplot(aes(reorder(partisan.f, partisan_scale), medium, 
-             fill = count)) +
-  geom_tile() +
-  geom_text(aes(label= round(count,2))) +
+plot <- left_join(reutersPlot, dimap, by="partisan_scale")
+```
+
+
+#### Plot the data
+
+```{r Base plot}
+p_base <- ggplot(plot, aes(partisan_scale,medium)) +
+  geom_text(aes(label= round((count_relative*100),2)), size=0) +  
   theme_hc() +
-  labs(x = NULL, y = NULL, title = "Reader preferences") + 
-  scale_x_discrete(expand = c(0, 0)) +
-  scale_y_discrete(expand = c(0, 0)) +
-  theme(legend.position = "none", axis.text.x = element_text(angle = 90))
+  scale_color_manual(values = cols) +
+  labs(x=NULL, y = NULL) +
+  theme(axis.text.x = element_text(angle = 90),
+        legend.position = "none") 
+```
 
-p2 <- plot %>%
+1. Rescaled dimap data
+
+```{r}
+p_base +
+  geom_line(aes(value_rescaled, medium, group = party, color = party)) +
+  ggrepel::geom_label_repel(data = plot %>% filter(medium == "ZEIT ONLINE"),
+                            aes(label=party, color = party), size=2) +
+  scale_x_continuous(limits = c(-3,3),
+                     breaks = seq(-3,3),
+                     labels = unique(plot$partisan)
+                     ) 
+
+```
+
+2. ... combined with reader preferences
+
+```{r}
+p_base +
+  geom_tile(aes(fill = count_relative), show.legend = F) +
+  scale_fill_gradient(low = "white", high = "gray") +
+  geom_text(aes(label= round((count_relative*100),2)), size=3) +
+  geom_line(aes(value_rescaled, medium, group = party, color = party)) +
+  ggrepel::geom_label_repel(data = plot %>% filter(medium == "ZEIT ONLINE"),
+                            aes(label=party, color = party), size=2) +
+  scale_x_continuous( 
+                     breaks = seq(-3,3),
+                     labels = unique(plot$partisan)
+                     ) 
+```
+
+3. ... compare with topic correlations
+
+```{r Network plot, fig.align="centre", message=FALSE, warning=FALSE}
+corr.df.sm <- corr.df %>%
+  select(topic, source, BPW_theta) %>%
+  spread(source, BPW_theta)
+
+x <- as.matrix(corr.df.sm[,-1])
+
+rs <- correlate(x)
+
+corr_plot <- rs %>%
+  as_tibble() %>%
+  dplyr::rename(source1 = rowname) %>%
+  gather(key = source2, value = corr, -source1) %>% 
+  mutate(
+    type1 = ifelse(source1 %in% news, "news", "party"),
+    type2 = ifelse(source2 %in% news, "news", "party")
+  )
+```
+
+```{r}
+# prepare correlation data
+corr_p <- corr_plot %>%
   filter(type1 == "news") %>%
   filter(type2 == "party") %>%
-#  mutate(corr = scaledX(corr)) %>%
-  mutate(
-    party_order = ifelse(source2 == "DIE LINKE", 1, 0),
-    party_order = ifelse(source2 == "B90/GRÜNE", 2, party_order),
-    party_order = ifelse(source2 == "SPD", 3, party_order),
-    party_order = ifelse(source2 == "FDP", 4, party_order),
-    party_order = ifelse(source2 == "CDU", 5, party_order),
-    party_order = ifelse(source2 == "AfD", 6, party_order)
-    ) %>%
-  
-  ggplot(aes(reorder(source2, party_order), source1, fill=corr)) +
-  geom_tile() +
-  geom_text(aes(label = round(corr,2))) +
-  theme_hc() +
-  labs(x = NULL, y = NULL, title = "Medium / Partei") + 
-  theme(legend.position = "none", axis.text.x = element_text(angle = 90))
+  transmute(
+    medium = source1,
+    party = source2,
+    corr = corr) %>% mutate(
+    party_order = ifelse(party == "DIE LINKE", 1, 0),
+    party_order = ifelse(party == "B90/GRÜNE", 2, party_order),
+    party_order = ifelse(party == "SPD", 3, party_order),
+    party_order = ifelse(party == "FDP", 4, party_order),
+    party_order = ifelse(party == "CDU", 5, party_order),
+    party_order = ifelse(party == "AfD", 6, party_order)
+    ) 
 
-p1 + p2
+final_df <- left_join(plot, corr_p, by = c("medium","party")) %>%
+  filter(!is.na(corr)) %>%
+  select(medium, party,party_order, count_relative, corr) %>%
+  mutate(
+    count_rel_scaled = rescale(count_relative,x_min = min(count_relative),x_max = max(count_relative),0,1),
+    corr_scaled = rescale(corr, x_min = min(corr), max(corr),0,1)
+  )
 ```
+
+```{r}
+# prepare congruency data
+cong_p <- cong %>%
+  mutate(medium = rownames(.)) %>%
+  gather(party, congruency, parties) 
+
+final_df <- left_join(final_df, cong_p, by = c("medium","party")) %>%
+  mutate(congru_rescaled = rescale(congruency, min(congruency), max(congruency),0,1))
+```
+
+```{r}
+p1 <- final_df %>%
+  select(-count_relative,  corr, -congruency) %>%
+  gather(metric, value, count_rel_scaled:congru_rescaled) %>%
+  ggplot(aes(reorder(party,party_order), metric)) +
+  geom_tile(aes(fill=value), show.legend = F) +
+  scale_fill_gradient(low = "white", high = "gray") +
+  geom_text(aes(label=round(value, 2))) +
+  #scale_fill_discrete(name = "", labels = c("Reader preferences", "Topic Correlation")) +
+  labs(x=NULL, y=NULL, caption = "Scores are standardized between 0 and 1") +
+  scale_y_discrete(labels=c("Congruency","Topic correlation","Reader preferences")) +
+  theme(
+    axis.text.y = element_text(size=6),
+    strip.text.y = element_text(angle = 0, size = 6)
+  ) +
+  theme_hc() +
+  facet_grid(rows = vars(medium)) 
+
+p2 <- final_df %>%
+  group_by(medium) %>%
+  dplyr::summarise(corr_corr = cor(count_relative, corr)) %>%
+  ggplot(aes(medium, corr_corr)) +
+  geom_col(aes(fill=corr_corr), show.legend = F) +
+  geom_text(aes(label=round(corr_corr,2)), vjust=-0.1, color="red", size= 3) +
+  geom_hline(aes(yintercept=0)) +
+  theme_void() +
+  labs(caption="Corr/Corr") +
+  scale_y_continuous(limits = c(-1,1), position = "right") +
+  facet_wrap(medium~., scales = "free_x", ncol = 1) +
+  theme(strip.text = element_blank())
+
+p3 <- final_df %>%
+  group_by(medium) %>%
+  dplyr::summarise(corr_cong = cor(count_relative, congru_rescaled)) %>%
+  ggplot(aes(medium, corr_cong)) +
+  geom_col(aes(fill=corr_cong), show.legend = F) +
+  geom_text(aes(label=round(corr_cong,2)), vjust=-0.1, color="red", size= 3) +
+  geom_hline(aes(yintercept=0)) +
+  theme_void() +
+  labs(caption="Corr/Cong") +
+  scale_y_continuous(limits = c(-1,1), position = "right") +
+  facet_wrap(medium~., scales = "free_x", ncol = 1) +
+  theme(strip.text = element_blank())
+
+p1 + p2 + p3 + plot_layout(width = c(10,1,1))
+```
+
+## Compare with polls
+
+```{r include=FALSE}
+# load poll data
+load("../output/polldats.Rda")
+
+polls.plot <- df.small %>%
+  filter(date > as.Date("2017-01-01")) %>%
+  filter(date < as.Date("2018-06-30")) %>%
+  mutate(year=lubridate::year(date),
+         month = lubridate::month(date),
+         date = as.Date(paste0(year,"/",month,"/1"))) %>%
+  group_by(party,date) %>%
+  dplyr::summarise(ma = mean(ma)) %>%
+  ungroup() %>%
+  mutate(
+    party = ifelse(party == "CDU/CSU", "CDU", party),
+    party = ifelse(party == "LINKE", "DIE LINKE", party),
+    party = ifelse(party == "GRÜNE", "B90/GRÜNE", party)
+  )
+
+# prepare correlation dataframe
+corr.df <- theta %>%
+  mutate(year=lubridate::year(date),
+         month = lubridate::month(date),
+         date = as.Date(paste0(year,"/",month,"/1"))) %>% 
+  group_by(topic, type, source, joint_label, date) %>%
+  dplyr::summarise(
+    SentiWS_theta = mean(SentiWS_theta, na.rm = T),
+    BPW_theta = mean(BPW_theta, na.rm = T),
+    sentDict_theta = mean(sentDict_theta, na.rm = T)
+  ) %>%
+  ungroup() 
+
+# estimate correlations in each month
+dates <- unique(corr.df$date)
+
+rm(corr.df.time)
+for (i in 1:length(dates)) {
+  
+  corr.df.sm <- corr.df %>%
+    filter(date == dates[i]) %>%
+    select(topic, source, BPW_theta) %>%
+    spread(source, BPW_theta)
+  
+  x <- as.matrix(corr.df.sm[,-1])
+  
+  temp <- correlate(x) %>% 
+    gather(party, corr, -rowname) %>%
+    mutate(date = dates[i])
+  
+  if (!exists("corr.df.time")) {
+    corr.df.time <- temp
+  } else {
+    corr.df.time <- bind_rows(corr.df.time, temp)
+  }
+  
+}
+
+hypo2 <- corr.df.time %>%
+  filter(rowname %in% news) %>%
+  filter(party %in% parties) %>%
+  mutate(medium = rowname) %>% select(-rowname) %>%
+  left_join(.,polls.plot, by=c("date","party") ) %>%
+  mutate(
+    cor_norm = rescale(corr, x_min = min(corr, na.rm = T), max(corr, na.rm = T), -1,1),
+    ma_norm = rescale(ma, min(ma, na.rm = T), max(ma, na.rm = T), -1,1)
+  ) %>%
+  group_by(party, medium) %>%
+  mutate(timecorr = cor(corr, ma))%>%
+  ungroup()
+```
+
+
+```{r echo=FALSE, fig.height=8, fig.width=12}
+# merge dataframes
+ggplot(hypo2, 
+       aes(date, cor_norm)) +
+  geom_line(aes(color = medium, linetype = medium)) +
+  geom_line(aes(date,ma_norm), color="red", show.legend = F) +
+  geom_hline(yintercept = 0, size = 0.3, color = color1) +
+  facet_wrap(~party) +
+  theme_hc() +
+  scale_color_viridis_d() +
+  labs(y=NULL, x =NULL) +
+  scale_x_date(date_breaks = "2 month", date_labels = "%b/%y") +
+  theme(legend.position = "bottom",
+        legend.title = element_blank()) +
+     guides(col = guide_legend(nrow = 1))
+```
+
+
+
+
 
 # ---- Backup ---- #
 
