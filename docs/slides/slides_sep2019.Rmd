@@ -430,8 +430,8 @@ plotTopics <- function(x){
     geom_col(show.legend = F, position = "dodge") +
     coord_flip() +
     labs(x=NULL, y="Weighted topic probability", title = paste("Topics about",x)) +
-    facet_wrap(~topic_label, ncol = 3) +
-    theme_hc()
+    facet_wrap(~topic_label, ncol = 3, scales = "free_x") +
+    theme_tufte()
 }
 ```
 
