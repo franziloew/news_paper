@@ -501,10 +501,11 @@ sent_df %>%
   scale_fill_gradient2() +
   geom_text() +
   labs(x=NULL, y=NULL, title="Average WTP") +
-  facet_wrap(~type, scales = "free_x", 
-             labeller = labeller(type = c("News articles","Press releases"))) +
+  facet_wrap(~type, scales = "free_x",
+             labeller = as_labeller(c("news"="News articles","party"="Press releases"))) +
   theme(axis.text.x = element_text(angle=90))
   
+
 ```
 
 
@@ -522,6 +523,7 @@ ggiraphExtra::ggRadar(radar, aes(color = source),
                       rescale = T,
                       alpha = 0) +
   theme_hc() +
+  labs(title="WTP") +
   scale_color_viridis_d() +
   theme(legend.position = "none"
         #,legend.title = element_blank()
