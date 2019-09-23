@@ -236,11 +236,12 @@ pressReleases <- bind_rows(cdu, spd, afd, gruene, linke, fdp) %>%
   
   mutate(
     filtered = ifelse(grepl(filter,title,ignore.case = T), TRUE, FALSE),
-    filtered = ifelse(text_length < 50, TRUE, filtered)
+    filtered = ifelse(text_length < 100, TRUE, filtered),
+    filtered = ifelse(text_length > 1500, TRUE, filtered),
+    filtered = ifelse(grepl("Interview", title_text), TRUE, filtered),
+    filtered = ifelse(grepl("Gastbeitrag", title_text), TRUE, filtered)
   )
-```
 
-```{r}
 ggplot(pressReleases, aes(party, fill=filtered)) +
   geom_bar() +
   labs(x= NULL, y = NULL, fill = "filtered ?")
@@ -269,8 +270,6 @@ pressReleases <- pressReleases %>%
   - punctuation, numbers, special characters
   - stopwords (frequently used words, that are not important for the analysis like "und", "ist", "in",...)
   
-2. Stemming
-
 ```{r eval=FALSE, include=FALSE}
 pressReleases$text_cleaned <- gsub("[[:punct:]]", " ", pressReleases$title_text)
 pressReleases$text_cleaned <- gsub("[[:cntrl:]]", " ", pressReleases$text_cleaned)
@@ -329,6 +328,29 @@ pressReleases %>%
   write.csv(file = "../output/pressReleases.csv")
 ```
 
+# Save to Postgres
+```{r}
+library(RPostgreSQL)
+
+# Connect to postgres
+pg = dbDriver("PostgreSQL")
+
+pw <- {
+  "Up627R&F6"
+}
+
+con = dbConnect(pg, user="Franzi", 
+                password=pw, 
+                host="news-paper.cildx1grqozu.eu-west-2.rds.amazonaws.com", 
+                port=5432,
+                dbname="postgres")
+
+rm(pw) # removes the password
+
+dbWriteTable(con, "press_releases", 
+             value = pressReleases, overwrite = TRUE, row.names = FALSE)
+```
+
 ## Inspect Data 
 ```{r include=FALSE}
 library(tidyverse)
@@ -351,6 +373,7 @@ load("../output/pressReleases.Rda")
 party_colors <- c("#009ee0", "#32302e","#ffed00","#46962b","#ec008c", "#E3000F")
 ```
 
+
 ```{r}
 pressReleases %>%
   group_by(party, author) %>%
@@ -369,51 +392,31 @@ ggsave("../figs/press_releases.png", width = 6, height = 4)
 ```
 
 ```{r}
-maxval <- 2500
+maxval <- 1450
 dd <- pressReleases %>% filter(text_length > maxval) %>% 
   group_by(party) %>% 
   summarise(outlier_txt=paste(text_length ,collapse=", "))
 
 pressReleases %>%
-  filter(text_length < maxval) %>%
+  #filter(text_length < maxval) %>%
   ggplot(aes(x=party, y=text_length)) +
   geom_boxplot() +
   theme_hc() +
-  geom_text(data=dd,aes(y=maxval,label= outlier_txt),
-            size=3, vjust=1.5, hjust=-0.1) +
-  geom_segment(data=dd, 
-               aes(y=maxval*0.95, yend=maxval, xend=5),
-               color = "red",
-               arrow = arrow(length = unit(0.1,"cm"))) +
+  # geom_text(data=dd,aes(y=maxval,label= outlier_txt),
+  #           size=3, vjust=.1, hjust=-0.1) +
+  # geom_segment(data=dd,
+  #              aes(y=maxval*0.95, yend=maxval, xend=5),
+  #              color = "red",
+  #              arrow = arrow(length = unit(0.1,"cm"))) +
   labs(x=NULL, y="# of words")
 
-ggsave("../figs/press_releases_textlength.png", width = 6, height = 4)
-```
-
-
-```{r}
-pressReleases %>%
-  group_by(party) %>%
-  summarize(total_articles = n()) %>%
-  left_join(., politics, by="medium") %>%
-  mutate(share = num_articles/total_articles) %>%
-  
-  # combine with visits df
-  left_join(., visits, by="medium") %>%
-  select(medium, total_articles,share, visits)
-```
-
-```{r echo=FALSE}
-pressReleases %>%
-  sample_n(1) %>%
-  select(title_text, text_cleaned) %>%
-  htmlTable::htmlTable()
+#ggsave("../figs/press_releases_textlength.png", width = 6, height = 4)
 ```
 
 ### Tokens
 
 ```{r}
-tokens <- pressReleases %>% unnest_tokens(word, text_cleaned1)
+tokens <- pressReleases %>% unnest_tokens(word, text_cleaned)
 
 tokens.count <- tokens %>%
   count(party, word, sort = TRUE) %>%
@@ -421,7 +424,8 @@ tokens.count <- tokens %>%
   bind_tf_idf(word,party,n)
 ```
 
-```{r fig.height=8, fig.width=10}
+
+```{r}
 tokens.count %>% 
   arrange(desc(tf)) %>%
   mutate(word = factor(word, levels = rev(unique(word)))) %>% 

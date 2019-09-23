@@ -210,6 +210,16 @@ normalize_data2 <- function(x) {
   
 }
 
+# rescale data 
+rescale <- function(x,a,b){
+  (x-min(x))/(max(x)-min(x))*(b-a)+a
+}
+
+# normalize variable to have a mean of 0 and a standard deviation (and variance) of 1
+scaledX <- function(x){
+  (x - mean(x, na.rm = T))/sd(x, na.rm = T)
+}
+
 ###########
 ## Dates ##
 ###########

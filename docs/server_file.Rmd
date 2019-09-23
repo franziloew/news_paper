@@ -1,0 +1,622 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+#options(download.file.method = "wget")
+
+library(RPostgreSQL)
+library(ggthemes)
+library(dplyr)
+library(tidytext)
+library(tidyr)
+library(ggplot2)
+library(ggrepel)
+library(purrr)
+library(stm)
+
+rm(list=ls())
+```
+
+```{r}
+scaledX <- function(x){
+  (x - mean(x, na.rm = T))/sd(x, na.rm = T)
+}
+```
+
+# Load Data
+```{r}
+# create a connection
+# loads the PostgreSQL driver
+pg <- dbDriver("PostgreSQL")
+# creates a connection to the postgres database
+pw <- {
+"Up627R&F6"
+}
+
+con = dbConnect(pg, user="Franzi", 
+                password=pw, 
+                host="news-paper.cildx1grqozu.eu-west-2.rds.amazonaws.com", 
+                port=5432,
+                dbname="postgres")
+
+rm(pw) # removes the password
+ 
+# check for the news_fulltable
+dbExistsTable(con, "news_cleaned")
+# TRUE
+save(news_df, file = "../output/news_df.Rda")
+```
+
+```{r}
+# get News articles
+news_df <- dbGetQuery(con, "SELECT * from news_cleaned")
+# get press realeases
+press_df <- dbGetQuery(con, "SELECT * from press_releases")
+
+# combine both
+model_df <- news_df %>% 
+  dplyr::mutate(date = as.Date(date),
+         type = "news",
+         source = medium) %>%
+  select(date,title,title_text,text_length,text_cleaned,type,source) %>%
+  bind_rows(press_df %>% 
+              select(title,title_text,type,source,text_length,text_cleaned)) %>%
+  dplyr::mutate(doc_index = as.numeric(rownames(.)))
+```
+
+# Inspect data
+```{r}
+model_df %>%
+  group_by(type, source) %>%
+  tally() %>%
+  ggplot(aes(reorder(source, n),n, fill = type)) +
+  geom_col(show.legend = F) +
+  theme_hc() +
+  coord_flip() +
+  labs(y="# documents", x=NULL, title = "Number of documents", subtitle = "June 2017 - March 2018") +
+  facet_wrap(~type, scales = "free")
+```
+
+# Structural topic model
+
+```{r}
+tidy_news_df <- model_df %>%
+  select(source, text_cleaned, doc_index) %>%
+  unnest_tokens(word, text_cleaned) %>%
+  add_count(word) %>%
+  filter(n > 100) %>%
+  select(-n)
+
+news_df_sparse <- tidy_news_df %>%
+  count(doc_index, word) %>%
+  cast_sparse(doc_index, word, n)
+
+## notice that I am scrambling the order of the rows
+## the covariate data is in random order now
+covariates <- tidy_news_df %>%
+    sample_frac() %>%
+    distinct(doc_index, source)
+```
+
+```{r}
+library(stm)
+library(purrr)
+
+many_models_big <- data_frame(K = c(120, 140, 160, 180, 200)) %>%
+  mutate(topic_model = map(K, ~stm(news_df_sparse, K = ., prevalence =~ source, 
+                                          data =covariates, init.type = "Spectral")))
+
+many_models <- bind_rows(many_models, many_models_big)
+save(tidy_news_df,news_df_sparse,covariates, many_models, file="many_models.Rda")
+```
+
+```{r}
+load("../output/models/many_models.Rda")
+
+heldout <- make.heldout(news_df_sparse)
+
+k_result <- many_models %>%
+  mutate(exclusivity = map(topic_model, exclusivity),
+         semantic_coherence = map(topic_model, semanticCoherence, news_df_sparse),
+         eval_heldout = map(topic_model, eval.heldout, heldout$missing),
+         residual = map(topic_model, checkResiduals, news_df_sparse),
+         bound =  map_dbl(topic_model, function(x) max(x$convergence$bound)),
+         lfact = map_dbl(topic_model, function(x) lfactorial(x$settings$dim$K)),
+         lbound = bound + lfact,
+         iterations = map_dbl(topic_model, function(x) length(x$convergence$bound)))
+
+save(k_result, file="../output/models/k_result.Rda")
+```
+
+```{r}
+k_result %>%
+  transmute(K,
+            `Lower bound` = lbound,
+            Residuals = map_dbl(residual, "dispersion"),
+            `Semantic coherence` = map_dbl(semantic_coherence, mean),
+            `Held-out likelihood` = map_dbl(eval_heldout, "expected.heldout")) %>%
+  gather(Metric, Value, -K) %>%
+  ggplot(aes(K, Value, color = Metric)) +
+  geom_line(size = 1, alpha = 0.7, show.legend = FALSE) +
+  facet_wrap(~Metric, scales = "free_y") +
+  labs(x = "K (number of topics)",
+       y = NULL,
+       title = "Model diagnostics by number of topics",
+       subtitle = "These diagnostics indicate that a good number of topics would be around ...")
+```
+
+Semantic coherence is maximized when the most probable words in a given topic frequently co-occur together, and it’s a metric that correlates well with human judgment of topic quality. Having high semantic coherence is relatively easy, though, if you only have a few topics dominated by very common words, so you want to look at both semantic coherence and exclusivity of words to topics. It’s a tradeoff. Read more about semantic coherence in the [original paper](https://dl.acm.org/citation.cfm?id=2145462) about it.
+
+```{r}
+plot.df <- k_result %>%
+  filter(K <= 100) %>%
+  select(K, exclusivity, semantic_coherence) %>%
+  unnest() %>%
+  mutate(K = as.factor(K)) 
+
+plot.df.means <- plot.df %>%
+  group_by(K) %>%
+  summarise(exclusivity_mean = mean(exclusivity),
+         semantic_coherence_mean = mean(semantic_coherence)) %>%
+  ungroup()
+  
+ggplot(plot.df) +
+  geom_point(aes(semantic_coherence, exclusivity, color = K), size = 1, alpha = 0.5) +
+  geom_point(data= plot.df.means, aes(semantic_coherence_mean, exclusivity_mean), color="red") +
+  geom_text_repel(data = plot.df.means, aes(semantic_coherence_mean, exclusivity_mean, label=K)) +
+  labs(x = "Semantic coherence",
+       y = "Exclusivity",
+       title = "Comparing exclusivity and semantic coherence",
+       subtitle = "Models with fewer topics have higher semantic coherence for more topics, but lower exclusivity")
+```
+
+
+```{r}
+library(ggthemes)
+library(scales)
+
+k = 50
+
+topic_model <- k_result %>% 
+  filter(K == k) %>% 
+  pull(topic_model) %>% 
+  .[[1]]
+
+td_beta <- tidy(topic_model)
+
+td_gamma <- tidy(topic_model, matrix = "gamma",
+                 document_names = rownames(news_df_sparse))
+
+top_terms <- td_beta %>%
+  arrange(beta) %>%
+  group_by(topic) %>%
+  top_n(7, beta) %>%
+  arrange(-beta) %>%
+  select(topic, term) %>%
+  summarise(terms = list(term)) %>%
+  mutate(terms = map(terms, paste, collapse = ", ")) %>% 
+  unnest()
+
+gamma_terms <- td_gamma %>%
+  group_by(topic) %>%
+  summarise(gamma = mean(gamma)) %>%
+  arrange(desc(gamma)) %>%
+  left_join(top_terms, by = "topic") %>%
+  mutate(
+    topic_names = paste0("Topic ", topic),
+    topic_names = reorder(topic_names, gamma))
+
+gamma_terms %>%
+  top_n(20, gamma) %>%
+  ggplot(aes(topic_names, gamma, label = terms, fill = topic_names)) +
+  geom_col(show.legend = FALSE) +
+  geom_text(hjust = 0, nudge_y = 0.0005, size = 3) +
+  coord_flip() +
+  scale_y_continuous(expand = c(0,0),
+                     limits = c(0, 0.15),
+                     labels = percent_format()) +
+  theme_tufte(ticks = FALSE) +
+  theme(plot.title = element_text(size = 16),
+        plot.subtitle = element_text(size = 13)) +
+  labs(x = NULL, y = expression(gamma),
+       title = paste("Top 20 topics by prevalence for k=",k),
+       subtitle = "With the top words that contribute to each topic")
+```
+
+## Sentiment analysis
+```{r}
+# Download and unzip Sentiment Dictionary
+temp <- tempfile()
+download.file("http://pcai056.informatik.uni-leipzig.de/downloads/etc/SentiWS/SentiWS_v2.0.zip",temp)
+
+SentiWS <- c(
+  # positive Wörter
+  readLines(unz(temp, "SentiWS_v2.0_Negative.txt"),
+            encoding = "UTF-8"),
+  # negative W??rter
+  readLines(unz(temp, "SentiWS_v2.0_Positive.txt"),
+            encoding = "UTF-8")
+  ) %>%
+  
+    lapply(function(x) {
+  # Extrahieren der einzelnen Spalten
+  res <- strsplit(x, "\t", fixed = TRUE)[[1]]
+  return(data.frame(words = res[1], value = res[2],
+                    stringsAsFactors = FALSE))
+  }) %>%
+  
+  bind_rows %>%
+  mutate(word = gsub("\\|.*", "", words) %>% 
+           tolower, value = as.numeric(value),
+         type = gsub(".*\\|", "", words)) %>%
+  
+  # nur adjektive oder adverben
+  ## filter(type == "ADJX" | type == "ADV") %>%
+  # manche Wörter kommen doppelt vor, hier nehmen wir den mittleren Wert
+  group_by(word) %>%
+  dplyr::summarise(polarity = mean(value)) %>% ungroup %>%
+  # Delete "Heil" (wegen Hubertus Heil)
+  filter(!grepl('heil',word,ignore.case = T)) %>%
+  # welcome to hell (g20)
+  filter(!grepl('hell',word,ignore.case = T)) %>%
+  # filter values that that score between -0.1 and +0.1 
+  #filter(!dplyr::between(polarity, -0.1,0.1)) %>%
+  # create a -1 / 1 index for the sentiments
+  mutate(senti_dummy = ifelse(polarity > 0, 1, -1))
+```
+
+```{r}
+# Connect with tokens
+tokens <- model_df %>% unnest_tokens(word, text_cleaned)
+
+sentTxt_token <- left_join(tokens, SentiWS, by = "word") 
+```
+
+```{r}
+# Calculate the sentiment of each document
+sentTxt <- sentTxt_token %>% 
+  group_by(doc_index) %>%
+  dplyr::summarise(
+    polarity_raw = sum(polarity, na.rm = T),
+    sent_dummy_raw = sum(senti_dummy, na.rm = T),
+    n = n()
+  ) %>%
+  mutate(
+    polarity = polarity_raw/n,
+    sent_dummy = sent_dummy_raw/n
+  )
+
+# Combine with main df
+model_df2 <- left_join(model_df, sentTxt, by="doc_index")
+
+save(model_df2, file="../output/model_df2.Rda")
+```
+
+```{r}
+model_df2 %>% 
+  group_by(source, type) %>% 
+  summarise(meanSent_dummy = mean(sent_dummy, na.rm = T)) %>%
+  ggplot(aes(source, meanSent_dummy)) +
+  geom_segment( aes(x=source ,xend=source, y=0, yend=meanSent_dummy), color="grey") +
+  geom_point(size=3, color="#69b3a2") +
+  coord_flip() +
+  ggthemes::theme_hc() +
+  labs(x=NULL, y=NULL, title="Sentiment value", subtitle = "Aggregated over all Documents") +
+  facet_wrap(~type, scales = "free_y") +
+  theme(
+    panel.grid.minor.y = element_blank(),
+      panel.grid.major.y = element_blank()
+  )
+```
+
+## Weighted topic probability
+
+```{r}
+news <- c("DIE WELT","stern.de", "ZEIT ONLINE", "FOCUS Online", "Bild.de", "SPIEGEL ONLINE", "Handelsblatt" )
+parties <- c("CDU", "SPD", "AfD", "B90/GRÜNE", "DIE LINKE", "FDP" )
+
+theta <- td_gamma %>%
+  mutate(doc_index = as.numeric(document)) %>%
+  # join with top terms
+  left_join(., top_terms, by="topic")  %>%
+  mutate(topic_label = paste0("Topic ",topic,": ",terms)) %>%
+  
+  # join with model_df
+  left_join(., model_df2 %>% 
+              select(date,type,source,doc_index,title_text,polarity_raw,n,
+                     sent_dummy_raw, polarity, sent_dummy), by="doc_index") %>%
+  
+  mutate(
+    type = ifelse(source %in% parties, "party", "news"),
+    year = lubridate::year(date),
+    month = lubridate::month(date)
+    ) 
+```
+
+```{r}
+theta <- theta %>% 
+  mutate(polarity_theta = gamma*polarity_raw*(1/n),
+         dummy_theta = gamma*sent_dummy_raw*(1/n))
+```
+
+```{r}
+theta_grouped <- theta %>%
+  group_by(topic, topic_label, source, type) %>%
+  summarise(
+    gamma = mean(gamma),
+    sent_dummy = mean(sent_dummy),
+    polarity = mean(polarity),
+    dummy_theta = mean(dummy_theta),
+    polarity_theta = mean(polarity_theta)
+  ) %>%
+  ungroup()
+```
+
+```{r}
+theta_grouped %>%
+  group_by(source, type, topic_label) %>%
+  summarise(gamma = mean(dummy_theta, na.rm = T)) %>%
+  top_n(1, gamma) %>%
+  ggplot(aes(reorder(source, gamma), gamma)) +
+  geom_col(aes(fill = gamma), show.legend = F) +
+  geom_text(aes(label = topic_label),
+            hjust = 0, nudge_y = 0.0001, size = 3) +
+  coord_flip() +
+  scale_y_continuous(expand = c(0,0),
+                      limits = c(0, 0.03)) +
+  theme_tufte(ticks = FALSE) +
+  theme(plot.title = element_text(size = 16),
+        plot.subtitle = element_text(size = 13)) +
+  facet_wrap(~ type, ncol=1, scales = "free_y") +
+  labs(x = NULL, y = expression(gamma),
+       title = "Most positive topics by weighted topic probability")
+```
+
+```{r}
+theta_grouped %>%
+  group_by(source, type, topic_label) %>%
+  summarise(gamma = mean(dummy_theta, na.rm = T)) %>%
+  top_n(1, -gamma) %>%
+  ggplot(aes(reorder(source, gamma), gamma)) +
+  geom_col(aes(fill = gamma), show.legend = F) +
+  geom_text(aes(label = topic_label),
+            hjust = 1, nudge_y = -0.00001, size = 3) +
+  coord_flip() +
+  scale_y_continuous(expand = c(0,0),
+                      limits = c(-0.0015, 0.0001)) +
+  theme_tufte(ticks = FALSE) +
+  theme(plot.title = element_text(size = 16),
+        plot.subtitle = element_text(size = 13)) +
+  facet_wrap(~ type, ncol=1, scales = "free_y") +
+  labs(x = NULL, y = expression(gamma),
+       title = "Most negative topics by weighted topic probability")
+```
+
+
+## Topic content
+
+Using the most probable words in each topic to check if the topic is about the party or its representatives.
+
+```{r fig.height=3, fig.width=6}
+cdu <- paste(c("cdu","csu","union","merkel","leyen","maas","schäuble","lammert"),collapse = "|")
+spd <- paste(c("spd","schulz","steinmeier","scholz","barley"),collapse = "|")
+fdp <- paste(c("fdp","lindner"), collapse = "|")
+afd <- paste(c("afd","gauland","weidel"), collapse = "|")
+gruene <- paste(c("grüne","zdemir"), collapse = "|")
+linke <- paste(c("linke","wagenknecht"), collapse = "|")
+
+party_topics_df <- top_terms %>%
+  mutate(cdu = ifelse(grepl(cdu, terms, ignore.case = T),1,0),
+         spd = ifelse(grepl(spd, terms, ignore.case = T),1,0),
+         fdp = ifelse(grepl(fdp, terms, ignore.case = T),1,0),
+         afd = ifelse(grepl(afd, terms, ignore.case = T),1,0),
+         gruene = ifelse(grepl(gruene, terms, ignore.case = T),1,0),
+         linke = ifelse(grepl(linke, terms, ignore.case = T),1,0),
+         label = paste0(as.character(topic),": ", terms)
+         )
+  
+# plot
+party_topics_df %>%
+  gather(party, ident, cdu:linke) %>%
+  filter(ident != 0) %>%
+  ggplot(aes(reorder(label, desc(topic)),ident, color=party)) +
+  geom_point(show.legend = F, size=4) +
+  coord_flip() +
+  labs(x=NULL, y=NULL, title="Party / topics in news articles") +
+  ggthemes::theme_hc() +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank()) +
+  facet_grid(~party)
+```
+
+```{r}
+sent_df <- party_topics_df %>%
+  gather(party, ident, cdu:linke) %>%
+  group_by(topic) %>%
+  mutate(ident_sum = sum(ident)) %>%
+  ungroup() %>%
+  select(topic, party, ident, ident_sum) %>%
+  left_join(., theta_grouped %>%
+              select(source, type, topic, topic_label, gamma, polarity_theta, dummy_theta), 
+            by="topic" ) %>%
+  # multiply the weighted sentiment of a topic with the dummy if a topic is about a party
+  mutate(
+    dummy_theta = dummy_theta * ident,
+    polarity_theta = polarity_theta * ident,
+    gamma = gamma * ident
+  )
+```
+
+We filter out topics that are not directly related to one party or its representatives:
+
+```{r}
+sent_df %>%
+  filter(ident_sum == 0) %>%
+  distinct(topic_label) %>%
+  htmlTable::htmlTable(align="l")
+```
+
+
+### Topics about ...
+
+```{r}
+plotTopics <- function(x){
+  sent_df %>%
+    filter(party==x) %>%
+    filter(ident != 0) %>%
+    filter(source %in% news) %>%
+    ggplot(aes(reorder(source, dummy_theta), dummy_theta,fill=dummy_theta)) +
+    geom_col(show.legend = F, position = "dodge") +
+    coord_flip() +
+    labs(x=NULL, y="Weighted topic probability", title = paste("Topics about",x)) +
+    facet_wrap(~topic_label, ncol = 3) +
+    theme_hc()
+}
+```
+
+... CDU
+```{r fig.height=6, fig.width=8}
+x <- "cdu"
+plotTopics(x)
+```
+
+... SPD
+```{r fig.height=6, fig.width=8}
+x <- "spd"
+plotTopics(x)
+```
+
+...B90/Die Grünen
+```{r fig.height=4, fig.width=8}
+x <- "gruene"
+plotTopics(x)
+```
+
+... AfD
+```{r fig.height=4, fig.width=8}
+x <- "afd"
+plotTopics(x)
+```
+
+...FDP
+```{r fig.height=4, fig.width=8}
+x <- "fdp"
+plotTopics(x)
+```
+
+...DIE LINKEN
+```{r fig.height=3, fig.width=6}
+x <- "linke"
+plotTopics(x)
+```
+
+#### Overall weighted sentiment
+
+```{r}
+sent_df %>%
+  filter(ident != 0) %>%
+  #filter(!topic %in% c(14)) %>%
+  #filter(type == "news") %>%
+  group_by(source, type, party) %>%
+  summarise(sent = mean(gamma)) %>%
+  #mutate(sent = scaledX(sent)) %>%
+  ungroup() %>%
+  ggplot(aes(source, party, fill = sent, label = round(sent*100,2))) +
+  geom_tile(show.legend = F) +
+  scale_fill_gradient2() +
+  geom_text() +
+  labs(x=NULL, y=NULL, title="Average weighted topic probability") +
+  facet_wrap(~type, scales = "free_x") +
+  theme(axis.text.x = element_text(angle=90))
+  
+```
+
+```{r fig.height=4, fig.width=8}
+radar <-sent_df %>%
+  filter(ident != 0) %>%
+  #filter(!topic %in% c(14)) %>%
+  filter(type == "news") %>%
+  group_by(source, type, party) %>%
+  summarise(sent = mean(gamma)) %>%
+  ungroup() %>%
+  select(-type) %>%
+  spread(party, sent)
+
+ggiraphExtra::ggRadar(radar, aes(color = source),
+                      rescale = T,
+                      alpha = 0) +
+  theme_hc() +
+  scale_color_viridis_d() +
+  theme(legend.position = "none"
+        #,legend.title = element_blank()
+        ) +
+   guides(col = guide_legend(ncol = 1)) +
+  facet_wrap(~source, nrow = 2)
+```
+
+## Correlations
+
+```{r}
+corr.df <- theta %>%
+  group_by(topic, type, source, topic_label) %>%
+  dplyr::summarise(
+    gamma = mean(gamma, na.rm = T),
+    polarity_theta = mean(polarity_theta, na.rm = T),
+    dummy_theta = mean(dummy_theta, na.rm = T)
+  ) %>%
+  ungroup() 
+```
+
+### Correlation of weighted topic distribution
+
+On the basis of thes weighted topic distributions, the bivariate Pearson correlation coefficients are calculated for each pair of media outlet and party. The higher the correlation coefficient, the higher the slant index for a party in a media outlet.
+
+```{r fig.align="centre", message=FALSE, warning=FALSE}
+corr.df.sm <-sent_df %>%
+  # filter documents that are not about a party
+  filter(ident != 0) %>%
+  group_by(topic, source) %>%
+  summarise(dummy_theta = mean(dummy_theta)) %>%
+  ungroup() %>%
+  spread(source, dummy_theta)
+
+x <- as.matrix(corr.df.sm[,-1])
+
+rs <- corrr::correlate(x)
+
+rs %>% 
+  corrr::network_plot()
+```
+
+```{r}
+corr_plot <- rs %>%
+  as_tibble() %>%
+  dplyr::rename(source1 = rowname) %>%
+  gather(key = source2, value = corr, -source1) %>%
+  mutate(
+    type1 = ifelse(source1 %in% news, "news", "party"),
+    type2 = ifelse(source2 %in% news, "news", "party")
+  ) 
+```
+
+```{r fig.align="center"}
+corr_plot %>%
+  filter(type1 == "news") %>%
+  filter(type2 == "party") %>%
+  ggplot(aes(source1, source2, 
+                 label=round(corr, digits = 2),
+                 fill=corr)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "white", high = "gray") +
+  geom_text() +
+  theme_hc() +
+  labs(x = NULL, y = NULL, title = "Medium / Partei") + 
+  scale_x_discrete(expand = c(0, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  theme(legend.position = "none",
+        #axis.text = element_text(size = 6),
+        #axis.text.y = element_blank(),
+       axis.text.x = element_text(angle = 90))
+```

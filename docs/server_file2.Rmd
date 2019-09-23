@@ -1,0 +1,133 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+#options(download.file.method = "wget")
+
+library(RPostgreSQL)
+library(ggthemes)
+library(dplyr)
+library(tidytext)
+library(tidyr)
+library(ggplot2)
+library(ggrepel)
+library(purrr)
+library(stm)
+
+rm(list=ls())
+```
+
+
+# Load Data
+```{r}
+# create a connection
+# loads the PostgreSQL driver
+pg <- dbDriver("PostgreSQL")
+# creates a connection to the postgres database
+pw <- {
+"Up627R&F6"
+}
+
+con = dbConnect(pg, user="Franzi", 
+                password=pw, 
+                host="news-paper.cildx1grqozu.eu-west-2.rds.amazonaws.com", 
+                port=5432,
+                dbname="postgres")
+
+rm(pw) # removes the password
+ 
+# check for the news_fulltable
+dbExistsTable(con, "news_cleaned")
+# TRUE
+```
+
+```{r}
+# get News articles
+news_df <- dbGetQuery(con, "SELECT * from news_cleaned")
+
+# combine both
+model_df <- news_df %>% 
+  dplyr::mutate(date = as.Date(date),
+                source = medium) %>%
+  select(date,title,title_text,text_length,text_cleaned,source) %>%
+  dplyr::mutate(doc_index = as.numeric(rownames(.)))
+```
+
+# Inspect data
+```{r}
+model_df %>%
+  group_by(source) %>%
+  tally() %>%
+  ggplot(aes(reorder(source, n),n)) +
+  geom_col(show.legend = F) +
+  theme_hc() +
+  coord_flip() +
+  labs(y="# documents", x=NULL, title = "Number of documents", subtitle = "June 2017 - March 2018") 
+```
+
+# Structural topic model
+
+```{r}
+tidy_news_df <- model_df %>%
+  select(source, text_cleaned, doc_index) %>%
+  unnest_tokens(word, text_cleaned) %>%
+  add_count(word) %>%
+  filter(n > 100) %>%
+  select(-n)
+
+news_df_sparse <- tidy_news_df %>%
+  count(doc_index, word) %>%
+  cast_sparse(doc_index, word, n)
+
+## notice that I am scrambling the order of the rows
+## the covariate data is in random order now
+covariates <- tidy_news_df %>%
+    sample_frac() %>%
+    distinct(doc_index, source)
+```
+
+```{r}
+library(stm)
+library(purrr)
+
+many_models_no_press <- data_frame(K = c(20, 30, 40, 50, 60, 70, 80, 90, 100)) %>%
+  mutate(topic_model = map(K, ~stm(news_df_sparse, K = ., prevalence =~ source, 
+                                          data =covariates, init.type = "Spectral")))
+
+save(tidy_news_df,news_df_sparse,covariates, many_models_no_press, file="many_models_no_press.Rda")
+```
+
+```{r}
+load("many_models.Rda")
+
+heldout <- make.heldout(news_df_sparse)
+
+k_result <- many_models %>%
+  mutate(exclusivity = map(topic_model, exclusivity),
+         semantic_coherence = map(topic_model, semanticCoherence, news_df_sparse),
+         eval_heldout = map(topic_model, eval.heldout, heldout$missing),
+         residual = map(topic_model, checkResiduals, news_df_sparse),
+         bound =  map_dbl(topic_model, function(x) max(x$convergence$bound)),
+         lfact = map_dbl(topic_model, function(x) lfactorial(x$settings$dim$K)),
+         lbound = bound + lfact,
+         iterations = map_dbl(topic_model, function(x) length(x$convergence$bound)))
+```
+
+```{r}
+k_result %>%
+  transmute(K,
+            `Lower bound` = lbound,
+            Residuals = map_dbl(residual, "dispersion"),
+            `Semantic coherence` = map_dbl(semantic_coherence, mean),
+            `Held-out likelihood` = map_dbl(eval_heldout, "expected.heldout")) %>%
+  gather(Metric, Value, -K) %>%
+  ggplot(aes(K, Value, color = Metric)) +
+  geom_line(size = 1, alpha = 0.7, show.legend = FALSE) +
+  facet_wrap(~Metric, scales = "free_y") +
+  labs(x = "K (number of topics)",
+       y = NULL,
+       title = "Model diagnostics by number of topics",
+       subtitle = "These diagnostics indicate that a good number of topics would be around ...")
+```

@@ -315,7 +315,9 @@ To measure the tone (or sentiment) of an article a dictionary-based method is ap
 
 ### Dictionary match
 
-Sentiment score document $d$: $$SC_d=|\text{summe pos. wörter}_d - \text{summe neg. wörter}_d|$$
+$SC_d$ is defined as the number of all positive words minus negative words divided by the total number of words of each document $d$
+
+$$\frac{SC_d=\text{summe pos. wörter}_d - \text{summe neg. wörter}_d}{\text{summe wörter}}$$
 
 **A sample document**
 

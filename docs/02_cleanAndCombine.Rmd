@@ -20,11 +20,11 @@ rm(list=ls())
 # Connect to postgres
 pg = dbDriver("PostgreSQL")
 
-con = dbConnect(pg, user="franzi", 
-                password="", 
-                host="localhost", 
+con = dbConnect(pg, user="Franzi", 
+                password="Up627R&F6", 
+                host="news-paper.cildx1grqozu.eu-west-2.rds.amazonaws.com", 
                 port=5432,
-                dbname="news")
+                dbname="postgres")
 
 # load data from eventregistry
 df1 <- dbGetQuery(con, 'SELECT * FROM er_scrapes')
@@ -33,6 +33,7 @@ df1 <- dbGetQuery(con, 'SELECT * FROM er_scrapes')
 load("../output/news_cleaned.Rda")
 df2 <- df
 ```
+
 
 ## Check Dataframes
 ```{r}
@@ -89,6 +90,27 @@ df_full <- bind_rows(df1,df2)
 save(df_full, file="../output/data_step1.Rda")
 ```
 
+# Save to Postgres
+```{r}
+# Connect to postgres
+pg = dbDriver("PostgreSQL")
+
+pw <- {
+  "Up627R&F6"
+}
+
+con = dbConnect(pg, user="Franzi", 
+                password=pw, 
+                host="news-paper.cildx1grqozu.eu-west-2.rds.amazonaws.com", 
+                port=5432,
+                dbname="postgres")
+
+rm(pw) # removes the password
+
+dbWriteTable(con, "news_full", 
+             value = df_full, append = TRUE, row.names = FALSE)
+```
+
 # Clean Data
 ```{r}
 library(tidyverse)
@@ -109,11 +131,12 @@ df_full %>%
 
 ```{r}
 df_full %>%
-  group_by(date) %>%
+  group_by(date, site) %>%
   tally() %>%
-  ggplot(aes(date, n/1000)) +
-  geom_line() +
+  ggplot(aes(date, n)) +
+  geom_point(size=.2) +
   ggthemes::theme_fivethirtyeight() +
+  facet_wrap(~ site) +
   labs(title = "Number of articles/day", subtitle = "aritcles/1000")
 ```
 
@@ -125,6 +148,20 @@ df_full %>%
 ```{r}
 start <- "2017-06-01"
 end <- "2018-03-01"
+
+df_full %>%
+  filter(date >= start & date <= end) %>%
+  group_by(date, site) %>%
+  tally() %>%
+  ggplot(aes(date, n)) +
+  geom_point(size=.2) +
+  ggthemes::theme_fivethirtyeight() +
+  facet_wrap(~ site) +
+  labs(title = "Number of articles/day", subtitle = "aritcles/1000")
+```
+
+
+```{r}
 keeps <- c("bild.de","focus.de","spiegel.de", "stern.de","tagesschau.de", "welt.de", "zeit.de")
 
 df_sample <- df_full %>%
@@ -434,6 +471,26 @@ btw %>%
 save(btw, file="../output/data_step2.Rda")
 ```
 
+# Save to Postgres
+```{r}
+# Connect to postgres
+pg = dbDriver("PostgreSQL")
+
+pw <- {
+  "Up627R&F6"
+}
+
+con = dbConnect(pg, user="Franzi", 
+                password=pw, 
+                host="news-paper.cildx1grqozu.eu-west-2.rds.amazonaws.com", 
+                port=5432,
+                dbname="postgres")
+
+rm(pw) # removes the password
+
+dbWriteTable(con, "news_cleaned", 
+             value = btw, append = TRUE, row.names = FALSE)
+```
 
 
 
