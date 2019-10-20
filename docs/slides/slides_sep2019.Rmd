@@ -20,13 +20,20 @@ library(ggplot2)
 library(ggrepel)
 library(purrr)
 library(stm)
+library(Hmisc)
+library(ggcorrplot)
+library(corrr)
 
 rm(list = ls())
 color <- "#69b3a2"
 color1 <- "#D55E00"
 color2 <- "#0072B2"
 color3 <- "#CC79A7"
+
+news <- c("DIE WELT","stern.de", "ZEIT ONLINE", "FOCUS Online", "Bild.de", "SPIEGEL ONLINE", "tagesschau.de" )
+parties <- c("CDU", "SPD", "AfD", "B90/GRÜNE", "DIE LINKE", "FDP" )
 ```
+
 
 ```{r include=FALSE}
 scaledX <- function(x){
@@ -61,25 +68,43 @@ Aus der ökonomischen Literatur:
 
 ## Frage
 
-**Frage:** Wie können Inhalte von Texten quantifiziert werden?
+- Ist eine Tendenz eines Mediums hin zu einer bestimmten Partei erkennbar?
+- Dafür zunächst: Wie können Inhalte von Texten quantifiziert werden?
 
-**Wie (mit welchen Sentiment Wert) berichten Medien über Themen die im direkten Zusammenhang zu den verschiedenen Parteien stehen?**
+## Annahmen
 
+- Es gibt ein Universum an möglichen Themen, die in den Pressemitteilungen & den Nachrichtenartikeln existieren.
+- Die Verleger / Journalisten entscheiden ...
+
+  1. Über **welche** Themen sie aus diesem Universum berichten. (die Wahrscheinlichkeiten aus dem STM spiegeln die Themenselektion wider)
+  2. **Wie** sie über diese Themen berichten. (Sentiment Wert eines Dokuments)
 
 ## Vorgehensweise
 
-1. Gewichtete Themenwahrscheinlichkeit pro Nachrichteartikel $WTP_{d}$:
-    + **Sentiment analyse**: Wie ist die Tonalität eines Dokuments? --> Sentiment Wert von Nachrichtenartikeln berechnen $SC_d$ 
-    + **Structural topic model (STM)**: Welche Themen werden in den Artikeln besprochen? $\theta_d = [\theta^1_{d},...,\theta^{k}_{d}]'$ --> Aus einem Universum an Themen (Korpus beinhaltet sowohl Nachrichtenartikel als auch Pressemitteilungen), wie ist die Themenwahrscheinlichkeit in einem Nachrichtenartikel?
-    + **Weighted topic distribution (WTP)**: Daraus ergibt sich die gewichtete Themenwahrscheinlichkeit pro Dokument $[\theta^1_{d}*SC_d,...,\theta^{k}_{d}*SC_d]$
+#### 1. $WTP_{d}$ - Gewichtete Themenwahrscheinlichkeit pro Dokument berechnen
 
-2. Pro Medium $m$ wird für jedes Thema $k$ die aggregierte gewichtete Themenwahrscheinlichkeit berechnet. 
+a) **Sentiment analyse** - Wie ist die Tonalität eines Dokuments? 
 
-$$\sum_{d=1}^D\text{WTP}_{k,m}^d $$
+$$SC_d$$
 
-3. Aus dem STM erhalten wir eine Wahrscheinlichkeitsverteilung für ein Thema über alle Wörter im Korpus. Die wahrscheinlichsten Wörter jedes Themas werden verwendet, um zu überprüfen ob das Thema einer Partei zugeordnet werden kann.
+b) **Structural topic model (STM)** - Welche Themen werden in den Artikeln mit welcher Wahrscheinlichkeit besprochen? 
 
-4. Um die gewichtete Themenwahrscheinlichkeit für eine Partei $p$ in einem Medium zu berechnen, wird diese Summe über alle Themen aggregiert, die einer Partei zugeteilt wurden.
+$$\theta_d = [\theta^1_{d},...,\theta^{k}_{d}]'$$
+
+c) **Weighted topic distribution (WTP)** - Gewichtete Themenwahrscheinlichkeit pro Dokument
+
+$$ WTP_{d} = [\theta^1_{d}*SC_d,...,\theta^{k}_{d}*SC_d]$$
+
+#### 2. Gewichtete Themenwahrscheinlichkeit pro Medium $m$ pro Thema $k$
++ Für jedes Medium werden alle Dokumente aggregiert und so für jedes Thema die durchschnittliche gewichtete Themenwahrscheinlichkeit berechnet.
+
+#### 3. Parteispezifische Themen definieren
++ Aus dem STM erhalten wir pro Thema eine Wahrscheinlichkeitsverteilung über alle Wörter. 
++ Die wahrscheinlichsten Wörter jedes Themas werden verwendet, um zu überprüfen ob das Thema $k$ einer Partei $p$ zugeordnet werden kann.
++ Ein Thema kann verschiedenen Parteien zugeordnet werden. 
+
+#### 4. Gewichte Themenwahrscheinlichkeit pro Medium $m$ pro Partei $p$
++ Aggregiert über alle parteispezifischen Themen pro Medium ergibt den **Media Bias** Wert eines Mediums für eine Partei.
 
 ## Daten
 
@@ -139,7 +164,7 @@ model_df %>%
 
 - Dennoch nehme ich an, dass auch die Pressemitteilungen der Fraktionen einen Einfluss auf die öffentliche Wahrnehmung haben (Kepplinger and Maurer, 2004).
 
-## Methode
+## 1. Gewichtete Themenwahrscheinlichkeit
 
 ```{r include=FALSE}
 # stm results of all models
@@ -147,13 +172,11 @@ load("../../output/models/k_result.Rda")
 load("../../output/model_df2.Rda")
 ```
 
-### Sentiment analyse
+### a. Sentiment analyse
 
 To measure the tone (or sentiment) of an article a dictionary-based method is applied. To conduct such an analysis, a list of words (dictionary) associated with a given emotion, such as negativity is pre-defined. The document is then deconstructed into individual words and each word is assigned a sentiment value according to the dictionary, where the sum of all values results in the emotional score for the given document. 
 
 - [SentimentWortschatz](http://wortschatz.uni-leipzig.de/de/download)
-
-### Dictionary match
 
 $SC_d$ is defined as the number of all positive words minus negative words divided by the total number of words of each document $d$
 
@@ -169,7 +192,7 @@ model_df2 %>%
   select(source, title_text, sent_dummy) %>%
   transmute(source = source,
             title_text = paste(substr(title_text, 1, 500),"..."),
-            WTP = round(sent_dummy*100,2)) %>%
+            SC = round(sent_dummy*100,2)) %>%
   htmlTable::htmlTable(align="l")
 ```
 
@@ -183,7 +206,7 @@ model_df2 %>%
   geom_point(size=3, color=color) +
   coord_flip() +
   ggthemes::theme_hc() +
-  labs(x=NULL, y=NULL, title="Sentiment value", subtitle = "Aggregated over all Documents") +
+  labs(x=NULL, y=NULL, title="Average Sentiment value") +
   facet_wrap(~type, scales = "free_y") +
   theme(
     panel.grid.minor.y = element_blank(),
@@ -191,7 +214,7 @@ model_df2 %>%
   )
 ```
 
-### Strucutral Topic Model
+### b. Strucutral Topic Model
 
 To discover the latent topics in the corpus of press releases and news articles, a structural topic modeling (STM) developed by [Roberts (2016)](https://scholar.princeton.edu/sites/default/files/bstewart/files/a_model_of_text_for_experimentation_in_the_social_sciences.pdf) is applied. The STM is an unsupervised machine learning approach that models topics as multinomial distributions of words and documents as multinomial distributions of topics, allowing to incorporate external variables that effect both, topical content and topical prevalence.
 
@@ -206,7 +229,7 @@ Der generative Prozess des STM generiert zwei posterior Wahrscheinlichkeiten:
   - **Themen Verteilung** hängt von der Quelle ab (Bild.de, FOCUS ONLINE, FDP, ...) 
   - **Anzahl Themen** 70
 
-```{r echo=FALSE}
+```{r echo=FALSE, fig.height=8, fig.width=8}
 k = 70
 
 topic_model <- k_result %>% 
@@ -242,20 +265,21 @@ gamma_terms %>%
   top_n(20, gamma) %>%
   ggplot(aes(topic_names, gamma, label = terms, fill = gamma)) +
   geom_col(show.legend = FALSE) +
-  geom_text(hjust = 0, nudge_y = 0.0005, size = 3) +
+  geom_text(hjust = 0, nudge_y = 0.0005, size = 4) +
   coord_flip() +
   scale_y_continuous(expand = c(0,0),
                      limits = c(0, 0.15),
                      labels = percent_format()) +
   theme_tufte(ticks = FALSE) +
   theme(plot.title = element_text(size = 16),
-        plot.subtitle = element_text(size = 13)) +
+        plot.subtitle = element_text(size = 13),
+        axis.text.y = element_text(size = 10)) +
   labs(x = NULL, y = expression(gamma),
        title = paste("Top 20 topics by prevalence for k=",k),
        subtitle = "With the top words that contribute to each topic")
 ```
 
-### Weighted topic probability
+### c. Weighted topic probability
 
 In order to measure topic-specific tone, the sentiment values are combined with the results of the STM procedure. 
 
@@ -279,26 +303,26 @@ theta <- td_gamma %>%
   mutate(
     type = ifelse(source %in% parties, "party", "news"),
     year = lubridate::year(date),
-    month = lubridate::month(date)
-    ) 
-
-theta <- theta %>% 
-  mutate(polarity_theta = gamma*polarity_raw*(1/n),
-         dummy_theta = gamma*sent_dummy_raw*(1/n))
+    month = lubridate::month(date),
+    
+    # estimate the sentiment values
+    polarity_theta = gamma*polarity_raw*(1/n),
+    dummy_theta = gamma*sent_dummy_raw*(1/n)
+    )
 
 theta_grouped <- theta %>%
   group_by(topic, topic_label, source, type) %>%
   summarise(
-    gamma = mean(gamma),
-    sent_dummy = mean(sent_dummy),
-    polarity = mean(polarity),
-    dummy_theta = mean(dummy_theta),
-    polarity_theta = mean(polarity_theta)
+    gamma = mean(gamma, na.rm = TRUE ),
+    sent_dummy = mean(sent_dummy, na.rm = TRUE),
+    polarity = mean(polarity, na.rm = TRUE),
+    dummy_theta = mean(dummy_theta, na.rm = TRUE),
+    polarity_theta = mean(polarity_theta, na.rm = TRUE)
   ) %>%
   ungroup()
 ```
 
-```{r echo=FALSE}
+```{r echo=FALSE, fig.height=6, fig.width=8}
 theta_grouped %>%
   group_by(source, type, topic_label) %>%
   summarise(gamma = mean(dummy_theta, na.rm = T)) %>%
@@ -306,19 +330,20 @@ theta_grouped %>%
   ggplot(aes(reorder(source, gamma), gamma)) +
   geom_col(aes(fill = gamma), show.legend = F) +
   geom_text(aes(label = topic_label),
-            hjust = 0, nudge_y = 0.0001, size = 3) +
+            hjust = 0, nudge_y = 0.0001, size = 4) +
   coord_flip() +
   scale_y_continuous(expand = c(0,0),
                       limits = c(0, 0.03)) +
   theme_tufte(ticks = FALSE) +
   theme(plot.title = element_text(size = 16),
-        plot.subtitle = element_text(size = 13)) +
+        plot.subtitle = element_text(size = 13),
+         axis.text.y = element_text(size = 10)) +
   facet_wrap(~ type, ncol=1, scales = "free_y") +
   labs(x = NULL, y = expression(gamma),
        title = "Most positive topics by WTP")
 ```
 
-```{r echo=FALSE}
+```{r echo=FALSE, fig.height=6, fig.width=8}
 theta_grouped %>%
   group_by(source, type, topic_label) %>%
   summarise(gamma = mean(dummy_theta, na.rm = T)) %>%
@@ -326,23 +351,24 @@ theta_grouped %>%
   ggplot(aes(reorder(source, -gamma), gamma)) +
   geom_col(aes(fill = gamma), show.legend = F) +
   geom_text(aes(label = topic_label),
-            hjust = 1, nudge_y = -0.00001, size = 3) +
+            hjust = 1, nudge_y = -0.00001, size = 4) +
   coord_flip() +
   scale_y_continuous(expand = c(0,0),
                       limits = c(-0.0015, 0.0001)) +
   theme_tufte(ticks = FALSE) +
   theme(plot.title = element_text(size = 16),
-        plot.subtitle = element_text(size = 13)) +
+        plot.subtitle = element_text(size = 13), 
+        axis.text.y = element_text(size = 10)) +
   facet_wrap(~ type, ncol=1, scales = "free_y") +
   labs(x = NULL, y = expression(gamma),
        title = "Most negative topics by WTP")
 ```
 
-## Topic content
+## 3. Parteispezifische Themen
 
 Using the most probable words in each topic to check if the topic is about the party or its representatives.
 
-```{r echo=FALSE, fig.height=6, fig.width=12}
+```{r echo=FALSE, fig.height=8, fig.width=12}
 cdu <- paste(c("cdu","csu","union","merkel","leyen","maas","schäuble","lammert"),collapse = "|")
 spd <- paste(c("spd","schulz","steinmeier","scholz","barley"),collapse = "|")
 fdp <- paste(c("fdp","lindner"), collapse = "|")
@@ -370,7 +396,8 @@ party_topics_df %>%
   labs(x=NULL, y=NULL, title="Topic content") +
   ggthemes::theme_hc() +
   theme(axis.text.x = element_blank(),
-        axis.ticks.x = element_blank()) +
+        axis.ticks.x = element_blank(),
+         axis.text.y = element_text(size = 14)) +
   facet_grid(~party)
 ```
 
@@ -390,6 +417,8 @@ sent_df <- party_topics_df %>%
     polarity_theta = polarity_theta * ident,
     gamma = gamma * ident
   )
+
+filter_topics <-  c(14,18,40,78,95)
 ```
 
 The following topics are filtered, because they are not directly related to one party or its representatives:
@@ -405,17 +434,10 @@ Furthermore the following topics are kept out of the analysis because they canno
 
 ```{r}
 sent_df %>%
-  filter(topic %in% c(14,18,40)) %>%
+  filter(topic %in% filter_topics) %>%
   distinct(topic_label) %>%
   htmlTable::htmlTable(align = "l")
 ```
-
-```{r}
-sent_df <- sent_df %>%
-  filter(!topic %in% c(14,18,40))
-```
-
-#### Topics about ...
 
 In order to get a better understanding about how different media report on the parties, I check how each medium report about the topics that are related to one party. The press releases of each party is added as a reference point.
 
@@ -424,73 +446,64 @@ plotTopics <- function(x){
   sent_df %>%
     filter(party==x) %>%
     filter(ident != 0) %>%
+    filter(!topic %in% filter_topics) %>%
     filter(source %in% c(news,x)) %>%
     mutate(spoton = ifelse(source == x, 1, 0)) %>%
     ggplot(aes(reorder(source, dummy_theta), dummy_theta,fill=spoton)) +
     geom_col(show.legend = F, position = "dodge") +
     coord_flip() +
-    labs(x=NULL, y="Weighted topic probability", title = paste("Topics about",x)) +
-    facet_wrap(~topic_label, ncol = 3, scales = "free_x") +
-    theme_tufte()
+    labs(x=NULL, y="Weighted topic probability") +
+    facet_wrap(~topic_label, ncol = 2, scales = "free_x") +
+    theme_tufte() +
+    theme(strip.text.x = element_text(size = 15),
+          axis.text.y = element_text(size = 10),
+          axis.text.x = element_blank(),
+          axis.ticks =  element_blank())
 }
 ```
 
-##### ... CDU
-```{r fig.height=8, fig.width=14}
+##### CDU
+```{r fig.height=12, fig.width=14}
 x <- "CDU"
 plotTopics(x)
 ```
 
-##### ... SPD
-```{r fig.height=8, fig.width=12}
+##### SPD
+```{r fig.height=8, fig.width=14}
 x <- "SPD"
 plotTopics(x)
 ```
 
-##### ...B90/Die Grünen
-```{r fig.height=4, fig.width=12}
+##### B90/Die Grünen
+```{r fig.height=4, fig.width=14}
 x <- "B90/GRÜNE"
 plotTopics(x)
 ```
 
-##### ... AfD
-```{r fig.height=4, fig.width=12}
+##### AfD
+```{r fig.height=6, fig.width=14}
 x <- "AfD"
 plotTopics(x)
 ```
 
-##### ...FDP
-```{r fig.height=3, fig.width=6}
+##### FDP
+```{r fig.height=3, fig.width=8}
 x <- "FDP"
 plotTopics(x)
 ```
 
-##### ...DIE LINKEN
-```{r fig.height=3, fig.width=6}
+##### DIE LINKEN
+```{r fig.height=3, fig.width=8}
 x <- "DIE LINKE"
 plotTopics(x)
 ```
 
-```{r eval=FALSE, include=FALSE}
-p <- theta %>%
-  filter(source == "SPIEGEL ONLINE") %>%
-  filter(topic == 56) %>%
-  mutate(title_text = paste(document, substr(title_text, 1, 100),"...")) %>%
-  ggplot(aes(gamma, dummy_theta, color = dummy_theta, label=title_text)) +
-  geom_point(show.legend = F) +
-  geom_hline(yintercept = 0, color = "black", linetype=2) +
-  theme_hc() 
- 
-plotly::ggplotly(p, tooltip = c("title_text"))
-```
-
-### WTP aggregated over all party-related documents
-
-The values for the press releases are used to verify the method.
+## 4. Aggregated Weighted Topic Probability
 
 ```{r echo=FALSE}
 sent_df %>%
   filter(ident != 0) %>%
+  filter(!topic %in% filter_topics) %>%
   #filter(type == "news") %>%
   group_by(source, type, party) %>%
   summarise(sent = mean(dummy_theta)) %>%
@@ -500,34 +513,117 @@ sent_df %>%
   geom_tile(show.legend = F) +
   scale_fill_gradient2() +
   geom_text() +
-  labs(x=NULL, y=NULL, title="Average WTP") +
+  theme_tufte() +
+  labs(x="Source", y="Parteispezifische Themen") +
   facet_wrap(~type, scales = "free_x",
              labeller = as_labeller(c("news"="News articles","party"="Press releases"))) +
   theme(axis.text.x = element_text(angle=90))
-  
 
 ```
 
+```{r include=FALSE}
+sent_df %>%
+  filter(ident != 0) %>%
+  filter(!topic %in% filter_topics) %>%
+ # filter(type == "news") %>%
+  group_by(source, type, party) %>%
+  summarise(sent = mean(gamma)) %>%
+  #mutate(sent = scaledX(sent)) %>%
+  ungroup() %>%
+  ggplot(aes(source, party, fill = sent, label = round(sent*100,2))) +
+  geom_tile(show.legend = F) +
+  scale_fill_gradient2() +
+  geom_text() +
+  labs(x="Source", y="Topics about...", title="Average Topic probability") +
+  facet_wrap(~type, scales = "free_x",
+             labeller = as_labeller(c("news"="News articles","party"="Press releases"))) +
+  theme(axis.text.x = element_text(angle=90))
+```
 
-```{r fig.height=6, fig.width=10}
+```{r include=FALSE}
 radar <-sent_df %>%
   filter(ident != 0) %>%
   filter(type == "news") %>%
+  filter(!topic %in% filter_topics) %>%
   group_by(source, type, party) %>%
   summarise(sent = mean(dummy_theta)) %>%
   ungroup() %>%
   select(-type) %>%
+  mutate(sent = 1000*sent) %>%
   spread(party, sent)
+```
 
+```{r}
+ggiraphExtra::ggRadar(radar, aes(color = source),
+                      interactive = T,
+                      rescale = F,
+                      alpha = 0) 
+```
+
+#### Rescaled
+
+```{r fig.height=6, fig.width=10}
 ggiraphExtra::ggRadar(radar, aes(color = source),
                       rescale = T,
                       alpha = 0) +
   theme_hc() +
-  labs(title="WTP") +
+  labs(title="Weighted topic probability") +
   scale_color_viridis_d() +
   theme(legend.position = "none"
         #,legend.title = element_blank()
         ) +
    guides(col = guide_legend(ncol = 1)) +
-  facet_wrap(~source, nrow = 2)
+    facet_wrap(~source, nrow = 2)
 ```
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+# 5. Correlation of weighted topic distribution
+rm(corr.df)
+
+for (x in parties) {
+  
+  drops <- parties[!parties %in% x]
+  
+  temp.df <- sent_df %>%
+    filter(party == x) %>%
+    filter(ident != 0) %>%
+    filter(!topic %in% filter_topics) %>%
+    filter(!source %in% drops) %>%
+    select(topic,source, dummy_theta) %>%
+    spread(source, dummy_theta) %>%
+    select(-topic) %>%
+    as.matrix() %>%
+    correlate() %>%
+    as_tibble() %>%
+    dplyr::rename(source = rowname) %>%
+    gather(key = party, value = corr, -source) %>%
+    filter(party == x) %>%
+    filter(source != x)
+  
+  if(exists("corr.df")) {
+    corr.df <- rbind(corr.df, temp.df)
+  }else{
+    corr.df <- temp.df
+  }
+  
+}
+
+radar <-corr.df %>%
+  mutate(corr = 100*corr) %>%
+  filter(!is.na(corr)) %>%
+  spread(party, corr)
+
+ggiraphExtra::ggRadar(radar, aes(color = source),
+                      interactive = T,
+                      rescale = F,
+                      alpha = 0) 
+```
+
+```{r eval=FALSE, include=FALSE}
+ggiraphExtra::ggRadar(radar, aes(color = source),
+                      interactive = T,
+                      rescale = T,
+                      alpha = 0) 
+```
+
+
