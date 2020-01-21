@@ -500,7 +500,7 @@ plotTopics(x)
 
 ## 4. Aggregated Weighted Topic Probability
 
-```{r echo=FALSE}
+```{r echo=FALSE, fig.height=6, fig.width=10}
 sent_df %>%
   filter(ident != 0) %>%
   filter(!topic %in% filter_topics) %>%
@@ -517,7 +517,10 @@ sent_df %>%
   labs(x="Source", y="Parteispezifische Themen") +
   facet_wrap(~type, scales = "free_x",
              labeller = as_labeller(c("news"="News articles","party"="Press releases"))) +
-  theme(axis.text.x = element_text(angle=90))
+  theme(axis.text.x = element_text(angle=90, size = 12),
+        axis.text.y = element_text(size=12),
+        strip.text.x = element_text(size=15)
+        )
 
 ```
 

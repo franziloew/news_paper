@@ -114,7 +114,7 @@ save(tidy_news_df,news_df_sparse,covariates, many_models, file="many_models.Rda"
 
 ```{r}
 load("../output/models/many_models.Rda")
-
+many_models <- many_models_big
 heldout <- make.heldout(news_df_sparse)
 
 k_result <- many_models %>%
@@ -177,7 +177,7 @@ ggplot(plot.df) +
 library(ggthemes)
 library(scales)
 
-k = 50
+k = 40
 
 topic_model <- k_result %>% 
   filter(K == k) %>% 
@@ -225,6 +225,10 @@ gamma_terms %>%
        subtitle = "With the top words that contribute to each topic")
 ```
 
+```{r}
+topic_model$settings$call
+```
+
 ## Sentiment analysis
 ```{r}
 # Download and unzip Sentiment Dictionary
@@ -268,11 +272,12 @@ SentiWS <- c(
 ```
 
 ```{r}
-# Connect with tokens
+# Connect with tokenttf
 tokens <- model_df %>% unnest_tokens(word, text_cleaned)
 
 sentTxt_token <- left_join(tokens, SentiWS, by = "word") 
 ```
+
 
 ```{r}
 # Calculate the sentiment of each document
@@ -291,7 +296,7 @@ sentTxt <- sentTxt_token %>%
 # Combine with main df
 model_df2 <- left_join(model_df, sentTxt, by="doc_index")
 
-save(model_df2, file="../output/model_df2.Rda")
+#save(model_df2, file="../output/model_df2.Rda")
 ```
 
 ```{r}
@@ -304,7 +309,7 @@ model_df2 %>%
   coord_flip() +
   ggthemes::theme_hc() +
   labs(x=NULL, y=NULL, title="Sentiment value", subtitle = "Aggregated over all Documents") +
-  facet_wrap(~type, scales = "free_y") +
+  #facet_wrap(~type, scales = "free_y") +
   theme(
     panel.grid.minor.y = element_blank(),
       panel.grid.major.y = element_blank()
@@ -326,7 +331,7 @@ theta <- td_gamma %>%
   # join with model_df
   left_join(., model_df2 %>% 
               select(date,type,source,doc_index,title_text,polarity_raw,n,
-                     sent_dummy_raw, polarity, sent_dummy), by="doc_index") %>%
+                     sent_dummy_raw, polarity, sent_dummy, election_dummy), by="doc_index") %>%
   
   mutate(
     type = ifelse(source %in% parties, "party", "news"),
@@ -343,8 +348,9 @@ theta <- theta %>%
 
 ```{r}
 theta_grouped <- theta %>%
-  group_by(topic, topic_label, source, type) %>%
+  group_by(topic, topic_label, source, election_dummy) %>%
   summarise(
+    num_articles = n(),
     gamma = mean(gamma),
     sent_dummy = mean(sent_dummy),
     polarity = mean(polarity),
@@ -356,7 +362,7 @@ theta_grouped <- theta %>%
 
 ```{r}
 theta_grouped %>%
-  group_by(source, type, topic_label) %>%
+  group_by(source, topic_label) %>%
   summarise(gamma = mean(dummy_theta, na.rm = T)) %>%
   top_n(1, gamma) %>%
   ggplot(aes(reorder(source, gamma), gamma)) +
@@ -369,14 +375,13 @@ theta_grouped %>%
   theme_tufte(ticks = FALSE) +
   theme(plot.title = element_text(size = 16),
         plot.subtitle = element_text(size = 13)) +
-  facet_wrap(~ type, ncol=1, scales = "free_y") +
   labs(x = NULL, y = expression(gamma),
        title = "Most positive topics by weighted topic probability")
 ```
 
 ```{r}
 theta_grouped %>%
-  group_by(source, type, topic_label) %>%
+  group_by(source, topic_label) %>%
   summarise(gamma = mean(dummy_theta, na.rm = T)) %>%
   top_n(1, -gamma) %>%
   ggplot(aes(reorder(source, gamma), gamma)) +
@@ -389,11 +394,9 @@ theta_grouped %>%
   theme_tufte(ticks = FALSE) +
   theme(plot.title = element_text(size = 16),
         plot.subtitle = element_text(size = 13)) +
-  facet_wrap(~ type, ncol=1, scales = "free_y") +
   labs(x = NULL, y = expression(gamma),
        title = "Most negative topics by weighted topic probability")
 ```
-
 
 ## Topic content
 
@@ -439,7 +442,8 @@ sent_df <- party_topics_df %>%
   ungroup() %>%
   select(topic, party, ident, ident_sum) %>%
   left_join(., theta_grouped %>%
-              select(source, type, topic, topic_label, gamma, polarity_theta, dummy_theta), 
+              select(source, topic, topic_label, gamma, num_articles,
+                     polarity_theta, dummy_theta, election_dummy), 
             by="topic" ) %>%
   # multiply the weighted sentiment of a topic with the dummy if a topic is about a party
   mutate(
@@ -467,8 +471,9 @@ plotTopics <- function(x){
     filter(party==x) %>%
     filter(ident != 0) %>%
     filter(source %in% news) %>%
-    ggplot(aes(reorder(source, dummy_theta), dummy_theta,fill=dummy_theta)) +
-    geom_col(show.legend = F, position = "dodge") +
+    mutate(senti_value = dummy_theta/num_articles) %>%
+    ggplot(aes(reorder(source, senti_value), senti_value,fill=election_dummy)) +
+    geom_col(position = "dodge") +
     coord_flip() +
     labs(x=NULL, y="Weighted topic probability", title = paste("Topics about",x)) +
     facet_wrap(~topic_label, ncol = 3) +
@@ -512,14 +517,12 @@ x <- "linke"
 plotTopics(x)
 ```
 
-#### Overall weighted sentiment
+#### Overall topic probability
 
 ```{r}
 sent_df %>%
   filter(ident != 0) %>%
-  #filter(!topic %in% c(14)) %>%
-  #filter(type == "news") %>%
-  group_by(source, type, party) %>%
+  group_by(source, election_dummy, party) %>%
   summarise(sent = mean(gamma)) %>%
   #mutate(sent = scaledX(sent)) %>%
   ungroup() %>%
@@ -527,96 +530,29 @@ sent_df %>%
   geom_tile(show.legend = F) +
   scale_fill_gradient2() +
   geom_text() +
-  labs(x=NULL, y=NULL, title="Average weighted topic probability") +
-  facet_wrap(~type, scales = "free_x") +
+  labs(x=NULL, y=NULL, title="Average topic probability") +
+  facet_wrap(~election_dummy, scales = "free_x") +
   theme(axis.text.x = element_text(angle=90))
   
 ```
 
-```{r fig.height=4, fig.width=8}
-radar <-sent_df %>%
-  filter(ident != 0) %>%
-  #filter(!topic %in% c(14)) %>%
-  filter(type == "news") %>%
-  group_by(source, type, party) %>%
-  summarise(sent = mean(gamma)) %>%
-  ungroup() %>%
-  select(-type) %>%
-  spread(party, sent)
-
-ggiraphExtra::ggRadar(radar, aes(color = source),
-                      rescale = T,
-                      alpha = 0) +
-  theme_hc() +
-  scale_color_viridis_d() +
-  theme(legend.position = "none"
-        #,legend.title = element_blank()
-        ) +
-   guides(col = guide_legend(ncol = 1)) +
-  facet_wrap(~source, nrow = 2)
-```
-
-## Correlations
+#### Overall weighted sentiment
 
 ```{r}
-corr.df <- theta %>%
-  group_by(topic, type, source, topic_label) %>%
-  dplyr::summarise(
-    gamma = mean(gamma, na.rm = T),
-    polarity_theta = mean(polarity_theta, na.rm = T),
-    dummy_theta = mean(dummy_theta, na.rm = T)
-  ) %>%
-  ungroup() 
-```
-
-### Correlation of weighted topic distribution
-
-On the basis of thes weighted topic distributions, the bivariate Pearson correlation coefficients are calculated for each pair of media outlet and party. The higher the correlation coefficient, the higher the slant index for a party in a media outlet.
-
-```{r fig.align="centre", message=FALSE, warning=FALSE}
-corr.df.sm <-sent_df %>%
-  # filter documents that are not about a party
+sent_df %>%
   filter(ident != 0) %>%
-  group_by(topic, source) %>%
-  summarise(dummy_theta = mean(dummy_theta)) %>%
+  mutate(senti_value = dummy_theta/num_articles) %>%
+  group_by(source, election_dummy, party) %>%
+  summarise(sent = mean(senti_value/n())) %>%
+  #mutate(sent = scaledX(sent)) %>%
   ungroup() %>%
-  spread(source, dummy_theta)
-
-x <- as.matrix(corr.df.sm[,-1])
-
-rs <- corrr::correlate(x)
-
-rs %>% 
-  corrr::network_plot()
-```
-
-```{r}
-corr_plot <- rs %>%
-  as_tibble() %>%
-  dplyr::rename(source1 = rowname) %>%
-  gather(key = source2, value = corr, -source1) %>%
-  mutate(
-    type1 = ifelse(source1 %in% news, "news", "party"),
-    type2 = ifelse(source2 %in% news, "news", "party")
-  ) 
-```
-
-```{r fig.align="center"}
-corr_plot %>%
-  filter(type1 == "news") %>%
-  filter(type2 == "party") %>%
-  ggplot(aes(source1, source2, 
-                 label=round(corr, digits = 2),
-                 fill=corr)) +
-  geom_tile() +
-  scale_fill_gradient2(low = "white", high = "gray") +
+  ggplot(aes(source, party, fill = sent, label = round(sent*1000000,2))) +
+  geom_tile(show.legend = F) +
+  scale_fill_gradient2() +
   geom_text() +
-  theme_hc() +
-  labs(x = NULL, y = NULL, title = "Medium / Partei") + 
-  scale_x_discrete(expand = c(0, 0)) +
-  scale_y_discrete(expand = c(0, 0)) +
-  theme(legend.position = "none",
-        #axis.text = element_text(size = 6),
-        #axis.text.y = element_blank(),
-       axis.text.x = element_text(angle = 90))
+  labs(x=NULL, y=NULL, title="Average weighted topic probability") +
+  facet_wrap(~election_dummy, scales = "free_x") +
+  theme(axis.text.x = element_text(angle=90))
+  
 ```
+

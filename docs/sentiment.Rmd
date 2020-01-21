@@ -9,8 +9,9 @@ output: html_document
 rm(list = ls())
 
 library(tidyverse)
+library(tidytext)
 library(ggthemes)
-source("func/functions.R")
+library(RPostgreSQL)
 
 normalize_data <- function(x) {
   # normalize data between -1,1
@@ -22,11 +23,42 @@ normalize_data <- function(x) {
   }
 
 }
+```
 
-load("../output/data_step2.Rda")
+```{r}
+# create a connection
+# loads the PostgreSQL driver
+pg <- dbDriver("PostgreSQL")
+# creates a connection to the postgres database
+pw <- {
+"Up627R&F6"
+}
 
-parties <- c("SPD",paste("CDU","CSU",sep = "|"),"FDP","Grüne","AfD","Linke")
-btw %>% mutate(doc_index = as.numeric(rownames(.))) -> btw
+con = dbConnect(pg, user="Franzi", 
+                password=pw, 
+                host="news-paper.cildx1grqozu.eu-west-2.rds.amazonaws.com", 
+                port=5432,
+                dbname="postgres")
+
+rm(pw) # removes the password
+ 
+# check for the news_fulltable
+dbExistsTable(con, "news_cleaned")
+```
+
+```{r}
+#news_df <- dbGetQuery(con, "SELECT * from news_cleaned")
+
+# to load the data from the output filter
+load("../output/news_df.Rda")
+
+model_df <- news_df %>% 
+  dplyr::mutate(date = as.Date(date),
+         type = "news",
+         source = medium) %>%
+  select(date,title,title_text,text_length,text_cleaned,type,source) %>%
+  dplyr::mutate(doc_index = as.numeric(rownames(.)),
+                election_dummy = as.factor(ifelse(date <= as.Date("24Sep2017","%d%b%Y"),"pre","post")))
 ```
 
 To measure the tone (or sentiment) of an article a dictionary-based method is applied. To conduct such an analysis, a list of words (dictionary) associated with a given emotion, such as negativity is pre-defined. The document is then deconstructed into individual words and each word is assigned a sentiment value according to the dictionary, where the sum of all values results in the emotional score for the given document. Such lexical or "bag-of-words" approaches are widely presented in the finance literature to determine the effect of central banks' monetary policy communications on asset prices and real variables (\citet{nyman_news_2018} \citet{tetlock_giving_2007}, \citet{tetlock_more_2008}). \citet{hansen_shocking_2016} use a similar approach to measure "the two Ts" (Topic and tone). They explore the effects of FOMC (Federal Open Market Committee) statements on both market and real economic variables. To calculate their score, they subtract the negative words from the positive words und divide this by the number of total words of the statement. A similar score is used by \citet{nyman_news_2018}, who measure the effect of narratives and sentiment of financial market text-based data on developments in the financial system. They count the number of occurrences of excitement words and anxiety words and then scale these numbers by the total text size as measured by the number of characters.
@@ -36,21 +68,25 @@ The present paper uses a dictionary that lists words associated with positive an
 The score is then calculated from the sum of the words in a document (which can be assigned to a word from the dictionary) divided by the total number of words in that document.
 
 ```{r include=FALSE}
-sent <- c(
+# Download and unzip Sentiment Dictionary
+#temp <- tempfile()
+#download.file("http://pcai056.informatik.uni-leipzig.de/downloads/etc/SentiWS/SentiWS_v2.0.zip",temp)
+
+SentiWS <- c(
   # positive Wörter
-  readLines("dict/SentiWS_v1.8c_Negative.txt",
+  readLines("dict/SentiWS_v2.0_Negative.txt",
             encoding = "UTF-8"),
   # negative W??rter
-  readLines("dict/SentiWS_v1.8c_Positive.txt",
+  readLines("dict/SentiWS_v2.0_Positive.txt",
             encoding = "UTF-8")
   ) %>%
   
-  lapply(function(x) {
+    lapply(function(x) {
   # Extrahieren der einzelnen Spalten
   res <- strsplit(x, "\t", fixed = TRUE)[[1]]
   return(data.frame(words = res[1], value = res[2],
                     stringsAsFactors = FALSE))
-  }) %>% 
+  }) %>%
   
   bind_rows %>%
   mutate(word = gsub("\\|.*", "", words) %>% 
@@ -58,7 +94,7 @@ sent <- c(
          type = gsub(".*\\|", "", words)) %>%
   
   # nur adjektive oder adverben
-  # filter(type == "ADJX" | type == "ADV") %>%
+  ## filter(type == "ADJX" | type == "ADV") %>%
   # manche Wörter kommen doppelt vor, hier nehmen wir den mittleren Wert
   group_by(word) %>%
   dplyr::summarise(polarity = mean(value)) %>% ungroup %>%
@@ -67,45 +103,129 @@ sent <- c(
   # welcome to hell (g20)
   filter(!grepl('hell',word,ignore.case = T)) %>%
   # filter values that that score between -0.1 and +0.1 
-  filter(!dplyr::between(polarity, -0.1,0.1))
-```
-
-## Sentimentanalyse mit sentimentr
-
-- Get a sentiment value for each document (press and news).
-- get a distribution over topics for each document (press and news).
-- how does each party/medium talk about each topic (e.g. what is the sentiment score?)
-- estimate the correlation matrix based on the topic-polarity vector (multiplied by the topic probability?)
-
-
-```{r}
-pacman::p_load(sentimentr)
-library(magrittr)
-```
-
-## Wörterbuch konfigurieren
-
-Das Package bietet einen einfachen Weg, ein neues Wörterbuch zu erstellen um so den Polaritäts- oder Valenzverschieber zu beeinflussen. Ich verwenden das Lexikon der [Leipzig Corpora Collection](http://wortschatz.uni-leipzig.de/de/download)
-
-```{r}
-sent <- rbind(sent, c("nicht",-0.8))
-
-sent %>% 
-  mutate(words = word,
-         polarity = as.numeric(polarity)) %>%
-  as_key() -> sentiment_df
+  #filter(!dplyr::between(polarity, -0.1,0.1)) %>%
+  # create a -1 / 1 index for the sentiments
+  mutate(senti_dummy = ifelse(polarity > 0, 1, -1))
 ```
 
 ```{r}
-prep_df <- btw %>%
-  select(doc_index,title_text) 
+# Connect with tokens
+tokens <- model_df %>% unnest_tokens(word, text_cleaned)
 
-sent_df <- prep_df %>%
-    dplyr::mutate(split = get_sentences(title_text)) %$%
-    sentiment(split)
+sentTxt_token <- left_join(tokens, SentiWS, by = "word") 
 
-save(sent, file = "../output/sentiment.Rda")
+model_df_sent <- sentTxt_token %>%
+  group_by(doc_index) %>%
+  summarise(polarity = mean(polarity, na.rm = T),
+            senti_dummy = mean(senti_dummy, na.rm = T)) %>%
+  left_join(., model_df, by="doc_index") %>%
+  ungroup() 
 ```
+
+```{r}
+max(model_df_sent$date) - as.Date("24.09.2017", "%d.%m.%Y")
+```
+
+```{r}
+min(model_df_sent$date) - as.Date("24.09.2017", "%d.%m.%Y")
+```
+
+```{r}
+model_df_sent %>%
+  ggplot(aes(source, fill = election_dummy)) +
+  geom_bar(position = "dodge") +
+  theme_hc() +
+  #scale_fill_discrete(labels = c("Pre election\n(01.06.17 - 23.09.17)", "Post election\n(24.09.17 - 13.02.18)")) +
+  theme(axis.text.x = element_text(angle = 90), legend.title = element_blank()) +
+  labs(x=NULL,y="# articles")
+```
+
+```{r}
+model_df_sent %>%
+  group_by(source, election_dummy) %>%
+  mutate(n_articles = n()) %>%
+  ungroup() %>%
+  mutate(senti_dummy_norm = senti_dummy/n_articles,
+         polartiy_norm = polarity/n_articles) %>%
+  ggplot(aes(source,senti_dummy_norm, fill=factor(election_dummy))) +
+  geom_boxplot() +
+  #scale_fill_discrete(labels = c("Pre election", "Post election")) +
+  ggthemes::theme_hc() +
+  theme(legend.title = element_blank()) +
+  labs(x = NULL, y = "Sentiment value", title="Sentiment value of news articles")
+```
+
+Define wich articles talk about which party
+
+```{r}
+cdu <- paste(c("cdu","csu","union","merkel","leyen","maas","schäuble","lammert"),collapse = "|")
+spd <- paste(c("spd","schulz","steinmeier","scholz","barley"),collapse = "|")
+fdp <- paste(c("fdp","lindner"), collapse = "|")
+afd <- paste(c("afd","gauland","weidel"), collapse = "|")
+gruene <- paste(c("grüne","zdemir"), collapse = "|")
+linke <- paste(c("linke","wagenknecht"), collapse = "|")
+
+party_df <- model_df_sent %>%
+  mutate(cdu = ifelse(grepl(cdu, title_text, ignore.case = T),1,0),
+         spd = ifelse(grepl(spd, title_text, ignore.case = T),1,0),
+         fdp = ifelse(grepl(fdp, title_text, ignore.case = T),1,0),
+         afd = ifelse(grepl(afd, title_text, ignore.case = T),1,0),
+         gruene = ifelse(grepl(gruene, title_text, ignore.case = T),1,0),
+         linke = ifelse(grepl(linke, title_text, ignore.case = T),1,0)
+         )
+
+party_df_long <- party_df %>%
+  gather(party, ident, cdu:linke) %>%
+  filter(ident != 0)
+
+# plot
+party_df_long %>%
+  group_by(source, party, election_dummy) %>%
+  tally() %>%
+  ggplot(aes(source, n, fill = election_dummy)) +
+  geom_col(position = "dodge") +
+  coord_flip() +
+  facet_grid(~party) +
+  theme_hc() +
+ # scale_fill_discrete(labels = c("Pre election", "Post election")) +
+  labs(x=NULL, y=NULL, title="# of Articles") +
+  theme(legend.title = element_blank())
+```
+
+```{r}
+# plot
+party_df_long %>%
+  group_by(source, party, election_dummy) %>%
+  summarise(num_articles = n(),
+    senti_dummy_norm = mean(senti_dummy, na.rm = T)/num_articles,
+            polartiy_norm = mean(polarity, na.rm = T)/num_articles) %>%
+  ggplot(aes(source, senti_dummy_norm, 
+             fill = election_dummy)) +
+  geom_col(position = "dodge") +
+  coord_flip() +
+  facet_grid(~party) +
+  theme_hc() +
+  #scale_fill_discrete(labels = c("Pre election", "Post election")) +
+  labs(x=NULL, y=NULL, title = "Sentiment value") +
+  theme(legend.title = element_blank())
+```
+
+```{r}
+# plot
+party_df_long %>%
+  group_by(source, party, date) %>%
+  summarise(num_articles = n(),
+    senti_dummy_norm = mean(senti_dummy, na.rm = T)/num_articles,
+            polartiy_norm = mean(polarity, na.rm = T)/num_articles) %>%
+  ggplot(aes(date, senti_dummy_norm, 
+             color = party)) +
+  geom_line() +
+  facet_grid(source~party) +
+  theme_hc() +
+  labs(x=NULL, y=NULL, title = "Sentiment value") +
+  theme(legend.title = element_blank())
+```
+
 
 ## Backup --------
 
@@ -113,9 +233,9 @@ save(sent, file = "../output/sentiment.Rda")
 library(tidytext)
 
 # Tokenize text to sentences
-sentence <- btw %>%
-  select(doc_index, text) %>%
-  unnest_tokens(sentence, text, token = "sentences") 
+sentence <- model_df %>%
+  select(doc_index, title_text) %>%
+  unnest_tokens(sentence, title_text, token = "sentences") 
   
 # check if a party is mentioned in a sentence
 sentence <- sentence %>%
