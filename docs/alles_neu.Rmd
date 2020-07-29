@@ -1,0 +1,320 @@
+---
+title: "News "
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r include=FALSE}
+library(dplyr)
+library(ggplot2)
+library(tidytext)
+library(ggthemes)
+library(patchwork)
+library(ggrepel)
+
+rm(list = ls())
+
+# Load news
+load("../output/news_df.Rda")
+```
+
+```{r include=FALSE}
+model_df <- news_df %>% 
+  dplyr::mutate(date = as.Date(date),
+         type = "news",
+         source = medium) %>%
+  select(date,title,title_text,text_length,text_cleaned,type,source) %>%
+  dplyr::mutate(doc_index = as.numeric(rownames(.)),
+                election_dummy = as.factor(ifelse(date <= as.Date("24Sep2017","%d%b%Y"),"pre","post")),
+                year_week = lubridate::floor_date(date, "1 week"))
+```
+
+# Intro
+
+**Research question**:
+
+Is there a significant difference in the way media reports before / after the elections?
+
+```{r}
+max(model_df$date) - as.Date("24.09.2017", "%d.%m.%Y")
+```
+
+```{r}
+as.Date("24.09.2017", "%d.%m.%Y") - min(model_df$date)
+```
+
+```{r}
+labs <- c("pre" = "Pre election\n(01.06.17 - 23.09.17)", "post" = "Post election\n(24.09.17 - 13.02.18)")
+
+model_df %>%
+  ggplot(aes(source, fill = election_dummy)) +
+  geom_bar(position = "dodge") +
+  hrbrthemes::theme_ipsum() +
+  scale_fill_discrete(labels = labs) +
+  theme(axis.text.x = element_text(angle = 90), legend.title = element_blank(), legend.position = "right") +
+  labs(x=NULL,y="# articles", title="Number of articles published", subtitle = "before and after the election day (24.09.2017)")
+```
+
+**Method**: 
+
+How to measure "the way media reports" ? --> Need to find a metric that represents the media slant
+
+1. Sentiment value: Which words are used in order to talk about a party / representative ?
+2. Visibility: How often does a newspaper report about a party / representative ?
+
+# Methods
+
+## 1. Sentiment analysis
+
+To measure the tone (or sentiment) of an article a dictionary-based method is applied. To conduct such an analysis, a list of words (dictionary) associated with a given emotion, such as negativity is pre-defined. The document is then deconstructed into individual words and each word is assigned a sentiment value according to the dictionary, where the sum of all values results in the emotional score for the given document. Such lexical or "bag-of-words" approaches are widely presented in the finance literature to determine the effect of central banks' monetary policy communications on asset prices and real variables (\citet{nyman_news_2018} \citet{tetlock_giving_2007}, \citet{tetlock_more_2008}). \citet{hansen_shocking_2016} use a similar approach to measure "the two Ts" (Topic and tone). They explore the effects of FOMC (Federal Open Market Committee) statements on both market and real economic variables. To calculate their score, they subtract the negative words from the positive words und divide this by the number of total words of the statement. A similar score is used by \citet{nyman_news_2018}, who measure the effect of narratives and sentiment of financial market text-based data on developments in the financial system. They count the number of occurrences of excitement words and anxiety words and then scale these numbers by the total text size as measured by the number of characters.
+
+The present paper uses a dictionary that lists words associated with positive and negative polarity weighted within the interval of $[-1; 1]$. [SentimentWortschatz](http://wortschatz.uni-leipzig.de/de/download), is a publicly available German-language resource for sentiment analysis, opinion mining, etc.. The current version of SentiWS (v1.8b) contains 1,650 positive and 1,818 negative words, which sum up to 15,649 positive and 15,632 negative words including their inflections, respectively. Table \ref{t_sentdict} shows ten examples entries of the dictionary. To obtain a more reliable correlation between the "target" (a political party) and the word's polarity score, sentiment words are counted in a window of two sentences before and after the mention of a political party \citep{junque_de_fortuny_media_2012}. The tonality score of an article is then calculated from the sum of the these words divided by the total number of words in that article. Again, the tonality bias for is then computed as the deviation of each party's specific tonality from the average tonality of all other parties in that outlet and standardized to range from −1 to 1.
+
+The score is then calculated from the sum of the words in a document (which can be assigned to a word from the dictionary) divided by the total number of words in that document.
+
+```{r include=FALSE}
+# Download and unzip Sentiment Dictionary
+#temp <- tempfile()
+#download.file("http://pcai056.informatik.uni-leipzig.de/downloads/etc/SentiWS/SentiWS_v2.0.zip",temp)
+
+SentiWS <- c(
+  # positive Wörter
+  readLines("dict/SentiWS_v2.0_Negative.txt",
+            encoding = "UTF-8"),
+  # negative W??rter
+  readLines("dict/SentiWS_v2.0_Positive.txt",
+            encoding = "UTF-8")
+  ) %>%
+  
+    lapply(function(x) {
+  # Extrahieren der einzelnen Spalten
+  res <- strsplit(x, "\t", fixed = TRUE)[[1]]
+  return(data.frame(words = res[1], value = res[2],
+                    stringsAsFactors = FALSE))
+  }) %>%
+  
+  bind_rows %>%
+  mutate(word = gsub("\\|.*", "", words) %>% 
+           tolower, value = as.numeric(value),
+         type = gsub(".*\\|", "", words)) %>%
+  
+  # nur adjektive oder adverben
+  ## filter(type == "ADJX" | type == "ADV") %>%
+  # manche Wörter kommen doppelt vor, hier nehmen wir den mittleren Wert
+  group_by(word) %>%
+  dplyr::summarise(polarity = mean(value)) %>% ungroup %>%
+  # Delete "Heil" (wegen Hubertus Heil)
+  filter(!grepl('heil',word,ignore.case = T)) %>%
+  # welcome to hell (g20)
+  filter(!grepl('hell',word,ignore.case = T)) %>%
+  # filter values that that score between -0.1 and +0.1 
+  #filter(!dplyr::between(polarity, -0.1,0.1)) %>%
+  # create a -1 / 1 index for the sentiments
+  mutate(senti_dummy = ifelse(polarity > 0, 1, -1))
+```
+
+```{r}
+# Connect with tokens
+tokens <- model_df %>% unnest_tokens(word, text_cleaned)
+
+sentTxt_token <- left_join(tokens, SentiWS, by = "word") %>%
+  mutate(
+    polarity = ifelse(is.na(polarity), 0, polarity),
+    senti_dummy = ifelse(is.na(senti_dummy),0, senti_dummy)
+  )
+```
+
+How many sentiment words?
+
+```{r}
+sentiment_word_counts <- sentTxt_token %>%
+   mutate(
+    sentiment = ifelse(senti_dummy == 1, "positive", "neutral"),
+    sentiment = ifelse(senti_dummy == -1, "negative", sentiment),
+    sentiment = ifelse(senti_dummy == 0, "neutral", sentiment)
+  ) %>%
+  group_by(source) %>%
+  dplyr::mutate(total_words = n()) %>%
+  ungroup() %>%
+  group_by(sentiment, source, total_words) %>%
+  dplyr::summarise(n = n()) %>%
+  mutate(freq = n/total_words)
+
+p1 <- ggplot(sentiment_word_counts, aes(reorder(source, n),freq, fill=sentiment)) +
+  geom_col() +
+  coord_flip() +
+  hrbrthemes::theme_ipsum() +
+  scale_fill_viridis_d() +
+  labs(y="%", x=NULL, title = "Sentiment vs non-sentiment words") +
+  theme(legend.title = element_blank(),
+        legend.position = "bottom")
+
+p2 <- sentiment_word_counts %>%
+  filter(sentiment != "neutral") %>%
+  ggplot(aes(reorder(source,n), freq, fill=sentiment)) +
+  geom_col(position = "dodge") +
+  coord_flip() +
+  hrbrthemes::theme_ipsum() +
+  scale_fill_viridis_d() +
+  labs(y="%", x = NULL) +
+  theme(
+    axis.text.y = element_blank(),
+    legend.position = "none"
+  )
+
+p1 + p2
+```
+
+```{r}
+top_words <- sentTxt_token %>%
+  select(source, word, polarity) %>%
+  group_by(source) %>%
+  dplyr::mutate(total_words = n()) %>%
+  ungroup() %>%
+  group_by(source, word) %>%
+  summarise(polarity = mean(polarity),
+            occurence = n(),
+            share = occurence / mean(total_words))
+```
+
+```{r fig.height=8, fig.width=12}
+top_words %>%
+  top_n(10,polarity) %>%
+  ggplot(aes(reorder(factor(word), share),(share*100), fill=polarity)) +
+  geom_col() +
+  coord_flip() +
+  scale_y_continuous(limits = c(0,0.035)) +
+  scale_fill_continuous(limits = c(0,1), type = "viridis") +
+  hrbrthemes::theme_ipsum() +
+  labs(y="%", x=NULL, title="Top 10 positive words", subtitle="by share of their occurence") +
+  facet_wrap(.~source, nrow=1) +
+  theme(legend.position = "bottom")
+```
+
+```{r fig.height=8, fig.width=12}
+top_words %>%
+  top_n(10,-polarity) %>%
+  ggplot(aes(reorder(factor(word), share),(share*100), fill=polarity)) +
+  geom_col() +
+  coord_flip() +
+  scale_y_continuous(limits = c(0,0.035)) +
+  scale_fill_continuous(limits = c(-1,0), type = "viridis") +
+  hrbrthemes::theme_ipsum() +
+  labs(y="%", x=NULL, title="Top 10 negative words", subtitle="by share of their occurence") +
+  facet_wrap(.~source, nrow=1) +
+  theme(legend.position = "bottom")
+```
+
+
+Calculate sentiment mean by document
+
+```{r}
+model_df_sent <- sentTxt_token %>% 
+  group_by(doc_index) %>%
+  dplyr::summarise(
+    total_words_document = n(),
+    polarity = mean(polarity),
+    senti_dummy = mean(senti_dummy)
+    ) %>%
+  left_join(model_df, by="doc_index") 
+```
+
+```{r}
+model_df_sent %>%
+  group_by(source, election_dummy) %>%
+  # calculate the number of total articles
+  mutate(n_articles = n()) %>%
+  ungroup() %>%
+  # calculate the overall sentiment / number of articles of a source before and after the elections
+  mutate(senti_dummy_norm = senti_dummy/n_articles,
+         polartiy_norm = polarity/n_articles) %>%
+  ggplot(aes(source,senti_dummy_norm*1000, fill=factor(election_dummy))) +
+  geom_boxplot() +
+  hrbrthemes::theme_ipsum() +
+  scale_fill_viridis_d(labels = c("Post election", "Pre election")) +
+  theme(legend.title = element_blank(),
+        legend.position = "bottom") +
+  labs(x = NULL, y = NULL, title="Sentiment value of news articles",
+       subtitle = "Normalized by the number of total articles of each medium")
+```
+
+```{r}
+p <- model_df_sent %>%
+  group_by(year_week, source) %>%
+  dplyr::summarise(
+    article_n = n(),
+    polarity = mean(polarity)
+  ) %>%
+  ggplot(aes(year_week, polarity*100, group=source, color=source, 
+         text = paste0("Medium: ", source,
+                       "\nSentiment: ", round(polarity*100,2),
+                       "\nWeek: ", year_week,
+                       "\nTotal articles: ", article_n))) +
+  geom_line() +
+  geom_vline(xintercept = as.Date("24.09.2017", "%d.%m.%Y"), linetype=2 )+
+  hrbrthemes::theme_ipsum() +
+  scale_color_viridis_d() +
+  labs(x=NULL, y=NULL, title="Sentiment value",
+       subtitle = "Grouped by week and medium") +
+  theme(legend.title = element_blank(),
+        legend.position = "bottom") +
+  scale_x_date(date_breaks="4 weeks", date_labels = "%W-%Y") 
+
+plotly::ggplotly(p, tooltip="text")
+```
+
+Inspect articles around 2017-07-09
+
+```{r}
+library(wordcloud) # to render wordclouds
+
+week_to_inspect <- "2017-07-09"
+word_counts <- sentTxt_token %>% filter(year_week == week_to_inspect) 
+
+word_counts %>%
+  count(word) %>%
+  with(wordcloud(word, n, random.order = FALSE, max.words = 100 ))
+```
+
+
+```{r}
+
+word_counts %>%
+  # select sentiment words
+  filter(polarity != 0 ) %>%
+  group_by(word) %>%
+  summarize(
+    n = n(),
+    avg_sentiment = mean(polarity)
+    ) %>%
+  # select the top 100 words by n (aka word count)
+  top_n(100, wt = n) %>%
+
+# construct ggplot
+ggplot(aes(avg_sentiment, n, label = word)) +
+
+  # ggrepel geom, make arrows transparent, color by sentiment, size by n
+  geom_text_repel(segment.alpha = 0, 
+                  aes(colour=avg_sentiment, size=n)) + 
+  
+  # set color gradient,log transform & customize legend
+  scale_color_gradient(low="green3", high="violetred", 
+                       guide = guide_colourbar(direction = "horizontal",
+                                               title.position ="top")) +
+  # set word size range & turn off legend
+  scale_size_continuous(range = c(3, 10),
+                        guide = FALSE) +
+  ggtitle(paste0("Top 100 words from the week ",
+                  week_to_inspect,", by frequency"),
+          subtitle = "word frequency (size) ~ avg sentiment value (color)") + 
+  labs(y = NULL, x = NULL) +
+  
+  # minimal theme & customizations
+  theme_minimal() +
+  theme(legend.position=c(.99, .99),
+        legend.title = element_blank(),
+        legend.justification = c("right","top"),
+        panel.grid.major = element_line(colour = "whitesmoke"))
+```
+
