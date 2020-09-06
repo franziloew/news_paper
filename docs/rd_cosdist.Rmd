@@ -1,9 +1,13 @@
 ---
 title: "Online media coverage before and after the Bundestag elections in 2017"
-subtitle: "A structural topic model approach to estimate topic similarities between online media and press releases of parties that ran for election."
+author: "Franziska Löw"
+date: "06 Sep 2020"
 output:
   html_document:
     code_folding: hide
+    toc: true
+    theme: "lumen"
+    highlight: "tango"
     df_print: paged
 ---
 
