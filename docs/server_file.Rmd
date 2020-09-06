@@ -16,7 +16,7 @@ library(ggrepel)
 library(purrr)
 library(stm)
 
-rm(list=ls())
+#rm(list=ls())
 ```
 
 ```{r}
@@ -46,7 +46,6 @@ rm(pw) # removes the password
 # check for the news_fulltable
 dbExistsTable(con, "news_cleaned")
 # TRUE
-save(news_df, file = "../output/news_df.Rda")
 ```
 
 ```{r}

@@ -1,0 +1,815 @@
+---
+title: "Online media coverage before and after the Bundestag elections in 2017"
+subtitle: "A structural topic model approach to estimate topic similarities between online media and press releases of parties that ran for election."
+output:
+  html_document:
+    code_folding: hide
+    df_print: paged
+---
+
+<style type="text/css">
+.main-container {
+  max-width: 1800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
+
+```{r eval=FALSE, include=FALSE}
+# options(download.file.method = "wget")
+library(RPostgreSQL)
+library(tidytext)
+library(dplyr)
+library(stm)
+
+rm(list = ls())
+
+color_palette <-c('#d2fbd4','#a5dbc2','#7bbcb0','#559c9e','#3a7c89','#235d72','#123f5a')
+```
+
+```{r Connect to PostgresDB, eval=FALSE, include=FALSE}
+# create a connection
+# loads the PostgreSQL driver
+pg <- dbDriver("PostgreSQL")
+# creates a connection to the postgres database
+pw <- {
+  "Up627R&F6"
+}
+
+con <- dbConnect(pg,
+  user = "Franzi",
+  password = pw,
+  host = "news-paper.cildx1grqozu.eu-west-2.rds.amazonaws.com",
+  port = 5432,
+  dbname = "postgres"
+)
+
+rm(pw) # removes the password
+
+# check for the news_fulltable
+dbExistsTable(con, "news_cleaned")
+# TRUE
+```
+
+```{r Download from Postgres, eval=FALSE, include=FALSE}
+# get News articles
+news_df <- dbGetQuery(con, "SELECT * from news_cleaned")
+# get press realeases
+press_df <- dbGetQuery(con, "SELECT * from press_releases")
+
+# combine both
+model_df <- news_df %>%
+  dplyr::mutate(
+    date = as.Date(date),
+    type = "news",
+    source = medium
+  ) %>%
+  select(date, title, title_text, text_length, text_cleaned, type, source) %>%
+  bind_rows(press_df %>%
+    select(title, date, title_text, type, source, text_length, text_cleaned)) %>%
+  dplyr::mutate(
+    doc_index = as.numeric(rownames(.)),
+    year_week = lubridate::floor_date(date, "1 week")
+  )
+```
+
+# 1. Introduction
+
+In this paper I develop and apply a machine learning approach based on structural topic modeling in combination with cosine similarity and a regression discontinuity framework in order to identify similarities between topics addressed in press releases and online news articles of different media sources before and after the Bundestag elections that took place the 24th of Sep 2017.
+
+**Research question**:
+
+How does media coverage change after the election day for different parties?
+
+**Method**:
+
+1. Estimate a **structural topic model** to obtain a topic distribution for each  document (press release or news article)
+
+2. Estimate the **cosine similarity** of topic distribution between documents of the same week (Hier könnte man überlegen ob es mehr Sinn macht eher die Dokumente +/-7 Tage zu nehmen)
+
+Cosine similarity is built on the geometric definition of the dot product of two vectors. It is a measure for the distance between two vectors and is defined between zero and one; values towards 1 indicate similarity. 
+
+$$
+\text{cosine similarity} = \text{cos}(\theta)=\frac{a*b}{||a|| ||b||}
+$$
+As topic proportions per news article / press release are vectors of the same length, the cosine similarity allows a comparison of the topic distribution between two documents.
+
+- Applications of cosine similarity to compare of topic model outcomes: [Ramage et al. 2010](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.224.8995&rep=rep1&type=pdf), [Rehs 2020](https://link.springer.com/article/10.1007/s11192-020-03640-0#Sec8)
+
+3. Estimate a **regression discontinuity model** for each media outlet $i$
+
+$$
+\text{CosineSimilarity}_{i}=\beta_0+\beta_1T_i+\beta_nDn_{j}+\beta_{n+n}T_iDn_{j}+\epsilon_i
+$$
+where the $D2_{j}, D3_{j}, ... ,Dn_{j}$ represent dummy variables for a political party $j$
+
+$$
+T_i = 1 \text{ if date } >= \text{election date} \\
+T_i = 0 \text{ if date } < \text{election date}
+$$
+so that the receipt of treatment $T_i$ is determined by the threshold $c$ (election day) of the continuous variable $W_i$ (date), the so called running variable. The idea of regression regression discontinuity design is to use observations with a $W_i$ close to $c$ for the estimation of $\beta_1$. $\beta_1$ is the average treatment effect for observations with $W_i = c$ which is assumed to be a good approximation to the overall treatment effect. In other words, $\beta_1$ gives us the average change of news coverage of media outlet $i$ after the election day. Since interaction terms $T_iDn_{j}$ are included, we can estimate the treatment effect for each party. 
+
+# 2. Structural topic model
+
+Parties want the media agenda to be congruent with their own agenda to define the issue-based criteria on which they will be evaluated by voters ( [Eberl, 2017](https://journals.sagepub.com/doi/abs/10.1177/0093650215614364) ). Thus, parties instrumentalize their press releases in order to highlight issues that they are perceived to be competent on, that they "own" and that are important to their voters ( [Kepplinger & Maurer, 2004](https://link.springer.com/chapter/10.1007%2F978-3-322-83381-5_9) ). Editors can select from this universe and decide which of these topics will be discussed in the news. In that sense the ideological content of a newspaper refers to the extent to which the topics promoted by the parties correlate with the topics discussed in the news articles.
+
+To discover the latent topics in the corpus of press releases and news articles, a structural topic modeling (STM) developed by [Roberts (2016)](https://scholar.princeton.edu/sites/default/files/bstewart/files/a_model_of_text_for_experimentation_in_the_social_sciences.pdf) is applied. The STM is an unsupervised machine learning approach that models topics as multinomial distributions of words and documents as multinomial distributions of topics, allowing to incorporate external variables that effect both, topical content and topical prevalence.
+
+```{r Prepare data, eval=FALSE, include=FALSE}
+tidy_news_df <- model_df %>%
+  select(source, year_week, text_cleaned, doc_index) %>%
+  unnest_tokens(word, text_cleaned) %>%
+  add_count(word) %>%
+  filter(n > 100) %>%
+  select(-n)
+
+news_df_sparse <- tidy_news_df %>%
+  count(doc_index, word) %>%
+  cast_sparse(doc_index, word, n)
+
+## notice that I am scrambling the order of the rows
+## the covariate data is in random order now
+covariates <- tidy_news_df %>%
+  sample_frac() %>%
+  distinct(doc_index, source, year_week)
+```
+
+```{r Estimate STM, eval=FALSE, include=FALSE}
+stmModel <- stm(
+  documents = news_df_sparse,
+  K = 40, prevalence = ~ source + s(year_week),
+  data = covariates, init.type = "Spectral"
+)
+
+save(stmModel, covariates, model_df, tidy_news_df, news_df_sparse, file = "model40_weekly_source.Rda")
+```
+
+## 2.1 Results of the STM
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(dplyr)
+library(ggplot2)
+library(stm)
+library(tidyr)
+library(tidytext)
+library(scales)
+library(purrr)
+
+rm(list = ls())
+
+load("../output/model40_weekly_source.Rda")
+
+td_beta <- tidy(stmModel)
+td_gamma <- tidy(stmModel, matrix = "gamma",
+                 document_names = rownames(model_df))
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(ggthemes)
+
+top_terms <- td_beta %>%
+  arrange(beta) %>%
+  group_by(topic) %>%
+  top_n(7, beta) %>%
+  arrange(-beta) %>%
+  select(topic, term) %>%
+  summarise(terms = list(term)) %>%
+  mutate(terms = map(terms, paste, collapse = ", ")) %>% 
+  unnest()
+
+gamma_terms <- td_gamma %>%
+  group_by(topic) %>%
+  summarise(gamma = mean(gamma)) %>%
+  arrange(desc(gamma)) %>%
+  left_join(top_terms, by = "topic") %>%
+  mutate(topic = paste0("Topic ", topic),
+         topic = reorder(topic, gamma))
+
+gamma_terms %>%
+  top_n(20, gamma) %>%
+  ggplot(aes(topic, gamma, label = terms)) +
+  geom_col(show.legend = FALSE, fill="#235d72") +
+  geom_text(hjust = 0, nudge_y = 0.0005, size = 3,
+            family = "IBMPlexSans") +
+  coord_flip() +
+  scale_y_continuous(expand = c(0,0),
+                     limits = c(0, 0.09),
+                     labels = percent_format()) +
+  theme_tufte(base_family = "IBMPlexSans", ticks = FALSE) +
+  theme(plot.title = element_text(size = 16,
+                                  family="IBMPlexSans-Bold"),
+        plot.subtitle = element_text(size = 13)) +
+  labs(x = NULL, y = expression(gamma),
+       title = "Top 20 topics by prevalence",
+       subtitle = "With the top words that contribute to each topic")
+```
+
+To explore the words associated with each topic we use the words with the highest probability in each topic. As we included the source type (press release or news paper) as a control for the topical content (the word distribution of each topic), we have two different labels for each topic.
+
+```{r include=FALSE}
+sagelabs <- sageLabels(stmModel, 20)
+
+topics.df <- as.data.frame(sagelabs$cov.betas[[1]]$problabels) %>%  
+  transmute(topic = as.numeric(rownames(.)),
+            topic_label = paste(topic,"-",V1,V2,V3,V4,V5))
+
+theta <- as.data.frame(stmModel$theta) %>% # get all theta values for each document
+  
+  mutate(doc_index = as.numeric(rownames(.))) %>%
+  # convert to long format
+  gather(topic, theta, -doc_index) %>%
+  mutate(topic = as.numeric(gsub("V","",topic))) %>%
+  
+  # join with topic df
+  left_join(., topics.df, by="topic") %>%
+  
+  # join with model_df
+  left_join(., model_df %>% 
+              select(date,type,source,doc_index,title_text), by="doc_index")
+```
+
+Each document has a probability distribution over all topics, e.g.
+
+```{r fig.height=6, include=FALSE, width=4}
+# select a random document
+# sample_doc <- sample(unique(theta$doc_index),1)
+sample_doc <- 1202
+
+sample <- theta %>% filter(doc_index == sample_doc) 
+title <- model_df %>% filter(doc_index == sample_doc) %>% select(title, source)
+
+sample %>%
+  ggplot(aes(reorder(topic_label,desc(topic)), theta)) +
+  geom_col(fill='#235d72') +
+  coord_flip() +
+  ylim(c(0,1)) +
+  theme_tufte(base_family = "IBMPlexSans") +
+  labs(x = NULL, y = "Topic proportion", title = paste0(title$title," (",title$source,")"))
+```
+
+
+# 3. Cosine similarity
+
+```{r Load and prepare data, include=FALSE}
+library(dplyr)
+library(stm)
+library(tidyr)
+library(tidytext)
+
+# rm(list = ls())
+# 
+# load("../output/model40_weekly_source.Rda")
+# 
+model_df <- model_df %>%
+  dplyr::mutate(
+    doc_index = as.numeric(rownames(.)),
+    election_dummy = as.factor(ifelse(date <= as.Date("24Sep2017", "%d%b%Y"), "pre", "post")),
+    year_week = lubridate::floor_date(date, "1 week")
+  )
+```
+
+Cosine similarity is built on the geometric definition of the dot product of two vectors. 
+
+$$
+\text{cosine similarity} = \text{cos}(\theta)=\frac{a*b}{||a|| ||b||}
+$$
+
+```{r Cosine similarity function}
+cosine_sim <- function(a, b) crossprod(a, b) / sqrt(crossprod(a) * crossprod(b))
+```
+
+```{r Create matrix of topic distribution, include=FALSE}
+td_gamma <- tidy(stmModel,
+  matrix = "gamma",
+  document_names = rownames(news_df_sparse)
+) %>%
+  mutate(doc_index = as.integer(document)) %>%
+  select(-document)
+
+# convert to "wide" data frame
+td_gamma_wide <- td_gamma %>%
+  spread(doc_index, gamma) # one row per topic, one column per document
+
+# convert to matrix
+gamma <- as.matrix(td_gamma_wide[, -1])
+```
+
+```{r Calculate cosine simularity}
+calc_cos_sim <- function(doc_code,
+                         gamma_mat = gamma) {
+  # find the doc
+  doc_col_index <- which(colnames(gamma_mat) == as.character(doc_code))
+  # get the week of the doc
+  year_week_target <- filter(model_df, doc_index == doc_code)$year_week
+  # get all doc_codes that are in the same week
+  doc_code_pairs <- filter(model_df, year_week == year_week_target)$doc_index
+  # calculate cosine similarity for each document based on gamma
+  # apply(..., 2) iterates over the columns of a matrix
+  cos_sims <- apply(gamma_mat[, doc_code_pairs], 2,
+    FUN = function(y) cosine_sim(gamma_mat[, doc_col_index], y)
+  )
+
+  # return results as data frame
+  data_frame(
+    year_week = year_week_target,
+    doc_code1 = doc_code,
+    doc_code2 = as.numeric(names(cos_sims)),
+    cos_sim = cos_sims
+  ) %>%
+    filter(doc_code2 != doc_code) # remove self reference
+}
+```
+
+Calculate the cosine similarity for our sample document and all other documents and display the top 5 documents (the 5 documents most similar).
+
+```{r message=FALSE, warning=FALSE}
+calc_cos_sim(sample_doc) %>%
+  mutate(doc_index = doc_code2) %>%
+  left_join(.,
+    model_df %>%
+      select(title, source, doc_index, type),
+    by = "doc_index"
+  ) %>%
+  filter(type == "press") %>%
+  arrange(desc(cos_sim)) %>%
+  top_n(5, cos_sim) %>%
+  select(title, source, cos_sim)
+```
+
+Finally, the function will be applied to all documents.
+
+```{r Calculate cosine sim}
+run_cos_sim_loop <- function(target) {
+  small_df <- model_df %>% filter(source == target)
+  doc_indices <- small_df$doc_index
+
+  print(paste("Number of documents:", length(doc_indices)))
+
+  rm(cosine_distances)
+  i <- 1
+  for (x in doc_indices) {
+    print(i)
+    temp <- calc_cos_sim(x, gamma)
+
+    # append the results to a data frame
+    cosine_distances <- if (!exists("cosine_distances")) temp else rbind(cosine_distances, temp)
+
+    i <- i + 1
+  }
+
+  cosine_distances
+}
+```
+
+```{r eval=FALSE, include=FALSE}
+newspaper <- unique(filter(model_df, type == "news")$source)
+```
+
+```{r eval=FALSE, include=FALSE}
+# DIE WELT
+target_source <- "DIE WELT"
+welt <- run_cos_sim_loop(target_source)
+save(welt, file = paste0("../output/cosine_dist_", target_source, ".Rda"))
+
+# SPIEGEL ONLINE
+target_source <- "SPIEGEL ONLINE"
+spiegel <- run_cos_sim_loop(target_source)
+save(spiegel, file = paste0("../output/cosine_dist_", target_source, ".Rda"))
+
+# stern.de
+target_source <- "stern.de"
+stern <- run_cos_sim_loop(target_source)
+save(stern, file = paste0("../output/cosine_dist_", target_source, ".Rda"))
+
+# ZEIT ONLINE
+target_source <- "ZEIT ONLINE"
+zeit <- run_cos_sim_loop(target_source)
+save(zeit, file = paste0("../output/cosine_dist_", target_source, ".Rda"))
+
+# Handelsblatt
+target_source <- "Handelsblatt"
+handelsblatt <- run_cos_sim_loop(target_source)
+save(handelsblatt, file = paste0("../output/cosine_dist_", target_source, ".Rda"))
+
+# FOCUS Online
+target_source <- "FOCUS Online"
+focus <- run_cos_sim_loop(target_source)
+save(focus, file = paste0("../output/cosine_dist_", target_source, ".Rda"))
+
+# Bild.de
+target_source <- "Bild.de"
+bild <- run_cos_sim_loop(target_source)
+save(bild, file = paste0("../output/cosine_dist_", target_source, ".Rda"))
+```
+
+# 4. Regression discontinuity model
+
+```{r message=FALSE, warning=FALSE}
+library(broom)
+library(magrittr)
+library(tidyverse)
+rm(list = ls())
+
+load("../output/model40_weekly_source.Rda")
+election_date <- as.Date("24Sep2017", "%d%b%Y")
+
+model_df <- model_df %>%
+  dplyr::mutate(
+    doc_index = as.numeric(rownames(.)),
+    election_dummy = as.factor(ifelse(date <= election_date, "pre", "post")),
+    year_week = lubridate::floor_date(date, "1 week")
+  )
+```
+
+Calculate a regression discontinuity model for each newspaper $i$.
+
+$$
+\text{CosineSimilarity}_{i}=\beta_0+\beta_1T_i+\beta_2W_{centered}+\beta_nDn_{j}+\beta_{n+n}T_iDn_{j}+\epsilon_i
+$$
+
+where $D2_{j}, D3_{j}, ... ,Dn_{j}$ represent dummy variables for a political party $j$ and $W_{centered} = $ date - election day. 
+
+
+$$
+T_i = 1 \text{ if date } >= \text{election date} \\
+T_i = 0 \text{ if date } < \text{election date}
+$$
+
+```{r Prepare dataframe}
+df_prep <- function(cosine_df) {
+  cosine_df %>%
+    left_join(., model_df %>%
+      transmute(
+        doc_code1 = doc_index,
+        source1 = source, type1 = type,
+        date1 = date
+      ),
+    by = "doc_code1"
+    ) %>%
+    left_join(., model_df %>%
+      transmute(
+        doc_code2 = doc_index,
+        source2 = source, type2 = type,
+        date2 = date
+      ),
+    by = "doc_code2"
+    ) %>%
+    group_by(date1, source2, type2) %>%
+    summarise(cos_sim = mean(cos_sim, na.rm = TRUE)) %>%
+    ungroup() %>%
+    mutate(election_dummy = as.factor(ifelse(date1 <= election_date, "pre", "post")))
+}
+```
+
+```{r Plot datapoints}
+plot_data <- function(dataframe) {
+  cosine_distances_df %>%
+    filter(type2 == "press") %>%
+    ggplot(aes(date1, cos_sim, color = election_dummy)) +
+    geom_point(show.legend = F) +
+    geom_vline(xintercept = election_date) +
+    ggthemes::theme_clean() +
+    labs(y = "Cosine similarity of topic distribution", x = "") +
+    facet_wrap(~source2)
+}
+```
+
+```{r Calculate models}
+calc_rd_dummy<- function(dataframe, target_source) { 
+  temp_df <- dataframe %>%
+    filter(type2 == "press") %>%
+    mutate(
+      X_centered = I(date1 - election_date),
+      treatedTRUE = ifelse(date1 >= election_date, 1, 0))
+
+  model_outcome <- temp_df %$%
+    lm(cos_sim ~ treatedTRUE + source2 + X_centered)
+}
+
+calc_rd_dummy_interaction <- function(dataframe, target_source) { 
+  temp_df <- dataframe %>%
+    filter(type2 == "press") %>%
+    mutate(
+      X_centered = I(date1 - election_date),
+      treatedTRUE = ifelse(date1 >= election_date, 1, 0))
+
+  model_outcome <- temp_df %$%
+    lm(cos_sim ~ treatedTRUE * source2 + X_centered)
+}
+```
+
+```{r message=FALSE}
+target_source <- "DIE WELT"
+load(paste0("../output/cosine_dist_", target_source, ".Rda"))
+cosine_distances_df <- df_prep(welt)
+welt_model1 <- calc_rd_dummy(cosine_distances_df, target_source)
+welt_model2 <- calc_rd_dummy_interaction(cosine_distances_df, target_source)
+
+target_source <- "stern.de"
+load(paste0("../output/cosine_dist_", target_source, ".Rda"))
+cosine_distances_df <- df_prep(stern)
+stern_model1 <- calc_rd_dummy(cosine_distances_df, target_source)
+stern_model2 <- calc_rd_dummy_interaction(cosine_distances_df, target_source)
+
+target_source <- "ZEIT ONLINE"
+load(paste0("../output/cosine_dist_", target_source, ".Rda"))
+cosine_distances_df <- df_prep(zeit)
+zeit_model1 <- calc_rd_dummy(cosine_distances_df, target_source)
+zeit_model2 <- calc_rd_dummy_interaction(cosine_distances_df, target_source)
+
+target_source <- "Handelsblatt"
+load(paste0("../output/cosine_dist_", target_source, ".Rda"))
+cosine_distances_df <- df_prep(handelsblatt)
+handelsblatt_model1 <- calc_rd_dummy(cosine_distances_df, target_source)
+handelsblatt_model2 <- calc_rd_dummy_interaction(cosine_distances_df, target_source)
+
+target_source <- "FOCUS Online"
+load(paste0("../output/cosine_dist_", target_source, ".Rda"))
+cosine_distances_df <- df_prep(focus)
+focus_model1 <- calc_rd_dummy(cosine_distances_df, target_source)
+focus_model2 <- calc_rd_dummy_interaction(cosine_distances_df, target_source)
+
+target_source <- "Bild.de"
+load(paste0("../output/cosine_dist_", target_source, ".Rda"))
+cosine_distances_df <- df_prep(bild)
+bild_model1 <- calc_rd_dummy(cosine_distances_df, target_source)
+bild_model2 <- calc_rd_dummy_interaction(cosine_distances_df, target_source)
+
+target_source <- "SPIEGEL ONLINE"
+load(paste0("../output/cosine_dist_", target_source, ".Rda"))
+cosine_distances_df <- df_prep(spiegel)
+spiegel_model1 <- calc_rd_dummy(cosine_distances_df, target_source)
+spiegel_model2 <- calc_rd_dummy_interaction(cosine_distances_df, target_source)
+```
+
+## 4.1 Results
+
+### 4.1.1. Without interaction terms
+
+$$
+\text{CosineSimilarity}_{i}=\beta_0+\beta_1T_i+\beta_nDn_{j}+\epsilon_i
+$$
+
+```{r Show model reults, message=FALSE, warning=FALSE}
+stargazer::stargazer(welt_model1, stern_model1, zeit_model1, handelsblatt_model1, focus_model1, bild_model1, spiegel_model1,
+                     column.labels = c("DIE WELT", "stern.de", "ZEIT ONLINE", "Handelsblatt", "FOCUS Online", "Bild.de", "SPIEGEL ONLINE"),
+                     dep.var.labels = paste0("Cosine similarity of topic distribution"), 
+                     single.row = TRUE,
+                     #font.size = "tiny",
+                     type = "text")
+```
+
+#### Interpretation:
+
+**DIE WELT**
+
+- Treatment effect: After the election, cosine similarity of news coverage drops by 0.01 on average. 
+- Dummies: Compared to AfD, news coverage with all other parties is less similar
+
+Same interpretation for SPIEGEL ONLINE, ZEIT ONLINE
+
+**stern.de**
+
+- Treatment effect: not significant
+- Dummies: Compared to AfD, news coverage with all other parties is less similar
+
+Same interpretation for Bild.de, FOCUS Online
+
+**Handelsblatt**
+
+- Treatment effect: not significant
+- Dummies: Compared to AfD, news coverage with all other parties is *more similar*
+
+
+### 4.1.2. With interaction terms
+
+$$
+\text{CosineSimilarity}_{i}=\beta_0+\beta_1T_i+\beta_nDn_{j}+\beta_{n+n}T_iDn_{j}+\epsilon_i
+$$
+
+The interaction term $T_i*Dn$ means that the slope can vary on either side of the treatment threshold for each party. 
+
+- The coefficient $\beta_1$ is how the intercept jumps (the RDD effect)
+- $\beta_3$ is how the slope changes for each party
+
+```{r Print model results, message=FALSE, warning=FALSE}
+stargazer::stargazer(welt_model2, stern_model2, zeit_model2, handelsblatt_model2, focus_model2, bild_model2, spiegel_model2,
+                     column.labels = c("DIE WELT", "stern.de", "ZEIT ONLINE", "Handelsblatt", "FOCUS Online", "Bild.de", "SPIEGEL ONLINE"),
+                     dep.var.labels = paste0("Cosine similarity of topic distribution"), 
+                     single.row = TRUE,
+                     #font.size = "tiny",
+                     type = "text")
+```
+
+#### Interpretation: 
+
+*DIE WELT*
+
+- Treatment effect: The cosine similarity drops after the election day by 0.017 on average.
+
+- Dummy variables: The cosine similarity is on average less for all parties compared to AfD
+
+- Interaction terms: The treatment effect is by 0.018 higher for FDP on average compared to AfD
+
+$$
+\text{CosineSimilarity}_{Welt}(D_{FDP}=1)=\beta_0-0.017*T-0.045+0.018*T \\
+\text{CosineSimilarity}_{Welt}(D_{FDP}=1)= \beta_0-0.045*T(-0.017+0.018)
+$$
+$$
+\text{CosineSimilarity}_{Welt}(D_{FDP}=0)=\beta_0-0.017*T \\
+$$
+
+**ZEIT ONLINE**
+
+**Handelsblatt**
+
+**FOCUS Online**
+
+**Bild.de**
+
+**SPIEGEL ONLIINE**
+
+
+#### Compare models
+
+**DIE WELT**
+```{r anova DIE WLET}
+anova(welt_model1, welt_model2)
+```
+
+The result shows a Df of 5 (indicating that the more complex model has 5 additional parameter) and a p-value of 0.274. This means that adding the interaction terms to the model did NOT lead to a significantly improved fit over the model.
+
+We can do the same check for all other media outlet models
+
+**stern.de**
+```{r anova stern.de}
+anova(stern_model1, stern_model2)
+```
+
+**ZEIT ONLINE**
+```{r anova ZEIT ONLINE}
+anova(zeit_model1, zeit_model2)
+```
+
+**Handelsblatt**
+```{r anova Handelsblatt}
+anova(handelsblatt_model1, handelsblatt_model2)
+```
+
+**FOCUS ONLINE**
+```{r anova FOCUS ONLINE}
+anova(focus_model1, focus_model2)
+```
+
+**Bild.de**
+```{r anova Bild.de}
+anova(bild_model1, bild_model2)
+```
+
+**SPIEGEL ONLINE**
+```{r anova SPIEGEL ONLINE}
+anova(spiegel_model1, spiegel_model2)
+```
+
+## 4.1.3 Isolated models for each party / media pair 
+
+$$
+\text{CosineSimilarity}_{i}=\beta_0+\beta_1T_i+\beta_2W_{centered}+\beta_3T_i*W_{centered}+\epsilon_i
+$$
+
+where $W_{centered}$ = date - election day. The interaction term $T_i*W_{centered}$ means that the slope can vary on either side of the treatment threshold. 
+
+- The coefficient $\beta_1$ is how the intercept jumps (the RDD effect)
+- $\beta_3$ is how the slope changes
+
+```{r}
+calc_rd_models <- function(dataframe, target_source) {
+  temp_df <- dataframe %>% 
+    mutate(
+      X_centered = I(date1 - election_date),
+      treatedTRUE = ifelse(date1 >= election_date, 1, 0))
+
+  afd <- temp_df %>%
+    filter(source2 == "AfD") %$%
+    lm(cos_sim ~ treatedTRUE * X_centered)
+
+  cdu <- temp_df %>%
+    filter(source2 == "CDU") %$%
+    lm(cos_sim ~ treatedTRUE * X_centered)
+
+  spd <- temp_df %>%
+    filter(source2 == "SPD") %$% 
+    lm(cos_sim ~ treatedTRUE * X_centered)
+
+  fdp <- temp_df %>%
+    filter(source2 == "FDP") %$% 
+    lm(cos_sim ~ treatedTRUE * X_centered)
+
+  linke <- temp_df %>%
+    filter(source2 == "DIE LINKE")%$%
+    lm(cos_sim ~ treatedTRUE * X_centered)
+
+  gruene <- temp_df %>%
+    filter(source2 == "B90/GRÜNE") %$%
+    lm(cos_sim ~ treatedTRUE * X_centered)
+
+  stargazer::stargazer(afd, cdu, spd, fdp, gruene, linke,
+    column.labels = c("AfD", "CDU", "SPD", "FDP", "B90/GRÜNE", "DIE LINKE"),
+    dep.var.labels = paste0("Cosine similarity of topic distribution - ",target_source), 
+    single.row = TRUE,
+    font.size = "tiny",
+    type = "text")
+}
+```
+
+**DIE WELT**
+```{r RD DIE WELT, message=FALSE}
+# ----------------------------
+target_source <- "DIE WELT"
+#load(paste0("../output/cosine_dist_", target_source, ".Rda"))
+
+cosine_distances_df <- df_prep(welt)
+calc_rd_models(cosine_distances_df, target_source)
+```
+
+#### Interpretation:
+
+- After the election, the topic coverage is less similar with CDU & SPD and MORE similar with B90/Grüne
+
+**stern.de**
+```{r RD stern.de, message=FALSE, warning=FALSE}
+target_source <- "stern.de"
+#load(paste0("../output/cosine_dist_", target_source, ".Rda"))
+
+cosine_distances_df <- df_prep(stern)
+calc_rd_models(cosine_distances_df, target_source)
+```
+
+#### Interpretation:
+
+- No significant change
+
+**ZEIT ONLINE**
+```{r RD ZEIT ONLINE, message=FALSE, warning=FALSE}
+target_source <- "ZEIT ONLINE"
+#load(paste0("../output/cosine_dist_", target_source, ".Rda"))
+
+cosine_distances_df <- df_prep(zeit)
+calc_rd_models(cosine_distances_df, target_source)
+```
+
+#### Interpretation:
+
+- No significant change
+
+**Handelsblatt**
+```{r RD Handelsblatt, message=FALSE, warning=FALSE}
+target_source <- "Handelsblatt"
+#load(paste0("../output/cosine_dist_", target_source, ".Rda"))
+
+cosine_distances_df <- df_prep(handelsblatt)
+calc_rd_models(cosine_distances_df, target_source)
+```
+
+#### Interpretation:
+
+- After the election, the topic coverage is less similar with CDU and MORE similar with B90/Grüne
+
+**FOCUS Online**
+```{r RD FOCUS Online, message=FALSE, warning=FALSE}
+target_source <- "FOCUS Online"
+#load(paste0("../output/cosine_dist_", target_source, ".Rda"))
+
+cosine_distances_df <- df_prep(focus)
+calc_rd_models(cosine_distances_df, target_source)
+```
+
+#### Interpretation:
+
+- After the election, the topic coverage is MORE similar with B90/Grüne
+
+**Bild.de**
+```{r RD Bild.de, message=FALSE, warning=FALSE}
+target_source <- "Bild.de"
+#load(paste0("../output/cosine_dist_", target_source, ".Rda"))
+
+cosine_distances_df <- df_prep(bild)
+calc_rd_models(cosine_distances_df, target_source)
+```
+
+#### Interpretation:
+
+- After the election, the topic coverage is LESS simiar with AfD and MORE similar with B90/Grüne
+
+**SPIEGEL ONLINE**
+```{r RD SPIEGEL ONLINE, message=FALSE, warning=FALSE}
+target_source <- "SPIEGEL ONLINE"
+#load(paste0("../output/cosine_dist_", target_source, ".Rda"))
+
+cosine_distances_df <- df_prep(spiegel)
+calc_rd_models(cosine_distances_df, target_source)
+```
+
+#### Interpretation:
+
+- After the election, the topic coverage is MORE similar with FDP & B90/Grüne

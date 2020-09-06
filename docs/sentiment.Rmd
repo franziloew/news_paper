@@ -49,7 +49,7 @@ dbExistsTable(con, "news_cleaned")
 ```{r}
 #news_df <- dbGetQuery(con, "SELECT * from news_cleaned")
 
-# to load the data from the output filter
+# to load the data from the output folder
 load("../output/news_df.Rda")
 
 model_df <- news_df %>% 
