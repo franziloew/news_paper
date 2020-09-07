@@ -12,6 +12,15 @@ output:
 ---
 
 <style type="text/css">
+body{ /* Normal  */
+      font-size: 20px;
+  }
+td {  /* Table  */
+  font-size: 18px;
+}
+li {  /* List  */
+  font-size: 18px;
+}
 .main-container {
   max-width: 1800px;
   margin-left: auto;
@@ -98,7 +107,8 @@ $$
 $$
 As topic proportions per news article / press release are vectors of the same length, the cosine similarity allows a comparison of the topic distribution between two documents.
 
-- Applications of cosine similarity to compare of topic model outcomes: [Ramage et al. 2010](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.224.8995&rep=rep1&type=pdf), [Rehs 2020](https://link.springer.com/article/10.1007/s11192-020-03640-0#Sec8)
+Applications of cosine similarity to compare of topic model outcomes: [Ramage et al. 2010](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.224.8995&rep=rep1&type=pdf), [Rehs 2020](https://link.springer.com/article/10.1007/s11192-020-03640-0#Sec8)
+
 
 3. Estimate a **regression discontinuity model** for each media outlet $i$
 
