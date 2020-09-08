@@ -1825,12 +1825,13 @@ summary {
 <li><a href="#results-of-the-stm">2.1 Results of the STM</a></li>
 </ul></li>
 <li><a href="#cosine-similarity">3. Cosine similarity</a></li>
-<li><a href="#regression-discontinuity-model">4. Regression discontinuity model</a><ul>
-<li><a href="#results">4.1 Results</a><ul>
+<li><a href="#estimate-model">4. Estimate Model</a><ul>
+<li><a href="#ols-dummy">4.2. OLS dummy</a></li>
+<li><a href="#regression-discontinuity-model">4.2. Regression discontinuity model</a><ul>
 <li><a href="#without-interaction-terms">4.1.1. Without interaction terms</a></li>
 <li><a href="#with-interaction-terms">4.1.2. With interaction terms</a></li>
+<li><a href="#isolated-models-for-each-party-media-pair">4.1.4 Isolated models for each party / media pair</a></li>
 </ul></li>
-<li><a href="#isolated-models-for-each-party-media-pair">4.1.3 Isolated models for each party / media pair</a></li>
 </ul></li>
 </ul>
 </div>
@@ -1957,8 +1958,8 @@ T_i = 0 \text{ if date } &lt; \text{election date}
 <span id="cb4-19"><a href="#cb4-19"></a>  cosine_distances</span>
 <span id="cb4-20"><a href="#cb4-20"></a>}</span></code></pre></div>
 </div>
-<div id="regression-discontinuity-model" class="section level1">
-<h1>4. Regression discontinuity model</h1>
+<div id="estimate-model" class="section level1">
+<h1>4. Estimate Model</h1>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">library</span>(broom)</span>
 <span id="cb5-2"><a href="#cb5-2"></a><span class="kw">library</span>(magrittr)</span>
 <span id="cb5-3"><a href="#cb5-3"></a><span class="kw">library</span>(tidyverse)</span>
@@ -1973,15 +1974,6 @@ T_i = 0 \text{ if date } &lt; \text{election date}
 <span id="cb5-12"><a href="#cb5-12"></a>    <span class="dt">election_dummy =</span> <span class="kw">as.factor</span>(<span class="kw">ifelse</span>(date <span class="op">&lt;=</span><span class="st"> </span>election_date, <span class="st">&quot;pre&quot;</span>, <span class="st">&quot;post&quot;</span>)),</span>
 <span id="cb5-13"><a href="#cb5-13"></a>    <span class="dt">year_week =</span> lubridate<span class="op">::</span><span class="kw">floor_date</span>(date, <span class="st">&quot;1 week&quot;</span>)</span>
 <span id="cb5-14"><a href="#cb5-14"></a>  )</span></code></pre></div>
-<p>Calculate a regression discontinuity model for each newspaper <span class="math inline">\(i\)</span>.</p>
-<p><span class="math display">\[
-\text{CosineSimilarity}_{i}=\beta_0+\beta_1T_i+\beta_2W_{centered}+\beta_nDn_{j}+\beta_{n+n}T_iDn_{j}+\epsilon_i
-\]</span></p>
-<p>where <span class="math inline">\(D2_{j}, D3_{j}, ... ,Dn_{j}\)</span> represent dummy variables for a political party <span class="math inline">\(j\)</span> and $W_{centered} = $ date - election day.</p>
-<p><span class="math display">\[
-T_i = 1 \text{ if date } &gt;= \text{election date} \\
-T_i = 0 \text{ if date } &lt; \text{election date}
-\]</span></p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>df_prep &lt;-<span class="st"> </span><span class="cf">function</span>(cosine_df) {</span>
 <span id="cb6-2"><a href="#cb6-2"></a>  cosine_df <span class="op">%&gt;%</span></span>
 <span id="cb6-3"><a href="#cb6-3"></a><span class="st">    </span><span class="kw">left_join</span>(., model_df <span class="op">%&gt;%</span></span>
@@ -2005,115 +1997,197 @@ T_i = 0 \text{ if date } &lt; \text{election date}
 <span id="cb6-21"><a href="#cb6-21"></a><span class="st">    </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></span>
 <span id="cb6-22"><a href="#cb6-22"></a><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">election_dummy =</span> <span class="kw">as.factor</span>(<span class="kw">ifelse</span>(date1 <span class="op">&lt;=</span><span class="st"> </span>election_date, <span class="st">&quot;pre&quot;</span>, <span class="st">&quot;post&quot;</span>)))</span>
 <span id="cb6-23"><a href="#cb6-23"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>plot_data &lt;-<span class="st"> </span><span class="cf">function</span>(dataframe) {</span>
-<span id="cb7-2"><a href="#cb7-2"></a>  cosine_distances_df <span class="op">%&gt;%</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="st">    </span><span class="kw">filter</span>(type2 <span class="op">==</span><span class="st"> &quot;press&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(date1, cos_sim, <span class="dt">color =</span> election_dummy)) <span class="op">+</span></span>
-<span id="cb7-5"><a href="#cb7-5"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">show.legend =</span> F) <span class="op">+</span></span>
-<span id="cb7-6"><a href="#cb7-6"></a><span class="st">    </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> election_date) <span class="op">+</span></span>
-<span id="cb7-7"><a href="#cb7-7"></a><span class="st">    </span>ggthemes<span class="op">::</span><span class="kw">theme_clean</span>() <span class="op">+</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;Cosine similarity of topic distribution&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;&quot;</span>) <span class="op">+</span></span>
-<span id="cb7-9"><a href="#cb7-9"></a><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span>source2)</span>
-<span id="cb7-10"><a href="#cb7-10"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>calc_rd_dummy&lt;-<span class="st"> </span><span class="cf">function</span>(dataframe, target_source) { </span>
-<span id="cb8-2"><a href="#cb8-2"></a>  temp_df &lt;-<span class="st"> </span>dataframe <span class="op">%&gt;%</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="st">    </span><span class="kw">filter</span>(type2 <span class="op">==</span><span class="st"> &quot;press&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="st">    </span><span class="kw">mutate</span>(</span>
-<span id="cb8-5"><a href="#cb8-5"></a>      <span class="dt">X_centered =</span> <span class="kw">I</span>(date1 <span class="op">-</span><span class="st"> </span>election_date),</span>
-<span id="cb8-6"><a href="#cb8-6"></a>      <span class="dt">treatedTRUE =</span> <span class="kw">ifelse</span>(date1 <span class="op">&gt;=</span><span class="st"> </span>election_date, <span class="dv">1</span>, <span class="dv">0</span>))</span>
-<span id="cb8-7"><a href="#cb8-7"></a></span>
-<span id="cb8-8"><a href="#cb8-8"></a>  model_outcome &lt;-<span class="st"> </span>temp_df <span class="op">%$%</span></span>
-<span id="cb8-9"><a href="#cb8-9"></a><span class="st">    </span><span class="kw">lm</span>(cos_sim <span class="op">~</span><span class="st"> </span>treatedTRUE <span class="op">+</span><span class="st"> </span>source2 <span class="op">+</span><span class="st"> </span>X_centered)</span>
-<span id="cb8-10"><a href="#cb8-10"></a>}</span>
+<div id="ols-dummy" class="section level2">
+<h2>4.2. OLS dummy</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>calc_dumm &lt;-<span class="st"> </span><span class="cf">function</span>(dataframe, target_source) { </span>
+<span id="cb7-2"><a href="#cb7-2"></a>  temp_df &lt;-<span class="st"> </span>dataframe <span class="op">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="st">    </span><span class="kw">filter</span>(type2 <span class="op">==</span><span class="st"> &quot;press&quot;</span>)</span>
+<span id="cb7-4"><a href="#cb7-4"></a></span>
+<span id="cb7-5"><a href="#cb7-5"></a>  model_outcome &lt;-<span class="st"> </span>temp_df <span class="op">%$%</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="st">    </span><span class="kw">lm</span>(<span class="kw">log</span>(cos_sim) <span class="op">~</span><span class="st"> </span>source2)</span>
+<span id="cb7-7"><a href="#cb7-7"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># ----------------------------</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>target_source &lt;-<span class="st"> &quot;DIE WELT&quot;</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="kw">load</span>(<span class="kw">paste0</span>(<span class="st">&quot;../output/cosine_dist_&quot;</span>, target_source, <span class="st">&quot;.Rda&quot;</span>))</span>
+<span id="cb8-4"><a href="#cb8-4"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(welt)</span>
+<span id="cb8-5"><a href="#cb8-5"></a>welt_model &lt;-<span class="st"> </span><span class="kw">calc_dumm</span>(cosine_distances_df, target_source)</span>
+<span id="cb8-6"><a href="#cb8-6"></a></span>
+<span id="cb8-7"><a href="#cb8-7"></a>target_source &lt;-<span class="st"> &quot;stern.de&quot;</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="kw">load</span>(<span class="kw">paste0</span>(<span class="st">&quot;../output/cosine_dist_&quot;</span>, target_source, <span class="st">&quot;.Rda&quot;</span>))</span>
+<span id="cb8-9"><a href="#cb8-9"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(stern)</span>
+<span id="cb8-10"><a href="#cb8-10"></a>stern_model &lt;-<span class="st"> </span><span class="kw">calc_dumm</span>(cosine_distances_df, target_source)</span>
 <span id="cb8-11"><a href="#cb8-11"></a></span>
-<span id="cb8-12"><a href="#cb8-12"></a>calc_rd_dummy_interaction &lt;-<span class="st"> </span><span class="cf">function</span>(dataframe, target_source) { </span>
-<span id="cb8-13"><a href="#cb8-13"></a>  temp_df &lt;-<span class="st"> </span>dataframe <span class="op">%&gt;%</span></span>
-<span id="cb8-14"><a href="#cb8-14"></a><span class="st">    </span><span class="kw">filter</span>(type2 <span class="op">==</span><span class="st"> &quot;press&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb8-15"><a href="#cb8-15"></a><span class="st">    </span><span class="kw">mutate</span>(</span>
-<span id="cb8-16"><a href="#cb8-16"></a>      <span class="dt">X_centered =</span> <span class="kw">I</span>(date1 <span class="op">-</span><span class="st"> </span>election_date),</span>
-<span id="cb8-17"><a href="#cb8-17"></a>      <span class="dt">treatedTRUE =</span> <span class="kw">ifelse</span>(date1 <span class="op">&gt;=</span><span class="st"> </span>election_date, <span class="dv">1</span>, <span class="dv">0</span>))</span>
-<span id="cb8-18"><a href="#cb8-18"></a></span>
-<span id="cb8-19"><a href="#cb8-19"></a>  model_outcome &lt;-<span class="st"> </span>temp_df <span class="op">%$%</span></span>
-<span id="cb8-20"><a href="#cb8-20"></a><span class="st">    </span><span class="kw">lm</span>(cos_sim <span class="op">~</span><span class="st"> </span>treatedTRUE <span class="op">*</span><span class="st"> </span>source2 <span class="op">+</span><span class="st"> </span>X_centered)</span>
-<span id="cb8-21"><a href="#cb8-21"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>target_source &lt;-<span class="st"> &quot;DIE WELT&quot;</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="kw">load</span>(<span class="kw">paste0</span>(<span class="st">&quot;../output/cosine_dist_&quot;</span>, target_source, <span class="st">&quot;.Rda&quot;</span>))</span>
-<span id="cb9-3"><a href="#cb9-3"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(welt)</span>
-<span id="cb9-4"><a href="#cb9-4"></a>welt_model1 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy</span>(cosine_distances_df, target_source)</span>
-<span id="cb9-5"><a href="#cb9-5"></a>welt_model2 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy_interaction</span>(cosine_distances_df, target_source)</span>
-<span id="cb9-6"><a href="#cb9-6"></a></span>
-<span id="cb9-7"><a href="#cb9-7"></a>target_source &lt;-<span class="st"> &quot;stern.de&quot;</span></span>
-<span id="cb9-8"><a href="#cb9-8"></a><span class="kw">load</span>(<span class="kw">paste0</span>(<span class="st">&quot;../output/cosine_dist_&quot;</span>, target_source, <span class="st">&quot;.Rda&quot;</span>))</span>
-<span id="cb9-9"><a href="#cb9-9"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(stern)</span>
-<span id="cb9-10"><a href="#cb9-10"></a>stern_model1 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy</span>(cosine_distances_df, target_source)</span>
-<span id="cb9-11"><a href="#cb9-11"></a>stern_model2 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy_interaction</span>(cosine_distances_df, target_source)</span>
-<span id="cb9-12"><a href="#cb9-12"></a></span>
-<span id="cb9-13"><a href="#cb9-13"></a>target_source &lt;-<span class="st"> &quot;ZEIT ONLINE&quot;</span></span>
-<span id="cb9-14"><a href="#cb9-14"></a><span class="kw">load</span>(<span class="kw">paste0</span>(<span class="st">&quot;../output/cosine_dist_&quot;</span>, target_source, <span class="st">&quot;.Rda&quot;</span>))</span>
-<span id="cb9-15"><a href="#cb9-15"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(zeit)</span>
-<span id="cb9-16"><a href="#cb9-16"></a>zeit_model1 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy</span>(cosine_distances_df, target_source)</span>
-<span id="cb9-17"><a href="#cb9-17"></a>zeit_model2 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy_interaction</span>(cosine_distances_df, target_source)</span>
-<span id="cb9-18"><a href="#cb9-18"></a></span>
-<span id="cb9-19"><a href="#cb9-19"></a>target_source &lt;-<span class="st"> &quot;Handelsblatt&quot;</span></span>
-<span id="cb9-20"><a href="#cb9-20"></a><span class="kw">load</span>(<span class="kw">paste0</span>(<span class="st">&quot;../output/cosine_dist_&quot;</span>, target_source, <span class="st">&quot;.Rda&quot;</span>))</span>
-<span id="cb9-21"><a href="#cb9-21"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(handelsblatt)</span>
-<span id="cb9-22"><a href="#cb9-22"></a>handelsblatt_model1 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy</span>(cosine_distances_df, target_source)</span>
-<span id="cb9-23"><a href="#cb9-23"></a>handelsblatt_model2 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy_interaction</span>(cosine_distances_df, target_source)</span>
-<span id="cb9-24"><a href="#cb9-24"></a></span>
-<span id="cb9-25"><a href="#cb9-25"></a>target_source &lt;-<span class="st"> &quot;FOCUS Online&quot;</span></span>
-<span id="cb9-26"><a href="#cb9-26"></a><span class="kw">load</span>(<span class="kw">paste0</span>(<span class="st">&quot;../output/cosine_dist_&quot;</span>, target_source, <span class="st">&quot;.Rda&quot;</span>))</span>
-<span id="cb9-27"><a href="#cb9-27"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(focus)</span>
-<span id="cb9-28"><a href="#cb9-28"></a>focus_model1 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy</span>(cosine_distances_df, target_source)</span>
-<span id="cb9-29"><a href="#cb9-29"></a>focus_model2 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy_interaction</span>(cosine_distances_df, target_source)</span>
-<span id="cb9-30"><a href="#cb9-30"></a></span>
-<span id="cb9-31"><a href="#cb9-31"></a>target_source &lt;-<span class="st"> &quot;Bild.de&quot;</span></span>
-<span id="cb9-32"><a href="#cb9-32"></a><span class="kw">load</span>(<span class="kw">paste0</span>(<span class="st">&quot;../output/cosine_dist_&quot;</span>, target_source, <span class="st">&quot;.Rda&quot;</span>))</span>
-<span id="cb9-33"><a href="#cb9-33"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(bild)</span>
-<span id="cb9-34"><a href="#cb9-34"></a>bild_model1 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy</span>(cosine_distances_df, target_source)</span>
-<span id="cb9-35"><a href="#cb9-35"></a>bild_model2 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy_interaction</span>(cosine_distances_df, target_source)</span>
-<span id="cb9-36"><a href="#cb9-36"></a></span>
-<span id="cb9-37"><a href="#cb9-37"></a>target_source &lt;-<span class="st"> &quot;SPIEGEL ONLINE&quot;</span></span>
-<span id="cb9-38"><a href="#cb9-38"></a><span class="kw">load</span>(<span class="kw">paste0</span>(<span class="st">&quot;../output/cosine_dist_&quot;</span>, target_source, <span class="st">&quot;.Rda&quot;</span>))</span>
-<span id="cb9-39"><a href="#cb9-39"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(spiegel)</span>
-<span id="cb9-40"><a href="#cb9-40"></a>spiegel_model1 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy</span>(cosine_distances_df, target_source)</span>
-<span id="cb9-41"><a href="#cb9-41"></a>spiegel_model2 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy_interaction</span>(cosine_distances_df, target_source)</span></code></pre></div>
-<div id="results" class="section level2">
-<h2>4.1 Results</h2>
+<span id="cb8-12"><a href="#cb8-12"></a>target_source &lt;-<span class="st"> &quot;ZEIT ONLINE&quot;</span></span>
+<span id="cb8-13"><a href="#cb8-13"></a><span class="kw">load</span>(<span class="kw">paste0</span>(<span class="st">&quot;../output/cosine_dist_&quot;</span>, target_source, <span class="st">&quot;.Rda&quot;</span>))</span>
+<span id="cb8-14"><a href="#cb8-14"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(zeit)</span>
+<span id="cb8-15"><a href="#cb8-15"></a>zeit_model &lt;-<span class="st"> </span><span class="kw">calc_dumm</span>(cosine_distances_df, target_source)</span>
+<span id="cb8-16"><a href="#cb8-16"></a></span>
+<span id="cb8-17"><a href="#cb8-17"></a>target_source &lt;-<span class="st"> &quot;Handelsblatt&quot;</span></span>
+<span id="cb8-18"><a href="#cb8-18"></a><span class="kw">load</span>(<span class="kw">paste0</span>(<span class="st">&quot;../output/cosine_dist_&quot;</span>, target_source, <span class="st">&quot;.Rda&quot;</span>))</span>
+<span id="cb8-19"><a href="#cb8-19"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(handelsblatt)</span>
+<span id="cb8-20"><a href="#cb8-20"></a>handelsblatt_model &lt;-<span class="st"> </span><span class="kw">calc_dumm</span>(cosine_distances_df, target_source)</span>
+<span id="cb8-21"><a href="#cb8-21"></a></span>
+<span id="cb8-22"><a href="#cb8-22"></a>target_source &lt;-<span class="st"> &quot;FOCUS Online&quot;</span></span>
+<span id="cb8-23"><a href="#cb8-23"></a><span class="kw">load</span>(<span class="kw">paste0</span>(<span class="st">&quot;../output/cosine_dist_&quot;</span>, target_source, <span class="st">&quot;.Rda&quot;</span>))</span>
+<span id="cb8-24"><a href="#cb8-24"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(focus)</span>
+<span id="cb8-25"><a href="#cb8-25"></a>focus_model &lt;-<span class="st"> </span><span class="kw">calc_dumm</span>(cosine_distances_df, target_source)</span>
+<span id="cb8-26"><a href="#cb8-26"></a></span>
+<span id="cb8-27"><a href="#cb8-27"></a>target_source &lt;-<span class="st"> &quot;Bild.de&quot;</span></span>
+<span id="cb8-28"><a href="#cb8-28"></a><span class="kw">load</span>(<span class="kw">paste0</span>(<span class="st">&quot;../output/cosine_dist_&quot;</span>, target_source, <span class="st">&quot;.Rda&quot;</span>))</span>
+<span id="cb8-29"><a href="#cb8-29"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(bild)</span>
+<span id="cb8-30"><a href="#cb8-30"></a>bild_model &lt;-<span class="st"> </span><span class="kw">calc_dumm</span>(cosine_distances_df, target_source)</span>
+<span id="cb8-31"><a href="#cb8-31"></a></span>
+<span id="cb8-32"><a href="#cb8-32"></a>target_source &lt;-<span class="st"> &quot;SPIEGEL ONLINE&quot;</span></span>
+<span id="cb8-33"><a href="#cb8-33"></a><span class="kw">load</span>(<span class="kw">paste0</span>(<span class="st">&quot;../output/cosine_dist_&quot;</span>, target_source, <span class="st">&quot;.Rda&quot;</span>))</span>
+<span id="cb8-34"><a href="#cb8-34"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(spiegel)</span>
+<span id="cb8-35"><a href="#cb8-35"></a>spiegel_model &lt;-<span class="st"> </span><span class="kw">calc_dumm</span>(cosine_distances_df, target_source)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>stargazer<span class="op">::</span><span class="kw">stargazer</span>(welt_model, stern_model, zeit_model, handelsblatt_model, focus_model, bild_model, spiegel_model,</span>
+<span id="cb9-2"><a href="#cb9-2"></a>                     <span class="dt">column.labels =</span> <span class="kw">c</span>(<span class="st">&quot;DIE WELT&quot;</span>, <span class="st">&quot;stern.de&quot;</span>, <span class="st">&quot;ZEIT ONLINE&quot;</span>, <span class="st">&quot;Handelsblatt&quot;</span>, <span class="st">&quot;FOCUS Online&quot;</span>, <span class="st">&quot;Bild.de&quot;</span>, <span class="st">&quot;SPIEGEL ONLINE&quot;</span>),</span>
+<span id="cb9-3"><a href="#cb9-3"></a>                     <span class="dt">dep.var.labels =</span> <span class="kw">paste0</span>(<span class="st">&quot;Cosine similarity of topic distribution&quot;</span>), </span>
+<span id="cb9-4"><a href="#cb9-4"></a>                     <span class="dt">single.row =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb9-5"><a href="#cb9-5"></a>                     <span class="co">#font.size = &quot;tiny&quot;,</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a>                     <span class="dt">type =</span> <span class="st">&quot;text&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+## ============================================================================================================================================================================================
+##                                                                                               Dependent variable:                                                                           
+##                     ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+##                                                                                     Cosine similarity of topic distribution                                                                 
+##                             DIE WELT                stern.de               ZEIT ONLINE           Handelsblatt           FOCUS Online               Bild.de               SPIEGEL ONLINE     
+##                               (1)                      (2)                     (3)                   (4)                    (5)                      (6)                      (7)           
+## --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## source2B90/GRÜNE       -0.249*** (0.036)        -0.235*** (0.045)       -0.213*** (0.055)       0.049 (0.048)        -0.333*** (0.038)        -0.326*** (0.054)        -0.229*** (0.044)    
+## source2CDU             -0.290*** (0.033)        -0.203*** (0.042)       -0.262*** (0.051)       0.014 (0.045)        -0.313*** (0.036)        -0.311*** (0.051)        -0.248*** (0.041)    
+## source2DIE LINKE       -0.298*** (0.033)        -0.150*** (0.042)       -0.222*** (0.051)       0.059 (0.045)        -0.315*** (0.036)        -0.311*** (0.051)        -0.225*** (0.041)    
+## source2FDP             -0.267*** (0.033)        -0.177*** (0.042)       -0.197*** (0.051)       0.050 (0.045)        -0.321*** (0.036)        -0.323*** (0.051)        -0.227*** (0.041)    
+## source2SPD             -0.304*** (0.034)        -0.193*** (0.043)       -0.259*** (0.052)       0.011 (0.045)        -0.350*** (0.036)        -0.357*** (0.051)        -0.296*** (0.042)    
+## Constant               -1.746*** (0.024)        -1.972*** (0.030)       -1.749*** (0.036)     -1.835*** (0.031)      -1.812*** (0.025)        -1.730*** (0.036)        -1.861*** (0.029)    
+## --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## Observations                 1,376                    1,382                   1,408                 1,204                  1,432                    1,326                    1,428          
+## R2                           0.082                    0.027                   0.025                 0.003                  0.088                    0.050                    0.042          
+## Adjusted R2                  0.078                    0.023                   0.021                 -0.002                 0.085                    0.046                    0.038          
+## Residual Std. Error    0.366 (df = 1370)        0.463 (df = 1376)       0.570 (df = 1402)     0.457 (df = 1198)      0.401 (df = 1426)        0.547 (df = 1320)        0.461 (df = 1422)    
+## F Statistic         24.339*** (df = 5; 1370) 7.507*** (df = 5; 1376) 7.137*** (df = 5; 1402) 0.617 (df = 5; 1198) 27.594*** (df = 5; 1426) 13.769*** (df = 5; 1320) 12.406*** (df = 5; 1422)
+## ============================================================================================================================================================================================
+## Note:                                                                                                                                                            *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
+</div>
+<div id="regression-discontinuity-model" class="section level2">
+<h2>4.2. Regression discontinuity model</h2>
+<p>Calculate a regression discontinuity model for each newspaper <span class="math inline">\(i\)</span>.</p>
+<p><span class="math display">\[
+\text{CosineSimilarity}_{i}=\beta_0+\beta_1T_i+\beta_2W_{centered}+\beta_nDn_{j}+\beta_{n+n}T_iDn_{j}+\epsilon_i
+\]</span></p>
+<p>where <span class="math inline">\(D2_{j}, D3_{j}, ... ,Dn_{j}\)</span> represent dummy variables for a political party <span class="math inline">\(j\)</span> and $W_{centered} = $ date - election day.</p>
+<p><span class="math display">\[
+T_i = 1 \text{ if date } &gt;= \text{election date} \\
+T_i = 0 \text{ if date } &lt; \text{election date}
+\]</span></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>plot_data &lt;-<span class="st"> </span><span class="cf">function</span>(dataframe) {</span>
+<span id="cb11-2"><a href="#cb11-2"></a>  cosine_distances_df <span class="op">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a><span class="st">    </span><span class="kw">filter</span>(type2 <span class="op">==</span><span class="st"> &quot;press&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(date1, cos_sim, <span class="dt">color =</span> election_dummy)) <span class="op">+</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">show.legend =</span> F) <span class="op">+</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a><span class="st">    </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> election_date) <span class="op">+</span></span>
+<span id="cb11-7"><a href="#cb11-7"></a><span class="st">    </span>ggthemes<span class="op">::</span><span class="kw">theme_clean</span>() <span class="op">+</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;Cosine similarity of topic distribution&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;&quot;</span>) <span class="op">+</span></span>
+<span id="cb11-9"><a href="#cb11-9"></a><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span>source2)</span>
+<span id="cb11-10"><a href="#cb11-10"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>calc_rd_dummy&lt;-<span class="st"> </span><span class="cf">function</span>(dataframe, target_source) { </span>
+<span id="cb12-2"><a href="#cb12-2"></a>  temp_df &lt;-<span class="st"> </span>dataframe <span class="op">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="st">    </span><span class="kw">filter</span>(type2 <span class="op">==</span><span class="st"> &quot;press&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a><span class="st">    </span><span class="kw">mutate</span>(</span>
+<span id="cb12-5"><a href="#cb12-5"></a>      <span class="dt">X_centered =</span> <span class="kw">I</span>(date1 <span class="op">-</span><span class="st"> </span>election_date),</span>
+<span id="cb12-6"><a href="#cb12-6"></a>      <span class="dt">treatedTRUE =</span> <span class="kw">ifelse</span>(date1 <span class="op">&gt;=</span><span class="st"> </span>election_date, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb12-7"><a href="#cb12-7"></a></span>
+<span id="cb12-8"><a href="#cb12-8"></a>  model_outcome &lt;-<span class="st"> </span>temp_df <span class="op">%$%</span></span>
+<span id="cb12-9"><a href="#cb12-9"></a><span class="st">    </span><span class="kw">lm</span>(<span class="kw">log</span>(cos_sim) <span class="op">~</span><span class="st"> </span>treatedTRUE <span class="op">+</span><span class="st"> </span>source2 <span class="op">+</span><span class="st"> </span>X_centered)</span>
+<span id="cb12-10"><a href="#cb12-10"></a>}</span>
+<span id="cb12-11"><a href="#cb12-11"></a></span>
+<span id="cb12-12"><a href="#cb12-12"></a>calc_rd_dummy_interaction &lt;-<span class="st"> </span><span class="cf">function</span>(dataframe, target_source) { </span>
+<span id="cb12-13"><a href="#cb12-13"></a>  temp_df &lt;-<span class="st"> </span>dataframe <span class="op">%&gt;%</span></span>
+<span id="cb12-14"><a href="#cb12-14"></a><span class="st">    </span><span class="kw">filter</span>(type2 <span class="op">==</span><span class="st"> &quot;press&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb12-15"><a href="#cb12-15"></a><span class="st">    </span><span class="kw">mutate</span>(</span>
+<span id="cb12-16"><a href="#cb12-16"></a>      <span class="dt">X_centered =</span> <span class="kw">I</span>(date1 <span class="op">-</span><span class="st"> </span>election_date),</span>
+<span id="cb12-17"><a href="#cb12-17"></a>      <span class="dt">treatedTRUE =</span> <span class="kw">ifelse</span>(date1 <span class="op">&gt;=</span><span class="st"> </span>election_date, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb12-18"><a href="#cb12-18"></a></span>
+<span id="cb12-19"><a href="#cb12-19"></a>  model_outcome &lt;-<span class="st"> </span>temp_df <span class="op">%$%</span></span>
+<span id="cb12-20"><a href="#cb12-20"></a><span class="st">    </span><span class="kw">lm</span>(<span class="kw">log</span>(cos_sim) <span class="op">~</span><span class="st"> </span>treatedTRUE <span class="op">*</span><span class="st"> </span>source2 <span class="op">+</span><span class="st"> </span>X_centered)</span>
+<span id="cb12-21"><a href="#cb12-21"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>target_source &lt;-<span class="st"> &quot;DIE WELT&quot;</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="co">#load(paste0(&quot;../output/cosine_dist_&quot;, target_source, &quot;.Rda&quot;))</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(welt)</span>
+<span id="cb13-4"><a href="#cb13-4"></a>welt_model1 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy</span>(cosine_distances_df, target_source)</span>
+<span id="cb13-5"><a href="#cb13-5"></a>welt_model2 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy_interaction</span>(cosine_distances_df, target_source)</span>
+<span id="cb13-6"><a href="#cb13-6"></a></span>
+<span id="cb13-7"><a href="#cb13-7"></a>target_source &lt;-<span class="st"> &quot;stern.de&quot;</span></span>
+<span id="cb13-8"><a href="#cb13-8"></a><span class="co">#load(paste0(&quot;../output/cosine_dist_&quot;, target_source, &quot;.Rda&quot;))</span></span>
+<span id="cb13-9"><a href="#cb13-9"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(stern)</span>
+<span id="cb13-10"><a href="#cb13-10"></a>stern_model1 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy</span>(cosine_distances_df, target_source)</span>
+<span id="cb13-11"><a href="#cb13-11"></a>stern_model2 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy_interaction</span>(cosine_distances_df, target_source)</span>
+<span id="cb13-12"><a href="#cb13-12"></a></span>
+<span id="cb13-13"><a href="#cb13-13"></a>target_source &lt;-<span class="st"> &quot;ZEIT ONLINE&quot;</span></span>
+<span id="cb13-14"><a href="#cb13-14"></a><span class="co">#load(paste0(&quot;../output/cosine_dist_&quot;, target_source, &quot;.Rda&quot;))</span></span>
+<span id="cb13-15"><a href="#cb13-15"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(zeit)</span>
+<span id="cb13-16"><a href="#cb13-16"></a>zeit_model1 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy</span>(cosine_distances_df, target_source)</span>
+<span id="cb13-17"><a href="#cb13-17"></a>zeit_model2 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy_interaction</span>(cosine_distances_df, target_source)</span>
+<span id="cb13-18"><a href="#cb13-18"></a></span>
+<span id="cb13-19"><a href="#cb13-19"></a>target_source &lt;-<span class="st"> &quot;Handelsblatt&quot;</span></span>
+<span id="cb13-20"><a href="#cb13-20"></a><span class="co">#load(paste0(&quot;../output/cosine_dist_&quot;, target_source, &quot;.Rda&quot;))</span></span>
+<span id="cb13-21"><a href="#cb13-21"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(handelsblatt)</span>
+<span id="cb13-22"><a href="#cb13-22"></a>handelsblatt_model1 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy</span>(cosine_distances_df, target_source)</span>
+<span id="cb13-23"><a href="#cb13-23"></a>handelsblatt_model2 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy_interaction</span>(cosine_distances_df, target_source)</span>
+<span id="cb13-24"><a href="#cb13-24"></a></span>
+<span id="cb13-25"><a href="#cb13-25"></a>target_source &lt;-<span class="st"> &quot;FOCUS Online&quot;</span></span>
+<span id="cb13-26"><a href="#cb13-26"></a><span class="co">#load(paste0(&quot;../output/cosine_dist_&quot;, target_source, &quot;.Rda&quot;))</span></span>
+<span id="cb13-27"><a href="#cb13-27"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(focus)</span>
+<span id="cb13-28"><a href="#cb13-28"></a>focus_model1 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy</span>(cosine_distances_df, target_source)</span>
+<span id="cb13-29"><a href="#cb13-29"></a>focus_model2 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy_interaction</span>(cosine_distances_df, target_source)</span>
+<span id="cb13-30"><a href="#cb13-30"></a></span>
+<span id="cb13-31"><a href="#cb13-31"></a>target_source &lt;-<span class="st"> &quot;Bild.de&quot;</span></span>
+<span id="cb13-32"><a href="#cb13-32"></a><span class="co">#load(paste0(&quot;../output/cosine_dist_&quot;, target_source, &quot;.Rda&quot;))</span></span>
+<span id="cb13-33"><a href="#cb13-33"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(bild)</span>
+<span id="cb13-34"><a href="#cb13-34"></a>bild_model1 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy</span>(cosine_distances_df, target_source)</span>
+<span id="cb13-35"><a href="#cb13-35"></a>bild_model2 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy_interaction</span>(cosine_distances_df, target_source)</span>
+<span id="cb13-36"><a href="#cb13-36"></a></span>
+<span id="cb13-37"><a href="#cb13-37"></a>target_source &lt;-<span class="st"> &quot;SPIEGEL ONLINE&quot;</span></span>
+<span id="cb13-38"><a href="#cb13-38"></a><span class="co">#load(paste0(&quot;../output/cosine_dist_&quot;, target_source, &quot;.Rda&quot;))</span></span>
+<span id="cb13-39"><a href="#cb13-39"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(spiegel)</span>
+<span id="cb13-40"><a href="#cb13-40"></a>spiegel_model1 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy</span>(cosine_distances_df, target_source)</span>
+<span id="cb13-41"><a href="#cb13-41"></a>spiegel_model2 &lt;-<span class="st"> </span><span class="kw">calc_rd_dummy_interaction</span>(cosine_distances_df, target_source)</span></code></pre></div>
 <div id="without-interaction-terms" class="section level3">
 <h3>4.1.1. Without interaction terms</h3>
 <p><span class="math display">\[
 \text{CosineSimilarity}_{i}=\beta_0+\beta_1T_i+\beta_nDn_{j}+\epsilon_i
 \]</span></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>stargazer<span class="op">::</span><span class="kw">stargazer</span>(welt_model1, stern_model1, zeit_model1, handelsblatt_model1, focus_model1, bild_model1, spiegel_model1,</span>
-<span id="cb10-2"><a href="#cb10-2"></a>                     <span class="dt">column.labels =</span> <span class="kw">c</span>(<span class="st">&quot;DIE WELT&quot;</span>, <span class="st">&quot;stern.de&quot;</span>, <span class="st">&quot;ZEIT ONLINE&quot;</span>, <span class="st">&quot;Handelsblatt&quot;</span>, <span class="st">&quot;FOCUS Online&quot;</span>, <span class="st">&quot;Bild.de&quot;</span>, <span class="st">&quot;SPIEGEL ONLINE&quot;</span>),</span>
-<span id="cb10-3"><a href="#cb10-3"></a>                     <span class="dt">dep.var.labels =</span> <span class="kw">paste0</span>(<span class="st">&quot;Cosine similarity of topic distribution&quot;</span>), </span>
-<span id="cb10-4"><a href="#cb10-4"></a>                     <span class="dt">single.row =</span> <span class="ot">TRUE</span>,</span>
-<span id="cb10-5"><a href="#cb10-5"></a>                     <span class="co">#font.size = &quot;tiny&quot;,</span></span>
-<span id="cb10-6"><a href="#cb10-6"></a>                     <span class="dt">type =</span> <span class="st">&quot;text&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>stargazer<span class="op">::</span><span class="kw">stargazer</span>(welt_model1, stern_model1, zeit_model1, handelsblatt_model1, focus_model1, bild_model1, spiegel_model1,</span>
+<span id="cb14-2"><a href="#cb14-2"></a>                     <span class="dt">column.labels =</span> <span class="kw">c</span>(<span class="st">&quot;DIE WELT&quot;</span>, <span class="st">&quot;stern.de&quot;</span>, <span class="st">&quot;ZEIT ONLINE&quot;</span>, <span class="st">&quot;Handelsblatt&quot;</span>, <span class="st">&quot;FOCUS Online&quot;</span>, <span class="st">&quot;Bild.de&quot;</span>, <span class="st">&quot;SPIEGEL ONLINE&quot;</span>),</span>
+<span id="cb14-3"><a href="#cb14-3"></a>                     <span class="dt">dep.var.labels =</span> <span class="kw">paste0</span>(<span class="st">&quot;Cosine similarity of topic distribution&quot;</span>), </span>
+<span id="cb14-4"><a href="#cb14-4"></a>                     <span class="dt">single.row =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb14-5"><a href="#cb14-5"></a>                     <span class="co">#font.size = &quot;tiny&quot;,</span></span>
+<span id="cb14-6"><a href="#cb14-6"></a>                     <span class="dt">type =</span> <span class="st">&quot;text&quot;</span>)</span></code></pre></div>
 <pre><code>## 
-## =============================================================================================================================================================================================
-##                                                                                                Dependent variable:                                                                           
-##                     -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-##                                                                                      Cosine similarity of topic distribution                                                                 
-##                             DIE WELT                stern.de               ZEIT ONLINE             Handelsblatt            FOCUS Online               Bild.de             SPIEGEL ONLINE     
-##                               (1)                      (2)                     (3)                     (4)                     (5)                      (6)                     (7)          
-## ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-## treated                 -0.011* (0.006)          -0.0001 (0.006)         -0.014* (0.008)          -0.012 (0.008)          -0.006 (0.005)          -0.004 (0.008)          0.010* (0.006)     
-## source2B90/GRÜNE       -0.036*** (0.005)        -0.024*** (0.005)       -0.026*** (0.008)        0.015** (0.007)        -0.043*** (0.005)        -0.038*** (0.007)       -0.025*** (0.006)   
-## source2CDU             -0.040*** (0.005)        -0.021*** (0.005)       -0.029*** (0.007)        0.015** (0.007)        -0.040*** (0.005)        -0.041*** (0.007)       -0.030*** (0.005)   
-## source2DIE LINKE       -0.044*** (0.005)        -0.017*** (0.005)       -0.030*** (0.007)        0.016** (0.007)        -0.043*** (0.005)        -0.043*** (0.007)       -0.031*** (0.005)   
-## source2FDP             -0.036*** (0.005)        -0.014*** (0.005)        -0.014* (0.007)         0.024*** (0.007)       -0.039*** (0.005)        -0.037*** (0.007)       -0.023*** (0.005)   
-## source2SPD             -0.043*** (0.005)        -0.019*** (0.005)       -0.033*** (0.007)         0.012* (0.007)        -0.045*** (0.005)        -0.045*** (0.007)       -0.037*** (0.005)   
-## X_centered             -0.00004 (0.00004)       0.0001 (0.00004)        -0.0001** (0.0001)       0.0001 (0.0001)        -0.00000 (0.00004)       0.00000 (0.0001)       -0.0001** (0.00004)  
-## Constant                0.187*** (0.004)        0.147*** (0.005)         0.196*** (0.007)        0.171*** (0.006)        0.173*** (0.004)        0.191*** (0.006)        0.160*** (0.005)    
-## ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-## Observations                 1,376                    1,382                   1,408                   1,204                   1,432                    1,326                   1,428         
-## R2                           0.101                    0.027                   0.058                   0.012                   0.088                    0.046                   0.043         
-## Adjusted R2                  0.096                    0.022                   0.054                   0.007                   0.084                    0.041                   0.038         
-## Residual Std. Error    0.052 (df = 1368)        0.056 (df = 1374)       0.080 (df = 1400)       0.070 (df = 1196)       0.053 (df = 1424)        0.073 (df = 1318)       0.059 (df = 1420)   
-## F Statistic         21.893*** (df = 7; 1368) 5.484*** (df = 7; 1374) 12.402*** (df = 7; 1400) 2.160** (df = 7; 1196) 19.714*** (df = 7; 1424) 9.109*** (df = 7; 1318) 9.085*** (df = 7; 1420)
-## =============================================================================================================================================================================================
-## Note:                                                                                                                                                             *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
+## ==============================================================================================================================================================================================
+##                                                                                                Dependent variable:                                                                            
+##                     --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+##                                                                                      Cosine similarity of topic distribution                                                                  
+##                             DIE WELT                stern.de               ZEIT ONLINE             Handelsblatt            FOCUS Online               Bild.de              SPIEGEL ONLINE     
+##                               (1)                      (2)                     (3)                     (4)                     (5)                      (6)                      (7)          
+## ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## treated                 -0.102** (0.040)        -0.123** (0.051)        -0.173*** (0.058)       -0.193*** (0.052)         -0.032 (0.042)           -0.003 (0.057)           0.025 (0.048)     
+## source2B90/GRÜNE       -0.262*** (0.035)        -0.238*** (0.045)       -0.243*** (0.054)         0.034 (0.048)         -0.337*** (0.038)        -0.321*** (0.055)        -0.228*** (0.044)   
+## source2CDU             -0.290*** (0.033)        -0.203*** (0.042)       -0.262*** (0.050)         0.014 (0.044)         -0.313*** (0.036)        -0.311*** (0.051)        -0.248*** (0.041)   
+## source2DIE LINKE       -0.298*** (0.033)        -0.150*** (0.042)       -0.222*** (0.050)         0.059 (0.044)         -0.315*** (0.036)        -0.311*** (0.051)        -0.225*** (0.041)   
+## source2FDP             -0.267*** (0.033)        -0.177*** (0.042)       -0.197*** (0.050)         0.050 (0.044)         -0.321*** (0.036)        -0.323*** (0.051)        -0.227*** (0.041)   
+## source2SPD             -0.307*** (0.034)        -0.191*** (0.043)       -0.266*** (0.051)         0.010 (0.045)         -0.350*** (0.036)        -0.354*** (0.051)        -0.296*** (0.042)   
+## X_centered              0.00002 (0.0003)        0.001*** (0.0003)        -0.001* (0.0004)       0.001*** (0.0003)        0.0001 (0.0003)           0.001 (0.0004)         -0.0002 (0.0003)    
+## Constant               -1.692*** (0.030)        -1.919*** (0.038)       -1.646*** (0.045)       -1.743*** (0.040)       -1.796*** (0.032)        -1.738*** (0.045)        -1.873*** (0.037)   
+## ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## Observations                 1,376                    1,382                   1,408                   1,204                   1,432                    1,326                    1,428         
+## R2                           0.099                    0.035                   0.078                   0.014                   0.089                    0.055                    0.042         
+## Adjusted R2                  0.094                    0.030                   0.073                   0.008                   0.085                    0.050                    0.037         
+## Residual Std. Error    0.363 (df = 1368)        0.461 (df = 1374)       0.555 (df = 1400)       0.455 (df = 1196)       0.401 (df = 1424)        0.545 (df = 1318)        0.462 (df = 1420)   
+## F Statistic         21.427*** (df = 7; 1368) 7.158*** (df = 7; 1374) 16.901*** (df = 7; 1400) 2.457** (df = 7; 1196) 19.874*** (df = 7; 1424) 10.939*** (df = 7; 1318) 8.903*** (df = 7; 1420)
+## ==============================================================================================================================================================================================
+## Note:                                                                                                                                                              *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
 <div id="interpretation" class="section level4">
 <h4>Interpretation:</h4>
 <p><strong>DIE WELT</strong></p>
@@ -2145,119 +2219,117 @@ T_i = 0 \text{ if date } &lt; \text{election date}
 <li>The coefficient <span class="math inline">\(\beta_1\)</span> is how the intercept jumps (the RDD effect)</li>
 <li><span class="math inline">\(\beta_3\)</span> is how the slope changes for each party</li>
 </ul>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>stargazer<span class="op">::</span><span class="kw">stargazer</span>(welt_model2, stern_model2, zeit_model2, handelsblatt_model2, focus_model2, bild_model2, spiegel_model2,</span>
-<span id="cb12-2"><a href="#cb12-2"></a>                     <span class="dt">column.labels =</span> <span class="kw">c</span>(<span class="st">&quot;DIE WELT&quot;</span>, <span class="st">&quot;stern.de&quot;</span>, <span class="st">&quot;ZEIT ONLINE&quot;</span>, <span class="st">&quot;Handelsblatt&quot;</span>, <span class="st">&quot;FOCUS Online&quot;</span>, <span class="st">&quot;Bild.de&quot;</span>, <span class="st">&quot;SPIEGEL ONLINE&quot;</span>),</span>
-<span id="cb12-3"><a href="#cb12-3"></a>                     <span class="dt">dep.var.labels =</span> <span class="kw">paste0</span>(<span class="st">&quot;Cosine similarity of topic distribution&quot;</span>), </span>
-<span id="cb12-4"><a href="#cb12-4"></a>                     <span class="dt">single.row =</span> <span class="ot">TRUE</span>,</span>
-<span id="cb12-5"><a href="#cb12-5"></a>                     <span class="co">#font.size = &quot;tiny&quot;,</span></span>
-<span id="cb12-6"><a href="#cb12-6"></a>                     <span class="dt">type =</span> <span class="st">&quot;text&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>stargazer<span class="op">::</span><span class="kw">stargazer</span>(welt_model2, stern_model2, zeit_model2, handelsblatt_model2, focus_model2, bild_model2, spiegel_model2,</span>
+<span id="cb16-2"><a href="#cb16-2"></a>                     <span class="dt">column.labels =</span> <span class="kw">c</span>(<span class="st">&quot;DIE WELT&quot;</span>, <span class="st">&quot;stern.de&quot;</span>, <span class="st">&quot;ZEIT ONLINE&quot;</span>, <span class="st">&quot;Handelsblatt&quot;</span>, <span class="st">&quot;FOCUS Online&quot;</span>, <span class="st">&quot;Bild.de&quot;</span>, <span class="st">&quot;SPIEGEL ONLINE&quot;</span>),</span>
+<span id="cb16-3"><a href="#cb16-3"></a>                     <span class="dt">dep.var.labels =</span> <span class="kw">paste0</span>(<span class="st">&quot;Cosine similarity of topic distribution&quot;</span>), </span>
+<span id="cb16-4"><a href="#cb16-4"></a>                     <span class="dt">single.row =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb16-5"><a href="#cb16-5"></a>                     <span class="co">#font.size = &quot;tiny&quot;,</span></span>
+<span id="cb16-6"><a href="#cb16-6"></a>                     <span class="dt">type =</span> <span class="st">&quot;text&quot;</span>)</span></code></pre></div>
 <pre><code>## 
-## =============================================================================================================================================================================================================
-##                                                                                                            Dependent variable:                                                                               
-##                              --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-##                                                                                                  Cosine similarity of topic distribution                                                                     
-##                                      DIE WELT                  stern.de               ZEIT ONLINE              Handelsblatt             FOCUS Online                Bild.de               SPIEGEL ONLINE     
-##                                         (1)                      (2)                      (3)                      (4)                       (5)                      (6)                      (7)           
-## -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-## treated                          -0.017** (0.008)           -0.002 (0.009)           -0.013 (0.013)           -0.003 (0.012)           -0.012 (0.008)           -0.028** (0.012)          0.010 (0.009)      
-## source2B90/GRÜNE                 -0.044*** (0.007)        -0.029*** (0.007)         -0.028** (0.011)         0.021** (0.010)          -0.053*** (0.007)        -0.056*** (0.010)        -0.030*** (0.008)    
-## source2CDU                       -0.042*** (0.007)         -0.016** (0.007)         -0.026** (0.011)         0.030*** (0.010)         -0.040*** (0.007)        -0.053*** (0.010)        -0.023*** (0.008)    
-## source2DIE LINKE                 -0.045*** (0.007)         -0.016** (0.007)         -0.026** (0.011)         0.024** (0.010)          -0.042*** (0.007)        -0.058*** (0.010)        -0.025*** (0.008)    
-## source2FDP                       -0.045*** (0.007)        -0.025*** (0.007)         -0.022** (0.011)          0.016 (0.010)           -0.050*** (0.007)        -0.060*** (0.010)        -0.036*** (0.008)    
-## source2SPD                       -0.044*** (0.007)         -0.018** (0.007)         -0.027** (0.011)          0.017* (0.010)          -0.048*** (0.007)        -0.064*** (0.010)        -0.036*** (0.008)    
-## X_centered                      -0.00004 (0.00004)         0.0001 (0.00004)        -0.0001** (0.0001)        0.0001 (0.0001)         -0.00001 (0.00004)         0.00000 (0.0001)       -0.0001** (0.00004)   
-## treatedTRUE:source2B90/GRÜNE       0.017 (0.010)            0.010 (0.011)            0.003 (0.016)            -0.014 (0.015)           0.022** (0.010)          0.033** (0.015)           0.011 (0.011)      
-## treatedTRUE:source2CDU             0.003 (0.009)            -0.011 (0.010)           -0.005 (0.015)          -0.030** (0.014)          -0.001 (0.009)            0.020 (0.014)            -0.013 (0.011)     
-## treatedTRUE:source2DIE LINKE       0.002 (0.009)            -0.002 (0.010)           -0.007 (0.015)           -0.015 (0.014)           -0.002 (0.009)            0.025* (0.014)           -0.012 (0.011)     
-## treatedTRUE:source2FDP            0.018* (0.009)           0.021** (0.010)           0.016 (0.015)            0.016 (0.014)            0.019** (0.009)          0.039*** (0.014)         0.024** (0.011)     
-## treatedTRUE:source2SPD             0.003 (0.010)            -0.003 (0.010)           -0.010 (0.015)           -0.012 (0.014)            0.005 (0.010)           0.033** (0.014)           -0.002 (0.011)     
-## Constant                         0.190*** (0.005)          0.148*** (0.006)         0.195*** (0.008)         0.167*** (0.007)         0.177*** (0.005)          0.205*** (0.008)         0.160*** (0.006)    
-## -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-## Observations                           1,376                    1,382                    1,408                    1,204                     1,432                    1,326                    1,428          
-## R2                                     0.105                    0.036                    0.061                    0.023                     0.096                    0.053                    0.054          
-## Adjusted R2                            0.097                    0.027                    0.053                    0.013                     0.088                    0.045                    0.046          
-## Residual Std. Error              0.052 (df = 1363)        0.056 (df = 1369)        0.080 (df = 1395)        0.070 (df = 1191)         0.053 (df = 1419)        0.072 (df = 1313)        0.059 (df = 1415)    
-## F Statistic                  13.313*** (df = 12; 1363) 4.224*** (df = 12; 1369) 7.581*** (df = 12; 1395) 2.366*** (df = 12; 1191) 12.490*** (df = 12; 1419) 6.183*** (df = 12; 1313) 6.766*** (df = 12; 1415)
-## =============================================================================================================================================================================================================
-## Note:                                                                                                                                                                             *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
+## ==============================================================================================================================================================================================================
+##                                                                                                             Dependent variable:                                                                               
+##                              ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+##                                                                                                   Cosine similarity of topic distribution                                                                     
+##                                      DIE WELT                  stern.de                ZEIT ONLINE              Handelsblatt             FOCUS Online                Bild.de               SPIEGEL ONLINE     
+##                                         (1)                      (2)                       (3)                      (4)                       (5)                      (6)                      (7)           
+## --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## treated                           -0.113* (0.058)           -0.099 (0.074)           -0.092 (0.086)            -0.089 (0.077)           -0.064 (0.062)           -0.170* (0.087)           0.046 (0.071)      
+## source2B90/GRÜNE                 -0.292*** (0.048)        -0.237*** (0.061)         -0.208*** (0.075)          0.106* (0.062)          -0.401*** (0.053)        -0.458*** (0.078)        -0.245*** (0.061)    
+## source2CDU                       -0.286*** (0.048)         -0.145** (0.061)         -0.194*** (0.075)         0.131** (0.062)          -0.298*** (0.053)        -0.382*** (0.078)        -0.195*** (0.061)    
+## source2DIE LINKE                 -0.285*** (0.048)         -0.121** (0.061)         -0.156** (0.075)          0.123** (0.062)          -0.298*** (0.053)        -0.410*** (0.078)        -0.159*** (0.061)    
+## source2FDP                       -0.300*** (0.048)        -0.220*** (0.061)         -0.177** (0.075)           0.047 (0.062)           -0.384*** (0.053)        -0.447*** (0.078)        -0.277*** (0.061)    
+## source2SPD                       -0.302*** (0.048)        -0.164*** (0.061)         -0.194*** (0.075)          0.077 (0.062)           -0.371*** (0.053)        -0.508*** (0.078)        -0.287*** (0.061)    
+## X_centered                       -0.00001 (0.0003)        0.001*** (0.0003)         -0.001* (0.0004)         0.001*** (0.0003)         0.00004 (0.0003)           0.001 (0.0004)          -0.0002 (0.0003)    
+## treatedTRUE:source2B90/GRÜNE       0.072 (0.072)            0.005 (0.091)            -0.060 (0.108)           -0.161* (0.098)           0.145* (0.077)           0.257** (0.110)           0.048 (0.089)      
+## treatedTRUE:source2CDU            -0.007 (0.066)            -0.111 (0.084)           -0.124 (0.101)          -0.234*** (0.088)          -0.027 (0.072)            0.123 (0.102)            -0.098 (0.083)     
+## treatedTRUE:source2DIE LINKE      -0.024 (0.066)            -0.055 (0.084)           -0.121 (0.101)            -0.128 (0.088)           -0.031 (0.072)            0.171* (0.102)           -0.124 (0.083)     
+## treatedTRUE:source2FDP             0.061 (0.066)            0.082 (0.084)            -0.037 (0.101)            0.007 (0.088)             0.116 (0.072)           0.215** (0.102)           0.093 (0.083)      
+## treatedTRUE:source2SPD            -0.011 (0.067)            -0.053 (0.085)           -0.134 (0.102)            -0.136 (0.090)            0.038 (0.073)           0.270*** (0.103)          -0.017 (0.084)     
+## Constant                         -1.687*** (0.037)        -1.932*** (0.047)         -1.690*** (0.057)        -1.795*** (0.049)         -1.778*** (0.041)        -1.641*** (0.059)        -1.884*** (0.047)    
+## --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## Observations                           1,376                    1,382                     1,408                    1,204                     1,432                    1,326                    1,428          
+## R2                                     0.101                    0.039                     0.080                    0.023                     0.095                    0.062                    0.049          
+## Adjusted R2                            0.093                    0.031                     0.072                    0.014                     0.088                    0.053                    0.041          
+## Residual Std. Error              0.363 (df = 1363)        0.461 (df = 1369)         0.555 (df = 1395)        0.454 (df = 1191)         0.400 (df = 1419)        0.545 (df = 1313)        0.461 (df = 1415)    
+## F Statistic                  12.766*** (df = 12; 1363) 4.691*** (df = 12; 1369) 10.091*** (df = 12; 1395) 2.375*** (df = 12; 1191) 12.446*** (df = 12; 1419) 7.174*** (df = 12; 1313) 6.029*** (df = 12; 1415)
+## ==============================================================================================================================================================================================================
+## Note:                                                                                                                                                                              *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
 <div id="interpretation-1" class="section level4">
 <h4>Interpretation:</h4>
-<p><em>DIE WELT</em></p>
-<ul>
-<li><p>Treatment effect: The cosine similarity drops after the election day by 0.017 on average.</p></li>
-<li><p>Dummy variables: The cosine similarity is on average less for all parties compared to AfD</p></li>
-<li><p>Interaction terms: The treatment effect is by 0.018 higher for FDP on average compared to AfD</p></li>
-</ul>
-<p><span class="math display">\[
-\text{CosineSimilarity}_{Welt}(D_{FDP}=1)=\beta_0-0.017*T-0.045+0.018*T \\
-\text{CosineSimilarity}_{Welt}(D_{FDP}=1)= \beta_0-0.045*T(-0.017+0.018)
-\]</span> <span class="math display">\[
-\text{CosineSimilarity}_{Welt}(D_{FDP}=0)=\beta_0-0.017*T \\
-\]</span></p>
+<p><strong>DIE WELT</strong></p>
 <p><strong>ZEIT ONLINE</strong></p>
 <p><strong>Handelsblatt</strong></p>
-<p><strong>FOCUS Online</strong></p>
-<p><strong>Bild.de</strong></p>
+<p><strong>FOCUS Online</strong> - Treatment effect: No significant change (on average)</p>
+<ul>
+<li><p>Dummy variables: The cosine similarity is on average less for all parties compared to AfD. E.g. compared to the AfD, the cosine similarity of topics is 45,8% lower for B90/Grüne, meaning that topic coverage of Bild.de is 45,8% lower for B90/Grüne compared to AfD</p></li>
+<li><p>Interaction terms: The effect of the election on topic coverage is 25,7% higher for B90/Grüne than for AfD.</p></li>
+</ul>
+<p><span class="math display">\[
+\text{CosineSimilarity}_{FOCUS}(D_{B90}=1)=\beta_0-0.17*T-0.458+0.257*T \\
+\text{CosineSimilarity}_{FOCUS}(D_{B90}=1)= \beta_0-0.458*T(-0.17+0.257)
+\]</span> <span class="math display">\[
+\text{CosineSimilarity}_{Welt}(D_{B90}=0)=\beta_0-0.17*T \\
+\]</span></p>
+<p><strong>Bild.de</strong> - Treatment effect: The cosine similarity drops after the election day by 17% on average (over all parties)</p>
 <p><strong>SPIEGEL ONLIINE</strong></p>
 </div>
 <div id="compare-models" class="section level4">
 <h4>Compare models</h4>
 <p><strong>DIE WELT</strong></p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">anova</span>(welt_model1, welt_model2)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">anova</span>(welt_model1, welt_model2)</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Res.Df"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["RSS"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Sum of Sq"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["F"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"1368","2":"3.644378","3":"NA","4":"NA","5":"NA","6":"NA","_rn_":"1"},{"1":"1363","2":"3.627469","3":"5","4":"0.01690928","5":"1.270713","6":"0.2740125","_rn_":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Res.Df"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["RSS"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Sum of Sq"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["F"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"1368","2":"180.0153","3":"NA","4":"NA","5":"NA","6":"NA","_rn_":"1"},{"1":"1363","2":"179.5702","3":"5","4":"0.4451024","5":"0.6756962","6":"0.6419209","_rn_":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p>The result shows a Df of 5 (indicating that the more complex model has 5 additional parameter) and a p-value of 0.274. This means that adding the interaction terms to the model did NOT lead to a significantly improved fit over the model.</p>
 <p>We can do the same check for all other media outlet models</p>
 <p><strong>stern.de</strong></p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">anova</span>(stern_model1, stern_model2)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">anova</span>(stern_model1, stern_model2)</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Res.Df"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["RSS"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Sum of Sq"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["F"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"1374","2":"4.331633","3":"NA","4":"NA","5":"NA","6":"NA","_rn_":"1"},{"1":"1369","2":"4.293693","3":"5","4":"0.03794006","5":"2.41936","6":"0.0340171","_rn_":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Res.Df"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["RSS"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Sum of Sq"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["F"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"1374","2":"291.8343","3":"NA","4":"NA","5":"NA","6":"NA","_rn_":"1"},{"1":"1369","2":"290.5293","3":"5","4":"1.304947","5":"1.229806","6":"0.2926481","_rn_":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p><strong>ZEIT ONLINE</strong></p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">anova</span>(zeit_model1, zeit_model2)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw">anova</span>(zeit_model1, zeit_model2)</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Res.Df"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["RSS"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Sum of Sq"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["F"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"1400","2":"9.046582","3":"NA","4":"NA","5":"NA","6":"NA","_rn_":"1"},{"1":"1395","2":"9.019367","3":"5","4":"0.02721501","5":"0.8418539","6":"0.5199515","_rn_":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Res.Df"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["RSS"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Sum of Sq"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["F"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"1400","2":"431.0254","3":"NA","4":"NA","5":"NA","6":"NA","_rn_":"1"},{"1":"1395","2":"430.1120","3":"5","4":"0.9133783","5":"0.5924795","6":"0.7057772","_rn_":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p><strong>Handelsblatt</strong></p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw">anova</span>(handelsblatt_model1, handelsblatt_model2)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="kw">anova</span>(handelsblatt_model1, handelsblatt_model2)</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Res.Df"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["RSS"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Sum of Sq"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["F"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"1196","2":"5.817867","3":"NA","4":"NA","5":"NA","6":"NA","_rn_":"1"},{"1":"1191","2":"5.754244","3":"5","4":"0.063623","5":"2.633708","6":"0.02234484","_rn_":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Res.Df"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["RSS"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Sum of Sq"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["F"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"1196","2":"247.7358","3":"NA","4":"NA","5":"NA","6":"NA","_rn_":"1"},{"1":"1191","2":"245.4253","3":"5","4":"2.31046","5":"2.24244","6":"0.04804109","_rn_":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p><strong>FOCUS ONLINE</strong></p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">anova</span>(focus_model1, focus_model2)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw">anova</span>(focus_model1, focus_model2)</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Res.Df"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["RSS"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Sum of Sq"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["F"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"1424","2":"3.956210","3":"NA","4":"NA","5":"NA","6":"NA","_rn_":"1"},{"1":"1419","2":"3.925022","3":"5","4":"0.03118837","5":"2.255085","6":"0.04677427","_rn_":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Res.Df"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["RSS"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Sum of Sq"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["F"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"1424","2":"228.7704","3":"NA","4":"NA","5":"NA","6":"NA","_rn_":"1"},{"1":"1419","2":"227.2056","3":"5","4":"1.564781","5":"1.954551","6":"0.08265098","_rn_":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p><strong>Bild.de</strong></p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">anova</span>(bild_model1, bild_model2)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="kw">anova</span>(bild_model1, bild_model2)</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Res.Df"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["RSS"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Sum of Sq"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["F"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"1318","2":"6.948858","3":"NA","4":"NA","5":"NA","6":"NA","_rn_":"1"},{"1":"1313","2":"6.895368","3":"5","4":"0.05349009","5":"2.037092","6":"0.07088728","_rn_":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Res.Df"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["RSS"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Sum of Sq"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["F"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"1318","2":"392.0273","3":"NA","4":"NA","5":"NA","6":"NA","_rn_":"1"},{"1":"1313","2":"389.2804","3":"5","4":"2.746912","5":"1.853006","6":"0.0997543","_rn_":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p><strong>SPIEGEL ONLINE</strong></p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw">anova</span>(spiegel_model1, spiegel_model2)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="kw">anova</span>(spiegel_model1, spiegel_model2)</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Res.Df"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["RSS"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Sum of Sq"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["F"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"1420","2":"4.967567","3":"NA","4":"NA","5":"NA","6":"NA","_rn_":"1"},{"1":"1415","2":"4.908400","3":"5","4":"0.05916695","5":"3.411345","6":"0.004551886","_rn_":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Res.Df"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["RSS"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Sum of Sq"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["F"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"1420","2":"302.6509","3":"NA","4":"NA","5":"NA","6":"NA","_rn_":"1"},{"1":"1415","2":"300.5659","3":"5","4":"2.084957","5":"1.963106","6":"0.08134794","_rn_":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
 </div>
-</div>
-<div id="isolated-models-for-each-party-media-pair" class="section level2">
-<h2>4.1.3 Isolated models for each party / media pair</h2>
+<div id="isolated-models-for-each-party-media-pair" class="section level3">
+<h3>4.1.4 Isolated models for each party / media pair</h3>
 <p><span class="math display">\[
 \text{CosineSimilarity}_{i}=\beta_0+\beta_1T_i+\beta_2W_{centered}+\beta_3T_i*W_{centered}+\epsilon_i
 \]</span></p>
@@ -2266,50 +2338,50 @@ T_i = 0 \text{ if date } &lt; \text{election date}
 <li>The coefficient <span class="math inline">\(\beta_1\)</span> is how the intercept jumps (the RDD effect)</li>
 <li><span class="math inline">\(\beta_3\)</span> is how the slope changes</li>
 </ul>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>calc_rd_models &lt;-<span class="st"> </span><span class="cf">function</span>(dataframe, target_source) {</span>
-<span id="cb21-2"><a href="#cb21-2"></a>  temp_df &lt;-<span class="st"> </span>dataframe <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb21-3"><a href="#cb21-3"></a><span class="st">    </span><span class="kw">mutate</span>(</span>
-<span id="cb21-4"><a href="#cb21-4"></a>      <span class="dt">X_centered =</span> <span class="kw">I</span>(date1 <span class="op">-</span><span class="st"> </span>election_date),</span>
-<span id="cb21-5"><a href="#cb21-5"></a>      <span class="dt">treatedTRUE =</span> <span class="kw">ifelse</span>(date1 <span class="op">&gt;=</span><span class="st"> </span>election_date, <span class="dv">1</span>, <span class="dv">0</span>))</span>
-<span id="cb21-6"><a href="#cb21-6"></a></span>
-<span id="cb21-7"><a href="#cb21-7"></a>  afd &lt;-<span class="st"> </span>temp_df <span class="op">%&gt;%</span></span>
-<span id="cb21-8"><a href="#cb21-8"></a><span class="st">    </span><span class="kw">filter</span>(source2 <span class="op">==</span><span class="st"> &quot;AfD&quot;</span>) <span class="op">%$%</span></span>
-<span id="cb21-9"><a href="#cb21-9"></a><span class="st">    </span><span class="kw">lm</span>(cos_sim <span class="op">~</span><span class="st"> </span>treatedTRUE <span class="op">*</span><span class="st"> </span>X_centered)</span>
-<span id="cb21-10"><a href="#cb21-10"></a></span>
-<span id="cb21-11"><a href="#cb21-11"></a>  cdu &lt;-<span class="st"> </span>temp_df <span class="op">%&gt;%</span></span>
-<span id="cb21-12"><a href="#cb21-12"></a><span class="st">    </span><span class="kw">filter</span>(source2 <span class="op">==</span><span class="st"> &quot;CDU&quot;</span>) <span class="op">%$%</span></span>
-<span id="cb21-13"><a href="#cb21-13"></a><span class="st">    </span><span class="kw">lm</span>(cos_sim <span class="op">~</span><span class="st"> </span>treatedTRUE <span class="op">*</span><span class="st"> </span>X_centered)</span>
-<span id="cb21-14"><a href="#cb21-14"></a></span>
-<span id="cb21-15"><a href="#cb21-15"></a>  spd &lt;-<span class="st"> </span>temp_df <span class="op">%&gt;%</span></span>
-<span id="cb21-16"><a href="#cb21-16"></a><span class="st">    </span><span class="kw">filter</span>(source2 <span class="op">==</span><span class="st"> &quot;SPD&quot;</span>) <span class="op">%$%</span><span class="st"> </span></span>
-<span id="cb21-17"><a href="#cb21-17"></a><span class="st">    </span><span class="kw">lm</span>(cos_sim <span class="op">~</span><span class="st"> </span>treatedTRUE <span class="op">*</span><span class="st"> </span>X_centered)</span>
-<span id="cb21-18"><a href="#cb21-18"></a></span>
-<span id="cb21-19"><a href="#cb21-19"></a>  fdp &lt;-<span class="st"> </span>temp_df <span class="op">%&gt;%</span></span>
-<span id="cb21-20"><a href="#cb21-20"></a><span class="st">    </span><span class="kw">filter</span>(source2 <span class="op">==</span><span class="st"> &quot;FDP&quot;</span>) <span class="op">%$%</span><span class="st"> </span></span>
-<span id="cb21-21"><a href="#cb21-21"></a><span class="st">    </span><span class="kw">lm</span>(cos_sim <span class="op">~</span><span class="st"> </span>treatedTRUE <span class="op">*</span><span class="st"> </span>X_centered)</span>
-<span id="cb21-22"><a href="#cb21-22"></a></span>
-<span id="cb21-23"><a href="#cb21-23"></a>  linke &lt;-<span class="st"> </span>temp_df <span class="op">%&gt;%</span></span>
-<span id="cb21-24"><a href="#cb21-24"></a><span class="st">    </span><span class="kw">filter</span>(source2 <span class="op">==</span><span class="st"> &quot;DIE LINKE&quot;</span>)<span class="op">%$%</span></span>
-<span id="cb21-25"><a href="#cb21-25"></a><span class="st">    </span><span class="kw">lm</span>(cos_sim <span class="op">~</span><span class="st"> </span>treatedTRUE <span class="op">*</span><span class="st"> </span>X_centered)</span>
-<span id="cb21-26"><a href="#cb21-26"></a></span>
-<span id="cb21-27"><a href="#cb21-27"></a>  gruene &lt;-<span class="st"> </span>temp_df <span class="op">%&gt;%</span></span>
-<span id="cb21-28"><a href="#cb21-28"></a><span class="st">    </span><span class="kw">filter</span>(source2 <span class="op">==</span><span class="st"> &quot;B90/GRÜNE&quot;</span>) <span class="op">%$%</span></span>
-<span id="cb21-29"><a href="#cb21-29"></a><span class="st">    </span><span class="kw">lm</span>(cos_sim <span class="op">~</span><span class="st"> </span>treatedTRUE <span class="op">*</span><span class="st"> </span>X_centered)</span>
-<span id="cb21-30"><a href="#cb21-30"></a></span>
-<span id="cb21-31"><a href="#cb21-31"></a>  stargazer<span class="op">::</span><span class="kw">stargazer</span>(afd, cdu, spd, fdp, gruene, linke,</span>
-<span id="cb21-32"><a href="#cb21-32"></a>    <span class="dt">column.labels =</span> <span class="kw">c</span>(<span class="st">&quot;AfD&quot;</span>, <span class="st">&quot;CDU&quot;</span>, <span class="st">&quot;SPD&quot;</span>, <span class="st">&quot;FDP&quot;</span>, <span class="st">&quot;B90/GRÜNE&quot;</span>, <span class="st">&quot;DIE LINKE&quot;</span>),</span>
-<span id="cb21-33"><a href="#cb21-33"></a>    <span class="dt">dep.var.labels =</span> <span class="kw">paste0</span>(<span class="st">&quot;Cosine similarity of topic distribution - &quot;</span>,target_source), </span>
-<span id="cb21-34"><a href="#cb21-34"></a>    <span class="dt">single.row =</span> <span class="ot">TRUE</span>,</span>
-<span id="cb21-35"><a href="#cb21-35"></a>    <span class="dt">font.size =</span> <span class="st">&quot;tiny&quot;</span>,</span>
-<span id="cb21-36"><a href="#cb21-36"></a>    <span class="dt">type =</span> <span class="st">&quot;text&quot;</span>)</span>
-<span id="cb21-37"><a href="#cb21-37"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>calc_rd_models &lt;-<span class="st"> </span><span class="cf">function</span>(dataframe, target_source) {</span>
+<span id="cb25-2"><a href="#cb25-2"></a>  temp_df &lt;-<span class="st"> </span>dataframe <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb25-3"><a href="#cb25-3"></a><span class="st">    </span><span class="kw">mutate</span>(</span>
+<span id="cb25-4"><a href="#cb25-4"></a>      <span class="dt">X_centered =</span> <span class="kw">I</span>(date1 <span class="op">-</span><span class="st"> </span>election_date),</span>
+<span id="cb25-5"><a href="#cb25-5"></a>      <span class="dt">treatedTRUE =</span> <span class="kw">ifelse</span>(date1 <span class="op">&gt;=</span><span class="st"> </span>election_date, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb25-6"><a href="#cb25-6"></a></span>
+<span id="cb25-7"><a href="#cb25-7"></a>  afd &lt;-<span class="st"> </span>temp_df <span class="op">%&gt;%</span></span>
+<span id="cb25-8"><a href="#cb25-8"></a><span class="st">    </span><span class="kw">filter</span>(source2 <span class="op">==</span><span class="st"> &quot;AfD&quot;</span>) <span class="op">%$%</span></span>
+<span id="cb25-9"><a href="#cb25-9"></a><span class="st">    </span><span class="kw">lm</span>(cos_sim <span class="op">~</span><span class="st"> </span>treatedTRUE <span class="op">*</span><span class="st"> </span>X_centered)</span>
+<span id="cb25-10"><a href="#cb25-10"></a></span>
+<span id="cb25-11"><a href="#cb25-11"></a>  cdu &lt;-<span class="st"> </span>temp_df <span class="op">%&gt;%</span></span>
+<span id="cb25-12"><a href="#cb25-12"></a><span class="st">    </span><span class="kw">filter</span>(source2 <span class="op">==</span><span class="st"> &quot;CDU&quot;</span>) <span class="op">%$%</span></span>
+<span id="cb25-13"><a href="#cb25-13"></a><span class="st">    </span><span class="kw">lm</span>(cos_sim <span class="op">~</span><span class="st"> </span>treatedTRUE <span class="op">*</span><span class="st"> </span>X_centered)</span>
+<span id="cb25-14"><a href="#cb25-14"></a></span>
+<span id="cb25-15"><a href="#cb25-15"></a>  spd &lt;-<span class="st"> </span>temp_df <span class="op">%&gt;%</span></span>
+<span id="cb25-16"><a href="#cb25-16"></a><span class="st">    </span><span class="kw">filter</span>(source2 <span class="op">==</span><span class="st"> &quot;SPD&quot;</span>) <span class="op">%$%</span><span class="st"> </span></span>
+<span id="cb25-17"><a href="#cb25-17"></a><span class="st">    </span><span class="kw">lm</span>(cos_sim <span class="op">~</span><span class="st"> </span>treatedTRUE <span class="op">*</span><span class="st"> </span>X_centered)</span>
+<span id="cb25-18"><a href="#cb25-18"></a></span>
+<span id="cb25-19"><a href="#cb25-19"></a>  fdp &lt;-<span class="st"> </span>temp_df <span class="op">%&gt;%</span></span>
+<span id="cb25-20"><a href="#cb25-20"></a><span class="st">    </span><span class="kw">filter</span>(source2 <span class="op">==</span><span class="st"> &quot;FDP&quot;</span>) <span class="op">%$%</span><span class="st"> </span></span>
+<span id="cb25-21"><a href="#cb25-21"></a><span class="st">    </span><span class="kw">lm</span>(cos_sim <span class="op">~</span><span class="st"> </span>treatedTRUE <span class="op">*</span><span class="st"> </span>X_centered)</span>
+<span id="cb25-22"><a href="#cb25-22"></a></span>
+<span id="cb25-23"><a href="#cb25-23"></a>  linke &lt;-<span class="st"> </span>temp_df <span class="op">%&gt;%</span></span>
+<span id="cb25-24"><a href="#cb25-24"></a><span class="st">    </span><span class="kw">filter</span>(source2 <span class="op">==</span><span class="st"> &quot;DIE LINKE&quot;</span>)<span class="op">%$%</span></span>
+<span id="cb25-25"><a href="#cb25-25"></a><span class="st">    </span><span class="kw">lm</span>(cos_sim <span class="op">~</span><span class="st"> </span>treatedTRUE <span class="op">*</span><span class="st"> </span>X_centered)</span>
+<span id="cb25-26"><a href="#cb25-26"></a></span>
+<span id="cb25-27"><a href="#cb25-27"></a>  gruene &lt;-<span class="st"> </span>temp_df <span class="op">%&gt;%</span></span>
+<span id="cb25-28"><a href="#cb25-28"></a><span class="st">    </span><span class="kw">filter</span>(source2 <span class="op">==</span><span class="st"> &quot;B90/GRÜNE&quot;</span>) <span class="op">%$%</span></span>
+<span id="cb25-29"><a href="#cb25-29"></a><span class="st">    </span><span class="kw">lm</span>(cos_sim <span class="op">~</span><span class="st"> </span>treatedTRUE <span class="op">*</span><span class="st"> </span>X_centered)</span>
+<span id="cb25-30"><a href="#cb25-30"></a></span>
+<span id="cb25-31"><a href="#cb25-31"></a>  stargazer<span class="op">::</span><span class="kw">stargazer</span>(afd, cdu, spd, fdp, gruene, linke,</span>
+<span id="cb25-32"><a href="#cb25-32"></a>    <span class="dt">column.labels =</span> <span class="kw">c</span>(<span class="st">&quot;AfD&quot;</span>, <span class="st">&quot;CDU&quot;</span>, <span class="st">&quot;SPD&quot;</span>, <span class="st">&quot;FDP&quot;</span>, <span class="st">&quot;B90/GRÜNE&quot;</span>, <span class="st">&quot;DIE LINKE&quot;</span>),</span>
+<span id="cb25-33"><a href="#cb25-33"></a>    <span class="dt">dep.var.labels =</span> <span class="kw">paste0</span>(<span class="st">&quot;Cosine similarity of topic distribution - &quot;</span>,target_source), </span>
+<span id="cb25-34"><a href="#cb25-34"></a>    <span class="dt">single.row =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb25-35"><a href="#cb25-35"></a>    <span class="dt">font.size =</span> <span class="st">&quot;tiny&quot;</span>,</span>
+<span id="cb25-36"><a href="#cb25-36"></a>    <span class="dt">type =</span> <span class="st">&quot;text&quot;</span>)</span>
+<span id="cb25-37"><a href="#cb25-37"></a>}</span></code></pre></div>
 <p><strong>DIE WELT</strong></p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="co"># ----------------------------</span></span>
-<span id="cb22-2"><a href="#cb22-2"></a>target_source &lt;-<span class="st"> &quot;DIE WELT&quot;</span></span>
-<span id="cb22-3"><a href="#cb22-3"></a><span class="co">#load(paste0(&quot;../output/cosine_dist_&quot;, target_source, &quot;.Rda&quot;))</span></span>
-<span id="cb22-4"><a href="#cb22-4"></a></span>
-<span id="cb22-5"><a href="#cb22-5"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(welt)</span>
-<span id="cb22-6"><a href="#cb22-6"></a><span class="kw">calc_rd_models</span>(cosine_distances_df, target_source)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="co"># ----------------------------</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a>target_source &lt;-<span class="st"> &quot;DIE WELT&quot;</span></span>
+<span id="cb26-3"><a href="#cb26-3"></a><span class="co">#load(paste0(&quot;../output/cosine_dist_&quot;, target_source, &quot;.Rda&quot;))</span></span>
+<span id="cb26-4"><a href="#cb26-4"></a></span>
+<span id="cb26-5"><a href="#cb26-5"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(welt)</span>
+<span id="cb26-6"><a href="#cb26-6"></a><span class="kw">calc_rd_models</span>(cosine_distances_df, target_source)</span></code></pre></div>
 <pre><code>## 
 ## ===========================================================================================================================================================
 ##                                                                                Dependent variable:                                                         
@@ -2336,11 +2408,11 @@ T_i = 0 \text{ if date } &lt; \text{election date}
 <li>After the election, the topic coverage is less similar with CDU &amp; SPD and MORE similar with B90/Grüne</li>
 </ul>
 <p><strong>stern.de</strong></p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>target_source &lt;-<span class="st"> &quot;stern.de&quot;</span></span>
-<span id="cb24-2"><a href="#cb24-2"></a><span class="co">#load(paste0(&quot;../output/cosine_dist_&quot;, target_source, &quot;.Rda&quot;))</span></span>
-<span id="cb24-3"><a href="#cb24-3"></a></span>
-<span id="cb24-4"><a href="#cb24-4"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(stern)</span>
-<span id="cb24-5"><a href="#cb24-5"></a><span class="kw">calc_rd_models</span>(cosine_distances_df, target_source)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>target_source &lt;-<span class="st"> &quot;stern.de&quot;</span></span>
+<span id="cb28-2"><a href="#cb28-2"></a><span class="co">#load(paste0(&quot;../output/cosine_dist_&quot;, target_source, &quot;.Rda&quot;))</span></span>
+<span id="cb28-3"><a href="#cb28-3"></a></span>
+<span id="cb28-4"><a href="#cb28-4"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(stern)</span>
+<span id="cb28-5"><a href="#cb28-5"></a><span class="kw">calc_rd_models</span>(cosine_distances_df, target_source)</span></code></pre></div>
 <pre><code>## 
 ## ======================================================================================================================================================
 ##                                                                              Dependent variable:                                                      
@@ -2368,11 +2440,11 @@ T_i = 0 \text{ if date } &lt; \text{election date}
 <li>No significant change</li>
 </ul>
 <p><strong>ZEIT ONLINE</strong></p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>target_source &lt;-<span class="st"> &quot;ZEIT ONLINE&quot;</span></span>
-<span id="cb26-2"><a href="#cb26-2"></a><span class="co">#load(paste0(&quot;../output/cosine_dist_&quot;, target_source, &quot;.Rda&quot;))</span></span>
-<span id="cb26-3"><a href="#cb26-3"></a></span>
-<span id="cb26-4"><a href="#cb26-4"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(zeit)</span>
-<span id="cb26-5"><a href="#cb26-5"></a><span class="kw">calc_rd_models</span>(cosine_distances_df, target_source)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>target_source &lt;-<span class="st"> &quot;ZEIT ONLINE&quot;</span></span>
+<span id="cb30-2"><a href="#cb30-2"></a><span class="co">#load(paste0(&quot;../output/cosine_dist_&quot;, target_source, &quot;.Rda&quot;))</span></span>
+<span id="cb30-3"><a href="#cb30-3"></a></span>
+<span id="cb30-4"><a href="#cb30-4"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(zeit)</span>
+<span id="cb30-5"><a href="#cb30-5"></a><span class="kw">calc_rd_models</span>(cosine_distances_df, target_source)</span></code></pre></div>
 <pre><code>## 
 ## =============================================================================================================================================================
 ##                                                                                 Dependent variable:                                                          
@@ -2400,11 +2472,11 @@ T_i = 0 \text{ if date } &lt; \text{election date}
 <li>No significant change</li>
 </ul>
 <p><strong>Handelsblatt</strong></p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>target_source &lt;-<span class="st"> &quot;Handelsblatt&quot;</span></span>
-<span id="cb28-2"><a href="#cb28-2"></a><span class="co">#load(paste0(&quot;../output/cosine_dist_&quot;, target_source, &quot;.Rda&quot;))</span></span>
-<span id="cb28-3"><a href="#cb28-3"></a></span>
-<span id="cb28-4"><a href="#cb28-4"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(handelsblatt)</span>
-<span id="cb28-5"><a href="#cb28-5"></a><span class="kw">calc_rd_models</span>(cosine_distances_df, target_source)</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>target_source &lt;-<span class="st"> &quot;Handelsblatt&quot;</span></span>
+<span id="cb32-2"><a href="#cb32-2"></a><span class="co">#load(paste0(&quot;../output/cosine_dist_&quot;, target_source, &quot;.Rda&quot;))</span></span>
+<span id="cb32-3"><a href="#cb32-3"></a></span>
+<span id="cb32-4"><a href="#cb32-4"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(handelsblatt)</span>
+<span id="cb32-5"><a href="#cb32-5"></a><span class="kw">calc_rd_models</span>(cosine_distances_df, target_source)</span></code></pre></div>
 <pre><code>## 
 ## ===================================================================================================================================================
 ##                                                                            Dependent variable:                                                     
@@ -2432,11 +2504,11 @@ T_i = 0 \text{ if date } &lt; \text{election date}
 <li>After the election, the topic coverage is less similar with CDU and MORE similar with B90/Grüne</li>
 </ul>
 <p><strong>FOCUS Online</strong></p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>target_source &lt;-<span class="st"> &quot;FOCUS Online&quot;</span></span>
-<span id="cb30-2"><a href="#cb30-2"></a><span class="co">#load(paste0(&quot;../output/cosine_dist_&quot;, target_source, &quot;.Rda&quot;))</span></span>
-<span id="cb30-3"><a href="#cb30-3"></a></span>
-<span id="cb30-4"><a href="#cb30-4"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(focus)</span>
-<span id="cb30-5"><a href="#cb30-5"></a><span class="kw">calc_rd_models</span>(cosine_distances_df, target_source)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>target_source &lt;-<span class="st"> &quot;FOCUS Online&quot;</span></span>
+<span id="cb34-2"><a href="#cb34-2"></a><span class="co">#load(paste0(&quot;../output/cosine_dist_&quot;, target_source, &quot;.Rda&quot;))</span></span>
+<span id="cb34-3"><a href="#cb34-3"></a></span>
+<span id="cb34-4"><a href="#cb34-4"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(focus)</span>
+<span id="cb34-5"><a href="#cb34-5"></a><span class="kw">calc_rd_models</span>(cosine_distances_df, target_source)</span></code></pre></div>
 <pre><code>## 
 ## ======================================================================================================================================================
 ##                                                                              Dependent variable:                                                      
@@ -2464,11 +2536,11 @@ T_i = 0 \text{ if date } &lt; \text{election date}
 <li>After the election, the topic coverage is MORE similar with B90/Grüne</li>
 </ul>
 <p><strong>Bild.de</strong></p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>target_source &lt;-<span class="st"> &quot;Bild.de&quot;</span></span>
-<span id="cb32-2"><a href="#cb32-2"></a><span class="co">#load(paste0(&quot;../output/cosine_dist_&quot;, target_source, &quot;.Rda&quot;))</span></span>
-<span id="cb32-3"><a href="#cb32-3"></a></span>
-<span id="cb32-4"><a href="#cb32-4"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(bild)</span>
-<span id="cb32-5"><a href="#cb32-5"></a><span class="kw">calc_rd_models</span>(cosine_distances_df, target_source)</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a>target_source &lt;-<span class="st"> &quot;Bild.de&quot;</span></span>
+<span id="cb36-2"><a href="#cb36-2"></a><span class="co">#load(paste0(&quot;../output/cosine_dist_&quot;, target_source, &quot;.Rda&quot;))</span></span>
+<span id="cb36-3"><a href="#cb36-3"></a></span>
+<span id="cb36-4"><a href="#cb36-4"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(bild)</span>
+<span id="cb36-5"><a href="#cb36-5"></a><span class="kw">calc_rd_models</span>(cosine_distances_df, target_source)</span></code></pre></div>
 <pre><code>## 
 ## ==================================================================================================================================================
 ##                                                                            Dependent variable:                                                    
@@ -2496,11 +2568,11 @@ T_i = 0 \text{ if date } &lt; \text{election date}
 <li>After the election, the topic coverage is LESS simiar with AfD and MORE similar with B90/Grüne</li>
 </ul>
 <p><strong>SPIEGEL ONLINE</strong></p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>target_source &lt;-<span class="st"> &quot;SPIEGEL ONLINE&quot;</span></span>
-<span id="cb34-2"><a href="#cb34-2"></a><span class="co">#load(paste0(&quot;../output/cosine_dist_&quot;, target_source, &quot;.Rda&quot;))</span></span>
-<span id="cb34-3"><a href="#cb34-3"></a></span>
-<span id="cb34-4"><a href="#cb34-4"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(spiegel)</span>
-<span id="cb34-5"><a href="#cb34-5"></a><span class="kw">calc_rd_models</span>(cosine_distances_df, target_source)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>target_source &lt;-<span class="st"> &quot;SPIEGEL ONLINE&quot;</span></span>
+<span id="cb38-2"><a href="#cb38-2"></a><span class="co">#load(paste0(&quot;../output/cosine_dist_&quot;, target_source, &quot;.Rda&quot;))</span></span>
+<span id="cb38-3"><a href="#cb38-3"></a></span>
+<span id="cb38-4"><a href="#cb38-4"></a>cosine_distances_df &lt;-<span class="st"> </span><span class="kw">df_prep</span>(spiegel)</span>
+<span id="cb38-5"><a href="#cb38-5"></a><span class="kw">calc_rd_models</span>(cosine_distances_df, target_source)</span></code></pre></div>
 <pre><code>## 
 ## =====================================================================================================================================================
 ##                                                                             Dependent variable:                                                      
@@ -2527,6 +2599,7 @@ T_i = 0 \text{ if date } &lt; \text{election date}
 <ul>
 <li>After the election, the topic coverage is MORE similar with FDP &amp; B90/Grüne</li>
 </ul>
+</div>
 </div>
 </div>
 </div>
